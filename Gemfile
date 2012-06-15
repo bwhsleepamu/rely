@@ -7,6 +7,9 @@ gem 'rails', '3.2.5'
 
 gem 'pg'
 
+# Contour
+gem 'contour', '~> 1.0.1'
+gem 'kaminari', '~> 0.13.0'
 
 # Gems used only for assets and not required
 # in production environments by default.

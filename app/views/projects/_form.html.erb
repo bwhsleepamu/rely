@@ -1,0 +1,64 @@
+<div class="page-header">
+  <h1><%= @title %></h1>
+</div>
+
+<%= form_for @project, html: { class: 'form-horizontal' } do |f| %>
+  <% if @project.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@project.errors.count, "error") %> prohibited this project from being saved:</h2>
+
+      <ul>
+      <% @project.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="control-group">
+    <%= f.label :name, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :name %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :description, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :description, rows: 7, style: 'width:95%' %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :start_date, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :start_date, class: 'datepicker', value: @project.start_date ? @project.start_date.strftime('%m/%d/%Y') : '' %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :end_date, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :end_date, class: 'datepicker', value: @project.end_date ? @project.end_date.strftime('%m/%d/%Y') : '' %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :user_id, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.select :user_id, [['---', nil]] + User.current.collect{|u| [u.name, u.id]} %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :deleted, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.check_box :deleted %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit nil, class: 'btn btn-primary' %>
+    <%= cancel %>
+  </div>
+<% end %>
