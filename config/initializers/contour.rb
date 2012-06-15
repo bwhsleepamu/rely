@@ -17,25 +17,32 @@ Contour.setup do |config|
   # config.header_title_image = ''
 
   # Enter the items you wish to see in the menu
-  # config.menu_items =
-  # [
-  #   {
-  #     name: 'Login', display: 'not_signed_in', path: 'new_user_session_path', position: 'right', condition: 'true',
-  #     links: [{ name: 'Sign Up', path: 'new_user_registration_path' },
-  #             { divider: true },
-  #             { authentications: true }]
-  #   },
-  #   {
-  #     name: 'current_user.email', eval: true, display: 'signed_in', position: 'right', condition: 'true',
-  #     links: [{ name: 'Authentications', path: 'authentications_path', condition: 'not PROVIDERS.blank?' },
-  #             { divider: true },
-  #             { name: 'Logout', path: 'destroy_user_session_path' }]
-  #   },
-  #   {
-  #     name: 'Home', display: 'always', path: 'root_path', position: 'left', condition: 'true', image: '', image_options: {},
-  #     links: []
-  #   }
-  # ]
+  config.menu_items =
+  [
+     {
+       name: 'Login', display: 'not_signed_in', path: 'new_user_session_path', position: 'right', condition: 'true',
+       links: [{ name: 'Sign Up', path: 'new_user_registration_path' },
+               { divider: true },
+               { authentications: true }]
+     },
+     {
+       name: 'current_user.email', eval: true, display: 'signed_in', position: 'right', condition: 'true',
+       links: [{ name: 'Authentications', path: 'authentications_path', condition: 'not PROVIDERS.blank?' },
+               { divider: true },
+               { name: 'Logout', path: 'destroy_user_session_path' }]
+     },
+     {
+       name: 'Home', display: 'always', path: 'root_path', position: 'left', condition: 'true', image: '', image_options: {},
+       links: []
+     },
+     {
+       name: 'Projects', display: 'signed_in', path: 'projects_path', position: 'left', condition: 'true', image: '', image_options: {},
+       links: [
+           { name: 'View All', path: 'projects_path'},
+           { name: 'Create', path: 'new_project_path'}
+       ]
+     }
+  ]
 
   # Enter an address of a valid RSS Feed if you would like to see news on the sign in page.
   # config.news_feed = ''
