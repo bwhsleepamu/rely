@@ -1,0 +1,4 @@
+== 0.0.0
+
+* Project Skeleton based on remomueller/screen application and remomueller/contour gem
+
