@@ -1,4 +1,0 @@
-Rely
-====
-
-Reliability Exercise Managment
