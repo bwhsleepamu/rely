@@ -48,6 +48,8 @@ class User < ActiveRecord::Base
   def apply_omniauth(omniauth)
     unless omniauth['info'].blank?
       self.email = omniauth['info']['email'] if email.blank?
+      self.first_name = omniauth['info']['first_name'] if first_name.blank?
+      self.last_name = omniauth['info']['last_name'] if last_name.blank?
     end
     authentications.build( provider: omniauth['provider'], uid: omniauth['uid'] )
   end

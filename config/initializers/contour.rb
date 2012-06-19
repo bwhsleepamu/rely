@@ -72,5 +72,5 @@ Contour.setup do |config|
 
   # An array of hashes that specify additional fields to add to the sign up form
   # An example might be [ { attribute: 'first_name', type: 'text_field' }, { attribute: 'last_name', type: 'text_field' } ]
-  # config.sign_up_fields = []
+  config.sign_up_fields = [ { attribute: 'first_name', type: 'text_field' }, { attribute: 'last_name', type: 'text_field' } ]
 end
