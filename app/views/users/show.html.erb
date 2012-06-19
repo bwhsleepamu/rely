@@ -1,2 +1,24 @@
-<h1>Users#show</h1>
-<p>Find me in app/views/users/show.html.erb</p>
+<% @title = "User: #{@user.name}" %>
+<div class="page-header">
+  <h1>
+    <%= @title %>
+    <% if current_user.system_admin? %>
+        <%= link_to "Edit User", edit_user_path(@user), class: 'btn btn-mini' %>
+        <%= link_to 'Delete User', @user, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete User #{@user.name}?" } unless current_user == @user %>
+        <%= link_to "View Users", users_path, class: 'btn btn-mini' %>
+    <% end %>
+  </h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Email</dt>
+  <dd><%= @user.email %></dd>
+
+  <% if current_user.system_admin? %>
+      <dt>Status</dt>
+      <dd><%= @user.status %></dd>
+
+      <dt>System Admin</dt>
+      <dd><%= simple_check @user.system_admin? %></dd>
+  <% end %>
+</dl>

@@ -7,6 +7,11 @@ gem 'rails', '3.2.5'
 
 gem 'pg'
 
+# Windows
+gem 'thin',                 '~> 1.3.1',           :platforms => [ :mswin, :mingw ]
+gem 'eventmachine',         '~> 1.0.0.beta.4.1',  :platforms => [ :mswin, :mingw ]
+
+
 # Contour
 gem 'contour', '~> 1.0.1'
 gem 'kaminari', '~> 0.13.0'
@@ -16,12 +21,16 @@ gem 'kaminari', '~> 0.13.0'
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
-
-  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  gem 'therubyracer', :platforms => :ruby
-
   gem 'uglifier', '>= 1.0.3'
 end
 
 gem 'jquery-rails'
+
+# Testing
+group :test do
+  # Pretty printed test output
+  gem 'win32console',                             :platforms => [ :mswin, :mingw ]
+  gem 'turn',               '~> 0.9.5'
+  gem 'simplecov',          '~> 0.6.4',           :require => false
+end
 

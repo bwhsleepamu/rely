@@ -41,6 +41,9 @@ Contour.setup do |config|
            { name: 'View All', path: 'projects_path'},
            { name: 'Create', path: 'new_project_path'}
        ]
+     },
+     {
+         name: 'Users', display: 'signed_in', path: 'users_path', position: 'left', condition: 'current_user.system_admin?'
      }
   ]
 
