@@ -11,7 +11,6 @@ gem 'pg'
 gem 'thin',                 '~> 1.3.1',           :platforms => [ :mswin, :mingw ]
 gem 'eventmachine',         '~> 1.0.0.beta.4.1',  :platforms => [ :mswin, :mingw ]
 
-
 # Contour
 gem 'contour', '~> 1.0.1'
 gem 'kaminari', '~> 0.13.0'
@@ -32,5 +31,9 @@ group :test do
   gem 'win32console',                             :platforms => [ :mswin, :mingw ]
   gem 'turn',               '~> 0.9.5'
   gem 'simplecov',          '~> 0.6.4',           :require => false
+  gem 'capybara'
+  gem 'database_cleaner'
+  gem 'guard-test'
+  gem 'factory_girl_rails'
 end
 
