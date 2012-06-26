@@ -43,30 +43,6 @@ class UsersControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
-
-
-
-
-  test "should get show" do
-    get :show
-    assert_response :success
-  end
-
-  test "should get edit" do
-    get :edit
-    assert_response :success
-  end
-
-  test "should get update" do
-    get :update
-    assert_response :success
-  end
-
-  test "should get destroy" do
-    get :destroy
-    assert_response :success
-  end
-
   test "should show user" do
     get :show, id: @user.to_param
     assert_response :success

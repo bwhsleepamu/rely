@@ -30,9 +30,9 @@
     </div>
 
     <div class="control-group">
-      <%= label_tag :status, 'Status', class: 'control-label' %>
+      <%= f.label :status, nil, class: 'control-label' %>
       <div class="controls">
-        <%= select_tag :status, options_for_select(User::STATUS, @user.status) %>
+        <%= f.select :status, User::STATUS %>
       </div>
     </div>
 
@@ -44,9 +44,9 @@
     </div>
 
     <div class="control-group">
-      <%= label_tag :system_admin, 'System Admin', class: 'control-label' %>
+      <%= f.label :system_admin, nil, class: 'control-label' %>
       <div class="controls">
-        <%= check_box_tag :system_admin, '1', @user.system_admin %>
+        <%= f.check_box :system_admin %>
       </div>
     </div>
 
