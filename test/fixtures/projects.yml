@@ -6,7 +6,7 @@ one:
   start_date: 2012-06-15
   end_date: 2012-06-15
   user_id: 1
-  delete: false
+  deleted: false
 
 two:
   name: MyString
@@ -14,4 +14,4 @@ two:
   start_date: 2012-06-15
   end_date: 2012-06-15
   user_id: 1
-  delete: false
+  deleted: false
