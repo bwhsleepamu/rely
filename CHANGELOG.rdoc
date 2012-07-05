@@ -1,6 +1,7 @@
 == 0.1.0
 * Added email functionality for created users and user status.
 * Set up travis ci
+* Disabled email error notifications in production environment
 
 == 0.0.1
 
