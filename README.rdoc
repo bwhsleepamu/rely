@@ -1,3 +1,5 @@
+= Rely {<img src="https://secure.travis-ci.org/pmanko/rely.png"/>}[http://travis-ci.org/pmanko/rely]
+
 Reliance testing support. Using Rails 3.2+ and Ruby 1.9.3+.
 
 == Installation

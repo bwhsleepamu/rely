@@ -14,8 +14,11 @@ class User < ActiveRecord::Base
 
   ##
   # Callbacks
+  after_create :notify_system_admins
+  before_update :status_activated
 
-
+  ##
+  # Constants
   STATUS = ["active", "denied", "inactive", "pending"].collect{|i| [i,i]}
 
   ##
@@ -79,6 +82,19 @@ class User < ActiveRecord::Base
 
   private
 
+  def notify_system_admins
+    User.current.system_admins.each do |system_admin|
+      UserMailer.notify_system_admin(system_admin, self).deliver if Rails.env.production?
+    end
+  end
+
+  def status_activated
+    unless self.new_record? or self.changes.blank?
+      if self.changes['status'] and self.changes['status'][1] == 'active'
+        UserMailer.status_activated(self).deliver if Rails.env.production?
+      end
+    end
+  end
 
 
 end

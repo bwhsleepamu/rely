@@ -1,3 +1,13 @@
+== 0.1.0
+* Added email functionality for created users and user status.
+* Set up travis ci
+
+== 0.0.1
+
+* Bug Fix
+  * Fixed user controller and user form to be able to update user status flag and admin flag.
+  * Ensured all tests were passing
+
 == 0.0.0
 
 * Project Skeleton based on remomueller/screen application and remomueller/contour gem
