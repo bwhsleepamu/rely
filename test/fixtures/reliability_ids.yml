@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  unique_id: MyString
+  study_id: 1
+  deleted: false
+
+two:
+  unique_id: MyString
+  study_id: 1
+  deleted: false

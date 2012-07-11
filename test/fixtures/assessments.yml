@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  result_id: 1
+  assessment_type: MyString
+  deleted: false
+
+two:
+  result_id: 1
+  assessment_type: MyString
+  deleted: false

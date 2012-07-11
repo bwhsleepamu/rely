@@ -1,0 +1,49 @@
+<%= form_for(@exercise) do |f| %>
+  <% if @exercise.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@exercise.errors.count, "error") %> prohibited this exercise from being saved:</h2>
+
+      <ul>
+      <% @exercise.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :admin_id %><br />
+    <%= f.number_field :admin_id %>
+  </div>
+  <div class="field">
+    <%= f.label :assessment_id %><br />
+    <%= f.number_field :assessment_id %>
+  </div>
+  <div class="field">
+    <%= f.label :rule_id %><br />
+    <%= f.number_field :rule_id %>
+  </div>
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br />
+    <%= f.text_area :description %>
+  </div>
+  <div class="field">
+    <%= f.label :assigned_at %><br />
+    <%= f.datetime_select :assigned_at %>
+  </div>
+  <div class="field">
+    <%= f.label :completed_at %><br />
+    <%= f.datetime_select :completed_at %>
+  </div>
+  <div class="field">
+    <%= f.label :deleted %><br />
+    <%= f.check_box :deleted %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

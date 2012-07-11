@@ -2,6 +2,7 @@
 * Added email functionality for created users and user status.
 * Set up travis ci
 * Disabled email error notifications in production environment
+* Wrote up model objects descriptions and definitions
 
 == 0.0.1
 

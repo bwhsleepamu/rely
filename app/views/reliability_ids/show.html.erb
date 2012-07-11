@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Unique:</b>
+  <%= @reliability_id.unique_id %>
+</p>
+
+<p>
+  <b>Study:</b>
+  <%= @reliability_id.study_id %>
+</p>
+
+<p>
+  <b>Deleted:</b>
+  <%= @reliability_id.deleted %>
+</p>
+
+
+<%= link_to 'Edit', edit_reliability_id_path(@reliability_id) %> |
+<%= link_to 'Back', reliability_ids_path %>

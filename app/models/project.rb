@@ -1,11 +1,12 @@
 class Project < ActiveRecord::Base
   ##
   # Associations
-  belongs_to :user
+  has_many :groups, :through => :project_groups
+  has_many :project_groups
 
   ##
   # Attributes
-  attr_accessible :deleted, :description, :end_date, :name, :start_date, :user_id
+  attr_accessible :deleted, :description, :end_date, :name, :start_date
 
   ##
   # Callbacks

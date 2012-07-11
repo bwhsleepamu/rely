@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Admin:</b>
+  <%= @exercise.admin_id %>
+</p>
+
+<p>
+  <b>Assessment:</b>
+  <%= @exercise.assessment_id %>
+</p>
+
+<p>
+  <b>Rule:</b>
+  <%= @exercise.rule_id %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @exercise.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @exercise.description %>
+</p>
+
+<p>
+  <b>Assigned at:</b>
+  <%= @exercise.assigned_at %>
+</p>
+
+<p>
+  <b>Completed at:</b>
+  <%= @exercise.completed_at %>
+</p>
+
+<p>
+  <b>Deleted:</b>
+  <%= @exercise.deleted %>
+</p>
+
+
+<%= link_to 'Edit', edit_exercise_path(@exercise) %> |
+<%= link_to 'Back', exercises_path %>

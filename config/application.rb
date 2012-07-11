@@ -44,7 +44,7 @@ module Rely
 
     # Use SQL instead of Active Record's schema dumper when creating the database.
     # This is necessary if your schema can't be completely dumped by the schema dumper,
-    # like if you have constraints or database-specific column types
+    # like if you have constraints or database-specific column study_types
     # config.active_record.schema_format = :sql
 
     # Enforce whitelist mode for mass assignment.

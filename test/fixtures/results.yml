@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  user_id: 1
+  study_id: 1
+  exercise_id: 1
+  rule_id: 1
+  assessment_id: 1
+  type: 
+  location: MyString
+  deleted: false
+
+two:
+  user_id: 1
+  study_id: 1
+  exercise_id: 1
+  rule_id: 1
+  assessment_id: 1
+  type: 
+  location: MyString
+  deleted: false

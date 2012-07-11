@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  admin_id: 1
+  assessment_id: 1
+  rule_id: 1
+  name: MyString
+  description: MyText
+  assigned_at: 2012-07-11 16:31:39
+  completed_at: 2012-07-11 16:31:39
+  deleted: false
+
+two:
+  admin_id: 1
+  assessment_id: 1
+  rule_id: 1
+  name: MyString
+  description: MyText
+  assigned_at: 2012-07-11 16:31:39
+  completed_at: 2012-07-11 16:31:39
+  deleted: false

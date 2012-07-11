@@ -1,0 +1,27 @@
+<h1>Listing reliability_ids</h1>
+
+<table>
+  <tr>
+    <th>Unique</th>
+    <th>Study</th>
+    <th>Deleted</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @reliability_ids.each do |reliability_id| %>
+  <tr>
+    <td><%= reliability_id.unique_id %></td>
+    <td><%= reliability_id.study_id %></td>
+    <td><%= reliability_id.deleted %></td>
+    <td><%= link_to 'Show', reliability_id %></td>
+    <td><%= link_to 'Edit', edit_reliability_id_path(reliability_id) %></td>
+    <td><%= link_to 'Destroy', reliability_id, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Reliability', new_reliability_id_path %>

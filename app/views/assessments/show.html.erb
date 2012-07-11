@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Result:</b>
+  <%= @assessment.result_id %>
+</p>
+
+<p>
+  <b>Assessment type:</b>
+  <%= @assessment.assessment_type %>
+</p>
+
+<p>
+  <b>Deleted:</b>
+  <%= @assessment.deleted %>
+</p>
+
+
+<%= link_to 'Edit', edit_assessment_path(@assessment) %> |
+<%= link_to 'Back', assessments_path %>

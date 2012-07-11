@@ -1,0 +1,33 @@
+<%= form_for(@assessment_result) do |f| %>
+  <% if @assessment_result.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@assessment_result.errors.count, "error") %> prohibited this assessment_result from being saved:</h2>
+
+      <ul>
+      <% @assessment_result.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :assessment_id %><br />
+    <%= f.number_field :assessment_id %>
+  </div>
+  <div class="field">
+    <%= f.label :question_id %><br />
+    <%= f.number_field :question_id %>
+  </div>
+  <div class="field">
+    <%= f.label :answer %><br />
+    <%= f.text_area :answer %>
+  </div>
+  <div class="field">
+    <%= f.label :deleted %><br />
+    <%= f.check_box :deleted %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

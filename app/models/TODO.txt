@@ -1,25 +1,30 @@
+MODEL DEFINITIONS:
+
 1. PROJECT
     * Description:
-        Corresponds to an actual project going on in the GROUP. A PROJECT is collection of SETS, and is right now mainly
+        Corresponds to an actual project going on in the GROUP. A PROJECT is collection of GROUPS, and is right now mainly
         an organizational tool.
     * Attributes:
         - name
         - description
         - start and end dates
     * Associations:
-        - has many SETS
+        - has many GROUPS
 
-2. SET
+2. GROUP
     * Description: Represents a collection of STUDIES, usually grouped by type of the raw data.
     * Attributes:
-        - SET Type:
-            Composite of all study types in the given SET. Error if more than one STUDY TYPE in a SET.
+        - name
+        - description
+        - ** GROUP Type:
+            Composite of all study types in the given GROUP. Error if more than one STUDY TYPE in a GROUP.
     * Associations:
         - belongs to many PROJECTS
         - contains many STUDIES
 
+
 3. STUDY
-    * Description: Represents a SET of raw data, identified by an original id.
+    * Description: Represents a GROUP of raw data, identified by an original id.
     * Attributes:
         - Original ID:
             The permanent, master identification information for the particular STUDY, which should be obscured from
@@ -29,7 +34,7 @@
             Original ID/Type combination will be unique.
 
         - Location:
-            The physical (filesystem) location of the given SET of data. The original data is uploaded and put in a folder
+            The physical (filesystem) location of the given GROUP of data. The original data is uploaded and put in a folder
             at a predefined location (STUDY directory), with the study folder name corresponding to the study's unique id.
 
         - Reliability IDs:
@@ -39,25 +44,28 @@
 
             Implementation: A table associating an original ID to many Reliability IDs.
     * Associations:
-        - belongs to many SETS
+        - belongs to many GROUPS
         - contain 1 "original" RESULT
         - contains many re-scored RESULTS
         - belongs to one STUDY TYPE
+        - has many RELIABILITY_IDS
 
 4. RESULT
     * Description:
         Represents the scoring RESULTS done on a given STUDY. There will be one original RESULT, created by a system
         admin. Rescored RESULTS will be created by a USER as they complete an EXERCISE.
     * Attributes:
-        - Type: Two types currently identified are "original" and "rescored".
+        - Result Type: Two types currently identified are "original" and "rescored".
         - Location: The physical (file system) location where the result is stored. Location will be managed by the
                     application.
+        - << Date Uploaded?? >>
+
     * Associations:
         - belongs to one USER
         - belongs to one STUDY
         - belongs to one EXERCISE (except original?)
         - belongs to one RULE
-        - contains one QUALITY ASSESSMENT FORM
+        - contains one ASSESSMENT
 
     * Original Result:
         - Will not belong to an EXERCISE.
@@ -66,29 +74,30 @@
 5. EXERCISE
     * Description:
         An EXERCISE represents a reliability exercise which can be assigned by a system admin. An exercise maps <<one or
-        more?>> SETS to one or more USERS.
+        more?>> GROUPS to one or more USERS.
 
         An EXERCISE can be completed on a couple of different levels:
-            1. A USER involved in the EXERCISE uploads a RESULT for a STUDY contained in the SET involved in the
+            1. A USER involved in the EXERCISE uploads a RESULT for a STUDY contained in the GROUP involved in the
              EXERCISE. The USER also fills out a QUALITY ASSESSMENT FORM.
                * this needs to be tracked
             2. A USER completes all assigned STUDIES and uploads all required RESULTS.
-            3. All USERS complete all STUDIES in the assigned SETS and finish the respective EXERCISE.
+            3. All USERS complete all STUDIES in the assigned GROUPS and finish the respective EXERCISE.
 
         << This is a very complicated object/idea. We need to keep track of the completion status at all these
-           different levels, and connect the USERS, STUDIES, SETS, RESULTS, and FORM INFORMATION >>
+           different levels, and connect the USERS, STUDIES, GROUPS, RESULTS, and FORM INFORMATION >>
         << USER-EXERCISE to keep track of #2 on the list and store end-of-exercise FORM INFORMATION ? >>
         << USER-EXERCISE-STUDY to keep track of #1? >>
         << COMPLICATED!! More clear if we make RESULT belong to an EXERCISE (except for the original result?) >>
     * Attributes:
+        <<Assigned_At ??>>
+        << Completed_at ??>>
+        assessment_type
 
     * Associations:
         - belongs to a USER (system admin)
         - has many USERS
-        - has many SETS
-        - has many RESULTS
-        - has one QUALITY ASSESSMENT FORM
-        - has one RULE
+        - has many GROUPS
+        - belongs to one RULE
 
 6. USERS
     * Description:
@@ -104,15 +113,57 @@
         - has many RESULTS
 
 7. RULES
+    * Attributes:
+        - Title
+        - Procedure
     * Associations:
+        - has many EXERCISES
+        - has many RESULTS
 
-8. STUDY Type
-    * Description: Characterizes the STUDY and/or SET.
+8. STUDY TYPE
+    * Description: Characterizes the STUDY.
     * Attributes:
         - Name
         - Description
     * Associations:
         - contains many STUDIES
-9. ASSESMENT - TALK TO REMO
+
+9. RELIABILITY_ID
+    * Description: A unique, generated ID that identifies a study for each USER/EXERCISE combo.
+    * Attributes:
+        - unique_id
+        - study_id
+    * Associations:
+        - belongs to one STUDY
+
+9. ASSESMENT
+    * Description: A quality assessment form that needs to be filled out with the submission of each result.
+    * Attributes
+        - assessment_type
+        -
+    * Associations:
+        - contains many ASSESSMENT RESULTS
+        - belongs to one RESULT
+
+
+10. ASSESSMENT RESULT
+    * Description: Stores the results of an assessment form.
+    * Attributes
+        - assessment_id
+        - question_id
+        - answer
+    * Associations
+        - belongs to one ASSESSMENT
+
+
+MANY TO MANY ASSOCIATION TABLES
+
+PROJECT_GROUP
+GROUP_STUDY
+EXERCISE_USER
+EXERCISE_GROUP
+
+EDIT TABLES:
+Project
 
 ** TALK TO REMO ABOUT MOCK SETS AND TESTING ETC.

@@ -1,4 +1,22 @@
 Rely::Application.routes.draw do
+  resources :assessment_results
+
+  resources :assessments
+
+  resources :reliability_ids
+
+  resources :StudyTypesController
+
+  resources :rules
+
+  resources :exercises
+
+  resources :results
+
+  resources :studies
+
+  resources :groups
+
   # Devise
   devise_for :users, controllers: { registrations: 'contour/registrations', sessions: 'contour/sessions', passwords: 'contour/passwords', confirmations: 'contour/confirmations', unlocks: 'contour/unlocks' }, path_names: { sign_up: 'register', sign_in: 'login' }
 

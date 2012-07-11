@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>User:</b>
+  <%= @result.user_id %>
+</p>
+
+<p>
+  <b>Study:</b>
+  <%= @result.study_id %>
+</p>
+
+<p>
+  <b>Exercise:</b>
+  <%= @result.exercise_id %>
+</p>
+
+<p>
+  <b>Rule:</b>
+  <%= @result.rule_id %>
+</p>
+
+<p>
+  <b>Assessment:</b>
+  <%= @result.assessment_id %>
+</p>
+
+<p>
+  <b>Type:</b>
+  <%= @result.type %>
+</p>
+
+<p>
+  <b>Location:</b>
+  <%= @result.location %>
+</p>
+
+<p>
+  <b>Deleted:</b>
+  <%= @result.deleted %>
+</p>
+
+
+<%= link_to 'Edit', edit_result_path(@result) %> |
+<%= link_to 'Back', results_path %>

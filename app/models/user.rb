@@ -2,7 +2,9 @@ class User < ActiveRecord::Base
   ##
   # Associations
   has_many :authentications
-  has_many :projects
+  has_many :results
+  has_many :exercises, :through => :exercise_users
+  has_many :exercise_users
 
   ##
   # Attributes

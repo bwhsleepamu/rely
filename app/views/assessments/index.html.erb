@@ -1,0 +1,27 @@
+<h1>Listing assessments</h1>
+
+<table>
+  <tr>
+    <th>Result</th>
+    <th>Assessment type</th>
+    <th>Deleted</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @assessments.each do |assessment| %>
+  <tr>
+    <td><%= assessment.result_id %></td>
+    <td><%= assessment.assessment_type %></td>
+    <td><%= assessment.deleted %></td>
+    <td><%= link_to 'Show', assessment %></td>
+    <td><%= link_to 'Edit', edit_assessment_path(assessment) %></td>
+    <td><%= link_to 'Destroy', assessment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Assessment', new_assessment_path %>
