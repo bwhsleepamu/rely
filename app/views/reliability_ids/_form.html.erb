@@ -1,4 +1,8 @@
-<%= form_for(@reliability_id) do |f| %>
+<div class="page-header">
+  <h1><%= @title %></h1>
+</div>
+
+<%= form_for @reliability_id, html: { class: 'form-horizontal' } do |f| %>
   <% if @reliability_id.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@reliability_id.errors.count, "error") %> prohibited this reliability_id from being saved:</h2>
@@ -11,19 +15,29 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :unique_id %><br />
-    <%= f.text_field :unique_id %>
+  <div class="control-group">
+    <%= f.label :unique_id, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.select :unique_id, [['---', nil]] + Unique.current.collect{|u| [u.name, u.id]} %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :study_id %><br />
-    <%= f.number_field :study_id %>
+
+  <div class="control-group">
+    <%= f.label :study_id, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.select :study_id, [['---', nil]] + Study.current.collect{|s| [s.name, s.id]} %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :deleted %><br />
-    <%= f.check_box :deleted %>
+
+  <div class="control-group">
+    <%= f.label :deleted, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.check_box :deleted %>
+    </div>
   </div>
-  <div class="actions">
-    <%= f.submit %>
+
+  <div class="form-actions">
+    <%= f.submit nil, class: 'btn btn-primary' %>
+    <%= cancel %>
   </div>
 <% end %>

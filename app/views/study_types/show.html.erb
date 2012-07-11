@@ -1,20 +1,21 @@
-<p id="notice"><%= notice %></p>
+<% @title = "Study Type: #{@study_type.name}" %>
+<div class="page-header">
+  <h1>
+    <%= @title %>
+    <%= link_to "Edit Study Type", edit_study_type_path(@study_type), class: 'btn btn-mini' %>
+    <%= link_to "Delete Study Type", @study_type, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Study Type #{@study_type.name}?" } %>
+    <%= link_to "View Study Types", study_types_path, class: 'btn btn-mini' %>
+  </h1>
+</div>
 
-<p>
-  <b>Name:</b>
-  <%= @type.name %>
-</p>
+<dl class="dl-horizontal">
+  <dt>Name</dt>
+  <dd><%= @study_type.name %></dd>
 
-<p>
-  <b>Description:</b>
-  <%= @type.description %>
-</p>
+  <dt>Description</dt>
+  <dd><%= simple_format @study_type.description %></dd>
 
-<p>
-  <b>Deleted:</b>
-  <%= @type.deleted %>
-</p>
+  <dt>Deleted</dt>
+  <dd><%= @study_type.deleted %></dd>
 
-
-<%= link_to 'Edit', edit_type_path(@type) %> |
-<%= link_to 'Back', types_path %>
+</dl>

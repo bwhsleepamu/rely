@@ -1,0 +1,34 @@
+<%= render partial: 'contour/layouts/per_page', locals: { type: 'results', per_page: 20 } %>
+
+<table class="table table-striped table-bordered" style="width:100%">
+  <thead>
+    <tr>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'results.user_id', 'User', 'results_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'results.study_id', 'Study', 'results_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'results.exercise_id', 'Exercise', 'results_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'results.rule_id', 'Rule', 'results_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'results.result_type', 'Result Type', 'results_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'results.location', 'Location', 'results_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'results.deleted', 'Deleted', 'results_search') %></th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <% @results.each do |result| %>
+    <tr>
+      <td><%= link_to result.user.name, result.user if result.user %></td>
+      <td><%= link_to result.study.name, result.study if result.study %></td>
+      <td><%= link_to result.exercise.name, result.exercise if result.exercise %></td>
+      <td><%= link_to result.rule.name, result.rule if result.rule %></td>
+      <td><%= result.result_type %></td>
+      <td><%= result.location %></td>
+      <td><%= result.deleted %></td>
+      <td>
+        <%= link_to 'Edit', edit_result_path(result), class: 'btn btn-mini' %>
+        <%= link_to 'Delete', result, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Result #{result.name}?" } %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<center><%= paginate @results %></center>

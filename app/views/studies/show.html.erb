@@ -1,25 +1,24 @@
-<p id="notice"><%= notice %></p>
+<% @title = "Study: #{@study.name}" %>
+<div class="page-header">
+  <h1>
+    <%= @title %>
+    <%= link_to "Edit Study", edit_study_path(@study), class: 'btn btn-mini' %>
+    <%= link_to "Delete Study", @study, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Study #{@study.name}?" } %>
+    <%= link_to "View Studies", studies_path, class: 'btn btn-mini' %>
+  </h1>
+</div>
 
-<p>
-  <b>Original:</b>
-  <%= @study.original_id %>
-</p>
+<dl class="dl-horizontal">
+  <dt>Original</dt>
+  <dd><%= link_to @study.original.name, @study.original if @study.original %></dd>
 
-<p>
-  <b>Type:</b>
-  <%= @study.type_id %>
-</p>
+  <dt>Study Type</dt>
+  <dd><%= link_to @study.study_type.name, @study.study_type if @study.study_type %></dd>
 
-<p>
-  <b>Location:</b>
-  <%= @study.location %>
-</p>
+  <dt>Location</dt>
+  <dd><%= @study.location %></dd>
 
-<p>
-  <b>Deleted:</b>
-  <%= @study.deleted %>
-</p>
+  <dt>Deleted</dt>
+  <dd><%= @study.deleted %></dd>
 
-
-<%= link_to 'Edit', edit_study_path(@study) %> |
-<%= link_to 'Back', studies_path %>
+</dl>

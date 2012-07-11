@@ -1,27 +1,21 @@
-<h1>Listing assessments</h1>
+<% @title = 'Assessments' %>
+<div class="page-header">
+  <h1>
+    <%= @title %>
+    <%= link_to "Create Assessment", new_assessment_path, class: 'btn btn-mini btn-primary' %>
+  </h1>
+</div>
 
-<table>
-  <tr>
-    <th>Result</th>
-    <th>Assessment type</th>
-    <th>Deleted</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @assessments.each do |assessment| %>
-  <tr>
-    <td><%= assessment.result_id %></td>
-    <td><%= assessment.assessment_type %></td>
-    <td><%= assessment.deleted %></td>
-    <td><%= link_to 'Show', assessment %></td>
-    <td><%= link_to 'Edit', edit_assessment_path(assessment) %></td>
-    <td><%= link_to 'Destroy', assessment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
+<%= form_tag assessments_path, method: :get, remote: true, id: "assessments_search", class: 'form-search' do %>
+  <%= hidden_field_tag :order %>
+  <%= text_field_tag 'search', params[:search], class: 'search-query' %>
+  <%= submit_tag 'Search', class: 'btn btn-primary' %>
 <% end %>
-</table>
 
-<br />
+<div id="assessments"><center><%= image_tag "contour/ajax-loader.gif" %></center></div>
 
-<%= link_to 'New Assessment', new_assessment_path %>
+<%= javascript_tag do %>
+  $(function(){
+    $.get($("#assessments_search").attr("action"), $("#assessments_search").serialize(), null, "script");
+  });
+<% end %>

@@ -1,4 +1,8 @@
-<%= form_for(@study) do |f| %>
+<div class="page-header">
+  <h1><%= @title %></h1>
+</div>
+
+<%= form_for @study, html: { class: 'form-horizontal' } do |f| %>
   <% if @study.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@study.errors.count, "error") %> prohibited this study from being saved:</h2>
@@ -11,23 +15,36 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :original_id %><br />
-    <%= f.text_field :original_id %>
+  <div class="control-group">
+    <%= f.label :original_id, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.select :original_id, [['---', nil]] + Original.current.collect{|o| [o.name, o.id]} %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :type_id %><br />
-    <%= f.number_field :type_id %>
+
+  <div class="control-group">
+    <%= f.label :study_type_id, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.select :study_type_id, [['---', nil]] + StudyType.current.collect{|s| [s.name, s.id]} %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :location %><br />
-    <%= f.text_field :location %>
+
+  <div class="control-group">
+    <%= f.label :location, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :location %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :deleted %><br />
-    <%= f.check_box :deleted %>
+
+  <div class="control-group">
+    <%= f.label :deleted, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.check_box :deleted %>
+    </div>
   </div>
-  <div class="actions">
-    <%= f.submit %>
+
+  <div class="form-actions">
+    <%= f.submit nil, class: 'btn btn-primary' %>
+    <%= cancel %>
   </div>
 <% end %>

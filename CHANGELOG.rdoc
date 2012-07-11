@@ -3,6 +3,8 @@
 * Set up travis ci
 * Disabled email error notifications in production environment
 * Wrote up model objects descriptions and definitions
+* Created basic models, relations, and rails scaffolding
+* Converted scaffolding to Contour
 
 == 0.0.1
 

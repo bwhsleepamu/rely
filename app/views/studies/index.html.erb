@@ -1,29 +1,21 @@
-<h1>Listing studies</h1>
+<% @title = 'Studies' %>
+<div class="page-header">
+  <h1>
+    <%= @title %>
+    <%= link_to "Create Study", new_study_path, class: 'btn btn-mini btn-primary' %>
+  </h1>
+</div>
 
-<table>
-  <tr>
-    <th>Original</th>
-    <th>Type</th>
-    <th>Location</th>
-    <th>Deleted</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @studies.each do |study| %>
-  <tr>
-    <td><%= study.original_id %></td>
-    <td><%= study.type_id %></td>
-    <td><%= study.location %></td>
-    <td><%= study.deleted %></td>
-    <td><%= link_to 'Show', study %></td>
-    <td><%= link_to 'Edit', edit_study_path(study) %></td>
-    <td><%= link_to 'Destroy', study, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
+<%= form_tag studies_path, method: :get, remote: true, id: "studies_search", class: 'form-search' do %>
+  <%= hidden_field_tag :order %>
+  <%= text_field_tag 'search', params[:search], class: 'search-query' %>
+  <%= submit_tag 'Search', class: 'btn btn-primary' %>
 <% end %>
-</table>
 
-<br />
+<div id="studies"><center><%= image_tag "contour/ajax-loader.gif" %></center></div>
 
-<%= link_to 'New Study', new_study_path %>
+<%= javascript_tag do %>
+  $(function(){
+    $.get($("#studies_search").attr("action"), $("#studies_search").serialize(), null, "script");
+  });
+<% end %>

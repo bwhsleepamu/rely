@@ -1,11 +1,17 @@
 class ReliabilityIdsController < ApplicationController
+  before_filter :authenticate_user!
+
   # GET /reliability_ids
   # GET /reliability_ids.json
   def index
-    @reliability_ids = ReliabilityId.all
+    reliability_id_scope = ReliabilityId.current
+    @order = ReliabilityId.column_names.collect{|column_name| "reliability_ids.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "reliability_ids.name"
+    reliability_id_scope = reliability_id_scope.order(@order)
+    @reliability_ids = reliability_id_scope.page(params[:page]).per( 20 )
 
     respond_to do |format|
       format.html # index.html.erb
+      format.js
       format.json { render json: @reliability_ids }
     end
   end
@@ -13,7 +19,7 @@ class ReliabilityIdsController < ApplicationController
   # GET /reliability_ids/1
   # GET /reliability_ids/1.json
   def show
-    @reliability_id = ReliabilityId.find(params[:id])
+    @reliability_id = ReliabilityId.current.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -34,17 +40,17 @@ class ReliabilityIdsController < ApplicationController
 
   # GET /reliability_ids/1/edit
   def edit
-    @reliability_id = ReliabilityId.find(params[:id])
+    @reliability_id = ReliabilityId.current.find(params[:id])
   end
 
   # POST /reliability_ids
   # POST /reliability_ids.json
   def create
-    @reliability_id = ReliabilityId.new(params[:reliability_id])
+    @reliability_id = ReliabilityId.new(post_params)
 
     respond_to do |format|
       if @reliability_id.save
-        format.html { redirect_to @reliability_id, notice: 'Reliability was successfully created.' }
+        format.html { redirect_to @reliability_id, notice: 'ReliabilityId was successfully created.' }
         format.json { render json: @reliability_id, status: :created, location: @reliability_id }
       else
         format.html { render action: "new" }
@@ -56,11 +62,11 @@ class ReliabilityIdsController < ApplicationController
   # PUT /reliability_ids/1
   # PUT /reliability_ids/1.json
   def update
-    @reliability_id = ReliabilityId.find(params[:id])
+    @reliability_id = ReliabilityId.current.find(params[:id])
 
     respond_to do |format|
-      if @reliability_id.update_attributes(params[:reliability_id])
-        format.html { redirect_to @reliability_id, notice: 'Reliability was successfully updated.' }
+      if @reliability_id.update_attributes(post_params)
+        format.html { redirect_to @reliability_id, notice: 'ReliabilityId was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -72,12 +78,30 @@ class ReliabilityIdsController < ApplicationController
   # DELETE /reliability_ids/1
   # DELETE /reliability_ids/1.json
   def destroy
-    @reliability_id = ReliabilityId.find(params[:id])
+    @reliability_id = ReliabilityId.current.find(params[:id])
     @reliability_id.destroy
 
     respond_to do |format|
       format.html { redirect_to reliability_ids_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def parse_date(date_string)
+    date_string.to_s.split('/').last.size == 2 ? Date.strptime(date_string, "%m/%d/%y") : Date.strptime(date_string, "%m/%d/%Y") rescue ""
+  end
+
+  def post_params
+    params[:reliability_id] ||= {}
+
+    [].each do |date|
+      params[:reliability_id][date] = parse_date(params[:reliability_id][date])
+    end
+
+    params[:reliability_id].slice(
+      :unique_id, :study_id, :deleted
+    )
   end
 end

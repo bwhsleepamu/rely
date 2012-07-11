@@ -1,20 +1,21 @@
-<p id="notice"><%= notice %></p>
+<% @title = "Rule: #{@rule.name}" %>
+<div class="page-header">
+  <h1>
+    <%= @title %>
+    <%= link_to "Edit Rule", edit_rule_path(@rule), class: 'btn btn-mini' %>
+    <%= link_to "Delete Rule", @rule, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Rule #{@rule.name}?" } %>
+    <%= link_to "View Rules", rules_path, class: 'btn btn-mini' %>
+  </h1>
+</div>
 
-<p>
-  <b>Title:</b>
-  <%= @rule.title %>
-</p>
+<dl class="dl-horizontal">
+  <dt>Title</dt>
+  <dd><%= @rule.title %></dd>
 
-<p>
-  <b>Procedure:</b>
-  <%= @rule.procedure %>
-</p>
+  <dt>Procedure</dt>
+  <dd><%= simple_format @rule.procedure %></dd>
 
-<p>
-  <b>Deleted:</b>
-  <%= @rule.deleted %>
-</p>
+  <dt>Deleted</dt>
+  <dd><%= @rule.deleted %></dd>
 
-
-<%= link_to 'Edit', edit_rule_path(@rule) %> |
-<%= link_to 'Back', rules_path %>
+</dl>

@@ -1,11 +1,17 @@
 class GroupsController < ApplicationController
+  before_filter :authenticate_user!
+
   # GET /groups
   # GET /groups.json
   def index
-    @groups = Group.all
+    group_scope = Group.current
+    @order = Group.column_names.collect{|column_name| "groups.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "groups.name"
+    group_scope = group_scope.order(@order)
+    @groups = group_scope.page(params[:page]).per( 20 )
 
     respond_to do |format|
       format.html # index.html.erb
+      format.js
       format.json { render json: @groups }
     end
   end
@@ -13,7 +19,7 @@ class GroupsController < ApplicationController
   # GET /groups/1
   # GET /groups/1.json
   def show
-    @group = Group.find(params[:id])
+    @group = Group.current.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -34,13 +40,13 @@ class GroupsController < ApplicationController
 
   # GET /groups/1/edit
   def edit
-    @group = Group.find(params[:id])
+    @group = Group.current.find(params[:id])
   end
 
   # POST /groups
   # POST /groups.json
   def create
-    @group = Group.new(params[:group])
+    @group = Group.new(post_params)
 
     respond_to do |format|
       if @group.save
@@ -56,10 +62,10 @@ class GroupsController < ApplicationController
   # PUT /groups/1
   # PUT /groups/1.json
   def update
-    @group = Group.find(params[:id])
+    @group = Group.current.find(params[:id])
 
     respond_to do |format|
-      if @group.update_attributes(params[:group])
+      if @group.update_attributes(post_params)
         format.html { redirect_to @group, notice: 'Group was successfully updated.' }
         format.json { head :no_content }
       else
@@ -72,12 +78,30 @@ class GroupsController < ApplicationController
   # DELETE /groups/1
   # DELETE /groups/1.json
   def destroy
-    @group = Group.find(params[:id])
+    @group = Group.current.find(params[:id])
     @group.destroy
 
     respond_to do |format|
       format.html { redirect_to groups_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def parse_date(date_string)
+    date_string.to_s.split('/').last.size == 2 ? Date.strptime(date_string, "%m/%d/%y") : Date.strptime(date_string, "%m/%d/%Y") rescue ""
+  end
+
+  def post_params
+    params[:group] ||= {}
+
+    [].each do |date|
+      params[:group][date] = parse_date(params[:group][date])
+    end
+
+    params[:group].slice(
+      :name, :description, :deleted
+    )
   end
 end

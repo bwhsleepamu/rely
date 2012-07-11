@@ -1,4 +1,8 @@
-<%= form_for(@assessment_result) do |f| %>
+<div class="page-header">
+  <h1><%= @title %></h1>
+</div>
+
+<%= form_for @assessment_result, html: { class: 'form-horizontal' } do |f| %>
   <% if @assessment_result.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@assessment_result.errors.count, "error") %> prohibited this assessment_result from being saved:</h2>
@@ -11,23 +15,36 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :assessment_id %><br />
-    <%= f.number_field :assessment_id %>
+  <div class="control-group">
+    <%= f.label :assessment_id, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.select :assessment_id, [['---', nil]] + Assessment.current.collect{|a| [a.name, a.id]} %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :question_id %><br />
-    <%= f.number_field :question_id %>
+
+  <div class="control-group">
+    <%= f.label :question_id, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.select :question_id, [['---', nil]] + Question.current.collect{|q| [q.name, q.id]} %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :answer %><br />
-    <%= f.text_area :answer %>
+
+  <div class="control-group">
+    <%= f.label :answer, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :answer, rows: 7, style: 'width:95%' %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :deleted %><br />
-    <%= f.check_box :deleted %>
+
+  <div class="control-group">
+    <%= f.label :deleted, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.check_box :deleted %>
+    </div>
   </div>
-  <div class="actions">
-    <%= f.submit %>
+
+  <div class="form-actions">
+    <%= f.submit nil, class: 'btn btn-primary' %>
+    <%= cancel %>
   </div>
 <% end %>

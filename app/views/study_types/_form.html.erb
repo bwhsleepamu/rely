@@ -1,29 +1,43 @@
-<%= form_for(@type) do |f| %>
-  <% if @type.errors.any? %>
+<div class="page-header">
+  <h1><%= @title %></h1>
+</div>
+
+<%= form_for @study_type, html: { class: 'form-horizontal' } do |f| %>
+  <% if @study_type.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@type.errors.count, "error") %> prohibited this type from being saved:</h2>
+      <h2><%= pluralize(@study_type.errors.count, "error") %> prohibited this study_type from being saved:</h2>
 
       <ul>
-      <% @type.errors.full_messages.each do |msg| %>
+      <% @study_type.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
+  <div class="control-group">
+    <%= f.label :name, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :name %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :description %><br />
-    <%= f.text_area :description %>
+
+  <div class="control-group">
+    <%= f.label :description, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :description, rows: 7, style: 'width:95%' %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :deleted %><br />
-    <%= f.check_box :deleted %>
+
+  <div class="control-group">
+    <%= f.label :deleted, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.check_box :deleted %>
+    </div>
   </div>
-  <div class="actions">
-    <%= f.submit %>
+
+  <div class="form-actions">
+    <%= f.submit nil, class: 'btn btn-primary' %>
+    <%= cancel %>
   </div>
 <% end %>

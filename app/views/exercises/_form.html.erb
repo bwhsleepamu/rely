@@ -1,4 +1,8 @@
-<%= form_for(@exercise) do |f| %>
+<div class="page-header">
+  <h1><%= @title %></h1>
+</div>
+
+<%= form_for @exercise, html: { class: 'form-horizontal' } do |f| %>
   <% if @exercise.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@exercise.errors.count, "error") %> prohibited this exercise from being saved:</h2>
@@ -11,39 +15,64 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :admin_id %><br />
-    <%= f.number_field :admin_id %>
+  <div class="control-group">
+    <%= f.label :admin_id, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.select :admin_id, [['---', nil]] + Admin.current.collect{|a| [a.name, a.id]} %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :assessment_id %><br />
-    <%= f.number_field :assessment_id %>
+
+  <div class="control-group">
+    <%= f.label :rule_id, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.select :rule_id, [['---', nil]] + Rule.current.collect{|r| [r.name, r.id]} %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :rule_id %><br />
-    <%= f.number_field :rule_id %>
+
+  <div class="control-group">
+    <%= f.label :name, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :name %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
+
+  <div class="control-group">
+    <%= f.label :description, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :description, rows: 7, style: 'width:95%' %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :description %><br />
-    <%= f.text_area :description %>
+
+  <div class="control-group">
+    <%= f.label :assessment_type, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :assessment_type %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :assigned_at %><br />
-    <%= f.datetime_select :assigned_at %>
+
+  <div class="control-group">
+    <%= f.label :assigned_at, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.datetime_select :assigned_at %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :completed_at %><br />
-    <%= f.datetime_select :completed_at %>
+
+  <div class="control-group">
+    <%= f.label :completed_at, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.datetime_select :completed_at %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :deleted %><br />
-    <%= f.check_box :deleted %>
+
+  <div class="control-group">
+    <%= f.label :deleted, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= f.check_box :deleted %>
+    </div>
   </div>
-  <div class="actions">
-    <%= f.submit %>
+
+  <div class="form-actions">
+    <%= f.submit nil, class: 'btn btn-primary' %>
+    <%= cancel %>
   </div>
 <% end %>

@@ -1,45 +1,33 @@
-<p id="notice"><%= notice %></p>
+<% @title = "Result: #{@result.name}" %>
+<div class="page-header">
+  <h1>
+    <%= @title %>
+    <%= link_to "Edit Result", edit_result_path(@result), class: 'btn btn-mini' %>
+    <%= link_to "Delete Result", @result, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Result #{@result.name}?" } %>
+    <%= link_to "View Results", results_path, class: 'btn btn-mini' %>
+  </h1>
+</div>
 
-<p>
-  <b>User:</b>
-  <%= @result.user_id %>
-</p>
+<dl class="dl-horizontal">
+  <dt>User</dt>
+  <dd><%= link_to @result.user.name, @result.user if @result.user %></dd>
 
-<p>
-  <b>Study:</b>
-  <%= @result.study_id %>
-</p>
+  <dt>Study</dt>
+  <dd><%= link_to @result.study.name, @result.study if @result.study %></dd>
 
-<p>
-  <b>Exercise:</b>
-  <%= @result.exercise_id %>
-</p>
+  <dt>Exercise</dt>
+  <dd><%= link_to @result.exercise.name, @result.exercise if @result.exercise %></dd>
 
-<p>
-  <b>Rule:</b>
-  <%= @result.rule_id %>
-</p>
+  <dt>Rule</dt>
+  <dd><%= link_to @result.rule.name, @result.rule if @result.rule %></dd>
 
-<p>
-  <b>Assessment:</b>
-  <%= @result.assessment_id %>
-</p>
+  <dt>Result Type</dt>
+  <dd><%= @result.result_type %></dd>
 
-<p>
-  <b>Type:</b>
-  <%= @result.type %>
-</p>
+  <dt>Location</dt>
+  <dd><%= @result.location %></dd>
 
-<p>
-  <b>Location:</b>
-  <%= @result.location %>
-</p>
+  <dt>Deleted</dt>
+  <dd><%= @result.deleted %></dd>
 
-<p>
-  <b>Deleted:</b>
-  <%= @result.deleted %>
-</p>
-
-
-<%= link_to 'Edit', edit_result_path(@result) %> |
-<%= link_to 'Back', results_path %>
+</dl>

@@ -1,25 +1,24 @@
-<p id="notice"><%= notice %></p>
+<% @title = "Assessment Result: #{@assessment_result.name}" %>
+<div class="page-header">
+  <h1>
+    <%= @title %>
+    <%= link_to "Edit Assessment Result", edit_assessment_result_path(@assessment_result), class: 'btn btn-mini' %>
+    <%= link_to "Delete Assessment Result", @assessment_result, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Assessment Result #{@assessment_result.name}?" } %>
+    <%= link_to "View Assessment Results", assessment_results_path, class: 'btn btn-mini' %>
+  </h1>
+</div>
 
-<p>
-  <b>Assessment:</b>
-  <%= @assessment_result.assessment_id %>
-</p>
+<dl class="dl-horizontal">
+  <dt>Assessment</dt>
+  <dd><%= link_to @assessment_result.assessment.name, @assessment_result.assessment if @assessment_result.assessment %></dd>
 
-<p>
-  <b>Question:</b>
-  <%= @assessment_result.question_id %>
-</p>
+  <dt>Question</dt>
+  <dd><%= link_to @assessment_result.question.name, @assessment_result.question if @assessment_result.question %></dd>
 
-<p>
-  <b>Answer:</b>
-  <%= @assessment_result.answer %>
-</p>
+  <dt>Answer</dt>
+  <dd><%= simple_format @assessment_result.answer %></dd>
 
-<p>
-  <b>Deleted:</b>
-  <%= @assessment_result.deleted %>
-</p>
+  <dt>Deleted</dt>
+  <dd><%= @assessment_result.deleted %></dd>
 
-
-<%= link_to 'Edit', edit_assessment_result_path(@assessment_result) %> |
-<%= link_to 'Back', assessment_results_path %>
+</dl>

@@ -1,20 +1,21 @@
-<p id="notice"><%= notice %></p>
+<% @title = "Reliability: #{@reliability_id.name}" %>
+<div class="page-header">
+  <h1>
+    <%= @title %>
+    <%= link_to "Edit Reliability", edit_reliability_id_path(@reliability_id), class: 'btn btn-mini' %>
+    <%= link_to "Delete Reliability", @reliability_id, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Reliability #{@reliability_id.name}?" } %>
+    <%= link_to "View Reliabilities", reliability_ids_path, class: 'btn btn-mini' %>
+  </h1>
+</div>
 
-<p>
-  <b>Unique:</b>
-  <%= @reliability_id.unique_id %>
-</p>
+<dl class="dl-horizontal">
+  <dt>Unique</dt>
+  <dd><%= link_to @reliability_id.unique.name, @reliability_id.unique if @reliability_id.unique %></dd>
 
-<p>
-  <b>Study:</b>
-  <%= @reliability_id.study_id %>
-</p>
+  <dt>Study</dt>
+  <dd><%= link_to @reliability_id.study.name, @reliability_id.study if @reliability_id.study %></dd>
 
-<p>
-  <b>Deleted:</b>
-  <%= @reliability_id.deleted %>
-</p>
+  <dt>Deleted</dt>
+  <dd><%= @reliability_id.deleted %></dd>
 
-
-<%= link_to 'Edit', edit_reliability_id_path(@reliability_id) %> |
-<%= link_to 'Back', reliability_ids_path %>
+</dl>

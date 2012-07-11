@@ -1,27 +1,21 @@
-<h1>Listing reliability_ids</h1>
+<% @title = 'Reliabilities' %>
+<div class="page-header">
+  <h1>
+    <%= @title %>
+    <%= link_to "Create Reliability", new_reliability_id_path, class: 'btn btn-mini btn-primary' %>
+  </h1>
+</div>
 
-<table>
-  <tr>
-    <th>Unique</th>
-    <th>Study</th>
-    <th>Deleted</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @reliability_ids.each do |reliability_id| %>
-  <tr>
-    <td><%= reliability_id.unique_id %></td>
-    <td><%= reliability_id.study_id %></td>
-    <td><%= reliability_id.deleted %></td>
-    <td><%= link_to 'Show', reliability_id %></td>
-    <td><%= link_to 'Edit', edit_reliability_id_path(reliability_id) %></td>
-    <td><%= link_to 'Destroy', reliability_id, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
+<%= form_tag reliability_ids_path, method: :get, remote: true, id: "reliability_ids_search", class: 'form-search' do %>
+  <%= hidden_field_tag :order %>
+  <%= text_field_tag 'search', params[:search], class: 'search-query' %>
+  <%= submit_tag 'Search', class: 'btn btn-primary' %>
 <% end %>
-</table>
 
-<br />
+<div id="reliability_ids"><center><%= image_tag "contour/ajax-loader.gif" %></center></div>
 
-<%= link_to 'New Reliability', new_reliability_id_path %>
+<%= javascript_tag do %>
+  $(function(){
+    $.get($("#reliability_ids_search").attr("action"), $("#reliability_ids_search").serialize(), null, "script");
+  });
+<% end %>

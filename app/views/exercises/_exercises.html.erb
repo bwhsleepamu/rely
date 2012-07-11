@@ -1,0 +1,36 @@
+<%= render partial: 'contour/layouts/per_page', locals: { type: 'exercises', per_page: 20 } %>
+
+<table class="table table-striped table-bordered" style="width:100%">
+  <thead>
+    <tr>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.admin_id', 'Admin', 'exercises_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.rule_id', 'Rule', 'exercises_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.name', 'Name', 'exercises_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.description', 'Description', 'exercises_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.assessment_type', 'Assessment Type', 'exercises_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.assigned_at', 'Assigned At', 'exercises_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.completed_at', 'Completed At', 'exercises_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.deleted', 'Deleted', 'exercises_search') %></th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <% @exercises.each do |exercise| %>
+    <tr>
+      <td><%= link_to exercise.admin.name, exercise.admin if exercise.admin %></td>
+      <td><%= link_to exercise.rule.name, exercise.rule if exercise.rule %></td>
+      <td><%= exercise.name %></td>
+      <td><%= exercise.description %></td>
+      <td><%= exercise.assessment_type %></td>
+      <td><%= exercise.assigned_at %></td>
+      <td><%= exercise.completed_at %></td>
+      <td><%= exercise.deleted %></td>
+      <td>
+        <%= link_to 'Edit', edit_exercise_path(exercise), class: 'btn btn-mini' %>
+        <%= link_to 'Delete', exercise, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Exercise #{exercise.name}?" } %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<center><%= paginate @exercises %></center>

@@ -1,27 +1,21 @@
-<h1>Listing rules</h1>
+<% @title = 'Rules' %>
+<div class="page-header">
+  <h1>
+    <%= @title %>
+    <%= link_to "Create Rule", new_rule_path, class: 'btn btn-mini btn-primary' %>
+  </h1>
+</div>
 
-<table>
-  <tr>
-    <th>Title</th>
-    <th>Procedure</th>
-    <th>Deleted</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @rules.each do |rule| %>
-  <tr>
-    <td><%= rule.title %></td>
-    <td><%= rule.procedure %></td>
-    <td><%= rule.deleted %></td>
-    <td><%= link_to 'Show', rule %></td>
-    <td><%= link_to 'Edit', edit_rule_path(rule) %></td>
-    <td><%= link_to 'Destroy', rule, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
+<%= form_tag rules_path, method: :get, remote: true, id: "rules_search", class: 'form-search' do %>
+  <%= hidden_field_tag :order %>
+  <%= text_field_tag 'search', params[:search], class: 'search-query' %>
+  <%= submit_tag 'Search', class: 'btn btn-primary' %>
 <% end %>
-</table>
 
-<br />
+<div id="rules"><center><%= image_tag "contour/ajax-loader.gif" %></center></div>
 
-<%= link_to 'New Rule', new_rule_path %>
+<%= javascript_tag do %>
+  $(function(){
+    $.get($("#rules_search").attr("action"), $("#rules_search").serialize(), null, "script");
+  });
+<% end %>

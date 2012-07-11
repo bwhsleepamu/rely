@@ -1,37 +1,21 @@
-<h1>Listing exercises</h1>
+<% @title = 'Exercises' %>
+<div class="page-header">
+  <h1>
+    <%= @title %>
+    <%= link_to "Create Exercise", new_exercise_path, class: 'btn btn-mini btn-primary' %>
+  </h1>
+</div>
 
-<table>
-  <tr>
-    <th>Admin</th>
-    <th>Assessment</th>
-    <th>Rule</th>
-    <th>Name</th>
-    <th>Description</th>
-    <th>Assigned at</th>
-    <th>Completed at</th>
-    <th>Deleted</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @exercises.each do |exercise| %>
-  <tr>
-    <td><%= exercise.admin_id %></td>
-    <td><%= exercise.assessment_id %></td>
-    <td><%= exercise.rule_id %></td>
-    <td><%= exercise.name %></td>
-    <td><%= exercise.description %></td>
-    <td><%= exercise.assigned_at %></td>
-    <td><%= exercise.completed_at %></td>
-    <td><%= exercise.deleted %></td>
-    <td><%= link_to 'Show', exercise %></td>
-    <td><%= link_to 'Edit', edit_exercise_path(exercise) %></td>
-    <td><%= link_to 'Destroy', exercise, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
+<%= form_tag exercises_path, method: :get, remote: true, id: "exercises_search", class: 'form-search' do %>
+  <%= hidden_field_tag :order %>
+  <%= text_field_tag 'search', params[:search], class: 'search-query' %>
+  <%= submit_tag 'Search', class: 'btn btn-primary' %>
 <% end %>
-</table>
 
-<br />
+<div id="exercises"><center><%= image_tag "contour/ajax-loader.gif" %></center></div>
 
-<%= link_to 'New Exercise', new_exercise_path %>
+<%= javascript_tag do %>
+  $(function(){
+    $.get($("#exercises_search").attr("action"), $("#exercises_search").serialize(), null, "script");
+  });
+<% end %>

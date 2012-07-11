@@ -1,11 +1,17 @@
 class AssessmentsController < ApplicationController
+  before_filter :authenticate_user!
+
   # GET /assessments
   # GET /assessments.json
   def index
-    @assessments = Assessment.all
+    assessment_scope = Assessment.current
+    @order = Assessment.column_names.collect{|column_name| "assessments.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "assessments.name"
+    assessment_scope = assessment_scope.order(@order)
+    @assessments = assessment_scope.page(params[:page]).per( 20 )
 
     respond_to do |format|
       format.html # index.html.erb
+      format.js
       format.json { render json: @assessments }
     end
   end
@@ -13,7 +19,7 @@ class AssessmentsController < ApplicationController
   # GET /assessments/1
   # GET /assessments/1.json
   def show
-    @assessment = Assessment.find(params[:id])
+    @assessment = Assessment.current.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -34,13 +40,13 @@ class AssessmentsController < ApplicationController
 
   # GET /assessments/1/edit
   def edit
-    @assessment = Assessment.find(params[:id])
+    @assessment = Assessment.current.find(params[:id])
   end
 
   # POST /assessments
   # POST /assessments.json
   def create
-    @assessment = Assessment.new(params[:assessment])
+    @assessment = Assessment.new(post_params)
 
     respond_to do |format|
       if @assessment.save
@@ -56,10 +62,10 @@ class AssessmentsController < ApplicationController
   # PUT /assessments/1
   # PUT /assessments/1.json
   def update
-    @assessment = Assessment.find(params[:id])
+    @assessment = Assessment.current.find(params[:id])
 
     respond_to do |format|
-      if @assessment.update_attributes(params[:assessment])
+      if @assessment.update_attributes(post_params)
         format.html { redirect_to @assessment, notice: 'Assessment was successfully updated.' }
         format.json { head :no_content }
       else
@@ -72,12 +78,30 @@ class AssessmentsController < ApplicationController
   # DELETE /assessments/1
   # DELETE /assessments/1.json
   def destroy
-    @assessment = Assessment.find(params[:id])
+    @assessment = Assessment.current.find(params[:id])
     @assessment.destroy
 
     respond_to do |format|
       format.html { redirect_to assessments_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def parse_date(date_string)
+    date_string.to_s.split('/').last.size == 2 ? Date.strptime(date_string, "%m/%d/%y") : Date.strptime(date_string, "%m/%d/%Y") rescue ""
+  end
+
+  def post_params
+    params[:assessment] ||= {}
+
+    [].each do |date|
+      params[:assessment][date] = parse_date(params[:assessment][date])
+    end
+
+    params[:assessment].slice(
+      :result_id, :assessment_type, :deleted
+    )
   end
 end

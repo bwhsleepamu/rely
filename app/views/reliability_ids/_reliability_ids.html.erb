@@ -1,0 +1,26 @@
+<%= render partial: 'contour/layouts/per_page', locals: { type: 'reliability_ids', per_page: 20 } %>
+
+<table class="table table-striped table-bordered" style="width:100%">
+  <thead>
+    <tr>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'reliability_ids.unique_id', 'Unique', 'reliability_ids_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'reliability_ids.study_id', 'Study', 'reliability_ids_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'reliability_ids.deleted', 'Deleted', 'reliability_ids_search') %></th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <% @reliability_ids.each do |reliability_id| %>
+    <tr>
+      <td><%= link_to reliability_id.unique.name, reliability_id.unique if reliability_id.unique %></td>
+      <td><%= link_to reliability_id.study.name, reliability_id.study if reliability_id.study %></td>
+      <td><%= reliability_id.deleted %></td>
+      <td>
+        <%= link_to 'Edit', edit_reliability_id_path(reliability_id), class: 'btn btn-mini' %>
+        <%= link_to 'Delete', reliability_id, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Reliability #{reliability_id.name}?" } %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<center><%= paginate @reliability_ids %></center>
