@@ -18,7 +18,7 @@
   <div class="control-group">
     <%= f.label :original_id, nil, class: 'control-label' %>
     <div class="controls">
-      <%= f.select :original_id, [['---', nil]] + Original.current.collect{|o| [o.name, o.id]} %>
+      <%= f.text_field :original_id %>
     </div>
   </div>
 

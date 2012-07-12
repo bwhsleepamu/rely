@@ -18,7 +18,7 @@
   <div class="control-group">
     <%= f.label :admin_id, nil, class: 'control-label' %>
     <div class="controls">
-      <%= f.select :admin_id, [['---', nil]] + Admin.current.collect{|a| [a.name, a.id]} %>
+      <%= f.select :admin_id, [['---', nil]] + User.current.collect{|a| [a.name, a.id]} %>
     </div>
   </div>
 

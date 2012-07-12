@@ -3,6 +3,7 @@ require 'test_helper'
 class ResultsControllerTest < ActionController::TestCase
   setup do
     @result = results(:one)
+    @current_user = login(users(:admin))
   end
 
   test "should get index" do
@@ -18,7 +19,7 @@ class ResultsControllerTest < ActionController::TestCase
 
   test "should create result" do
     assert_difference('Result.count') do
-      post :create, result: { assessment_id: @result.assessment_id, deleted: @result.deleted, exercise_id: @result.exercise_id, location: @result.location, rule_id: @result.rule_id, study_id: @result.study_id, type: @result.type, user_id: @result.user_id }
+      post :create, result: { deleted: @result.deleted, exercise_id: @result.exercise_id, location: @result.location, rule_id: @result.rule_id, study_id: @result.study_id, result_type: @result.result_type, user_id: @result.user_id }
     end
 
     assert_redirected_to result_path(assigns(:result))
@@ -35,7 +36,7 @@ class ResultsControllerTest < ActionController::TestCase
   end
 
   test "should update result" do
-    put :update, id: @result, result: { assessment_id: @result.assessment_id, deleted: @result.deleted, exercise_id: @result.exercise_id, location: @result.location, rule_id: @result.rule_id, study_id: @result.study_id, type: @result.type, user_id: @result.user_id }
+    put :update, id: @result, result: { deleted: @result.deleted, exercise_id: @result.exercise_id, location: @result.location, rule_id: @result.rule_id, study_id: @result.study_id, result_type: @result.result_type, user_id: @result.user_id }
     assert_redirected_to result_path(assigns(:result))
   end
 

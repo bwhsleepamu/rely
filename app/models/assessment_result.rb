@@ -25,6 +25,9 @@ class AssessmentResult < ActiveRecord::Base
 
   ##
   # Instance Methods
+  def name
+    self.assessment_id
+  end
 
   private
 

@@ -1,11 +1,12 @@
 class ReliabilityIdsController < ApplicationController
   before_filter :authenticate_user!
+  before_filter :check_system_admin
 
   # GET /reliability_ids
   # GET /reliability_ids.json
   def index
     reliability_id_scope = ReliabilityId.current
-    @order = ReliabilityId.column_names.collect{|column_name| "reliability_ids.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "reliability_ids.name"
+    @order = ReliabilityId.column_names.collect{|column_name| "reliability_ids.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "reliability_ids.study_id"
     reliability_id_scope = reliability_id_scope.order(@order)
     @reliability_ids = reliability_id_scope.page(params[:page]).per( 20 )
 

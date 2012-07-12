@@ -5,8 +5,7 @@ one:
   study_id: 1
   exercise_id: 1
   rule_id: 1
-  assessment_id: 1
-  type: 
+  result_type: 'rescored'
   location: MyString
   deleted: false
 
@@ -15,7 +14,6 @@ two:
   study_id: 1
   exercise_id: 1
   rule_id: 1
-  assessment_id: 1
-  type: 
+  result_type: 'rescored'
   location: MyString
   deleted: false

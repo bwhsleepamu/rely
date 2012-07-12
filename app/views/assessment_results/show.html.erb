@@ -12,8 +12,8 @@
   <dt>Assessment</dt>
   <dd><%= link_to @assessment_result.assessment.name, @assessment_result.assessment if @assessment_result.assessment %></dd>
 
-  <dt>Question</dt>
-  <dd><%= link_to @assessment_result.question.name, @assessment_result.question if @assessment_result.question %></dd>
+  <dt>Question ID</dt>
+  <dd><%= simple_format @assessment_result.answer %></dd>
 
   <dt>Answer</dt>
   <dd><%= simple_format @assessment_result.answer %></dd>

@@ -3,6 +3,7 @@ require 'test_helper'
 class StudiesControllerTest < ActionController::TestCase
   setup do
     @study = studies(:one)
+    @current_user = login(users(:admin))
   end
 
   test "should get index" do
@@ -18,7 +19,7 @@ class StudiesControllerTest < ActionController::TestCase
 
   test "should create study" do
     assert_difference('Study.count') do
-      post :create, study: { deleted: @study.deleted, location: @study.location, original_id: @study.original_id, type_id: @study.type_id }
+      post :create, study: { deleted: @study.deleted, location: @study.location, original_id: @study.original_id, study_type_id: @study.study_type_id }
     end
 
     assert_redirected_to study_path(assigns(:study))
@@ -35,7 +36,7 @@ class StudiesControllerTest < ActionController::TestCase
   end
 
   test "should update study" do
-    put :update, id: @study, study: { deleted: @study.deleted, location: @study.location, original_id: @study.original_id, type_id: @study.type_id }
+    put :update, id: @study, study: { deleted: @study.deleted, location: @study.location, original_id: @study.original_id, study_type_id: @study.study_type_id }
     assert_redirected_to study_path(assigns(:study))
   end
 

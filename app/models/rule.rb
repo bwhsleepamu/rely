@@ -26,6 +26,9 @@ class Rule < ActiveRecord::Base
 
   ##
   # Instance Methods
+  def name
+    self.title
+  end
 
   private
 

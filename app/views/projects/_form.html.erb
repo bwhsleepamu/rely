@@ -44,13 +44,6 @@
   </div>
 
   <div class="control-group">
-    <%= f.label :user_id, nil, class: 'control-label' %>
-    <div class="controls">
-      <%= f.select :user_id, [['---', nil]] + User.current.collect{|u| [u.name, u.id]} %>
-    </div>
-  </div>
-
-  <div class="control-group">
     <%= f.label :deleted, nil, class: 'control-label' %>
     <div class="controls">
       <%= f.check_box :deleted %>

@@ -18,7 +18,7 @@
   <div class="control-group">
     <%= f.label :unique_id, nil, class: 'control-label' %>
     <div class="controls">
-      <%= f.select :unique_id, [['---', nil]] + Unique.current.collect{|u| [u.name, u.id]} %>
+      <%= f.text_field :unique_id %>
     </div>
   </div>
 

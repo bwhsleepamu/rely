@@ -3,8 +3,9 @@
 * Set up travis ci
 * Disabled email error notifications in production environment
 * Wrote up model objects descriptions and definitions
-* Created basic models, relations, and rails scaffolding
+* Created basic models, relations, rails scaffolding, and navigation links
 * Converted scaffolding to Contour
+* Ensured all tests were passing
 
 == 0.0.1
 

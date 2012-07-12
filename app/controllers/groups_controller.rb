@@ -1,5 +1,6 @@
 class GroupsController < ApplicationController
   before_filter :authenticate_user!
+  before_filter :check_system_admin
 
   # GET /groups
   # GET /groups.json

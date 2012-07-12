@@ -3,6 +3,7 @@ require 'test_helper'
 class ExercisesControllerTest < ActionController::TestCase
   setup do
     @exercise = exercises(:one)
+    @current_user = login(users(:admin))
   end
 
   test "should get index" do
@@ -18,7 +19,7 @@ class ExercisesControllerTest < ActionController::TestCase
 
   test "should create exercise" do
     assert_difference('Exercise.count') do
-      post :create, exercise: { admin_id: @exercise.admin_id, assessment_id: @exercise.assessment_id, assigned_at: @exercise.assigned_at, completed_at: @exercise.completed_at, deleted: @exercise.deleted, description: @exercise.description, name: @exercise.name, rule_id: @exercise.rule_id }
+      post :create, exercise: { admin_id: @exercise.admin_id, assessment_type: @exercise.assessment_type, assigned_at: @exercise.assigned_at, completed_at: @exercise.completed_at, deleted: @exercise.deleted, description: @exercise.description, name: @exercise.name, rule_id: @exercise.rule_id }
     end
 
     assert_redirected_to exercise_path(assigns(:exercise))
@@ -35,7 +36,7 @@ class ExercisesControllerTest < ActionController::TestCase
   end
 
   test "should update exercise" do
-    put :update, id: @exercise, exercise: { admin_id: @exercise.admin_id, assessment_id: @exercise.assessment_id, assigned_at: @exercise.assigned_at, completed_at: @exercise.completed_at, deleted: @exercise.deleted, description: @exercise.description, name: @exercise.name, rule_id: @exercise.rule_id }
+    put :update, id: @exercise, exercise: { admin_id: @exercise.admin_id, assessment_type: @exercise.assessment_type, assigned_at: @exercise.assigned_at, completed_at: @exercise.completed_at, deleted: @exercise.deleted, description: @exercise.description, name: @exercise.name, rule_id: @exercise.rule_id }
     assert_redirected_to exercise_path(assigns(:exercise))
   end
 

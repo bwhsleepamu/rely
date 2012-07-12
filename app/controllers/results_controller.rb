@@ -1,11 +1,12 @@
 class ResultsController < ApplicationController
   before_filter :authenticate_user!
+  before_filter :check_system_admin
 
   # GET /results
   # GET /results.json
   def index
     result_scope = Result.current
-    @order = Result.column_names.collect{|column_name| "results.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "results.name"
+    @order = Result.column_names.collect{|column_name| "results.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "results.study_id"
     result_scope = result_scope.order(@order)
     @results = result_scope.page(params[:page]).per( 20 )
 

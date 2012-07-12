@@ -1,11 +1,12 @@
 class RulesController < ApplicationController
   before_filter :authenticate_user!
+  before_filter :check_system_admin
 
   # GET /rules
   # GET /rules.json
   def index
     rule_scope = Rule.current
-    @order = Rule.column_names.collect{|column_name| "rules.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "rules.name"
+    @order = Rule.column_names.collect{|column_name| "rules.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "rules.title"
     rule_scope = rule_scope.order(@order)
     @rules = rule_scope.page(params[:page]).per( 20 )
 

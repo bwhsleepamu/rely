@@ -3,6 +3,7 @@ require 'test_helper'
 class ReliabilityIdsControllerTest < ActionController::TestCase
   setup do
     @reliability_id = reliability_ids(:one)
+    @current_user = login(users(:admin))
   end
 
   test "should get index" do

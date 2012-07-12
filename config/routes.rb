@@ -5,7 +5,7 @@ Rely::Application.routes.draw do
 
   resources :reliability_ids
 
-  resources :StudyTypesController
+  resources :study_types
 
   resources :rules
 

@@ -2,12 +2,12 @@
 
 one:
   original_id: MyString
-  type_id: 1
+  study_type_id: 1
   location: MyString
   deleted: false
 
 two:
   original_id: MyString
-  type_id: 1
+  study_type_id: 1
   location: MyString
   deleted: false

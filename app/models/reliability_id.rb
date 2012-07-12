@@ -25,6 +25,9 @@ class ReliabilityId < ActiveRecord::Base
 
   ##
   # Instance Methods
+  def name
+    self.unique_id
+  end
 
   private
 

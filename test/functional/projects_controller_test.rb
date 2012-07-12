@@ -2,8 +2,8 @@ require 'test_helper'
 
 class ProjectsControllerTest < ActionController::TestCase
   setup do
-    login(users(:valid))
     @project = projects(:one)
+    @current_user = login(users(:admin))
   end
 
   test "should get index" do
@@ -19,7 +19,7 @@ class ProjectsControllerTest < ActionController::TestCase
 
   test "should create project" do
     assert_difference('Project.count') do
-      post :create, project: { deleted: @project.deleted, description: @project.description, end_date: @project.end_date, name: @project.name, start_date: @project.start_date, user_id: @project.user_id }
+      post :create, project: { deleted: @project.deleted, description: @project.description, end_date: @project.end_date, name: @project.name, start_date: @project.start_date }
     end
 
     assert_redirected_to project_path(assigns(:project))
@@ -36,7 +36,7 @@ class ProjectsControllerTest < ActionController::TestCase
   end
 
   test "should update project" do
-    put :update, id: @project, project: { deleted: @project.deleted, description: @project.description, end_date: @project.end_date, name: @project.name, start_date: @project.start_date, user_id: @project.user_id }
+    put :update, id: @project, project: { deleted: @project.deleted, description: @project.description, end_date: @project.end_date, name: @project.name, start_date: @project.start_date }
     assert_redirected_to project_path(assigns(:project))
   end
 

@@ -27,6 +27,10 @@ class Assessment < ActiveRecord::Base
   ##
   # Instance Methods
 
+  def name
+    self.assessment_type
+  end
+
   private
 
 end

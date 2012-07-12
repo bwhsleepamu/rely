@@ -1,11 +1,12 @@
 class StudiesController < ApplicationController
   before_filter :authenticate_user!
+  before_filter :check_system_admin
 
   # GET /studies
   # GET /studies.json
   def index
     study_scope = Study.current
-    @order = Study.column_names.collect{|column_name| "studies.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "studies.name"
+    @order = Study.column_names.collect{|column_name| "studies.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "studies.original_id"
     study_scope = study_scope.order(@order)
     @studies = study_scope.page(params[:page]).per( 20 )
 

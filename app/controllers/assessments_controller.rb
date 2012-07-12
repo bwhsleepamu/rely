@@ -1,11 +1,12 @@
 class AssessmentsController < ApplicationController
   before_filter :authenticate_user!
+  before_filter :check_system_admin
 
   # GET /assessments
   # GET /assessments.json
   def index
     assessment_scope = Assessment.current
-    @order = Assessment.column_names.collect{|column_name| "assessments.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "assessments.name"
+    @order = Assessment.column_names.collect{|column_name| "assessments.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "assessments.result_id"
     assessment_scope = assessment_scope.order(@order)
     @assessments = assessment_scope.page(params[:page]).per( 20 )
 

@@ -13,7 +13,7 @@
 
   <% @studies.each do |study| %>
     <tr>
-      <td><%= link_to study.original.name, study.original if study.original %></td>
+      <td><%= study.original_id %></td>
       <td><%= link_to study.study_type.name, study.study_type if study.study_type %></td>
       <td><%= study.location %></td>
       <td><%= study.deleted %></td>

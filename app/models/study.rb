@@ -29,6 +29,9 @@ class Study < ActiveRecord::Base
 
   ##
   # Instance Methods
+  def name
+    self.original_id
+  end
 
   private
 

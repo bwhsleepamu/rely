@@ -10,7 +10,7 @@ class Exercise < ActiveRecord::Base
 
   ##
   # Attributes
-  attr_accessible :admin_id, :assessment_id, :assigned_at, :completed_at, :deleted, :description, :name, :rule_id
+  attr_accessible :admin_id, :assessment_type, :assigned_at, :completed_at, :deleted, :description, :name, :rule_id
 
   ##
   # Callbacks

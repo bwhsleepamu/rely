@@ -3,6 +3,7 @@ require 'test_helper'
 class RulesControllerTest < ActionController::TestCase
   setup do
     @rule = rules(:one)
+    @current_user = login(users(:admin))
   end
 
   test "should get index" do

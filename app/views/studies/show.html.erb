@@ -9,8 +9,8 @@
 </div>
 
 <dl class="dl-horizontal">
-  <dt>Original</dt>
-  <dd><%= link_to @study.original.name, @study.original if @study.original %></dd>
+  <dt>Original ID</dt>
+  <dd><%= @study.original_id %></dd>
 
   <dt>Study Type</dt>
   <dd><%= link_to @study.study_type.name, @study.study_type if @study.study_type %></dd>

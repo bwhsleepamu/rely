@@ -9,7 +9,7 @@ class Result < ActiveRecord::Base
 
   ##
   # Attributes
-  attr_accessible :assessment_id, :deleted, :exercise_id, :location, :rule_id, :study_id, :type, :user_id
+  attr_accessible :deleted, :exercise_id, :location, :rule_id, :study_id, :type, :user_id, :result_type
 
   ##
   # Callbacks
@@ -29,6 +29,10 @@ class Result < ActiveRecord::Base
 
   ##
   # Instance Methods
+  def name
+    "#{self.study} #{self.user} #{self.result_type}"
+
+  end
 
   private
 

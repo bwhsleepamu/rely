@@ -2,7 +2,7 @@
 
 one:
   admin_id: 1
-  assessment_id: 1
+  assessment_type: a
   rule_id: 1
   name: MyString
   description: MyText
@@ -12,7 +12,7 @@ one:
 
 two:
   admin_id: 1
-  assessment_id: 1
+  assessment_type: a
   rule_id: 1
   name: MyString
   description: MyText
