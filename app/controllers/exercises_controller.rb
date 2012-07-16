@@ -1,11 +1,16 @@
 class ExercisesController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :check_system_admin
+  before_filter :check_system_admin, only: [:new, :create, :edit, :update, :destroy]
 
   # GET /exercises
   # GET /exercises.json
   def index
-    exercise_scope = Exercise.current
+    if current_user.system_admin?
+      exercise_scope = Exercise.current
+    else
+      exercise_scope = current_user.exercises.scoped
+    end
+
     @order = Exercise.column_names.collect{|column_name| "exercises.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "exercises.name"
     exercise_scope = exercise_scope.order(@order)
     @exercises = exercise_scope.page(params[:page]).per( 20 )

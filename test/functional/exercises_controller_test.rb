@@ -6,6 +6,13 @@ class ExercisesControllerTest < ActionController::TestCase
     @current_user = login(users(:admin))
   end
 
+  test "should get index as normal user" do
+    login(users(:valid))
+    get :index
+    assert_response :success
+    assert_not_nil assigns(:exercises)
+  end
+
   test "should get index" do
     get :index
     assert_response :success
