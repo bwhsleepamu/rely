@@ -32,5 +32,7 @@ group :test do
   gem 'win32console',                             :platforms => [ :mswin, :mingw ]
   gem 'turn',               '~> 0.9.5'
   gem 'simplecov',          '~> 0.6.4',           :require => false
+  gem 'database_cleaner'
+  gem 'capybara'
 end
 

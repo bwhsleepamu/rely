@@ -12,6 +12,13 @@ class StudiesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:studies)
   end
 
+  test "should get paginated index" do
+    get :index, format: 'js'
+    assert_not_nil assigns(:studies)
+    assert_template 'index'
+  end
+
+
   test "should get new" do
     get :new
     assert_response :success

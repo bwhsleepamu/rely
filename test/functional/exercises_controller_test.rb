@@ -19,6 +19,12 @@ class ExercisesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:exercises)
   end
 
+  test "should get paginated index" do
+    get :index, format: 'js'
+    assert_not_nil assigns(:exercises)
+    assert_template 'index'
+  end
+
   test "should get new" do
     get :new
     assert_response :success

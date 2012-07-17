@@ -1,10 +1,23 @@
 class User < ActiveRecord::Base
   ##
   # Associations
-  has_many :authentications
-  has_many :results
+  #User
+  has_many :authentication
+  has_many :results, :conditions => { :deleted => false }
   has_many :exercises, :through => :exercise_users
   has_many :exercise_users
+
+  # Admin
+  has_many :exercises, :foreign_key => :admin_id, :conditions => { :deleted => false }
+
+  #Creator
+  has_many :groups, :foreign_key => :creator_id, :conditions => { :deleted => false }
+  has_many :group_studies, :foreign_key => :creator_id
+  has_many :studies, :foreign_key => :creator_id, :conditions => { :deleted => false }
+  has_many :study_types, :foreign_key => :creator_id, :conditions => { :deleted => false }
+  has_many :projects, :foreign_key => :creator_id, :conditions => { :deleted => false }
+  has_many :project_groups, :foreign_key => :creator_id
+  has_many :rules, :foreign_key => :creator_id, :conditions => { :deleted => false }
 
   ##
   # Attributes

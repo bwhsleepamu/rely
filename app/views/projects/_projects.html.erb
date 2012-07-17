@@ -7,7 +7,6 @@
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'projects.description', 'Description', 'projects_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'projects.start_date', 'Start Date', 'projects_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'projects.end_date', 'End Date', 'projects_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'projects.user_id', 'User', 'projects_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'projects.deleted', 'Deleted', 'projects_search') %></th>
       <th>Actions</th>
     </tr>
@@ -19,7 +18,6 @@
       <td><%= project.description %></td>
       <td><%= project.start_date %></td>
       <td><%= project.end_date %></td>
-      <td><%= link_to project.user.name, project.user if project.user %></td>
       <td><%= project.deleted %></td>
       <td>
         <%= link_to 'Edit', edit_project_path(project), class: 'btn btn-mini' %>

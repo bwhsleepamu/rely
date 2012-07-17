@@ -1,12 +1,12 @@
 class Exercise < ActiveRecord::Base
   ##
   # Associations
-  belongs_to :user, :foreign_key => :admin_id
+  belongs_to :admin, :class_name => "User", :foreign_key => :admin_id, :conditions => { :deleted => false }
   has_many :users, :through => :exercise_users
   has_many :exercise_users
   has_many :groups, :through => :exercise_groups
   has_many :exercise_groups
-  belongs_to :rule
+  belongs_to :rule, :conditions => { :deleted => false }
 
   ##
   # Attributes

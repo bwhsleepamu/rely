@@ -6,6 +6,7 @@ class Study < ActiveRecord::Base
   has_many :results
   belongs_to :study_type
   has_many :reliability_ids
+  belongs_to :creator, :class_name => "User", :foreign_key => :creator_id, :conditions => { :deleted => false }
 
   ##
   # Attributes
