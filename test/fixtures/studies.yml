@@ -2,12 +2,18 @@
 
 one:
   original_id: MyString
-  study_type_id: 1
+  study_type: one
   location: MyString
   deleted: false
 
 two:
   original_id: MyString
-  study_type_id: 1
+  study_type: two
   location: MyString
   deleted: false
+
+deleted:
+  original_id: MyString
+  study_type: two
+  location: MyString
+  deleted: true

@@ -6,17 +6,21 @@ class ExercisesControllerTest < ActionController::TestCase
     @current_user = login(users(:admin))
   end
 
-  test "should get index as normal user" do
+  test "should get index of only associated exercises as normal user" do
+    user = users(:valid)
     login(users(:valid))
     get :index
+
     assert_response :success
     assert_not_nil assigns(:exercises)
+    assert_equal user.exercises.count, assigns(:exercises).count
   end
 
-  test "should get index" do
+  test "should get index of all exercises as system admin" do
     get :index
     assert_response :success
     assert_not_nil assigns(:exercises)
+    assert_equal Exercise.current.count, assigns(:exercises).count
   end
 
   test "should get paginated index" do

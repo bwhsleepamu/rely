@@ -1,10 +1,16 @@
 == 0.2.0
+* Added creator ids to models that had no user assignments.
+* Added support for integration testing.
+
+* Bug Fix
+  * Fixed project index
+
 
 == 0.1.1
 
 * Bug Fix
   * Fixed redirect loop caused by root path requiring system admin privelages.
-  * Fixed many-to-many association definitions
+  * Fixed many-to-many association definitions.
 
 == 0.1.0
 * Added email functionality for created users and user status.

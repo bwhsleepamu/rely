@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   ##
   # Associations
   #User
-  has_many :authentication
+  has_many :authentications
   has_many :results, :conditions => { :deleted => false }
   has_many :exercises, :through => :exercise_users
   has_many :exercise_users
@@ -74,6 +74,14 @@ class User < ActiveRecord::Base
 
   def password_required?
     (authentications.empty? || !password.blank?) && super
+  end
+
+  def viewable_exercises
+    if system_admin?
+      Exercise.current
+    else
+      exercises.scoped.current
+    end
   end
 
   # Overriding Devise built-in active_for_authentication? method

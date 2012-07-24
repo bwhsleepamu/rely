@@ -1,21 +1,50 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  admin_id: 1
+  admin: admin
   assessment_type: a
-  rule_id: 1
+  rule: one
   name: MyString
   description: MyText
   assigned_at: 2012-07-11 16:31:39
   completed_at: 2012-07-11 16:31:39
   deleted: false
+  users: valid, two
+  groups: one
 
 two:
-  admin_id: 1
+  admin: admin
   assessment_type: a
-  rule_id: 1
+  rule: two
   name: MyString
   description: MyText
   assigned_at: 2012-07-11 16:31:39
   completed_at: 2012-07-11 16:31:39
   deleted: false
+  users: valid
+  groups: two
+
+
+three:
+  admin: admin
+  assessment_type: a
+  rule: two
+  name: MyString
+  description: MyText
+  assigned_at: 2012-07-11 16:31:39
+  completed_at: 2012-07-11 16:31:39
+  deleted: false
+  users: two
+  groups: one, two
+
+deleted:
+  admin: admin
+  assessment_type: a
+  rule: one
+  name: MyString
+  description: MyText
+  assigned_at: 2012-07-11 16:31:39
+  completed_at: 2012-07-11 16:31:39
+  deleted: true
+  users: valid, two
+  groups: one, two

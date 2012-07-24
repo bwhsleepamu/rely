@@ -9,3 +9,8 @@ two:
   name: MyString
   description: MyText
   deleted: false
+
+deleted:
+  name: MyString
+  description: MyText
+  deleted: true

@@ -1,9 +1,9 @@
-require 'simplecov'
-require 'capybara/rails'
-
 ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
+require 'capybara/rails'
+require 'capybara/poltergeist'
+require 'simplecov'
 
 # Transactional fixtures do not work with Selenium tests, because Capybara
 # uses a separate server thread, which the transactions would be hidden
@@ -22,6 +22,7 @@ end
 
 class ActionController::TestCase
   include Devise::TestHelpers
+  include FactoryGirl::Syntax::Methods
 
   def login(resource)
     @request.env["devise.mapping"] = Devise.mappings[resource]
@@ -32,6 +33,9 @@ end
 class ActionController::IntegrationTest
   # Make the Capybara DSL available in all integration tests
   include Capybara::DSL
+  include FactoryGirl::Syntax::Methods
+
+  Capybara.javascript_driver = :poltergeist
 
   # Stop ActiveRecord from wrapping tests in transactions
   self.use_transactional_fixtures = false
@@ -45,13 +49,37 @@ class ActionController::IntegrationTest
   def sign_in_as(user_template, password, email)
     user = User.create(password: password, password_confirmation: password, email: email,
                        first_name: user_template.first_name, last_name: user_template.last_name)
-    user.save!
     user.update_attribute :status, user_template.status
     user.update_attribute :deleted, user_template.deleted?
     user.update_attribute :system_admin, user_template.system_admin?
+
     post_via_redirect 'users/login', user: { email: email, password: password }
+
     user
   end
+
+  def login_user
+    password = "secret"
+    user = create(:user, password: password)
+    visit new_user_session_path
+    fill_in('Email', :with => user.email)
+    fill_in('Password', :with => password)
+    click_button("Sign in")
+
+    user
+  end
+
+  def login_admin
+    password = "secret"
+    user = create(:admin, password: password)
+    visit new_user_session_path
+    fill_in('Email', :with => user.email)
+    fill_in('Password', :with => password)
+    click_button("Sign in")
+
+    user
+  end
+
 end
 
 module Rack

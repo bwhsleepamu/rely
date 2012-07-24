@@ -34,5 +34,7 @@ group :test do
   gem 'simplecov',          '~> 0.6.4',           :require => false
   gem 'database_cleaner'
   gem 'capybara'
+  gem 'poltergeist'
+  gem "factory_girl_rails", "~> 3.0"
 end
 

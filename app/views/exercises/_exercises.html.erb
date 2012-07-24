@@ -14,7 +14,8 @@
     </tr>
   </thead>
 
-  <% @exercises.each do |exercise| %>
+  <tbody>
+    <% @exercises.each do |exercise| %>
     <tr>
       <td><%= link_to exercise.rule.name, exercise.rule if exercise.rule %></td>
       <td><%= exercise.name %></td>
@@ -28,7 +29,8 @@
         <%= link_to 'Delete', exercise, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Exercise #{exercise.name}?" } %>
       </td>
     </tr>
-  <% end %>
+    <% end %>
+  </tbody>
 </table>
 
 <center><%= paginate @exercises %></center>

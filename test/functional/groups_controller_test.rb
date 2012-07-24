@@ -14,7 +14,7 @@ class GroupsControllerTest < ActionController::TestCase
 
   test "should get paginated index" do
     get :index, format: 'js'
-    assert_not_nil assigns(:exercises)
+    assert_not_nil assigns(:groups)
     assert_template 'index'
   end
 

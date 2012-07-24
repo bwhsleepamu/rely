@@ -5,11 +5,7 @@ class ExercisesController < ApplicationController
   # GET /exercises
   # GET /exercises.json
   def index
-    if current_user.system_admin?
-      exercise_scope = Exercise.current
-    else
-      exercise_scope = current_user.exercises.scoped
-    end
+    exercise_scope = Exercise.scoped
 
     @order = Exercise.column_names.collect{|column_name| "exercises.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "exercises.name"
     exercise_scope = exercise_scope.order(@order)

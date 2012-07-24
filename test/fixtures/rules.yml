@@ -9,3 +9,8 @@ two:
   title: MyString
   procedure: MyText
   deleted: false
+
+deleted:
+  title: MyString
+  procedure: MyText
+  deleted: false
