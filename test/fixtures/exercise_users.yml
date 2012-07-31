@@ -1,1 +1,19 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+one:
+  exercise: one
+  user: valid
+two:
+  exercise: two
+  user: valid
+three:
+  exercise: deleted
+  user: valid
+four:
+  exercise: one
+  user: two
+five:
+  exercise: three
+  user: two
+six:
+  exercise: deleted
+  user: two

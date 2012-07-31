@@ -5,7 +5,7 @@ class ExercisesController < ApplicationController
   # GET /exercises
   # GET /exercises.json
   def index
-    exercise_scope = Exercise.scoped
+    exercise_scope = current_user.viewable_exercises
 
     @order = Exercise.column_names.collect{|column_name| "exercises.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "exercises.name"
     exercise_scope = exercise_scope.order(@order)
@@ -49,10 +49,12 @@ class ExercisesController < ApplicationController
   # POST /exercises.json
   def create
     @exercise = Exercise.new(post_params)
+    @exercise.admin = current_user
+    @exercise.assigned_at = DateTime.now()
 
     respond_to do |format|
       if @exercise.save
-        format.html { redirect_to @exercise, notice: 'Exercise was successfully created.' }
+        format.html { redirect_to @exercise, notice: 'Exercise was successfully launched.' }
         format.json { render json: @exercise, status: :created, location: @exercise }
       else
         format.html { render action: "new" }
@@ -103,7 +105,7 @@ class ExercisesController < ApplicationController
     end
 
     params[:exercise].slice(
-      :admin_id, :rule_id, :name, :description, :assessment_type, :assigned_at, :completed_at, :deleted
+      :rule_id, :name, :description, :assessment_type, :user_ids, :group_ids
     )
   end
 end

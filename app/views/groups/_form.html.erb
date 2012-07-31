@@ -25,14 +25,14 @@
   <div class="control-group">
     <%= f.label :description, nil, class: 'control-label' %>
     <div class="controls">
-      <%= f.text_field :description %>
+      <%= f.text_area :description %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :deleted, nil, class: 'control-label' %>
+    <%= f.label :study_ids, "Studies", class: 'control-label' %><br/>
     <div class="controls">
-      <%= f.check_box :deleted %>
+      <%= f.collection_select :study_ids, Study.current.order(:location), :id, :long_name, {}, {multiple:true} %>
     </div>
   </div>
 

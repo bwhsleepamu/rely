@@ -30,23 +30,23 @@
   </div>
 
   <div class="control-group">
-    <%= f.label :start_date, nil, class: 'control-label' %>
+    <%= f.label :start_date, "Start Date", class: 'control-label' %>
     <div class="controls">
       <%= f.text_field :start_date, class: 'datepicker', value: @project.start_date ? @project.start_date.strftime('%m/%d/%Y') : '' %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :end_date, nil, class: 'control-label' %>
+    <%= f.label :end_date, "End Date", class: 'control-label' %>
     <div class="controls">
       <%= f.text_field :end_date, class: 'datepicker', value: @project.end_date ? @project.end_date.strftime('%m/%d/%Y') : '' %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :deleted, nil, class: 'control-label' %>
+    <%= f.label :group_ids, "Groups", class: 'control-label' %><br/>
     <div class="controls">
-      <%= f.check_box :deleted %>
+      <%= f.collection_select :group_ids, Group.current.order(:name), :id, :name, {}, {multiple:true} %>
     </div>
   </div>
 

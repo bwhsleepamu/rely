@@ -10,5 +10,6 @@
  *
  *= require_self
  *= require contour
+ *= require chosen
  *= require_tree .
  */

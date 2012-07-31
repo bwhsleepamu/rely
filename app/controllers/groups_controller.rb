@@ -48,6 +48,7 @@ class GroupsController < ApplicationController
   # POST /groups.json
   def create
     @group = Group.new(post_params)
+    @group.creator = current_user
 
     respond_to do |format|
       if @group.save
@@ -102,7 +103,7 @@ class GroupsController < ApplicationController
     end
 
     params[:group].slice(
-      :name, :description, :deleted
+      :name, :description, :deleted, :study_ids
     )
   end
 end

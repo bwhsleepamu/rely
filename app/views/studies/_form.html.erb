@@ -16,14 +16,14 @@
   <% end %>
 
   <div class="control-group">
-    <%= f.label :original_id, nil, class: 'control-label' %>
+    <%= f.label :original_id, "Original ID", class: 'control-label' %>
     <div class="controls">
       <%= f.text_field :original_id %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :study_type_id, nil, class: 'control-label' %>
+    <%= f.label :study_type_id, "Study Type", class: 'control-label' %>
     <div class="controls">
       <%= f.select :study_type_id, [['---', nil]] + StudyType.current.collect{|s| [s.name, s.id]} %>
     </div>
@@ -33,13 +33,6 @@
     <%= f.label :location, nil, class: 'control-label' %>
     <div class="controls">
       <%= f.text_field :location %>
-    </div>
-  </div>
-
-  <div class="control-group">
-    <%= f.label :deleted, nil, class: 'control-label' %>
-    <div class="controls">
-      <%= f.check_box :deleted %>
     </div>
   </div>
 

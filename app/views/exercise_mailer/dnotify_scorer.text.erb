@@ -1,0 +1,8 @@
+Hello <%= @user.first_name %>,
+
+A new reliability exercise, named <%= @exercise.name %>, has been assigned to you. Please
+<%= link_to "visit Rely", "#{SITE_URL}/exercises/#{@exercise.id}" %> to complete this assignment.
+
+Thank you!
+
+<%= DEFAULT_APP_NAME %> System Mailer

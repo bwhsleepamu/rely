@@ -24,6 +24,8 @@ class Study < ActiveRecord::Base
 
   ##
   # Validations
+  validates_presence_of :study_type, :location, :original_id
+  validates_uniqueness_of :original_id
 
   ##
   # Class Methods
@@ -32,6 +34,14 @@ class Study < ActiveRecord::Base
   # Instance Methods
   def name
     self.original_id
+  end
+
+  def long_name
+    "#{self.original_id} #{self.location}"
+  end
+
+  def to_s
+    "id: #{self.original_id} location: #{self.location}"
   end
 
   private

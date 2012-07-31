@@ -16,13 +16,6 @@
   <% end %>
 
   <div class="control-group">
-    <%= f.label :admin_id, nil, class: 'control-label' %>
-    <div class="controls">
-      <%= f.select :admin_id, [['---', nil]] + User.current.collect{|a| [a.name, a.id]} %>
-    </div>
-  </div>
-
-  <div class="control-group">
     <%= f.label :rule_id, nil, class: 'control-label' %>
     <div class="controls">
       <%= f.select :rule_id, [['---', nil]] + Rule.current.collect{|r| [r.name, r.id]} %>
@@ -44,35 +37,28 @@
   </div>
 
   <div class="control-group">
-    <%= f.label :assessment_type, nil, class: 'control-label' %>
+    <%= f.label :assessment_type, "Assessment Type", class: 'control-label' %>
     <div class="controls">
-      <%= f.text_field :assessment_type %>
+      <%= select_tag "exercise[assessment_type]", options_for_select(Assessment::TYPES.collect {|t| t[:title]}), :id => :exercise_assessment_type %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :assigned_at, nil, class: 'control-label' %>
+    <%= f.label :group_ids, "Groups", class: 'control-label' %><br/>
     <div class="controls">
-      <%= f.datetime_select :assigned_at %>
+      <%= f.collection_select :group_ids, Group.current.order(:name), :id, :name, {}, {multiple:true} %>
     </div>
   </div>
 
   <div class="control-group">
-    <%= f.label :completed_at, nil, class: 'control-label' %>
+    <%= f.label :user_ids, "Scorers", class: 'control-label' %><br/>
     <div class="controls">
-      <%= f.datetime_select :completed_at %>
-    </div>
-  </div>
-
-  <div class="control-group">
-    <%= f.label :deleted, nil, class: 'control-label' %>
-    <div class="controls">
-      <%= f.check_box :deleted %>
+      <%= f.collection_select :user_ids, User.current.scorers.order(:last_name), :id, :name, {}, {multiple:true} %>
     </div>
   </div>
 
   <div class="form-actions">
-    <%= f.submit nil, class: 'btn btn-primary' %>
+    <%= f.submit "Launch Exercise", class: 'btn btn-primary' %>
     <%= cancel %>
   </div>
 <% end %>

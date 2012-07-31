@@ -35,11 +35,18 @@ class ExercisesControllerTest < ActionController::TestCase
   end
 
   test "should create exercise" do
+    user_ids = [users(:valid).id, users(:two).id]
+    group_ids = [groups(:one).id, groups(:two).id]
+
     assert_difference('Exercise.count') do
-      post :create, exercise: { admin_id: @exercise.admin_id, assessment_type: @exercise.assessment_type, assigned_at: @exercise.assigned_at, completed_at: @exercise.completed_at, deleted: @exercise.deleted, description: @exercise.description, name: @exercise.name, rule_id: @exercise.rule_id }
+      post :create, exercise: { assessment_type: @exercise.assessment_type, deleted: @exercise.deleted,
+                                description: @exercise.description, name: @exercise.name, rule_id: @exercise.rule_id,
+                                user_ids: user_ids, group_ids: group_ids }
     end
 
     assert_redirected_to exercise_path(assigns(:exercise))
+    assert_equal assigns(:exercise).users.count, user_ids.count
+    assert_equal assigns(:exercise).groups.count, group_ids.count
   end
 
   test "should show exercise" do
@@ -53,7 +60,7 @@ class ExercisesControllerTest < ActionController::TestCase
   end
 
   test "should update exercise" do
-    put :update, id: @exercise, exercise: { admin_id: @exercise.admin_id, assessment_type: @exercise.assessment_type, assigned_at: @exercise.assigned_at, completed_at: @exercise.completed_at, deleted: @exercise.deleted, description: @exercise.description, name: @exercise.name, rule_id: @exercise.rule_id }
+    put :update, id: @exercise, exercise: { assessment_type: @exercise.assessment_type, deleted: @exercise.deleted, description: @exercise.description, name: @exercise.name, rule_id: @exercise.rule_id }
     assert_redirected_to exercise_path(assigns(:exercise))
   end
 

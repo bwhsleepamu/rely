@@ -17,10 +17,12 @@ class StudyType < ActiveRecord::Base
 
   ##
   # Scopes
-  scope :current, conditions: { }
+  scope :current, conditions: { deleted: false }
 
   ##
   # Validations
+  validates_presence_of :name
+  validates_uniqueness_of :name
 
   ##
   # Class Methods

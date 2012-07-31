@@ -4,6 +4,10 @@ require 'rails/test_help'
 require 'capybara/rails'
 require 'capybara/poltergeist'
 require 'simplecov'
+require 'support/mailer_macros'
+
+Capybara.javascript_driver = :poltergeist
+Capybara.default_driver = :poltergeist
 
 # Transactional fixtures do not work with Selenium tests, because Capybara
 # uses a separate server thread, which the transactions would be hidden
@@ -15,14 +19,22 @@ class ActiveSupport::TestCase
   #
   # Note: You'll currently still have to declare fixtures explicitly in integration tests
   # -- they do not yet inherit this setting
-  fixtures :all
+
+  ## Moved to ActionController::TestCase and ActionMailer::TestCase to exclude from Integration Tests
+  #fixtures :all
 
   # Add more helper methods to be used by all tests here...
+end
+
+class ActionMailer::TestCase
+  fixtures :all
 end
 
 class ActionController::TestCase
   include Devise::TestHelpers
   include FactoryGirl::Syntax::Methods
+
+  fixtures :all
 
   def login(resource)
     @request.env["devise.mapping"] = Devise.mappings[resource]
@@ -34,11 +46,12 @@ class ActionController::IntegrationTest
   # Make the Capybara DSL available in all integration tests
   include Capybara::DSL
   include FactoryGirl::Syntax::Methods
-
-  Capybara.javascript_driver = :poltergeist
+  include MailerMacros
 
   # Stop ActiveRecord from wrapping tests in transactions
   self.use_transactional_fixtures = false
+
+  Capybara.current_driver = Capybara.javascript_driver
 
   teardown do
     DatabaseCleaner.clean       # Truncate the database
@@ -78,6 +91,15 @@ class ActionController::IntegrationTest
     click_button("Sign in")
 
     user
+  end
+
+  def select_from_chosen(item_text, options)
+    field = find_field(options[:from])
+    option_value = page.evaluate_script("$(\"##{field[:id]} option:contains('#{item_text}')\").val()")
+    page.execute_script("value = ['#{option_value}']\; if ($('##{field[:id]}').val()) {$.merge(value, $('##{field[:id]}').val())}")
+    option_value = page.evaluate_script("value")
+    page.execute_script("$('##{field[:id]}').val(#{option_value})")
+    page.execute_script("$('##{field[:id]}').trigger('liszt:updated').trigger('change')")
   end
 
 end

@@ -12,6 +12,14 @@ class Assessment < ActiveRecord::Base
   # Callbacks
 
   ##
+  # Constants
+  TYPES = [
+      { :title => "type1" },
+      { :title => "type2" },
+      { :title => "type3" }
+  ]
+
+  ##
   # Database Settings
 
   ##

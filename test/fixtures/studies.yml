@@ -1,19 +1,37 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  original_id: MyString
+  original_id: MyString1
   study_type: one
   location: MyString
   deleted: false
 
 two:
-  original_id: MyString
+  original_id: MyString2
+  study_type: two
+  location: MyString
+  deleted: false
+
+three:
+  original_id: MyString3
+  study_type: two
+  location: MyString
+  deleted: false
+
+four:
+  original_id: MyString4
+  study_type: two
+  location: MyString
+  deleted: false
+
+five:
+  original_id: MyString5
   study_type: two
   location: MyString
   deleted: false
 
 deleted:
-  original_id: MyString
+  original_id: MyString6
   study_type: two
   location: MyString
   deleted: true

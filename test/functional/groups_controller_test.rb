@@ -23,11 +23,23 @@ class GroupsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should create group" do
+  test "should create group and assign creator" do
     assert_difference('Group.count') do
       post :create, group: { deleted: @group.deleted, description: @group.description, name: @group.name }
     end
 
+    assert_redirected_to group_path(assigns(:group))
+    assert_equal assigns(:group).creator.id, @current_user[1][0]
+  end
+
+  test "should create group with associated studies" do
+
+    assert_difference('Group.count') do
+      post :create, group: { deleted: @group.deleted, description: @group.description, name: @group.name,
+                             study_ids: [studies(:one).id, studies(:three).id, studies(:five).id] }
+    end
+
+    assert_equal assigns(:group).studies.count, 3
     assert_redirected_to group_path(assigns(:group))
   end
 

@@ -9,8 +9,6 @@ one:
   assigned_at: 2012-07-11 16:31:39
   completed_at: 2012-07-11 16:31:39
   deleted: false
-  users: valid, two
-  groups: one
 
 two:
   admin: admin
@@ -21,9 +19,6 @@ two:
   assigned_at: 2012-07-11 16:31:39
   completed_at: 2012-07-11 16:31:39
   deleted: false
-  users: valid
-  groups: two
-
 
 three:
   admin: admin
@@ -34,8 +29,6 @@ three:
   assigned_at: 2012-07-11 16:31:39
   completed_at: 2012-07-11 16:31:39
   deleted: false
-  users: two
-  groups: one, two
 
 deleted:
   admin: admin
@@ -46,5 +39,3 @@ deleted:
   assigned_at: 2012-07-11 16:31:39
   completed_at: 2012-07-11 16:31:39
   deleted: true
-  users: valid, two
-  groups: one, two

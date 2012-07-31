@@ -9,7 +9,7 @@ class Group < ActiveRecord::Base
 
   ##
   # Attributes
-  attr_accessible :deleted, :description, :name
+  attr_accessible :deleted, :description, :name, :study_ids
 
   ##
   # Callbacks
@@ -19,10 +19,11 @@ class Group < ActiveRecord::Base
 
   ##
   # Scopes
-  scope :current, conditions: { }
+  scope :current, conditions: { deleted: false }
 
   ##
   # Validations
+  validates_presence_of :name
 
   ##
   # Class Methods

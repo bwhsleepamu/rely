@@ -6,4 +6,12 @@ module MailerMacros
   def reset_email
     ActionMailer::Base.deliveries = []
   end
+
+  def email_count
+    ActionMailer::Base.deliveries
+  end
+
+  def email_recipients
+    ActionMailer::Base.deliveries.map {|d| d.to[0] }
+  end
 end

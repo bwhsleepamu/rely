@@ -1,9 +1,20 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
-
 one:
-  exercise_id: 1
-  group_id: 1
-
+  exercise: one
+  group: one
 two:
-  exercise_id: 1
-  group_id: 1
+  exercise: two
+  group: two
+three:
+  exercise: deleted
+  group: one
+four:
+  exercise: three
+  group: two
+five:
+  exercise: three
+  group: one
+six:
+  exercise: deleted
+  group: two
+

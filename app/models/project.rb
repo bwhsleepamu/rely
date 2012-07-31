@@ -7,7 +7,7 @@ class Project < ActiveRecord::Base
 
   ##
   # Attributes
-  attr_accessible :deleted, :description, :end_date, :name, :start_date
+  attr_accessible :deleted, :description, :end_date, :name, :start_date, :group_ids
 
   ##
   # Callbacks
@@ -17,7 +17,7 @@ class Project < ActiveRecord::Base
 
   ##
   # Scopes
-  scope :current, conditions: { }
+  scope :current, conditions: { deleted: false }
 
   ##
   # Validations

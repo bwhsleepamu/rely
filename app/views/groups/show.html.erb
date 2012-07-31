@@ -15,7 +15,13 @@
   <dt>Description</dt>
   <dd><%= @group.description %></dd>
 
-  <dt>Deleted</dt>
-  <dd><%= @group.deleted %></dd>
+  <dt>Studies</dt>
+  <dd>
+    <ul id="studies">
+      <% @group.studies.each do |study| %>
+        <li><%= study.to_s %></li>
+      <% end %>
+    </ul>
+  </dd>
 
 </dl>

@@ -25,7 +25,7 @@ class StudyTypesControllerTest < ActionController::TestCase
 
   test "should create study type" do
     assert_difference('StudyType.count') do
-      post :create, study_type: { deleted: @study_type.deleted, description: @study_type.description, name: @study_type.name }
+      post :create, study_type: { deleted: @study_type.deleted, description: @study_type.description, name: @study_type.name + "_c" }
     end
 
     assert_redirected_to study_type_path(assigns(:study_type))

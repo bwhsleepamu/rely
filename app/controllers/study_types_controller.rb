@@ -51,7 +51,7 @@ class StudyTypesController < ApplicationController
 
     respond_to do |format|
       if @study_type.save
-        format.html { redirect_to @study_type, notice: 'StudyType was successfully created.' }
+        format.html { redirect_to @study_type, notice: 'Study type was successfully created.' }
         format.json { render json: @study_type, status: :created, location: @study_type }
       else
         format.html { render action: "new" }

@@ -13,4 +13,5 @@
 //= require jquery
 //= require jquery_ujs
 //= require contour
+//= require chosen-jquery
 //= require_tree .

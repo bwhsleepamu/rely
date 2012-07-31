@@ -4,16 +4,13 @@ one:
   name: MyString
   description: MyString
   deleted: false
-  studies:
 
 two:
   name: MyString
   description: MyString
   deleted: false
-  studies:
 
 deleted:
   name: MyString
   description: MyString
   deleted: false
-  studies:

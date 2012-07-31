@@ -30,7 +30,21 @@
   <dt>Completed At</dt>
   <dd><%= @exercise.completed_at %></dd>
 
-  <dt>Deleted</dt>
-  <dd><%= @exercise.deleted %></dd>
+  <dt>Scorers</dt>
+  <dd>
+    <ul id="scorers">
+      <% @exercise.users.each do |user| %>
+        <li><%= user.name %></li>
+      <% end %>
+    </ul>
+  </dd>
 
+  <dt>Groups</dt>
+  <dd>
+    <ul id="groups">
+      <% @exercise.groups.each do |group| %>
+        <li><%= group.name %></li>
+      <% end %>
+    </ul>
+  </dd>
 </dl>

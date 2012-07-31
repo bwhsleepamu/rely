@@ -1,16 +1,16 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  name: MyString
+  name: MyString1
   description: MyText
   deleted: false
 
 two:
-  name: MyString
+  name: MyString2
   description: MyText
   deleted: false
 
 deleted:
-  name: MyString
+  name: MyString3
   description: MyText
   deleted: true
