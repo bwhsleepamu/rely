@@ -8,7 +8,7 @@ module MailerMacros
   end
 
   def email_count
-    ActionMailer::Base.deliveries
+    ActionMailer::Base.deliveries.count
   end
 
   def email_recipients

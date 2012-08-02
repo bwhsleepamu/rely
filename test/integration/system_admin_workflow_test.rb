@@ -41,7 +41,7 @@ class SystemAdminWorkflowTest < ActionDispatch::IntegrationTest
     click_button "Launch Exercise"
 
     # Show Page
-    show_page
+    #show_page
     assert has_content?("Exercise was successfully launched.")
     assert has_content?(@user.name)
     assert has_content?("Assigned At")
@@ -85,6 +85,7 @@ class SystemAdminWorkflowTest < ActionDispatch::IntegrationTest
     assert has_content?("Group was successfully created.")
     assert has_content?(group_name), "No group name displayed."
     assert has_content?(description), "No description displayed"
+
     study_indexes.each do |i|
       assert has_content?(studies[i].long_name)
     end
@@ -153,10 +154,11 @@ class SystemAdminWorkflowTest < ActionDispatch::IntegrationTest
     visit projects_path
     click_on "Create Project"
 
-    fill_in "Name", :with => name
-    fill_in "Description", :with => description
     fill_in "Start Date", :with => start_date.strftime("%m/%d/%Y")
     fill_in "End Date", :with => end_date.strftime("%m/%d/%Y")
+    page.execute_script('$("#ui-datepicker-div").hide()')
+    fill_in "Name", :with => name
+    fill_in "Description", :with => description
 
     groups.each do |group|
       select_from_chosen group.to_s, :from => "Groups"
@@ -182,10 +184,6 @@ class SystemAdminWorkflowTest < ActionDispatch::IntegrationTest
   def setup_for_group_creation(study_count)
     study_type = create(:study_type)
     create_list(:study, study_count, study_type: study_type)
-  end
-
-  def show_page
-    page.driver.render('/home/pwm4/Documents/page.png', :full => true)
   end
 
 end

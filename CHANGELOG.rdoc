@@ -1,6 +1,8 @@
 == 0.2.0
 * Added creator ids to models that had no user assignments.
 * Added support for integration testing.
+* Set up basic System Admin workflow for launching exercises.
+* Set up basic
 
 * Bug Fix
   * Fixed project index

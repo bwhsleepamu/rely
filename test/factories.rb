@@ -26,7 +26,21 @@ FactoryGirl.define do
   ##
   # Exercises
   factory :exercise do
+    admin
+    rule
+    assessment_type Assessment::TYPES[1][:title]
+    name "Test Exercise"
+    description "Description of test exercise."
 
+    ignore do
+      user_count 5
+      group_count 3
+    end
+
+    after(:create) do |exercise, evaluator|
+      create_list :user, evaluator.user_count, exercises: [exercise]
+      create_list :group, evaluator.group_count, exercises: [exercise]
+    end
   end
 
   ##

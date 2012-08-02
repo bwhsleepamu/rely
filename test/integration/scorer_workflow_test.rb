@@ -4,7 +4,6 @@ SimpleCov.command_name "test:integration"
 
 class ScorerWorkflowTest < ActionDispatch::IntegrationTest
   def setup
-
     @user = login_user
   end
 
@@ -12,8 +11,20 @@ class ScorerWorkflowTest < ActionDispatch::IntegrationTest
     assert_equal true, page.has_content?("Exercises")
   end
 
-  test "Scorer sees assigned exercises with statuses on Exercise page." do
+  test "Scorer sees assigned exercises on Exercise page." do
+    unseen_exercises = create_list :exercise, 10
+    scorer_exercises = create_list :exercise, 5
+
+    scorer_exercises.each do |e|
+      e.users << @user
+      e.save
+    end
+
     visit exercises_path
+
+    show_page
+
+
 
   end
 

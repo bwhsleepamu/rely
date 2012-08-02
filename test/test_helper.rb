@@ -71,6 +71,10 @@ class ActionController::IntegrationTest
     user
   end
 
+  def show_page
+    page.driver.render('/home/pwm4/Documents/page.png', :full => true)
+  end
+
   def login_user
     password = "secret"
     user = create(:user, password: password)
