@@ -20,7 +20,7 @@ class Study < ActiveRecord::Base
 
   ##
   # Scopes
-  scope :current, conditions: { }
+  scope :current, conditions: { deleted: false }
 
   ##
   # Validations
@@ -42,6 +42,10 @@ class Study < ActiveRecord::Base
 
   def to_s
     "id: #{self.original_id} location: #{self.location}"
+  end
+
+  def has_result?(exercise)
+
   end
 
   private

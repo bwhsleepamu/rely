@@ -4,11 +4,11 @@ class User < ActiveRecord::Base
   #User
   has_many :authentications
   has_many :results, :conditions => { :deleted => false }
-  has_many :exercises, :through => :exercise_users
+  has_many :assigned_exercises, :through => :exercise_users
   has_many :exercise_users
 
   # Admin
-  has_many :exercises, :foreign_key => :admin_id, :conditions => { :deleted => false }
+  has_many :launched_exercises, :foreign_key => :admin_id, :conditions => { :deleted => false }
 
   #Creator
   has_many :groups, :foreign_key => :creator_id, :conditions => { :deleted => false }
@@ -81,7 +81,7 @@ class User < ActiveRecord::Base
     if system_admin?
       Exercise.current
     else
-      exercises.scoped.current
+      assigned_exercises.scoped.current
     end
   end
 

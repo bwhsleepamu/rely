@@ -1,0 +1,50 @@
+<dl class="dl-horizontal">
+  <dt>Name</dt>
+  <dd><%= @exercise.name %></dd>
+
+  <dt>Admin</dt>
+  <dd><%= link_to @exercise.admin.name, @exercise.admin if @exercise.admin %></dd>
+
+  <dt>Rule</dt>
+  <dd>
+    <%= link_to @exercise.rule.name, @exercise.rule if @exercise.rule %>
+    <p><%= @exercise.rule.procedure %></p>
+  </dd>
+
+  <dt>Description</dt>
+  <dd><%= simple_format @exercise.description %></dd>
+
+  <dt>Assigned At</dt>
+  <dd><%= @exercise.assigned_at %></dd>
+</dl>
+
+<h3>Assigned Studies</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Group Name</th>
+        <th>Study ID</th>
+        <th>Study Type</th>
+        <th>Location</th>
+        <th>Scored?</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @exercise.groups.each do |group| %>
+        <% group.studies.each do |study|  %>
+          <tr>
+            <td><%= group.name %></td>
+            <td><%= study.reliability_id(current_user, @exercise) %></td>
+            <td><%= study.study_type.name %></td>
+            <td><%= study.location %></td>
+            <td><%= study.has_result?(current_user, @exercise) %></td>
+            <td>
+              <%= link_to "Add Result", new_result_path(study) %>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+

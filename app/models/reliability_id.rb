@@ -2,10 +2,12 @@ class ReliabilityId < ActiveRecord::Base
   ##
   # Associations
   belongs_to :study
+  belongs_to :user
+  belongs_to :exercise
 
   ##
   # Attributes
-  attr_accessible :deleted, :study_id, :unique_id
+  attr_accessible :deleted, :study_id, :unique_id, :user_id, :exercise_id
 
   ##
   # Callbacks
@@ -15,7 +17,7 @@ class ReliabilityId < ActiveRecord::Base
 
   ##
   # Scopes
-  scope :current, conditions: { }
+  scope :current, conditions: { deleted: false }
 
   ##
   # Validations

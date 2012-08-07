@@ -14,7 +14,8 @@
       </ul>
     </div>
   <% end %>
-
+  <fieldset>
+  <legend></legend>
   <div class="control-group">
     <%= f.label :user_id, nil, class: 'control-label' %>
     <div class="controls">
@@ -25,24 +26,26 @@
   <div class="control-group">
     <%= f.label :study_id, nil, class: 'control-label' %>
     <div class="controls">
-      <%= f.select :study_id, [['---', nil]] + Study.current.collect{|s| [s.name, s.id]} %>
+      <%= f.text_field :study_id %>
     </div>
   </div>
 
   <div class="control-group">
     <%= f.label :exercise_id, nil, class: 'control-label' %>
     <div class="controls">
-      <%= f.select :exercise_id, [['---', nil]] + Exercise.current.collect{|e| [e.name, e.id]} %>
+      <%= f.text_field :exercise_id %>
     </div>
   </div>
 
   <div class="control-group">
     <%= f.label :rule_id, nil, class: 'control-label' %>
     <div class="controls">
-      <%= f.select :rule_id, [['---', nil]] + Rule.current.collect{|r| [r.name, r.id]} %>
+      <%= f.text_field :rule_id %>
     </div>
   </div>
+  </fieldset>
 
+  <fieldset>
   <div class="control-group">
     <%= f.label :result_type, nil, class: 'control-label' %>
     <div class="controls">
@@ -57,13 +60,13 @@
     </div>
   </div>
 
+  </fieldset>
+  <fieldset>
   <div class="control-group">
-    <%= f.label :deleted, nil, class: 'control-label' %>
-    <div class="controls">
-      <%= f.check_box :deleted %>
-    </div>
+
   </div>
 
+  </fieldset>
   <div class="form-actions">
     <%= f.submit nil, class: 'btn btn-primary' %>
     <%= cancel %>

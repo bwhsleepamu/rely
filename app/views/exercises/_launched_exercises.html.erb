@@ -6,10 +6,10 @@
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.rule_id', 'Rule', 'exercises_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.name', 'Name', 'exercises_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.description', 'Description', 'exercises_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.users.count', 'Assigned Scorers', 'exercises_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.assessment_type', 'Assessment Type', 'exercises_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.assigned_at', 'Assigned At', 'exercises_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.completed_at', 'Completed At', 'exercises_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.deleted', 'Deleted', 'exercises_search') %></th>
       <th>Actions</th>
     </tr>
   </thead>

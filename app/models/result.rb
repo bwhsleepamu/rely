@@ -19,7 +19,7 @@ class Result < ActiveRecord::Base
 
   ##
   # Scopes
-  scope :current, conditions: { }
+  scope :current, conditions: { deleted: false }
 
   ##
   # Validations

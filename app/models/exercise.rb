@@ -2,7 +2,7 @@ class Exercise < ActiveRecord::Base
   ##
   # Associations
   belongs_to :admin, :class_name => "User", :foreign_key => :admin_id, :conditions => { :deleted => false, :system_admin => true }
-  has_many :users, :through => :exercise_users
+  has_many :scorers, :class_name => "User", :through => :exercise_users
   has_many :exercise_users
   has_many :groups, :through => :exercise_groups
   has_many :exercise_groups
@@ -32,6 +32,26 @@ class Exercise < ActiveRecord::Base
 
   ##
   # Instance Methods
+  def completed?(user)
+    # completed if results exists for user/exercise/study combo.
+    completed = true
+
+    studies.each do |study|
+      completed = false unless results.where({:user_id => user.id, :study_id => study.id})
+    end
+
+    completed
+  end
+
+  def all_completed?
+    all_completed = true
+
+    users.each do |user|
+      all_completed = false unless completed?(user)
+    end
+
+    all_completed
+  end
 
   private
 
