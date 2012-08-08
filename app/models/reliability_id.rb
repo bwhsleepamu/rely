@@ -11,6 +11,7 @@ class ReliabilityId < ActiveRecord::Base
 
   ##
   # Callbacks
+  before_validation :generate_uuid
 
   ##
   # Database Settings
@@ -21,6 +22,8 @@ class ReliabilityId < ActiveRecord::Base
 
   ##
   # Validations
+  validates_uniqueness_of :unique_id
+  validates_presence_of :study_id, :user_id, :exercise_id, :unique_id
 
   ##
   # Class Methods
@@ -33,4 +36,7 @@ class ReliabilityId < ActiveRecord::Base
 
   private
 
+  def generate_uuid
+    self[:unique_id] ||= UUID.new.generate
+  end
 end

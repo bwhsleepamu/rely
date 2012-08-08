@@ -98,7 +98,7 @@ class ProjectsController < ApplicationController
     end
 
     params[:project].slice(
-      :name, :description, :start_date, :end_date, :user_id, :deleted
+      :name, :description, :start_date, :end_date, :user_id, :deleted, :group_ids
     )
   end
 end

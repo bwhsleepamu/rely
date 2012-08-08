@@ -21,7 +21,7 @@
       <td><%= project.deleted %></td>
       <td>
         <%= link_to 'Edit', edit_project_path(project), class: 'btn btn-mini' %>
-        <%= link_to 'Delete', project, confirm: "Are you sure you want to delete Project #{project.name}?", method: :delete, class: 'btn btn-mini btn-danger' %>
+        <%= link_to 'Delete', project,  :data => { :confirm => "Are you sure you want to delete Project #{project.name}?" }, method: :delete, class: 'btn btn-mini btn-danger' %>
       </td>
     </tr>
   <% end %>

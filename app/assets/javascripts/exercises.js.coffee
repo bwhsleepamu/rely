@@ -4,5 +4,5 @@
 jQuery ->
   $('#exercise_assessment_type').chosen()
   $('#exercise_rule_id').chosen()
-  $('#exercise_user_ids').chosen()
+  $('#exercise_scorer_ids').chosen()
   $('#exercise_group_ids').chosen()

@@ -44,8 +44,12 @@ class Study < ActiveRecord::Base
     "id: #{self.original_id} location: #{self.location}"
   end
 
-  def has_result?(exercise)
+  def has_result?(user, exercise)
+    results.where(:exercise_id => exercise.id, :user_id => user.id).count > 0
+  end
 
+  def reliability_id(user, exercise)
+    reliability_ids.where(:user_id => user.id, :exercise_id => exercise.id).first
   end
 
   private

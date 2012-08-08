@@ -6,6 +6,7 @@ gem 'rails', '3.2.6'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'pg'
+gem "uuid", "~> 2.3.5"
 
 # Windows
 gem 'thin',                 '~> 1.3.1',           :platforms => [ :mswin, :mingw ]

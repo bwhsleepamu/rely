@@ -38,10 +38,10 @@ class SystemAdminWorkflowTest < ActionDispatch::IntegrationTest
     users.each do |user|
       select_from_chosen user.name, :from => "Scorers"
     end
+    show_page
     click_button "Launch Exercise"
 
     # Show Page
-    #show_page
     assert has_content?("Exercise was successfully launched.")
     assert has_content?(@user.name)
     assert has_content?("Assigned At")
@@ -57,7 +57,7 @@ class SystemAdminWorkflowTest < ActionDispatch::IntegrationTest
     assert has_content?(rule.title)
 
     # Emails Sent
-    assert_equal email_count, users.count
+    assert_equal users.count, email_count
     recipients = email_recipients
     users.each do |user|
       assert recipients.include?(user.email)
@@ -86,8 +86,10 @@ class SystemAdminWorkflowTest < ActionDispatch::IntegrationTest
     assert has_content?(group_name), "No group name displayed."
     assert has_content?(description), "No description displayed"
 
+    show_page
+
     study_indexes.each do |i|
-      assert has_content?(studies[i].long_name)
+      assert has_content?(studies[i].to_s)
     end
   end
 
@@ -160,22 +162,28 @@ class SystemAdminWorkflowTest < ActionDispatch::IntegrationTest
     fill_in "Name", :with => name
     fill_in "Description", :with => description
 
+    assert_equal group_count, groups.count
+
     groups.each do |group|
-      select_from_chosen group.to_s, :from => "Groups"
+      select_from_chosen group.name, :from => "Groups"
     end
 
     assert has_no_content?('Deleted'), 'Deleted flag should not show up'
 
     click_button "Create Project"
 
+    show_page
+
     assert has_content?("Project was successfully created.")
     assert has_content?(name)
     assert has_content?(description)
     assert has_content?(start_date.strftime("%Y-%m-%d"))
     assert has_content?(end_date.strftime("%Y-%m-%d"))
+
     groups.each do |group|
       assert has_content?(group.name)
     end
+
   end
 
 

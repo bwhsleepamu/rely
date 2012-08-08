@@ -102,7 +102,7 @@ class ReliabilityIdsController < ApplicationController
     end
 
     params[:reliability_id].slice(
-      :unique_id, :study_id, :deleted
+      :unique_id, :study_id, :deleted, :user_id, :exercise_id
     )
   end
 end

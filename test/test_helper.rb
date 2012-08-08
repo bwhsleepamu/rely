@@ -15,6 +15,7 @@ Capybara.default_driver = :poltergeist
 DatabaseCleaner.strategy = :truncation
 
 class ActiveSupport::TestCase
+  include FactoryGirl::Syntax::Methods
   # Setup all fixtures in test/fixtures/*.(yml|csv) for all tests in alphabetical order.
   #
   # Note: You'll currently still have to declare fixtures explicitly in integration tests
@@ -32,7 +33,6 @@ end
 
 class ActionController::TestCase
   include Devise::TestHelpers
-  include FactoryGirl::Syntax::Methods
 
   fixtures :all
 

@@ -24,7 +24,7 @@
   <dt>Groups</dt>
   <dd>
     <ul id="groups">
-      <% @project.groups do |group| %>
+      <% @project.groups.each do |group| %>
         <li><%= group.name %></li>
       <% end %>
     </ul>

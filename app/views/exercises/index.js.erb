@@ -1,1 +1,5 @@
-$("#exercises").html("<%= escape_javascript(render("exercises")) %>");
+<% if current_user.system_admin? %>
+  $("#exercises").html("<%= escape_javascript(render("launched_exercises")) %>");
+<% else %>
+  $("#exercises").html("<%= escape_javascript(render("assigned_exercises")) %>");
+<% end %>

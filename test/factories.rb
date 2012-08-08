@@ -29,17 +29,20 @@ FactoryGirl.define do
     admin
     rule
     assessment_type Assessment::TYPES[1][:title]
-    name "Test Exercise"
+    sequence(:name) {|n| "Test Exercise #{n}"}
     description "Description of test exercise."
 
     ignore do
-      user_count 5
-      group_count 3
+      user_count 3
+      group_count 2
     end
 
-    after(:create) do |exercise, evaluator|
-      create_list :user, evaluator.user_count, exercises: [exercise]
-      create_list :group, evaluator.group_count, exercises: [exercise]
+    before(:create) do |exercise, evaluator|
+      scorers = create_list :user, evaluator.user_count
+      groups = create_list :group_with_studies, evaluator.group_count
+
+      exercise.scorers = scorers
+      exercise.groups = groups
     end
   end
 
@@ -78,7 +81,7 @@ FactoryGirl.define do
     factory :group_with_studies do
 
       ignore do
-        study_count 20
+        study_count 3
       end
 
       after(:create) do |group, evaluator|

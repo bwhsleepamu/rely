@@ -1,11 +1,15 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  unique_id: MyString
-  study_id: 1
+  unique_id: MyString1
+  study: one
+  exercise: one
   deleted: false
+  user: valid
 
 two:
-  unique_id: MyString
-  study_id: 1
+  unique_id: MyString2
+  study: one
+  exercise: two
+  user: valid
   deleted: false

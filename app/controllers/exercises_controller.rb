@@ -10,6 +10,7 @@ class ExercisesController < ApplicationController
     @order = Exercise.column_names.collect{|column_name| "exercises.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "exercises.name"
     exercise_scope = exercise_scope.order(@order)
     @exercises = exercise_scope.page(params[:page]).per( 20 )
+    @user = current_user
 
     respond_to do |format|
       format.html # index.html.erb
@@ -23,9 +24,15 @@ class ExercisesController < ApplicationController
   def show
     @exercise = Exercise.current.find(params[:id])
 
+    # Do not show unassigned exercises
     respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @exercise }
+      if current_user.system_admin? or @exercise.scorers.include?(current_user)
+        format.html # show.html.erb
+        format.json { render json: @exercise }
+      else
+        format.html { redirect_to exercises_path }
+        format.json { head :no_content }
+      end
     end
   end
 
@@ -54,12 +61,14 @@ class ExercisesController < ApplicationController
 
     respond_to do |format|
       if @exercise.save
+        @exercise.send_assignment_emails
         format.html { redirect_to @exercise, notice: 'Exercise was successfully launched.' }
         format.json { render json: @exercise, status: :created, location: @exercise }
       else
         format.html { render action: "new" }
         format.json { render json: @exercise.errors, status: :unprocessable_entity }
       end
+      MY_LOG.info "#{@exercise.errors.full_messages}"
     end
   end
 
@@ -105,7 +114,7 @@ class ExercisesController < ApplicationController
     end
 
     params[:exercise].slice(
-      :rule_id, :name, :description, :assessment_type, :user_ids, :group_ids
+      :rule_id, :name, :description, :assessment_type, :scorer_ids, :group_ids
     )
   end
 end

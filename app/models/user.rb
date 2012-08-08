@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   #User
   has_many :authentications
   has_many :results, :conditions => { :deleted => false }
-  has_many :assigned_exercises, :through => :exercise_users
+  has_many :assigned_exercises, :class_name => "Exercise", :through => :exercise_users, :source => :exercise, :conditions => { :deleted => false }
   has_many :exercise_users
 
   # Admin

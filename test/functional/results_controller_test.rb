@@ -30,6 +30,10 @@ class ResultsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  #test "should show result by reliability id" do
+  #  pending
+  #end
+
   test "should get edit" do
     get :edit, id: @result
     assert_response :success

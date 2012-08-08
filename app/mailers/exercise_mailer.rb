@@ -7,8 +7,7 @@ class ExerciseMailer < ActionMailer::Base
     @user = user
     @exercise = exercise
 
-    mail(to: @user.email,
-         subject: @subject + "New Exercise #{@exercise.name} Assigned")
+    mail(to: @user.email, subject: @subject + "New Exercise #{@exercise.name} Assigned")
   end
 
   protected

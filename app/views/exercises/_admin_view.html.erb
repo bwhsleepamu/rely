@@ -23,8 +23,8 @@
   <dt>Scorers</dt>
   <dd>
     <ul id="scorers">
-      <% @exercise.users.each do |user| %>
-        <li><%= user.name %></li>
+      <% @exercise.scorers.each do |scorer| %>
+        <li><%= scorer.name %></li>
       <% end %>
     </ul>
   </dd>

@@ -6,14 +6,14 @@ class ExercisesControllerTest < ActionController::TestCase
     @current_user = login(users(:admin))
   end
 
-  test "should get index of only associated exercises as normal user" do
+  test "should get index of only assigned exercises as scorer" do
     user = users(:valid)
     login(users(:valid))
     get :index
 
     assert_response :success
     assert_not_nil assigns(:exercises)
-    assert_equal user.exercises.count, assigns(:exercises).count
+    assert_equal user.assigned_exercises.count, assigns(:exercises).count
   end
 
   test "should get index of all exercises as system admin" do
@@ -23,10 +23,20 @@ class ExercisesControllerTest < ActionController::TestCase
     assert_equal Exercise.current.count, assigns(:exercises).count
   end
 
-  test "should get paginated index" do
+  test "should get paginated index as system admin" do
     get :index, format: 'js'
     assert_not_nil assigns(:exercises)
     assert_template 'index'
+  end
+
+  test "should get paginated index of assigned exercises as scorer" do
+    user = users(:valid)
+    login(users(:valid))
+    get :index, format: 'js'
+
+    assert_not_nil assigns(:exercises)
+    assert_template 'index'
+    assert_equal user.assigned_exercises.count, assigns(:exercises).count
   end
 
   test "should get new" do
@@ -40,18 +50,36 @@ class ExercisesControllerTest < ActionController::TestCase
 
     assert_difference('Exercise.count') do
       post :create, exercise: { assessment_type: @exercise.assessment_type, deleted: @exercise.deleted,
-                                description: @exercise.description, name: @exercise.name, rule_id: @exercise.rule_id,
-                                user_ids: user_ids, group_ids: group_ids }
+                                description: @exercise.description, name: @exercise.name + "_new", rule_id: @exercise.rule_id,
+                                scorer_ids: user_ids, group_ids: group_ids }
     end
 
     assert_redirected_to exercise_path(assigns(:exercise))
-    assert_equal assigns(:exercise).users.count, user_ids.count
+    assert_equal assigns(:exercise).scorers.count, user_ids.count
     assert_equal assigns(:exercise).groups.count, group_ids.count
   end
 
-  test "should show exercise" do
+  test "should show assigned exercise to scorer" do
+    user = users(:valid)
+    login(user)
+
     get :show, id: @exercise
     assert_response :success
+  end
+
+  test "should show any exercise to admin" do
+    get :show, id: @exercise
+    assert_response :success
+  end
+
+  test "should not show unassigned exercise to scorer" do
+    user = users(:two)
+    exercise = exercises(:two)
+    login(user)
+
+    assert_equal false, user.assigned_exercises.include?(exercise)
+    get :show, id: exercise
+    assert_redirected_to exercises_path
   end
 
   test "should get edit" do
@@ -60,7 +88,7 @@ class ExercisesControllerTest < ActionController::TestCase
   end
 
   test "should update exercise" do
-    put :update, id: @exercise, exercise: { assessment_type: @exercise.assessment_type, deleted: @exercise.deleted, description: @exercise.description, name: @exercise.name, rule_id: @exercise.rule_id }
+    put :update, id: @exercise, exercise: { assessment_type: @exercise.assessment_type, deleted: @exercise.deleted, description: @exercise.description, name: @exercise.name + "_update", rule_id: @exercise.rule_id }
     assert_redirected_to exercise_path(assigns(:exercise))
   end
 

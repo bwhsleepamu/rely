@@ -1,7 +1,5 @@
+<h3>Dashboard for Exercise <%= @exercise.name %></h3>
 <dl class="dl-horizontal">
-  <dt>Name</dt>
-  <dd><%= @exercise.name %></dd>
-
   <dt>Admin</dt>
   <dd><%= link_to @exercise.admin.name, @exercise.admin if @exercise.admin %></dd>
 
@@ -18,8 +16,9 @@
   <dd><%= @exercise.assigned_at %></dd>
 </dl>
 
-<h3>Assigned Studies</h3>
-  <table>
+<div id="assigned_studies">
+  <h3>Assigned Studies</h3>
+  <table class="table table-striped table-bordered">
     <thead>
       <tr>
         <th>Group Name</th>
@@ -30,12 +29,12 @@
         <th>Actions</th>
       </tr>
     </thead>
-    <tbody>
-      <% @exercise.groups.each do |group| %>
+    <% @exercise.groups.each do |group| %>
+      <tbody class="group" id="<%= group.id %>">
         <% group.studies.each do |study|  %>
-          <tr>
+          <tr class="study">
             <td><%= group.name %></td>
-            <td><%= study.reliability_id(current_user, @exercise) %></td>
+            <td><%= study.reliability_id(current_user, @exercise).unique_id if study.reliability_id(current_user, @exercise) %></td>
             <td><%= study.study_type.name %></td>
             <td><%= study.location %></td>
             <td><%= study.has_result?(current_user, @exercise) %></td>
@@ -44,7 +43,8 @@
             </td>
           </tr>
         <% end %>
+      </tbody>
       <% end %>
-    </tbody>
   </table>
 
+</div>

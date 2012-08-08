@@ -4,7 +4,7 @@ one:
   admin: admin
   assessment_type: a
   rule: one
-  name: MyString
+  name: MyString1
   description: MyText
   assigned_at: 2012-07-11 16:31:39
   completed_at: 2012-07-11 16:31:39
@@ -14,7 +14,7 @@ two:
   admin: admin
   assessment_type: a
   rule: two
-  name: MyString
+  name: MyString2
   description: MyText
   assigned_at: 2012-07-11 16:31:39
   completed_at: 2012-07-11 16:31:39
@@ -24,7 +24,7 @@ three:
   admin: admin
   assessment_type: a
   rule: two
-  name: MyString
+  name: MyString3
   description: MyText
   assigned_at: 2012-07-11 16:31:39
   completed_at: 2012-07-11 16:31:39
@@ -34,7 +34,7 @@ deleted:
   admin: admin
   assessment_type: a
   rule: one
-  name: MyString
+  name: MyString4
   description: MyText
   assigned_at: 2012-07-11 16:31:39
   completed_at: 2012-07-11 16:31:39

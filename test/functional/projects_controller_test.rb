@@ -24,10 +24,13 @@ class ProjectsControllerTest < ActionController::TestCase
   end
 
   test "should create project" do
+    group_ids = [groups(:one).id, groups(:two).id]
     assert_difference('Project.count') do
-      post :create, project: { deleted: @project.deleted, description: @project.description, end_date: @project.end_date, name: @project.name, start_date: @project.start_date }
+      post :create, project: { deleted: @project.deleted, description: @project.description, end_date: @project.end_date, name: @project.name, start_date: @project.start_date, group_ids: group_ids }
     end
 
+    assert_not_nil assigns(:project)
+    assert_equal group_ids.count, assigns(:project).groups.count
     assert_redirected_to project_path(assigns(:project))
   end
 
@@ -42,7 +45,10 @@ class ProjectsControllerTest < ActionController::TestCase
   end
 
   test "should update project" do
-    put :update, id: @project, project: { deleted: @project.deleted, description: @project.description, end_date: @project.end_date, name: @project.name, start_date: @project.start_date }
+    group_ids = [groups(:one).id, groups(:two).id]
+    put :update, id: @project, project: { deleted: @project.deleted, description: @project.description, end_date: @project.end_date, name: @project.name, start_date: @project.start_date, group_ids: group_ids }
+    assert_not_nil assigns(:project)
+    assert_equal group_ids.count, assigns(:project).groups.count
     assert_redirected_to project_path(assigns(:project))
   end
 
