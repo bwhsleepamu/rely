@@ -2,7 +2,7 @@
 <div class="page-header">
   <h1>
     <%= @title %>
-    <%= link_to "Create Exercise", new_exercise_path, class: 'btn btn-mini btn-primary' %>
+    <%= link_to "Create Exercise", new_exercise_path, class: 'btn btn-mini btn-primary' if current_user.system_admin? %>
   </h1>
 </div>
 

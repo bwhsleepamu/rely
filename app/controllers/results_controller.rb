@@ -1,5 +1,5 @@
 class ResultsController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, only: [:index, :destroy]
   before_filter :check_system_admin
 
   # GET /results

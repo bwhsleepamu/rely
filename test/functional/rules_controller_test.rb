@@ -6,18 +6,31 @@ class RulesControllerTest < ActionController::TestCase
     @current_user = login(users(:admin))
   end
 
-  test "should get index" do
+  test "should get index as admin" do
     get :index
     assert_response :success
     assert_not_nil assigns(:rules)
   end
 
-  test "should get paginated index" do
+  test "should get paginated index as admin" do
     get :index, format: 'js'
     assert_not_nil assigns(:rules)
     assert_template 'index'
   end
 
+  test "should get index as scorer" do
+    login(users(:valid))
+    get :index
+    assert_response :success
+    assert_not_nil assigns(:rules)
+  end
+
+  test "should get paginated index as scorer" do
+    login(users(:valid))
+    get :index, format: 'js'
+    assert_not_nil assigns(:rules)
+    assert_template 'index'
+  end
 
   test "should get new" do
     get :new
@@ -32,7 +45,13 @@ class RulesControllerTest < ActionController::TestCase
     assert_redirected_to rule_path(assigns(:rule))
   end
 
-  test "should show rule" do
+  test "should show rule as admin" do
+    get :show, id: @rule
+    assert_response :success
+  end
+
+  test "should show rule as scorer" do
+    login(users(:valid))
     get :show, id: @rule
     assert_response :success
   end

@@ -23,7 +23,7 @@ class ScorerWorkflowTest < ActionDispatch::IntegrationTest
     #exercises[:unseen].each
   end
 
-  test "Scorer can view exercise, get study, and upload result." do
+  test "Scorer can view exercise and see a list of studies with uuids and statuses." do
     exercises = setup_exercises
     exercise = exercises[:seen].first
 
@@ -34,6 +34,7 @@ class ScorerWorkflowTest < ActionDispatch::IntegrationTest
     assert page.has_content?("Dashboard for Exercise #{exercise.name}")
     assert page.has_selector?("tbody.group", :count => exercise.groups.count)
     assert page.has_selector?("tr.study", :count => exercise.groups.inject(0){|sum, group| sum + group.studies.count } )
+    assert page.has_content?("Scored?")
 
     exercise.groups.each do |group|
       group.studies.each do |study|
@@ -42,6 +43,43 @@ class ScorerWorkflowTest < ActionDispatch::IntegrationTest
         assert page.has_content?(r_id.unique_id)
       end
     end
+  end
+
+  test "Scorer can visit rule page from exercise page" do
+    exercises = setup_exercises
+    exercise = exercises[:seen].first
+
+    visit exercises_path
+    click_on exercise.name
+
+    click_on exercise.rule.title
+
+    assert_equal rule_path(exercise.rule), current_path
+    assert page.has_content? exercise.rule.description
+  end
+
+  test "Scorer can attach results to studies in an exercise." do
+    exercises = setup_exercises
+    exercise = exercises[:seen].first
+
+    visit exercises_path
+    click_on exercise.name
+
+    study_count = 0
+    all("tr.study").each do |tr|
+      tr.click_link("Add Result")
+      assert page.has_content? study.location
+      assert_equal page.has_content? study.original_id
+      assert page.has_content?("Add Result for Study #{study.reliability_id(@user, exercise)} in Exercise #{exercise.name}")
+      fill_in "Location", :with => "/some/location/to/result/file"
+      fill_in "Result Type", :with => "Some Type of Result"
+      click_on "Add Result"
+      tr.has_content? "true"
+      tr.has_content? "Edit Result"
+      study_count += 1
+    end
+
+    assert_equal study_count, exercise.all_studies.count
   end
 
   private

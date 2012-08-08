@@ -1,6 +1,6 @@
 class RulesController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :check_system_admin
+  before_filter :check_system_admin, only: [:new, :create, :edit, :update, :destroy]
 
   # GET /rules
   # GET /rules.json

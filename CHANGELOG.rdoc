@@ -2,11 +2,12 @@
 * Added creator ids to models that had no user assignments.
 * Added support for integration testing.
 * Set up basic System Admin workflow for launching exercises.
-* Set up basic
+* Set up basic Scorer workflow for adding results
+* Implemented generation of uuids for each user/study/exercise combination.
 
 * Bug Fix
   * Fixed project index
-
+  * Fixed some link and navigation inconsistencies for scorers and system admins.
 
 == 0.1.1
 

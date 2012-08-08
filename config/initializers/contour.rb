@@ -26,62 +26,45 @@ Contour.setup do |config|
                { authentications: true }]
      },
      {
-       name: 'current_user.email', eval: true, display: 'signed_in', position: 'right', condition: 'true',
-       links: [{ name: 'Authentications', path: 'authentications_path', condition: 'not PROVIDERS.blank?' },
-               { divider: true },
-               { name: 'Logout', path: 'destroy_user_session_path' }]
+         name: 'current_user.email', eval: true, display: 'signed_in', position: 'right', condition: 'true',
+         links: [{ name: 'Authentications', path: 'authentications_path', condition: 'not PROVIDERS.blank?' },
+                 { divider: true },
+                 { name: 'Logout', path: 'destroy_user_session_path' }]
      },
      {
-       name: 'Home', display: 'always', path: 'root_path', position: 'left', condition: 'true', image: '', image_options: {},
-       links: []
+       name: 'Exercises', display: 'signed_in', path: 'exercises_path', position: 'left', condition: 'true', image: '', image_options: {},
+       links: [
+           { name: 'Create', path: 'new_exercise_path', condition: 'current_user.system_admin?'}
+       ]
      },
      {
-         name: 'Projects', display: 'signed_in', path: 'projects_path', position: 'left', condition: 'true', image: '', image_options: {},
+         name: 'Scoring Rules', display: 'signed_in', path: 'rules_path', position: 'left', condition: 'true', image: '', image_options: {},
          links: [
-             { name: 'View All', path: 'projects_path'},
+             { name: 'Create', path: 'new_rule_path', condition: 'current_user.system_admin?'}
+         ]
+     },
+     {
+         name: 'Projects', display: 'signed_in', path: 'projects_path', position: 'left', condition: 'current_user.system_admin?', image: '', image_options: {},
+         links: [
              { name: 'Create', path: 'new_project_path'}
          ]
      },
      {
-         name: 'Groups', display: 'signed_in', path: 'groups_path', position: 'left', condition: 'true', image: '', image_options: {},
+         name: 'Groups', display: 'signed_in', path: 'groups_path', position: 'left', condition: 'current_user.system_admin?', image: '', image_options: {},
          links: [
-             { name: 'View All', path: 'groups_path'},
              { name: 'Create', path: 'new_group_path'}
          ]
      },
      {
-         name: 'Studies', display: 'signed_in', path: 'studies_path', position: 'left', condition: 'true', image: '', image_options: {},
+         name: 'Studies', display: 'signed_in', path: 'studies_path', position: 'left', condition: 'current_user.system_admin?', image: '', image_options: {},
          links: [
-             { name: 'View All', path: 'studies_path'},
              { name: 'Create', path: 'new_study_path'}
          ]
      },
      {
-         name: 'Study Types', display: 'signed_in', path: 'study_types_path', position: 'left', condition: 'true', image: '', image_options: {},
+         name: 'Study Types', display: 'signed_in', path: 'study_types_path', position: 'left', condition: 'current_user.system_admin?', image: '', image_options: {},
          links: [
-             { name: 'View All', path: 'study_types_path'},
              { name: 'Create', path: 'new_study_type_path'}
-         ]
-     },
-     {
-         name: 'Exercises', display: 'signed_in', path: 'exercises_path', position: 'left', condition: 'true', image: '', image_options: {},
-         links: [
-             { name: 'View All', path: 'exercises_path'},
-             { name: 'Create', path: 'new_exercise_path'}
-         ]
-     },
-     {
-         name: 'Results', display: 'signed_in', path: 'results_path', position: 'left', condition: 'true', image: '', image_options: {},
-         links: [
-             { name: 'View All', path: 'results_path'},
-             { name: 'Create', path: 'new_result_path'}
-         ]
-     },
-     {
-         name: 'Rules', display: 'signed_in', path: 'rules_path', position: 'left', condition: 'true', image: '', image_options: {},
-         links: [
-             { name: 'View All', path: 'rules_path'},
-             { name: 'Create', path: 'new_rule_path'}
          ]
      },
      {

@@ -8,7 +8,6 @@
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.description', 'Description', 'exercises_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.assigned_at', 'Assigned At', 'exercises_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.completed', 'Completed?', 'exercises_search') %></th>
-      <th>Actions</th>
     </tr>
   </thead>
 
@@ -20,10 +19,6 @@
       <td><%= exercise.description %></td>
       <td><%= exercise.assigned_at %></td>
       <td><%= exercise.completed?(@user) %></td>
-      <td>
-        <%= link_to 'Edit', edit_exercise_path(exercise), class: 'btn btn-mini' %>
-        <%= link_to 'Delete', exercise, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Exercise #{exercise.name}?" } %>
-      </td>
     </tr>
     <% end %>
   </tbody>
