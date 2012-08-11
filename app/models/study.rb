@@ -29,7 +29,9 @@ class Study < ActiveRecord::Base
 
   ##
   # Class Methods
-
+  def self.find_by_reliability_id(reliability_id)
+    ReliabilityId.find_by_unique_id(reliability_id).study
+  end
   ##
   # Instance Methods
   def name
@@ -49,8 +51,19 @@ class Study < ActiveRecord::Base
   end
 
   def reliability_id(user, exercise)
-    reliability_ids.where(:user_id => user.id, :exercise_id => exercise.id).first
+    r_ids = reliability_ids.where(:user_id => user.id, :exercise_id => exercise.id)
+    if r_ids
+      r_ids.first
+    else
+      nil
+    end
   end
+
+  def reliability_unique_id(user, exercise)
+    r_id = reliability_id(user, exercise)
+    r_id ? r_id.unique_id : nil
+  end
+
 
   private
 

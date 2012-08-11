@@ -98,7 +98,6 @@ class User < ActiveRecord::Base
     "#{last_name}, #{first_name}"
   end
 
-
   def destroy
     update_attribute :deleted, true
     update_attribute :status, 'inactive'

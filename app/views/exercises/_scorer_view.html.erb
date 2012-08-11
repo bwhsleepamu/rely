@@ -34,12 +34,12 @@
         <% group.studies.each do |study|  %>
           <tr class="study">
             <td><%= group.name %></td>
-            <td><%= study.reliability_id(current_user, @exercise).unique_id if study.reliability_id(current_user, @exercise) %></td>
+            <td class="reliability_id"><%= study.reliability_unique_id(current_user, @exercise) %></td>
             <td><%= study.study_type.name %></td>
             <td><%= study.location %></td>
             <td><%= study.has_result?(current_user, @exercise) %></td>
             <td>
-              <%= link_to "Add Result", new_result_path(study) %>
+              <%= link_to("Add Result", new_result_path(reliability_id: study.reliability_unique_id(current_user, @exercise))) %>
             </td>
           </tr>
         <% end %>

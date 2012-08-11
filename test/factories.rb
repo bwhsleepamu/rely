@@ -89,4 +89,7 @@ FactoryGirl.define do
       end
     end
   end
+
+  ##
+  # Results
 end

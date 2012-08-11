@@ -1,6 +1,20 @@
 <div class="page-header">
-  <h1><%= @title %></h1>
+  <h1>Result for Study <%= @reliability_id.unique_id %></h1>
 </div>
+
+<dl class="dl-horizontal">
+  <dt>Study Type</dt>
+  <dd><%= link_to @reliability_id.study.study_type.name, @reliability_id.study.study_type if @reliability_id.study.study_type %></dd>
+
+  <dt>Study Location</dt>
+  <dd><%= @reliability_id.study.location %></dd>
+
+  <dt>Scoring Rule</dt>
+  <dd>
+    <h5><%= @reliability_id.exercise.rule.title %></h5>
+    <p><%= @reliability_id.exercise.rule.procedure %></p>
+  </dd>
+</dl>
 
 <%= form_for @result, html: { class: 'form-horizontal' } do |f| %>
   <% if @result.errors.any? %>
@@ -15,59 +29,37 @@
     </div>
   <% end %>
   <fieldset>
-  <legend></legend>
-  <div class="control-group">
-    <%= f.label :user_id, nil, class: 'control-label' %>
-    <div class="controls">
-      <%= f.select :user_id, [['---', nil]] + User.current.collect{|u| [u.name, u.id]} %>
-    </div>
-  </div>
+    <legend>Result Information</legend>
+      <%= f.hidden_field :user_id, value: current_user.id %>
 
-  <div class="control-group">
-    <%= f.label :study_id, nil, class: 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :study_id %>
-    </div>
-  </div>
+      <%= f.hidden_field :study_id, value: @reliability_id.study.id %>
 
-  <div class="control-group">
-    <%= f.label :exercise_id, nil, class: 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :exercise_id %>
-    </div>
-  </div>
+      <%= f.hidden_field :study_id, value: @reliability_id.exercise.id %>
 
-  <div class="control-group">
-    <%= f.label :rule_id, nil, class: 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :rule_id %>
-    </div>
-  </div>
-  </fieldset>
+      <%= f.hidden_field :study_id, value: @reliability_id.exercise.id %>
 
-  <fieldset>
-  <div class="control-group">
-    <%= f.label :result_type, nil, class: 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :result_type %>
-    </div>
-  </div>
+      <%= f.hidden_field :rule_id, value: @reliability_id.exercise.rule.id %>
 
-  <div class="control-group">
-    <%= f.label :location, nil, class: 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :location %>
-    </div>
-  </div>
+      <div class="control-group">
+        <%= f.label :result_type, nil, class: 'control-label' %>
+        <div class="controls">
+          <%= f.text_field :result_type %>
+        </div>
+      </div>
 
+      <div class="control-group">
+        <%= f.label :location, nil, class: 'control-label' %>
+        <div class="controls">
+          <%= f.text_field :location %>
+        </div>
+      </div>
   </fieldset>
   <fieldset>
-  <div class="control-group">
-
-  </div>
+    <legend>Result Assessment Questionnaire</legend>
 
   </fieldset>
-  <div class="form-actions">
+
+    <div class="form-actions">
     <%= f.submit nil, class: 'btn btn-primary' %>
     <%= cancel %>
   </div>

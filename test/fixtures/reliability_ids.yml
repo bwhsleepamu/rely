@@ -13,3 +13,10 @@ two:
   exercise: two
   user: valid
   deleted: false
+
+three:
+  unique_id: MyString3
+  study: two
+  exercise: two
+  user: two
+  deleted: false

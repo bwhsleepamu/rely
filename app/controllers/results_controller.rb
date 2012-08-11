@@ -1,6 +1,6 @@
 class ResultsController < ApplicationController
-  before_filter :authenticate_user!, only: [:index, :destroy]
-  before_filter :check_system_admin
+  before_filter :authenticate_user!
+  before_filter :check_system_admin, only: [:index, :destroy]
 
   # GET /results
   # GET /results.json
@@ -33,9 +33,14 @@ class ResultsController < ApplicationController
   def new
     @result = Result.new
 
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @result }
+    @reliability_id = ReliabilityId.find_by_unique_id(params[:reliability_id])
+    if @reliability_id and @reliability_id.user_id == current_user.id
+      respond_to do |format|
+        format.html # new.html.erb
+        format.json { render json: @result }
+      end
+    else
+      redirect_to root_path
     end
   end
 
@@ -47,16 +52,21 @@ class ResultsController < ApplicationController
   # POST /results
   # POST /results.json
   def create
+    MY_LOG.info params
     @result = Result.new(post_params)
-
-    respond_to do |format|
-      if @result.save
-        format.html { redirect_to @result, notice: 'Result was successfully created.' }
-        format.json { render json: @result, status: :created, location: @result }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @result.errors, status: :unprocessable_entity }
+    MY_LOG.info "uid: #{@result.user_id} eid: #{@result.exercise_id} rel_ids: #{ReliabilityId.where(user_id: @result.user_id, exercise_id: @result.exercise_id).empty?}"
+    if @result.user_id == current_user.id and ReliabilityId.where(user_id: @result.user_id, exercise_id: @result.exercise_id).empty? == false
+      respond_to do |format|
+        if @result.save
+          format.html { redirect_to @result.exercise, notice: 'Result was successfully created.' }
+          format.json { render json: @result, status: :created, location: @result }
+        else
+          format.html { render action: "new" }
+          format.json { render json: @result.errors, status: :unprocessable_entity }
+        end
       end
+    else
+      redirect_to root_path
     end
   end
 

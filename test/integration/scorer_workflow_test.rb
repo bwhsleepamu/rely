@@ -55,7 +55,7 @@ class ScorerWorkflowTest < ActionDispatch::IntegrationTest
     click_on exercise.rule.title
 
     assert_equal rule_path(exercise.rule), current_path
-    assert page.has_content? exercise.rule.description
+    assert page.has_content? exercise.rule.procedure
   end
 
   test "Scorer can attach results to studies in an exercise." do
@@ -67,9 +67,12 @@ class ScorerWorkflowTest < ActionDispatch::IntegrationTest
 
     study_count = 0
     all("tr.study").each do |tr|
+      study = Study.find_by_reliability_id(tr.find("td.reliability_id").text)
       tr.click_link("Add Result")
+      show_page
       assert page.has_content? study.location
       assert_equal page.has_content? study.original_id
+      assert_equal new_result_path, current_path
       assert page.has_content?("Add Result for Study #{study.reliability_id(@user, exercise)} in Exercise #{exercise.name}")
       fill_in "Location", :with => "/some/location/to/result/file"
       fill_in "Result Type", :with => "Some Type of Result"

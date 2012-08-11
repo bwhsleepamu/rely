@@ -38,9 +38,10 @@ class SystemAdminWorkflowTest < ActionDispatch::IntegrationTest
     users.each do |user|
       select_from_chosen user.name, :from => "Scorers"
     end
-    show_page
+
     click_button "Launch Exercise"
 
+    show_page
     # Show Page
     assert has_content?("Exercise was successfully launched.")
     assert has_content?(@user.name)
