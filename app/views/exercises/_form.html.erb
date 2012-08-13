@@ -39,7 +39,7 @@
   <div class="control-group">
     <%= f.label :assessment_type, "Assessment Type", class: 'control-label' %>
     <div class="controls">
-      <%= select_tag "exercise[assessment_type]", options_for_select(Assessment::TYPES.collect {|t| t[:title]}), :id => :exercise_assessment_type %>
+      <%= select_tag "exercise[assessment_type]", options_for_select(Assessment::TYPES.collect {|key, val| [key, val[:title]] }), :id => :exercise_assessment_type %>
     </div>
   </div>
 

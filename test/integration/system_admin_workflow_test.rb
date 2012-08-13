@@ -19,7 +19,7 @@ class SystemAdminWorkflowTest < ActionDispatch::IntegrationTest
     groups = create_list(:group_with_studies, 4)
     rule = create(:rule)
     name = "Test Exercise"
-    assessment_type = Assessment::TYPES[0]
+    assessment_type = Assessment::TYPES[:paradox]
     description = "Description for a very vital exercise."
     reset_email
 

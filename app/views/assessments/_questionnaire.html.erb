@@ -1,0 +1,7 @@
+<!-- needs assessment type -->
+<% if Assessment::TYPES[assessment_type.to_sym]  %>
+  <% Assessment::TYPES[assessment_type.to_sym][:questions].each do |question_hash|  %>
+    <%= label_tag "assessment[#{question_hash[:id]}]", question_hash[:text] %>
+    <%= questionnaire_field(question_hash) %>
+  <% end %>
+<% end %>

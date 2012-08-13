@@ -65,24 +65,27 @@ class ScorerWorkflowTest < ActionDispatch::IntegrationTest
     visit exercises_path
     click_on exercise.name
 
-    study_count = 0
-    all("tr.study").each do |tr|
-      study = Study.find_by_reliability_id(tr.find("td.reliability_id").text)
-      tr.click_link("Add Result")
-      show_page
-      assert page.has_content? study.location
-      assert_equal page.has_content? study.original_id
-      assert_equal new_result_path, current_path
-      assert page.has_content?("Add Result for Study #{study.reliability_id(@user, exercise)} in Exercise #{exercise.name}")
-      fill_in "Location", :with => "/some/location/to/result/file"
-      fill_in "Result Type", :with => "Some Type of Result"
-      click_on "Add Result"
-      tr.has_content? "true"
-      tr.has_content? "Edit Result"
-      study_count += 1
-    end
+    tr = all("tr.study").first
+    study = Study.find_by_reliability_id(tr.find("td.reliability_id").text)
+    tr.click_link("Add Result")
+    show_page
+    assert page.has_content? study.location
+    assert page.has_content?(study.study_type.name)
 
-    assert_equal study_count, exercise.all_studies.count
+    assert page.has_content?("Result for Study #{study.reliability_id(@user, exercise).unique_id}")
+    assert_equal new_result_path, current_path
+
+    fill_in "Location", :with => "/some/location/to/result/file"
+    fill_in "Result type", :with => "Some Type of Result"
+
+    show_page
+    click_on "Add Result"
+
+    show_page
+    tr = all("tr.study").first
+    tr.has_content? "true"
+    tr.has_content? "Edit Result"
+
   end
 
   private

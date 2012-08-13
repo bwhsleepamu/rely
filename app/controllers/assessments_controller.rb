@@ -102,7 +102,7 @@ class AssessmentsController < ApplicationController
     end
 
     params[:assessment].slice(
-      :result_id, :assessment_type, :deleted
+      :result_id, :assessment_type
     )
   end
 end

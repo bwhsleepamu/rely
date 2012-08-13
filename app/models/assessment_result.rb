@@ -5,7 +5,7 @@ class AssessmentResult < ActiveRecord::Base
 
   ##
   # Attributes
-  attr_accessible :answer, :assessment_id, :deleted, :question_id
+  attr_accessible :answer, :assessment_id, :question_id
 
   ##
   # Callbacks

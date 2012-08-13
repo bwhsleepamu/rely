@@ -34,9 +34,9 @@
 
       <%= f.hidden_field :study_id, value: @reliability_id.study.id %>
 
-      <%= f.hidden_field :study_id, value: @reliability_id.exercise.id %>
+      <%= f.hidden_field :exercise_id, value: @reliability_id.exercise.id %>
 
-      <%= f.hidden_field :study_id, value: @reliability_id.exercise.id %>
+      <%= f.hidden_field :type, value: "rescored" %>
 
       <%= f.hidden_field :rule_id, value: @reliability_id.exercise.rule.id %>
 
@@ -57,10 +57,12 @@
   <fieldset>
     <legend>Result Assessment Questionnaire</legend>
 
+    <%= render :partial => "assessments/questionnaire", :locals => { :assessment_type => @reliability_id.exercise.assessment_type } %>
+
   </fieldset>
 
     <div class="form-actions">
-    <%= f.submit nil, class: 'btn btn-primary' %>
+    <%= f.submit "Add Result", class: 'btn btn-primary' %>
     <%= cancel %>
   </div>
 <% end %>

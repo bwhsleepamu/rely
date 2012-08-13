@@ -28,7 +28,7 @@ FactoryGirl.define do
   factory :exercise do
     admin
     rule
-    assessment_type Assessment::TYPES[1][:title]
+    assessment_type "paradox"
     sequence(:name) {|n| "Test Exercise #{n}"}
     description "Description of test exercise."
 

@@ -52,12 +52,14 @@ class ResultsController < ApplicationController
   # POST /results
   # POST /results.json
   def create
-    MY_LOG.info params
+    MY_LOG.info "Create Params: #{params}"
     @result = Result.new(post_params)
     MY_LOG.info "uid: #{@result.user_id} eid: #{@result.exercise_id} rel_ids: #{ReliabilityId.where(user_id: @result.user_id, exercise_id: @result.exercise_id).empty?}"
     if @result.user_id == current_user.id and ReliabilityId.where(user_id: @result.user_id, exercise_id: @result.exercise_id).empty? == false
+      MY_LOG.info "ACCEPTED: #{@result.valid?} #{@result.errors.full_messages}"
       respond_to do |format|
         if @result.save
+          MY_LOG.info "SAVED: #{@result.valid?} #{@result.errors.full_messages}"
           format.html { redirect_to @result.exercise, notice: 'Result was successfully created.' }
           format.json { render json: @result, status: :created, location: @result }
         else
