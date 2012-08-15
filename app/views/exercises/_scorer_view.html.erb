@@ -40,7 +40,7 @@
             <td><%= study.has_result?(current_user, @exercise) %></td>
             <td>
               <% if study.has_result?(current_user, @exercise) %>
-                <%= link_to("Edit Result", edit_result_path(reliability_id: study.reliability_unique_id(current_user, @exercise))) %>
+                <%= link_to("Edit Result", edit_result_path(id: study.result(current_user, @exercise).id, reliability_id: study.reliability_unique_id(current_user, @exercise))) %>
               <% else %>
                 <%= link_to("Add Result", new_result_path(reliability_id: study.reliability_unique_id(current_user, @exercise))) %>
               <% end %>

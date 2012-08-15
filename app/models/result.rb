@@ -9,7 +9,7 @@ class Result < ActiveRecord::Base
 
   ##
   # Attributes
-  attr_accessible :deleted, :exercise_id, :location, :rule_id, :study_id, :type, :user_id, :result_type
+  attr_accessible :exercise_id, :location, :rule_id, :study_id, :type, :user_id, :result_type, :assessment_answers
 
   ##
   # Callbacks
@@ -31,7 +31,19 @@ class Result < ActiveRecord::Base
   # Instance Methods
   def name
     "#{self.study} #{self.user} #{self.result_type}"
+  end
 
+  def accessible?(user)
+    user_id == user.id and ReliabilityId.where(user_id: user_id, exercise_id: exercise_id).empty? == false
+  end
+
+  def assessment_answers=(value)
+    if value
+      self.assessment = Assessment.new(assessment_type: self.exercise.assessment_type)
+      value.each do |question_id, answer|
+        self.assessment.assessment_results.build(question_id: question_id, answer: answer)
+      end
+    end
   end
 
   private

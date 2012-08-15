@@ -2,7 +2,8 @@
 * Added creator ids to models that had no user assignments.
 * Added support for integration testing.
 * Set up basic System Admin workflow for launching exercises.
-* Set up basic Scorer workflow for adding results
+* Set up basic Scorer workflow for adding and editing results
+* Set up basic result assessment functionality
 * Implemented generation of uuids for each user/study/exercise combination.
 
 * Bug Fix

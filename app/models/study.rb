@@ -50,6 +50,10 @@ class Study < ActiveRecord::Base
     results.where(:exercise_id => exercise.id, :user_id => user.id).count > 0
   end
 
+  def result(user, exercise)
+    results.where(:exercise_id => exercise.id, :user_id => user.id).first if has_result?(user, exercise)
+  end
+
   def reliability_id(user, exercise)
     r_ids = reliability_ids.where(:user_id => user.id, :exercise_id => exercise.id)
     if r_ids

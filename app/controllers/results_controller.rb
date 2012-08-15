@@ -46,7 +46,21 @@ class ResultsController < ApplicationController
 
   # GET /results/1/edit
   def edit
+    MY_LOG.info "EDIT: #{params}"
+    MY_LOG.info "RESULTS: #{Result.all.map{|r| r.id}}"
+
     @result = Result.current.find(params[:id])
+    @reliability_id = @result.study.reliability_id(current_user, @result.exercise) if @result and @result.study#ReliabilityId.find_by_unique_id(params[:reliability_id])
+
+    #MY_LOG.info "rid: #{@reliability_id} uid #{@reliability_id.user_id} cuid: #{current_user.id}"
+    if @reliability_id and @reliability_id.user_id == current_user.id
+      respond_to do |format|
+        format.html # edit.html.erb
+        format.json { render json: @result }
+      end
+    else
+      redirect_to root_path
+    end
   end
 
   # POST /results
@@ -55,7 +69,7 @@ class ResultsController < ApplicationController
     MY_LOG.info "Create Params: #{params}"
     @result = Result.new(post_params)
     MY_LOG.info "uid: #{@result.user_id} eid: #{@result.exercise_id} rel_ids: #{ReliabilityId.where(user_id: @result.user_id, exercise_id: @result.exercise_id).empty?}"
-    if @result.user_id == current_user.id and ReliabilityId.where(user_id: @result.user_id, exercise_id: @result.exercise_id).empty? == false
+    if @result.accessible?(current_user)
       MY_LOG.info "ACCEPTED: #{@result.valid?} #{@result.errors.full_messages}"
       respond_to do |format|
         if @result.save
@@ -75,16 +89,21 @@ class ResultsController < ApplicationController
   # PUT /results/1
   # PUT /results/1.json
   def update
+    MY_LOG.info "Update Params: #{params}"
     @result = Result.current.find(params[:id])
-
-    respond_to do |format|
-      if @result.update_attributes(post_params)
-        format.html { redirect_to @result, notice: 'Result was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @result.errors, status: :unprocessable_entity }
+    MY_LOG.info "uid: #{@result.user_id} eid: #{@result.exercise_id} rel_ids: #{ReliabilityId.where(user_id: @result.user_id, exercise_id: @result.exercise_id).empty?}"
+    if @result.accessible?(current_user)
+      respond_to do |format|
+        if @result.update_attributes(post_params)
+          format.html { redirect_to @result, notice: 'Result was successfully updated.' }
+          format.json { head :no_content }
+        else
+          format.html { render action: "edit" }
+          format.json { render json: @result.errors, status: :unprocessable_entity }
+        end
       end
+    else
+      redirect_to root_path
     end
   end
 
@@ -114,7 +133,7 @@ class ResultsController < ApplicationController
     end
 
     params[:result].slice(
-      :user_id, :study_id, :exercise_id, :rule_id, :result_type, :location, :deleted
+      :user_id, :study_id, :exercise_id, :rule_id, :result_type, :location, :assessment_answers
     )
   end
 end

@@ -57,7 +57,7 @@
   <fieldset>
     <legend>Result Assessment Questionnaire</legend>
 
-    <%= render :partial => "assessments/questionnaire", :locals => { :assessment_type => @reliability_id.exercise.assessment_type } %>
+    <%= render :partial => "assessments/questionnaire", :locals => { :assessment_type => @reliability_id.exercise.assessment_type, :assessment => @result.assessment } %>
 
   </fieldset>
 

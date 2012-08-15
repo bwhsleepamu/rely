@@ -92,4 +92,35 @@ FactoryGirl.define do
 
   ##
   # Results
+  factory :result do
+    location "/path/to/result/location"
+    result_type "test_result_type"
+    #user
+    #exercise
+    #study
+    #rule
+    assessment
+  end
+
+  ##
+  # Assessments
+  factory :assessment do
+    assessment_type "paradox"
+
+    ignore do
+      assessment_result_count 2
+    end
+
+    after(:create) do |assessment, evaluator|
+      create_list(:assessment_result, evaluator.assessment_result_count, assessment_id: assessment.id)
+    end
+  end
+
+  ##
+  # Assessment Results
+  factory :assessment_result do
+    sequence(:question_id) { |n| n }
+    answer "Some answer to a question"
+  end
+
 end

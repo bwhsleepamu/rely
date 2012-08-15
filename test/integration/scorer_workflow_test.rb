@@ -58,7 +58,7 @@ class ScorerWorkflowTest < ActionDispatch::IntegrationTest
     assert page.has_content? exercise.rule.procedure
   end
 
-  test "Scorer can attach results to studies in an exercise." do
+  test "Scorer can attach a result to a study in an exercise." do
     exercises = setup_exercises
     exercise = exercises[:seen].first
 
@@ -77,14 +77,29 @@ class ScorerWorkflowTest < ActionDispatch::IntegrationTest
 
     fill_in "Location", :with => "/some/location/to/result/file"
     fill_in "Result type", :with => "Some Type of Result"
+    fill_in "result_assessment_answers_1", :with => "233"
+    select "Some", :from => "result_assessment_answers_2"
 
-    show_page
     click_on "Add Result"
-
     show_page
     tr = all("tr.study").first
     tr.has_content? "true"
-    tr.has_content? "Edit Result"
+    tr.click_on "Edit Result"
+
+    show_page
+    assert_equal 233.to_s, find_field("result_assessment_answers_1").value
+  end
+
+  test "Scorer can edit a result for a study in an exercise" do
+    pending "finish above first"
+    exercises = setup_exercises
+    exercise = exercises[:seen].first
+    study = exercise.all_studies.first
+    result = create(:result, user_id: @user.id, exercise_id: exercise.id, rule_id: exercise.rule.id, study_id: study.id )
+    assessment_
+
+
+    visit exercise_path(exercise)
 
   end
 
