@@ -42,7 +42,7 @@ class SystemAdminWorkflowTest < ActionDispatch::IntegrationTest
     click_button "Launch Exercise"
 
     # Show Page
-    assert has_content?("Exercise was successfully launched.")
+    assert has_content?("Exercise was successfully launched."), page.html
     assert has_content?(@user.name)
     assert has_content?("Assigned At")
     assert has_content?("Completed At")
