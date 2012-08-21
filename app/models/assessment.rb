@@ -2,7 +2,7 @@ class Assessment < ActiveRecord::Base
   ##
   # Associations
   belongs_to :result
-  has_many :assessment_results
+  has_many :assessment_results, :conditions => { :deleted => false }
 
   ##
   # Attributes
@@ -51,6 +51,10 @@ class Assessment < ActiveRecord::Base
 
   def name
     self.assessment_type
+  end
+
+  def destroy
+    update_column :deleted, true
   end
 
   private

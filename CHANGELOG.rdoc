@@ -1,3 +1,12 @@
+== 0.3.0
+* Upgraded Rails to 3.2.8
+* Added deleted flag functionality
+
+* Refactoring
+  * Updated schema to remove redundancies between study, reliability id, and result models.
+
+* Bug Fix
+
 == 0.2.0
 * Added creator ids to models that had no user assignments.
 * Added support for integration testing.

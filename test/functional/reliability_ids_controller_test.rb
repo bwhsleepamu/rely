@@ -19,7 +19,7 @@ class ReliabilityIdsControllerTest < ActionController::TestCase
 
   test "should create reliability_id" do
     assert_difference('ReliabilityId.count') do
-      post :create, reliability_id: { deleted: @reliability_id.deleted, study_id: @reliability_id.study_id, user_id: @reliability_id.user_id, exercise_id: @reliability_id.exercise_id }
+      post :create, reliability_id: { study_id: @reliability_id.study_id, user_id: @reliability_id.user_id, exercise_id: @reliability_id.exercise_id }
     end
 
     assert_redirected_to reliability_id_path(assigns(:reliability_id))
@@ -36,12 +36,12 @@ class ReliabilityIdsControllerTest < ActionController::TestCase
   end
 
   test "should update reliability_id" do
-    put :update, id: @reliability_id, reliability_id: { deleted: @reliability_id.deleted, study_id: @reliability_id.study_id, user_id: @reliability_id.user_id, exercise_id: @reliability_id.exercise_id }
+    put :update, id: @reliability_id, reliability_id: { study_id: @reliability_id.study_id, user_id: @reliability_id.user_id, exercise_id: @reliability_id.exercise_id }
     assert_redirected_to reliability_id_path(assigns(:reliability_id))
   end
 
   test "should destroy reliability_id" do
-    assert_difference('ReliabilityId.count', -1) do
+    assert_difference('ReliabilityId.current.count', -1) do
       delete :destroy, id: @reliability_id
     end
 

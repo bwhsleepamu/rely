@@ -49,7 +49,7 @@ class ExercisesControllerTest < ActionController::TestCase
     group_ids = [groups(:one).id, groups(:two).id]
 
     assert_difference('Exercise.count') do
-      post :create, exercise: { assessment_type: @exercise.assessment_type, deleted: @exercise.deleted,
+      post :create, exercise: { assessment_type: @exercise.assessment_type,
                                 description: @exercise.description, name: @exercise.name + "_new", rule_id: @exercise.rule_id,
                                 scorer_ids: user_ids, group_ids: group_ids }
     end
@@ -60,10 +60,11 @@ class ExercisesControllerTest < ActionController::TestCase
   end
 
   test "should show assigned exercise to scorer" do
-    user = users(:valid)
+    exercise = create(:exercise)
+    user = exercise.scorers.first
     login(user)
 
-    get :show, id: @exercise
+    get :show, id: exercise
     assert_response :success
   end
 
@@ -88,12 +89,12 @@ class ExercisesControllerTest < ActionController::TestCase
   end
 
   test "should update exercise" do
-    put :update, id: @exercise, exercise: { assessment_type: @exercise.assessment_type, deleted: @exercise.deleted, description: @exercise.description, name: @exercise.name + "_update", rule_id: @exercise.rule_id }
+    put :update, id: @exercise, exercise: { assessment_type: @exercise.assessment_type, description: @exercise.description, name: @exercise.name + "_update", rule_id: @exercise.rule_id }
     assert_redirected_to exercise_path(assigns(:exercise))
   end
 
   test "should destroy exercise" do
-    assert_difference('Exercise.count', -1) do
+    assert_difference('Exercise.current.count', -1) do
       delete :destroy, id: @exercise
     end
 

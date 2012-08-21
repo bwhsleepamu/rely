@@ -41,7 +41,6 @@ class SystemAdminWorkflowTest < ActionDispatch::IntegrationTest
 
     click_button "Launch Exercise"
 
-    show_page
     # Show Page
     assert has_content?("Exercise was successfully launched.")
     assert has_content?(@user.name)
@@ -86,8 +85,6 @@ class SystemAdminWorkflowTest < ActionDispatch::IntegrationTest
     assert has_content?("Group was successfully created.")
     assert has_content?(group_name), "No group name displayed."
     assert has_content?(description), "No description displayed"
-
-    show_page
 
     study_indexes.each do |i|
       assert has_content?(studies[i].to_s)
@@ -172,8 +169,6 @@ class SystemAdminWorkflowTest < ActionDispatch::IntegrationTest
     assert has_no_content?('Deleted'), 'Deleted flag should not show up'
 
     click_button "Create Project"
-
-    show_page
 
     assert has_content?("Project was successfully created.")
     assert has_content?(name)

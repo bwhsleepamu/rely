@@ -1,15 +1,12 @@
 class Result < ActiveRecord::Base
   ##
   # Associations
-  belongs_to :user
-  belongs_to :exercise
-  belongs_to :study
-  belongs_to :rule
-  has_one :assessment
+  belongs_to :reliability_id
+  has_one :assessment, :conditions => { :deleted => false }
 
   ##
   # Attributes
-  attr_accessible :exercise_id, :location, :rule_id, :study_id, :type, :user_id, :result_type, :assessment_answers
+  attr_accessible :location, :result_type, :assessment_answers, :reliability_id_id
 
   ##
   # Callbacks
@@ -23,6 +20,7 @@ class Result < ActiveRecord::Base
 
   ##
   # Validations
+  validates_presence_of :reliability_id_id, :location, :result_type
 
   ##
   # Class Methods
@@ -30,7 +28,7 @@ class Result < ActiveRecord::Base
   ##
   # Instance Methods
   def name
-    "#{self.study} #{self.user} #{self.result_type}"
+    "result_#{self.reliability_id.unique_id}"
   end
 
   def accessible?(user)
@@ -39,11 +37,15 @@ class Result < ActiveRecord::Base
 
   def assessment_answers=(value)
     if value
-      self.assessment = Assessment.new(assessment_type: self.exercise.assessment_type)
+      self.assessment = Assessment.new(assessment_type: reliability_id.exercise.assessment_type)
       value.each do |question_id, answer|
         self.assessment.assessment_results.build(question_id: question_id, answer: answer)
       end
     end
+  end
+
+  def destroy
+    update_column :deleted, true
   end
 
   private

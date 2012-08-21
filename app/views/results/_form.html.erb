@@ -1,18 +1,18 @@
 <div class="page-header">
-  <h1>Result for Study <%= @reliability_id.unique_id %></h1>
+  <h1>Result for Study <%= @result.reliability_id.unique_id %></h1>
 </div>
 
 <dl class="dl-horizontal">
   <dt>Study Type</dt>
-  <dd><%= link_to @reliability_id.study.study_type.name, @reliability_id.study.study_type if @reliability_id.study.study_type %></dd>
+  <dd><%= link_to @result.reliability_id.study.study_type.name, @result.reliability_id.study.study_type if@result.reliability_id.study.study_type %></dd>
 
   <dt>Study Location</dt>
-  <dd><%= @reliability_id.study.location %></dd>
+  <dd><%= @result.reliability_id.study.location %></dd>
 
   <dt>Scoring Rule</dt>
   <dd>
-    <h5><%= @reliability_id.exercise.rule.title %></h5>
-    <p><%= @reliability_id.exercise.rule.procedure %></p>
+    <h5><%= @result.reliability_id.exercise.rule.title %></h5>
+    <p><%= @result.reliability_id.exercise.rule.procedure %></p>
   </dd>
 </dl>
 
@@ -30,15 +30,8 @@
   <% end %>
   <fieldset>
     <legend>Result Information</legend>
-      <%= f.hidden_field :user_id, value: current_user.id %>
 
-      <%= f.hidden_field :study_id, value: @reliability_id.study.id %>
-
-      <%= f.hidden_field :exercise_id, value: @reliability_id.exercise.id %>
-
-      <%= f.hidden_field :type, value: "rescored" %>
-
-      <%= f.hidden_field :rule_id, value: @reliability_id.exercise.rule.id %>
+      <%= f.hidden_field :reliability_id_id, value: @result.reliability_id.id %>
 
       <div class="control-group">
         <%= f.label :result_type, nil, class: 'control-label' %>
@@ -57,7 +50,7 @@
   <fieldset>
     <legend>Result Assessment Questionnaire</legend>
 
-    <%= render :partial => "assessments/questionnaire", :locals => { :assessment_type => @reliability_id.exercise.assessment_type, :assessment => @result.assessment } %>
+    <%= render :partial => "assessments/questionnaire", :locals => { :assessment_type => @result.reliability_id.exercise.assessment_type, :assessment => @result.assessment } %>
 
   </fieldset>
 

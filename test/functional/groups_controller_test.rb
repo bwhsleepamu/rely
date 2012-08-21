@@ -25,7 +25,7 @@ class GroupsControllerTest < ActionController::TestCase
 
   test "should create group and assign creator" do
     assert_difference('Group.count') do
-      post :create, group: { deleted: @group.deleted, description: @group.description, name: @group.name }
+      post :create, group: { description: @group.description, name: @group.name }
     end
 
     assert_redirected_to group_path(assigns(:group))
@@ -35,7 +35,7 @@ class GroupsControllerTest < ActionController::TestCase
   test "should create group with associated studies" do
 
     assert_difference('Group.count') do
-      post :create, group: { deleted: @group.deleted, description: @group.description, name: @group.name,
+      post :create, group: { description: @group.description, name: @group.name,
                              study_ids: [studies(:one).id, studies(:three).id, studies(:five).id] }
     end
 
@@ -54,12 +54,12 @@ class GroupsControllerTest < ActionController::TestCase
   end
 
   test "should update group" do
-    put :update, id: @group, group: { deleted: @group.deleted, description: @group.description, name: @group.name }
+    put :update, id: @group, group: { description: @group.description, name: @group.name }
     assert_redirected_to group_path(assigns(:group))
   end
 
   test "should destroy group" do
-    assert_difference('Group.count', -1) do
+    assert_difference('Group.current.count', -1) do
       delete :destroy, id: @group
     end
 

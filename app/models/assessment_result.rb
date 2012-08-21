@@ -15,7 +15,7 @@ class AssessmentResult < ActiveRecord::Base
 
   ##
   # Scopes
-  scope :current, conditions: { }
+  scope :current, conditions: { deleted: false }
 
   ##
   # Validations
@@ -28,6 +28,11 @@ class AssessmentResult < ActiveRecord::Base
   def name
     self.assessment_id
   end
+
+  def destroy
+    update_column :deleted, true
+  end
+
 
   private
 

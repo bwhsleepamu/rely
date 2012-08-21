@@ -1,16 +1,16 @@
 class Study < ActiveRecord::Base
   ##
   # Associations
-  has_many :groups, :through => :group_studies
-  has_many :group_studies
-  has_many :results
-  belongs_to :study_type
   has_many :reliability_ids
-  belongs_to :creator, :class_name => "User", :foreign_key => :creator_id, :conditions => { :deleted => false }
+  has_many :groups, :through => :group_studies, :conditions => { :deleted => false }
+  has_many :group_studies
+  belongs_to :study_type
+
+  belongs_to :creator, :class_name => "User", :foreign_key => :creator_id
 
   ##
   # Attributes
-  attr_accessible :deleted, :location, :original_id, :study_type_id
+  attr_accessible :location, :original_id, :study_type_id
 
   ##
   # Callbacks
@@ -32,26 +32,27 @@ class Study < ActiveRecord::Base
   def self.find_by_reliability_id(reliability_id)
     ReliabilityId.find_by_unique_id(reliability_id).study
   end
+
   ##
   # Instance Methods
   def name
-    self.original_id
+    original_id
   end
 
   def long_name
-    "#{self.original_id} #{self.location}"
+    "#{original_id} #{location}"
   end
 
   def to_s
-    "id: #{self.original_id} location: #{self.location}"
+    "id: #{original_id} location: #{location}"
   end
 
   def has_result?(user, exercise)
-    results.where(:exercise_id => exercise.id, :user_id => user.id).count > 0
+    reliability_ids.where(:exercise_id => exercise.id, :user_id => user.id).first.result
   end
 
   def result(user, exercise)
-    results.where(:exercise_id => exercise.id, :user_id => user.id).first if has_result?(user, exercise)
+    reliability_ids.where(:exercise_id => exercise.id, :user_id => user.id).first.result
   end
 
   def reliability_id(user, exercise)
@@ -68,6 +69,9 @@ class Study < ActiveRecord::Base
     r_id ? r_id.unique_id : nil
   end
 
+  def destroy
+    update_column :deleted, true
+  end
 
   private
 

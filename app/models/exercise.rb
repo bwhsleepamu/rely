@@ -1,16 +1,17 @@
 class Exercise < ActiveRecord::Base
   ##
   # Associations
-  belongs_to :admin, :class_name => "User", :foreign_key => :admin_id, :conditions => { :deleted => false, :system_admin => true }
-  has_many :scorers, :class_name => "User", :through => :exercise_users, :source => :user
+  belongs_to :admin, :class_name => "User", :foreign_key => :admin_id
+  has_many :scorers, :class_name => "User", :through => :exercise_users, :source => :user, :conditions => { :deleted => false }
   has_many :exercise_users
-  has_many :groups, :through => :exercise_groups
+  has_many :groups, :through => :exercise_groups, :conditions => { :deleted => false }
   has_many :exercise_groups
-  belongs_to :rule, :conditions => { :deleted => false }
+  has_many :reliability_ids, :conditions => { :deleted => false }
+  belongs_to :rule
 
   ##
   # Attributes
-  attr_accessible :admin_id, :assessment_type, :assigned_at, :completed_at, :deleted, :description, :name, :rule_id, :scorer_ids, :group_ids
+  attr_accessible :admin_id, :assessment_type, :assigned_at, :completed_at, :description, :name, :rule_id, :scorer_ids, :group_ids
 
   ##
   # Callbacks
@@ -39,26 +40,44 @@ class Exercise < ActiveRecord::Base
     groups.inject([]) {|all, group| all.concat(group.studies)}
   end
 
-  def completed?(user)
+  def completed?(scorer)
+    completed = true
 
-    result = ActiveRecord::Base.connection.select_all("
-      select count(*) from results r
-      join studies s on r.study_id = s.id
-      join group_studies gs on gs.study_id = s.id
-      join groups g on gs.group_id = g.id
-      join exercise_groups eg on eg.group_id = g.id
-      join exercises e on eg.exercise_id = e.id
-      where r.user_id = #{user.id}
-      and e.id = #{self.id}
-    ")
 
-    MY_LOG.info result
+    ## TODO: Might be faster to use a well-made select instead of a loop
+    reliability_ids.where(:user_id => scorer.id).each do |rid|
+      completed = false if rid.result.nil?
+    end
+
+    #all_studies.each do |study|
+    #  rid = study.reliability_id(scorer, self)
+    #  completed = false if rid.result.nil?
+    #end
+
+    ## TODO: finalize select attempts
+    #result = ActiveRecord::Base.connection.select_all("
+    #  select count(*) from reliability_ids rids
+    #  join results r on r.reliability_id_id = rids.id
+    #  where user_id = #{scorer.id}
+    #  and exercise_id = #{id}
+    #  and
+    #")
+    #
+    #result = ActiveRecord::Base.connection.select_all("
+    #  select count(*) from results r
+    #  join reliability_ids rids on rids.id = r.reliability_id_id
+    #  join exercises e on e.id = rids.exercise_id
+    #  where rids.user_id = #{user.id}
+    #  and e.id = #{self.id}
+    #")
 
     #
-    # completed if results exists for user/exercise/study combo.
-    groups.inject(true) do |previous_group_status, group|
-      previous_group_status and group.studies.inject(true) {|previous_study_status, study| previous_study_status and (study.results.where({:user_id => user.id, :study_id => study.id}).count > 0)}
-    end
+    # completed if result exists for user/exercise/study combo.
+    #groups.inject(true) do |previous_group_status, group|
+    #  previous_group_status and group.studies.inject(true) {|previous_study_status, study| previous_study_status and (study.results.where({:user_id => user.id, :study_id => study.id}).count > 0)}
+    #end
+
+    completed
   end
 
   def all_completed?
@@ -76,6 +95,11 @@ class Exercise < ActiveRecord::Base
       ExerciseMailer.notify_scorer(scorer, self).deliver
     end
   end
+
+  def destroy
+    update_column :deleted, true
+  end
+
 
   private
 

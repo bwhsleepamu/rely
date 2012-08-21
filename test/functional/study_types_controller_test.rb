@@ -25,7 +25,7 @@ class StudyTypesControllerTest < ActionController::TestCase
 
   test "should create study type" do
     assert_difference('StudyType.count') do
-      post :create, study_type: { deleted: @study_type.deleted, description: @study_type.description, name: @study_type.name + "_c" }
+      post :create, study_type: { description: @study_type.description, name: @study_type.name + "_c" }
     end
 
     assert_redirected_to study_type_path(assigns(:study_type))
@@ -42,12 +42,12 @@ class StudyTypesControllerTest < ActionController::TestCase
   end
 
   test "should update study type" do
-    put :update, id: @study_type, study_type: { deleted: @study_type.deleted, description: @study_type.description, name: @study_type.name }
+    put :update, id: @study_type, study_type: { description: @study_type.description, name: @study_type.name }
     assert_redirected_to study_type_path(assigns(:study_type))
   end
 
   test "should destroy study study type" do
-    assert_difference('StudyType.count', -1) do
+    assert_difference('StudyType.current.count', -1) do
       delete :destroy, id: @study_type
     end
 

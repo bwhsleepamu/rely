@@ -103,7 +103,7 @@ class GroupsController < ApplicationController
     end
 
     params[:group].slice(
-      :name, :description, :deleted, :study_ids
+      :name, :description, :study_ids
     )
   end
 end

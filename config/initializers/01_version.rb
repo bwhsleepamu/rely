@@ -1,9 +1,9 @@
 module Rely
   module VERSION #:nodoc:
     MAJOR = 0
-    MINOR = 2
+    MINOR = 3
     TINY = 0
-    BUILD = nil
+    BUILD = "pre"
     STRING = [MAJOR, MINOR, TINY, BUILD].compact.join('.')
   end
 end

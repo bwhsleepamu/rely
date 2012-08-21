@@ -39,7 +39,7 @@ class RulesControllerTest < ActionController::TestCase
 
   test "should create rule" do
     assert_difference('Rule.count') do
-      post :create, rule: { deleted: @rule.deleted, procedure: @rule.procedure, title: @rule.title }
+      post :create, rule: { procedure: @rule.procedure, title: @rule.title }
     end
 
     assert_redirected_to rule_path(assigns(:rule))
@@ -62,12 +62,12 @@ class RulesControllerTest < ActionController::TestCase
   end
 
   test "should update rule" do
-    put :update, id: @rule, rule: { deleted: @rule.deleted, procedure: @rule.procedure, title: @rule.title }
+    put :update, id: @rule, rule: { procedure: @rule.procedure, title: @rule.title }
     assert_redirected_to rule_path(assigns(:rule))
   end
 
   test "should destroy rule" do
-    assert_difference('Rule.count', -1) do
+    assert_difference('Rule.current.count', -1) do
       delete :destroy, id: @rule
     end
 

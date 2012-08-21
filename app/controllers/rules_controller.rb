@@ -102,7 +102,7 @@ class RulesController < ApplicationController
     end
 
     params[:rule].slice(
-      :title, :procedure, :deleted
+      :title, :procedure
     )
   end
 end

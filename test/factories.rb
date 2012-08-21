@@ -95,10 +95,6 @@ FactoryGirl.define do
   factory :result do
     location "/path/to/result/location"
     result_type "test_result_type"
-    #user
-    #exercise
-    #study
-    #rule
     assessment
   end
 

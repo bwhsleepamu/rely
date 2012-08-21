@@ -4,10 +4,11 @@ class ReliabilityId < ActiveRecord::Base
   belongs_to :study
   belongs_to :user
   belongs_to :exercise
+  has_one :result, :conditions => { :deleted => false }
 
   ##
   # Attributes
-  attr_accessible :deleted, :study_id, :unique_id, :user_id, :exercise_id
+  attr_accessible :study_id, :unique_id, :user_id, :exercise_id
 
   ##
   # Callbacks
@@ -33,6 +34,11 @@ class ReliabilityId < ActiveRecord::Base
   def name
     self.unique_id
   end
+
+  def destroy
+    update_column :deleted, true
+  end
+
 
   private
 

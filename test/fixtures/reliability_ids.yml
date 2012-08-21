@@ -20,3 +20,10 @@ three:
   exercise: two
   user: two
   deleted: false
+
+four:
+  unique_id: MyString4
+  user: two
+  study: one
+  exercise: three
+  deleted: false

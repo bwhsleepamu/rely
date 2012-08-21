@@ -30,7 +30,7 @@ class ScorerWorkflowTest < ActionDispatch::IntegrationTest
     visit exercises_path
 
     click_on exercise.name
-    show_page
+
     assert page.has_content?("Dashboard for Exercise #{exercise.name}")
     assert page.has_selector?("tbody.group", :count => exercise.groups.count)
     assert page.has_selector?("tr.study", :count => exercise.groups.inject(0){|sum, group| sum + group.studies.count } )
@@ -68,7 +68,7 @@ class ScorerWorkflowTest < ActionDispatch::IntegrationTest
     tr = all("tr.study").first
     study = Study.find_by_reliability_id(tr.find("td.reliability_id").text)
     tr.click_link("Add Result")
-    show_page
+
     assert page.has_content? study.location
     assert page.has_content?(study.study_type.name)
 
@@ -79,14 +79,12 @@ class ScorerWorkflowTest < ActionDispatch::IntegrationTest
     fill_in "Result type", :with => "Some Type of Result"
     fill_in "result_assessment_answers_1", :with => "233"
     select "Some", :from => "result_assessment_answers_2"
-
     click_on "Add Result"
-    show_page
+
     tr = all("tr.study").first
     tr.has_content? "true"
     tr.click_on "Edit Result"
 
-    show_page
     assert_equal 233.to_s, find_field("result_assessment_answers_1").value
   end
 

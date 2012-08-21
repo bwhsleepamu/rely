@@ -19,7 +19,7 @@ class AssessmentResultsControllerTest < ActionController::TestCase
 
   test "should create assessment_result" do
     assert_difference('AssessmentResult.count') do
-      post :create, assessment_result: { answer: @assessment_result.answer, assessment_id: @assessment_result.assessment_id, deleted: @assessment_result.deleted, question_id: @assessment_result.question_id }
+      post :create, assessment_result: { answer: @assessment_result.answer, assessment_id: @assessment_result.assessment_id, question_id: @assessment_result.question_id }
     end
 
     assert_redirected_to assessment_result_path(assigns(:assessment_result))
@@ -36,12 +36,12 @@ class AssessmentResultsControllerTest < ActionController::TestCase
   end
 
   test "should update assessment_result" do
-    put :update, id: @assessment_result, assessment_result: { answer: @assessment_result.answer, assessment_id: @assessment_result.assessment_id, deleted: @assessment_result.deleted, question_id: @assessment_result.question_id }
+    put :update, id: @assessment_result, assessment_result: { answer: @assessment_result.answer, assessment_id: @assessment_result.assessment_id, question_id: @assessment_result.question_id }
     assert_redirected_to assessment_result_path(assigns(:assessment_result))
   end
 
   test "should destroy assessment_result" do
-    assert_difference('AssessmentResult.count', -1) do
+    assert_difference('AssessmentResult.current.count', -1) do
       delete :destroy, id: @assessment_result
     end
 

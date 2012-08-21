@@ -1,15 +1,15 @@
 class Group < ActiveRecord::Base
   ##
   # Associations
-  has_many :projects, :through => :project_groups
-  has_many :studies, :through => :group_studies
+  has_many :projects, :through => :project_groups, :conditions => { :deleted => false }
+  has_many :studies, :through => :group_studies, :conditions => { :deleted => false }
   has_many :project_groups
   has_many :group_studies
-  belongs_to :creator, :class_name => "User", :foreign_key => :creator_id, :conditions => { :deleted => false }
+  belongs_to :creator, :class_name => "User", :foreign_key => :creator_id
 
   ##
   # Attributes
-  attr_accessible :deleted, :description, :name, :study_ids
+  attr_accessible :description, :name, :study_ids
 
   ##
   # Callbacks
@@ -30,6 +30,10 @@ class Group < ActiveRecord::Base
 
   ##
   # Instance Methods
+
+  def destroy
+    update_column :deleted, true
+  end
 
   private
 

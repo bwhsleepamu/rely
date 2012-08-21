@@ -1,13 +1,14 @@
 class Project < ActiveRecord::Base
   ##
   # Associations
-  has_many :groups, :through => :project_groups
+  has_many :groups, :through => :project_groups, :conditions => { :deleted => false }
   has_many :project_groups
-  belongs_to :creator, :class_name => "User", :foreign_key => :creator_id, :conditions => { :deleted => false }
+
+  belongs_to :creator, :class_name => "User", :foreign_key => :creator_id
 
   ##
   # Attributes
-  attr_accessible :deleted, :description, :end_date, :name, :start_date, :group_ids
+  attr_accessible :description, :end_date, :name, :start_date, :group_ids
 
   ##
   # Callbacks
@@ -28,6 +29,10 @@ class Project < ActiveRecord::Base
 
   ##
   # Instance Methods
+
+  def destroy
+    update_column :deleted, true
+  end
 
   private
 

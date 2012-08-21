@@ -1,13 +1,14 @@
 class StudyType < ActiveRecord::Base
   ##
   # Associations
-  has_many :studies
-  belongs_to :creator, :class_name => "User", :foreign_key => :creator_id, :conditions => { :deleted => false }
+  has_many :studies, :conditions => { :deleted => false }
+
+  belongs_to :creator, :class_name => "User", :foreign_key => :creator_id
 
 
   ##
   # Attributes
-  attr_accessible :deleted, :description, :name
+  attr_accessible :description, :name
 
   ##
   # Callbacks
@@ -29,6 +30,9 @@ class StudyType < ActiveRecord::Base
 
   ##
   # Instance Methods
+  def destroy
+    update_column :deleted, true
+  end
 
   private
 

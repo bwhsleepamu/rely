@@ -102,7 +102,7 @@ class StudiesController < ApplicationController
     end
 
     params[:study].slice(
-      :original_id, :study_type_id, :location, :deleted
+      :original_id, :study_type_id, :location
     )
   end
 end

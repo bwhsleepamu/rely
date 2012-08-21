@@ -84,7 +84,7 @@ class UsersController < ApplicationController
     end
 
     params[:project].slice(
-        :first_name, :last_name, :email, :remember_me, :description, :start_date, :end_date, :user_id, :deleted
+        :first_name, :last_name, :email, :remember_me, :description, :start_date, :end_date, :user_id
     )
   end
 

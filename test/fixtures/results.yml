@@ -1,19 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  user: two
-  study_id: 1
-  exercise: three
-  rule_id: 1
+  reliability_id: four
   result_type: 'rescored'
   location: MyString
   deleted: false
 
 two:
-  user: two
-  study: 1
-  exercise: three
-  rule_id: 1
+  reliability_id: three
   result_type: 'rescored'
   location: MyString
   deleted: false

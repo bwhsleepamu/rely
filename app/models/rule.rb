@@ -1,14 +1,13 @@
 class Rule < ActiveRecord::Base
   ##
   # Associations
-  has_many :exercises
-  has_many :results
-  belongs_to :creator, :class_name => "User", :foreign_key => :creator_id, :conditions => { :deleted => false }
+  has_many :exercises, :conditions => { :deleted => false }
+  belongs_to :creator, :class_name => "User", :foreign_key => :creator_id
 
 
   ##
   # Attributes
-  attr_accessible :deleted, :procedure, :title
+  attr_accessible :procedure, :title
 
   ##
   # Callbacks
@@ -30,6 +29,10 @@ class Rule < ActiveRecord::Base
   # Instance Methods
   def name
     self.title
+  end
+
+  def destroy
+    update_column :deleted, true
   end
 
   private

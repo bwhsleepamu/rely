@@ -5,4 +5,4 @@
     * gets a bit dicey if you hide exercise etc.
   - simplify and condense
 
-2. assessments get orphaned
+2. assessments get orphaned - !! What does this mean?
