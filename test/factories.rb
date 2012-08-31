@@ -99,6 +99,14 @@ FactoryGirl.define do
   end
 
   ##
+  # Reliability Ids
+  factory :reliability_id do
+    study
+    user
+    exercise
+  end
+
+  ##
   # Assessments
   factory :assessment do
     assessment_type "paradox"

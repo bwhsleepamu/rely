@@ -58,7 +58,7 @@ class ResultsControllerTest < ActionController::TestCase
     login(user)
 
     MY_LOG.info reliability_id.unique_id
-    get :new, reliability_id: reliability_id.unique_id
+    get :new, reliability_id: reliability_id
     assert_not_nil assigns(:result).reliability_id
     assert_response :success
   end

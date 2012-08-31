@@ -29,14 +29,15 @@ class Study < ActiveRecord::Base
 
   ##
   # Class Methods
-  def self.find_by_reliability_id(reliability_id)
-    ReliabilityId.find_by_unique_id(reliability_id).study
-  end
 
   ##
   # Instance Methods
   def name
     original_id
+  end
+
+  def group(reliability_id)
+    reliability_id.exercise.groups.joins(:studies).where(:studies => { :id => id} ).first
   end
 
   def long_name
@@ -45,28 +46,6 @@ class Study < ActiveRecord::Base
 
   def to_s
     "id: #{original_id} location: #{location}"
-  end
-
-  def has_result?(user, exercise)
-    reliability_ids.where(:exercise_id => exercise.id, :user_id => user.id).first.result
-  end
-
-  def result(user, exercise)
-    reliability_ids.where(:exercise_id => exercise.id, :user_id => user.id).first.result
-  end
-
-  def reliability_id(user, exercise)
-    r_ids = reliability_ids.where(:user_id => user.id, :exercise_id => exercise.id)
-    if r_ids
-      r_ids.first
-    else
-      nil
-    end
-  end
-
-  def reliability_unique_id(user, exercise)
-    r_id = reliability_id(user, exercise)
-    r_id ? r_id.unique_id : nil
   end
 
   def destroy

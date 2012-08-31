@@ -31,10 +31,6 @@ class Result < ActiveRecord::Base
     "result_#{self.reliability_id.unique_id}"
   end
 
-  def accessible?(user)
-    user_id == user.id and ReliabilityId.where(user_id: user_id, exercise_id: exercise_id).empty? == false
-  end
-
   def assessment_answers=(value)
     if value
       self.assessment = Assessment.new(assessment_type: reliability_id.exercise.assessment_type)

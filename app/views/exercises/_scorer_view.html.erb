@@ -29,26 +29,24 @@
         <th>Actions</th>
       </tr>
     </thead>
-    <% @exercise.groups.each do |group| %>
-      <tbody class="group" id="<%= group.id %>">
-        <% group.studies.each do |study|  %>
-          <tr class="study">
-            <td><%= group.name %></td>
-            <td class="reliability_id"><%= study.reliability_unique_id(current_user, @exercise) %></td>
-            <td><%= study.study_type.name %></td>
-            <td><%= study.location %></td>
-            <td><%= study.has_result?(current_user, @exercise) %></td>
-            <td>
-              <% if study.has_result?(current_user, @exercise) %>
-                <%= link_to("Edit Result", edit_result_path(id: study.result(current_user, @exercise).id, reliability_id: study.reliability_unique_id(current_user, @exercise))) %>
-              <% else %>
-                <%= link_to("Add Result", new_result_path(reliability_id: study.reliability_unique_id(current_user, @exercise))) %>
-              <% end %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-      <% end %>
+    <tbody>
+    <% current_user.exercise_reliability_ids(@exercise).each do |r_id| %>
+      <tr class="study">
+        <td><%= r_id.study.group(r_id).name %></td>
+        <td class="reliability_id"><%= r_id.unique_id %></td>
+        <td><%= r_id.study.study_type.name %></td>
+        <td><%= r_id.study.location %></td>
+        <td><%= r_id.has_result? %></td>
+        <td>
+          <% if r_id.has_result? %>
+            <%= link_to("Edit Result", edit_result_path(id: r_id.result.id)) %>
+          <% else %>
+            <%= link_to("Add Result", new_result_path(reliability_id: r_id.id)) %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
   </table>
 
 </div>

@@ -6,8 +6,7 @@ class ExerciseTest < ActiveSupport::TestCase
     scorer = exercise.scorers.first
     assert_equal false, exercise.completed?(scorer)
 
-    exercise.all_studies.each do |study|
-      rid = study.reliability_id(scorer, exercise)
+    scorer.reliability_ids.where(:exercise_id => exercise.id).each do |rid|
       rid.result = create(:result, reliability_id_id: rid.id)
     end
 
@@ -19,8 +18,7 @@ class ExerciseTest < ActiveSupport::TestCase
     assert_equal false, exercise.all_completed?
 
     exercise.scorers.each do |scorer|
-      exercise.all_studies.each do |study|
-        rid = study.reliability_id(scorer, exercise)
+      scorer.reliability_ids.where(:exercise_id => exercise.id).each do |rid|
         rid.result = create(:result, reliability_id_id: rid.id)
       end
     end
@@ -44,16 +42,11 @@ class ExerciseTest < ActiveSupport::TestCase
     ids = []
 
     exercise.scorers.each do |scorer|
-      exercise.all_studies.each do |study|
-        r_id = study.reliability_id(scorer, exercise)
-        assert_not_nil r_id
-        ids << r_id
-      end
+      r_ids = scorer.reliability_ids.where(:exercise_id => exercise.id)
+      assert_equal exercise.all_studies.length, r_ids.length
+      ids += r_ids
     end
 
     assert_equal ids.uniq.count, ids.count
   end
-
-
-
 end

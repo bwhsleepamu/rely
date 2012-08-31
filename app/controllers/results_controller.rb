@@ -32,7 +32,7 @@ class ResultsController < ApplicationController
   # GET /results/new.json
   def new
     @result = Result.new
-    @result.reliability_id = ReliabilityId.find_by_unique_id(params[:reliability_id])
+    @result.reliability_id = ReliabilityId.find_by_id(params[:reliability_id])
 
     if @result.reliability_id and @result.reliability_id.user_id == current_user.id
       respond_to do |format|

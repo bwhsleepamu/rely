@@ -1,18 +1,13 @@
 require 'test_helper'
 
 class StudyTest < ActiveSupport::TestCase
-  test "Study.find_by_reliability_id" do
+  test "#group" do
     exercise = create(:exercise)
-    exercise.scorers.each do |scorer|
-      exercise.all_studies.each do |study|
-        found_study = Study.find_by_reliability_id(study.reliability_id(scorer, exercise).unique_id)
-        assert_equal false, found_study.nil?
-        assert_equal found_study.id, study.id
-      end
-    end
-  end
+    group = exercise.groups.first
+    study = group.studies.first
+    r_id = exercise.reliability_ids.where(:study_id => study.id).first
 
-  test "#reliability_id" do
-
+    assert_not_nil study.group(r_id)
+    assert_equal group, study.group(r_id)
   end
 end

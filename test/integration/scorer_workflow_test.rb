@@ -31,17 +31,17 @@ class ScorerWorkflowTest < ActionDispatch::IntegrationTest
 
     click_on exercise.name
 
+    show_page
+
+    assert (exercise.all_studies.count > 0)
     assert page.has_content?("Dashboard for Exercise #{exercise.name}")
-    assert page.has_selector?("tbody.group", :count => exercise.groups.count)
-    assert page.has_selector?("tr.study", :count => exercise.groups.inject(0){|sum, group| sum + group.studies.count } )
+    assert page.has_selector?("tr.study", :count => exercise.all_studies.count)
     assert page.has_content?("Scored?")
 
-    exercise.groups.each do |group|
-      group.studies.each do |study|
-        r_id = study.reliability_id(@user, exercise)
-        assert_not_nil r_id
-        assert page.has_content?(r_id.unique_id)
-      end
+    exercise.reliability_ids.where(:user_id => @user.id).each do |r_id|
+      assert_not_nil r_id
+      show_page
+      assert page.has_content?(r_id.unique_id), "Page does not include #{r_id.unique_id}"
     end
   end
 
@@ -66,13 +66,14 @@ class ScorerWorkflowTest < ActionDispatch::IntegrationTest
     click_on exercise.name
 
     tr = all("tr.study").first
-    study = Study.find_by_reliability_id(tr.find("td.reliability_id").text)
+    r_id = ReliabilityId.find_by_unique_id(tr.find("td.reliability_id").text)
+    study = r_id.study
     tr.click_link("Add Result")
 
     assert page.has_content? study.location
     assert page.has_content?(study.study_type.name)
 
-    assert page.has_content?("Result for Study #{study.reliability_id(@user, exercise).unique_id}")
+    assert page.has_content?("Result for Study #{r_id.unique_id}")
     assert_equal new_result_path, current_path
 
     fill_in "Location", :with => "/some/location/to/result/file"
@@ -82,11 +83,17 @@ class ScorerWorkflowTest < ActionDispatch::IntegrationTest
     click_on "Add Result"
 
     tr = all("tr.study").first
-    tr.has_content? "true"
+
+    assert tr.has_content? "true"
     tr.click_on "Edit Result"
 
     assert_equal 233.to_s, find_field("result_assessment_answers_1").value
   end
+
+  test "Scorer can complete an exercise" do
+    pending
+  end
+
 
   test "Scorer can edit a result for a study in an exercise" do
     pending "finish above first"

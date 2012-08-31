@@ -103,6 +103,10 @@ class User < ActiveRecord::Base
     update_attribute :status, 'inactive'
   end
 
+  def exercise_reliability_ids(exercise)
+    reliability_ids.where(:exercise_id => exercise.id)
+  end
+
   private
 
   def notify_system_admins

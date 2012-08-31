@@ -39,6 +39,9 @@ class ReliabilityId < ActiveRecord::Base
     update_column :deleted, true
   end
 
+  def has_result?
+    result.nil? ? false : true
+  end
 
   private
 
