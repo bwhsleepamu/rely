@@ -36,9 +36,9 @@ class Study < ActiveRecord::Base
     original_id
   end
 
-  def group(reliability_id)
-    reliability_id.exercise.groups.joins(:studies).where(:studies => { :id => id} ).first
-  end
+  #def group(reliability_id)
+  #  reliability_id.exercise.groups.joins(:studies).where(:studies => { :id => id} ).first
+  #end
 
   def long_name
     "#{original_id} #{location}"

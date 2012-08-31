@@ -36,8 +36,22 @@ class Exercise < ActiveRecord::Base
 
   ##
   # Instance Methods
+  # TODO: Refactor method names to maintain consistency
+
   def all_studies
     groups.inject([]) {|all, group| all.concat(group.studies)}
+  end
+
+  def count_completed_results(scorer)
+    ## TODO: combine with completed?
+
+    count = 0
+
+    reliability_ids.where(:user_id => scorer.id).each do |rid|
+      count += 1 if rid.result
+    end
+
+    count
   end
 
   def completed?(scorer)
@@ -80,20 +94,40 @@ class Exercise < ActiveRecord::Base
     completed
   end
 
-  def all_completed?
-    all_completed = true
+  def count_completed
+    count = 0
 
     scorers.each do |scorer|
-      all_completed = false unless completed?(scorer)
+      count += 1 if completed? scorer
     end
 
-    all_completed
+    count
   end
+
+  def all_completed?
+    #all_completed = true
+    #
+    #scorers.each do |scorer|
+    #  all_completed = false unless completed?(scorer)
+    #end
+    #
+    #all_completed
+    count_completed == scorers.count
+  end
+
 
   def send_assignment_emails
     scorers.each do |scorer|
       ExerciseMailer.notify_scorer(scorer, self).deliver
     end
+  end
+
+  def pending_scorers
+    scorers.select {|scorer| !completed?(scorer) }
+  end
+
+  def finished_scorers
+    scorers.select {|scorer| completed?(scorer) }
   end
 
   def destroy

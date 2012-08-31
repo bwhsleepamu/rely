@@ -43,6 +43,10 @@ class ReliabilityId < ActiveRecord::Base
     result.nil? ? false : true
   end
 
+  def group
+    exercise.groups.joins(:studies).where(:studies => { :id => study.id} ).first
+  end
+
   private
 
   def generate_uuid

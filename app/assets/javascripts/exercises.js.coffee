@@ -6,3 +6,13 @@ jQuery ->
   $('#exercise_rule_id').chosen()
   $('#exercise_scorer_ids').chosen()
   $('#exercise_group_ids').chosen()
+  $('#results table').dataTable({
+    "sDom": "<'row'<'span6'l><'span6'f>r>t<'row'<'span3'T><'span3'i><'span6'p>>",
+    "sPaginationType": "bootstrap",
+    "oLanguage": {
+      "sLengthMenu": "_MENU_ records per page"
+    },
+    "oTableTools": {
+      "sSwfPath": '/assets/copy_csv_xls_pdf.swf'
+    }
+  })

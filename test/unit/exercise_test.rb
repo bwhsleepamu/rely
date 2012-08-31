@@ -26,6 +26,36 @@ class ExerciseTest < ActiveSupport::TestCase
     assert_equal true, exercise.all_completed?
   end
 
+  test "#count_completed" do
+    exercise = create(:exercise)
+    assert_equal 0, exercise.count_completed
+
+    exercise.scorers.each do |scorer|
+      assert_difference "exercise.count_completed" do
+        scorer.reliability_ids.where(:exercise_id => exercise.id).each do |rid|
+          create(:result, reliability_id_id: rid.id)
+        end
+      end
+    end
+
+  end
+
+  test "#finished_scorers and #pending_scorers" do
+    exercise = create(:exercise)
+
+    assert_equal exercise.scorers, exercise.pending_scorers
+    assert_empty exercise.finished_scorers
+
+    scorer = exercise.scorers.first
+
+    scorer.exercise_reliability_ids(exercise).each do |r_id|
+      create(:result, reliability_id_id: r_id.id)
+    end
+
+    assert_equal [scorer], exercise.finished_scorers
+    assert_equal exercise.finished_scorers.length + exercise.pending_scorers.length, exercise.scorers.length
+  end
+
   test "all_studies" do
     exercise = create(:exercise)
     study_count = 0

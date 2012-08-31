@@ -12,6 +12,10 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.dataTables.min
+//= require TableTools.min
+//= require ZeroClipboard
+//= require data_table_bootstrap
 //= require contour
 //= require chosen-jquery
 //= require_tree .

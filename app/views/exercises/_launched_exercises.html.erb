@@ -5,10 +5,11 @@
     <tr>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.name', 'Name', 'exercises_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.rule_id', 'Rule', 'exercises_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.description', 'Description', 'exercises_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.users.count', 'Assigned Scorers', 'exercises_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.assessment_type', 'Assessment Type', 'exercises_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.description', 'Description', 'exercises_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.assigned_at', 'Assigned At', 'exercises_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.users.count', 'Assigned Scorers', 'exercises_search') %></th>
+      <th style="white-space:nowrap">Completion Status</th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.completed_at', 'Completed At', 'exercises_search') %></th>
       <th>Actions</th>
     </tr>
@@ -16,14 +17,15 @@
 
   <tbody>
     <% @exercises.each do |exercise| %>
-    <tr>
+    <tr class="exercise" id="<%= exercise.id %>">
       <td><%= link_to exercise.name, exercise %></td>
       <td><%= link_to exercise.rule.name, exercise.rule if exercise.rule %></td>
-      <td><%= exercise.description %></td>
-      <td><%= exercise.scorers.count %></td>
       <td><%= exercise.assessment_type %></td>
+      <td><%= exercise.description %></td>
       <td><%= exercise.assigned_at %></td>
-      <td><%= exercise.completed_at %></td>
+      <td><%= exercise.scorers.count %></td>
+      <td class="status"><%= "#{exercise.count_completed}/#{exercise.scorers.count}" %></td>
+      <td class="completed_at"><%= simple_time(exercise.completed_at) %></td>
       <td>
         <%= link_to 'Edit', edit_exercise_path(exercise), class: 'btn btn-mini' %>
         <%= link_to 'Delete', exercise, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Exercise #{exercise.name}?" } %>

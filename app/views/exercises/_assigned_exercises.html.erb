@@ -13,12 +13,12 @@
 
   <tbody>
     <% @exercises.each do |exercise| %>
-    <tr>
+    <tr class="exercise" id="<%= exercise.id %>">
       <td><%= link_to exercise.name, exercise if exercise %></td>
       <td><%= link_to exercise.rule.name, exercise.rule if exercise.rule %></td>
       <td><%= exercise.description %></td>
       <td><%= exercise.assigned_at %></td>
-      <td><%= exercise.completed?(@user) %></td>
+      <td class="completed"><%= exercise.completed?(@user) ? "yes" : "no" %></td>
     </tr>
     <% end %>
   </tbody>

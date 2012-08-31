@@ -10,6 +10,7 @@ class Result < ActiveRecord::Base
 
   ##
   # Callbacks
+  after_save :exercise_completed?
 
   ##
   # Database Settings
@@ -45,5 +46,12 @@ class Result < ActiveRecord::Base
   end
 
   private
+
+  def exercise_completed?
+    if reliability_id.exercise.all_completed?
+      reliability_id.exercise.completed_at = Time.zone.now()
+      reliability_id.exercise.save
+    end
+  end
 
 end

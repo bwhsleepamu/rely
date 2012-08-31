@@ -91,9 +91,25 @@ class ScorerWorkflowTest < ActionDispatch::IntegrationTest
   end
 
   test "Scorer can complete an exercise" do
-    pending
-  end
+    exercises = setup_exercises
+    exercise = exercises[:seen].second
 
+    visit exercises_path
+
+    tr = find("tr##{exercise.id}")
+    assert tr.find("td.completed").has_content?("no")
+
+    # Add results
+    exercise.reliability_ids.where(:user_id => @user.id).each do |r_id|
+      create(:result, reliability_id_id: r_id.id)
+    end
+
+    visit(current_path)
+
+    tr = find("##{exercise.id}")
+    assert tr.find("td.completed").has_content?("yes")
+    show_page
+  end
 
   test "Scorer can edit a result for a study in an exercise" do
     pending "finish above first"

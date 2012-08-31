@@ -7,10 +7,80 @@ class SystemAdminWorkflowTest < ActionDispatch::IntegrationTest
     @user = login_admin
   end
 
+  ##
+  # Exercises
+
   test "should get list of all exercises" do
-    pending
+    exercises = create_list(:exercise, 3, admin_id: @user.id)
+
     visit exercises_path
     assert find("tbody").has_selector?("tr", :count => Exercise.current.count)
+  end
+
+  test "should see completion status (user that completed) of exercises and date of completion" do
+    exercises = create_list(:exercise, 3, admin_id: @user.id)
+    my_exercise = exercises.first
+
+    visit exercises_path
+    show_page
+
+    exercises.each do |exercise|
+      tr = find("tr##{exercise.id}")
+      assert tr.find("td.status").has_content?("0/#{exercise.scorers.count}")
+    end
+
+    click_on my_exercise.name
+
+    assert page.has_content?("Scorers who finished exercise:")
+    assert page.has_content?("Scorers still working on exercise:")
+
+    pending = find("ul#pending")
+
+    my_exercise.pending_scorers.each do |scorer|
+      pending.has_content?(scorer.name)
+    end
+
+    my_exercise.reliability_ids.each do |r_id|
+      create(:result, reliability_id_id: r_id.id)
+    end
+
+    visit exercises_path
+
+
+    tr = find("tr##{my_exercise.id}")
+    assert tr.find("td.status").has_content?("#{my_exercise.scorers.count}/#{my_exercise.scorers.count}")
+    my_exercise.reload
+    assert_not_nil my_exercise.completed_at
+    assert tr.find("td.completed_at").has_content?("Today at #{my_exercise.completed_at.strftime("%I:%M %p")}")
+
+    click_on my_exercise.name
+
+    finished = find("ul#finished")
+
+    my_exercise.finished_scorers.each do |scorer|
+      finished.has_content?(scorer.name)
+    end
+
+    show_page
+  end
+
+  test "should be able to get results for completed exercise" do
+    exercises = create_list(:exercise, 3, admin_id: @user.id)
+    my_exercise = exercises.first
+
+    visit exercise_path(my_exercise)
+
+    assert page.has_no_link?("Get Results")
+
+    my_exercise.reliability_ids.each do |r_id|
+      create(:result, reliability_id_id: r_id.id)
+    end
+
+    visit current_path
+    show_page
+    assert page.has_link?("Get Results")
+
+    click_link "Get Results"
   end
 
   test "should be able to launch an exercise" do
@@ -64,6 +134,9 @@ class SystemAdminWorkflowTest < ActionDispatch::IntegrationTest
       assert recipients.include?(user.email)
     end
   end
+
+  ##
+  # Studies
 
   test "should be able to create a group of studies" do
     study_count = 20
