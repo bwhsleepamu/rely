@@ -26,15 +26,15 @@ class SystemAdminWorkflowTest < ActionDispatch::IntegrationTest
 
     exercises.each do |exercise|
       tr = find("tr##{exercise.id}")
-      assert tr.find("td.status").has_content?("0/#{exercise.scorers.count}")
+      assert tr.find("td.status").has_content?("0%")
     end
 
     click_on my_exercise.name
 
-    assert page.has_content?("Scorers who finished exercise:")
-    assert page.has_content?("Scorers still working on exercise:")
+    assert page.has_content?("Finished Scorers")
+    assert page.has_content?("Pending Scorers")
 
-    pending = find("ul#pending")
+    pending = find("#pending_scorers")
 
     my_exercise.pending_scorers.each do |scorer|
       pending.has_content?(scorer.name)
@@ -46,16 +46,16 @@ class SystemAdminWorkflowTest < ActionDispatch::IntegrationTest
 
     visit exercises_path
 
+    my_exercise.reload
 
     tr = find("tr##{my_exercise.id}")
-    assert tr.find("td.status").has_content?("#{my_exercise.scorers.count}/#{my_exercise.scorers.count}")
-    my_exercise.reload
+    assert tr.find("td.status").has_content?("#{my_exercise.percent_completed}%")
     assert_not_nil my_exercise.completed_at
     assert tr.find("td.completed_at").has_content?("Today at #{my_exercise.completed_at.strftime("%I:%M %p")}")
 
     click_on my_exercise.name
 
-    finished = find("ul#finished")
+    finished = find("#finished_scorers")
 
     my_exercise.finished_scorers.each do |scorer|
       finished.has_content?(scorer.name)
@@ -112,8 +112,8 @@ class SystemAdminWorkflowTest < ActionDispatch::IntegrationTest
     # Show Page
     assert has_content?("Exercise was successfully launched."), page.html
     assert has_content?(@user.name)
-    assert has_content?("Assigned At")
-    assert has_content?("Completed At")
+    assert has_content?("Assigned")
+    assert has_content?("Completed")
     assert has_content?(name)
     assert has_content?(description)
     groups.each do |group|

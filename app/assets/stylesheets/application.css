@@ -12,6 +12,5 @@
  *= require data_table_bootstrap
  *= require TableTools
  *= require contour
- *= require chosen
  *= require_tree .
  */

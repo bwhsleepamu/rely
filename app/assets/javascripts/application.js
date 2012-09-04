@@ -17,5 +17,4 @@
 //= require ZeroClipboard
 //= require data_table_bootstrap
 //= require contour
-//= require chosen-jquery
 //= require_tree .
