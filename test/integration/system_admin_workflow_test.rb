@@ -70,17 +70,14 @@ class SystemAdminWorkflowTest < ActionDispatch::IntegrationTest
 
     visit exercise_path(my_exercise)
 
-    assert page.has_no_link?("Get Results")
 
     my_exercise.reliability_ids.each do |r_id|
       create(:result, reliability_id_id: r_id.id)
     end
 
     visit current_path
-    show_page
-    assert page.has_link?("Get Results")
 
-    click_link "Get Results"
+
   end
 
   test "should be able to launch an exercise" do

@@ -5,7 +5,6 @@
     <tr>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'groups.name', 'Name', 'groups_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'groups.description', 'Description', 'groups_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'groups.deleted', 'Deleted', 'groups_search') %></th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -14,7 +13,6 @@
     <tr>
       <td><%= group.name %></td>
       <td><%= group.description %></td>
-      <td><%= group.deleted %></td>
       <td>
         <%= link_to 'Edit', edit_group_path(group), class: 'btn btn-mini' %>
         <%= link_to 'Delete', group, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Group #{group.name}?" } %>

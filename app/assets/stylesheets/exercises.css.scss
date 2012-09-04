@@ -1,0 +1,26 @@
+div#admin_view {
+  div#status {
+    div.scorers {
+      padding: 10px 0 0 10px;
+
+      ul {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  div#results {
+
+    h3 {
+      margin-bottom: 10px;
+    }
+
+    table {
+
+      td.no_results {
+        text-align: center;
+      }
+    }
+  }
+}

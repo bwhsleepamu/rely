@@ -115,6 +115,9 @@ class Exercise < ActiveRecord::Base
     count_completed == scorers.count
   end
 
+  def percent_completed
+    ((count_completed/scorers.length) * 100.0).round(1)
+  end
 
   def send_assignment_emails
     scorers.each do |scorer|

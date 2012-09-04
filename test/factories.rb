@@ -111,12 +111,9 @@ FactoryGirl.define do
   factory :assessment do
     assessment_type "paradox"
 
-    ignore do
-      assessment_result_count 2
-    end
-
     after(:create) do |assessment, evaluator|
-      create_list(:assessment_result, evaluator.assessment_result_count, assessment_id: assessment.id)
+      create(:assessment_result, assessment_id: assessment.id, question_id: 1, answer: 20)
+      create(:assessment_result, assessment_id: assessment.id, question_id: 2, answer: 3)
     end
   end
 

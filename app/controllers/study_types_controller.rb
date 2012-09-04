@@ -1,6 +1,6 @@
 class StudyTypesController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :check_system_admin
+  before_filter :check_system_admin, only: [:new, :edit, :create, :update, :destroy]
 
   # GET /study_types
   # GET /study_types.json

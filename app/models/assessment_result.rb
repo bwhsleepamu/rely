@@ -33,6 +33,17 @@ class AssessmentResult < ActiveRecord::Base
     update_column :deleted, true
   end
 
+  def full_answer
+    if question_info.has_key?(:options)
+      question_info[:options][answer.to_i]
+    else
+      answer
+    end
+  end
+
+  def question_info
+    Assessment::TYPES[assessment.assessment_type.to_sym][:questions][question_id]
+  end
 
   private
 

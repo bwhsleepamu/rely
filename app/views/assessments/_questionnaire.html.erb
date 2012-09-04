@@ -1,6 +1,6 @@
 <% if Assessment::TYPES[assessment_type.to_sym]  %>
-  <% Assessment::TYPES[assessment_type.to_sym][:questions].each do |question_hash|  %>
-    <%= label_tag "result[assessment_answers][#{question_hash[:id]}]", question_hash[:text] %>
-    <%= questionnaire_field(assessment, question_hash) %>
+  <% Assessment::TYPES[assessment_type.to_sym][:questions].each do |question_id, question_hash|  %>
+    <%= label_tag "result[assessment_answers][#{question_id}]", question_hash[:text] %>
+    <%= questionnaire_field(assessment, question_id, question_hash) %>
   <% end %>
 <% end %>

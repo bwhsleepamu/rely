@@ -1,16 +1,16 @@
 module AssessmentsHelper
-  def questionnaire_field(assessment, question_hash)
-    name = "result[assessment_answers][#{question_hash[:id]}]"
+  def questionnaire_field(assessment, question_id, question_hash)
+    name = "result[assessment_answers][#{question_id}]"
 
     if assessment
-      assessment_results = assessment.assessment_results.where(question_id: question_hash[:id])
+      assessment_results = assessment.assessment_results.where(question_id: question_id)
       answer = assessment_results.empty? ? nil : assessment_results.first.answer
     end
 
 
     case question_hash[:type]
       when :dropdown
-        select_tag(name, options_for_select([['---', nil]] + question_hash[:options], answer), class: "chosen")
+        select_tag(name, options_for_select([['---', nil]] + question_hash[:options].invert.to_a, answer), class: "chosen")
       when :integer
         number_field_tag(name, answer)
       when :date

@@ -6,6 +6,8 @@
   * Updated schema to remove redundancies between study, reliability id, and result models.
 
 * Bug Fix
+  * Fixed missing "delete" image for chosen multi-select fields
+  * Fixed assessment type select box in exercise form to show current value.
 
 == 0.2.0
 * Added creator ids to models that had no user assignments.

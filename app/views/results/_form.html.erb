@@ -1,5 +1,7 @@
 <div class="page-header">
-  <h1>Result for Study <%= @result.reliability_id.unique_id %></h1>
+  <h1>Result for Study <%= @result.reliability_id.unique_id %>
+    <%= link_to "Back to Exercise", @result.reliability_id.exercise, class: 'btn btn-mini' %>
+  </h1>
 </div>
 
 <dl class="dl-horizontal">

@@ -69,7 +69,8 @@ class ExercisesControllerTest < ActionController::TestCase
   end
 
   test "should show any exercise to admin" do
-    get :show, id: @exercise
+    exercise = create(:exercise)
+    get :show, id: exercise
     assert_response :success
   end
 

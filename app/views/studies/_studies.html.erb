@@ -6,7 +6,6 @@
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'studies.original_id', 'Original', 'studies_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'studies.study_type_id', 'Study Type', 'studies_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'studies.location', 'Location', 'studies_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'studies.deleted', 'Deleted', 'studies_search') %></th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -16,7 +15,6 @@
       <td><%= study.original_id %></td>
       <td><%= link_to study.study_type.name, study.study_type if study.study_type %></td>
       <td><%= study.location %></td>
-      <td><%= study.deleted %></td>
       <td>
         <%= link_to 'Edit', edit_study_path(study), class: 'btn btn-mini' %>
         <%= link_to 'Delete', study, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Study #{study.name}?" } %>

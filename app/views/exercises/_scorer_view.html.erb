@@ -32,7 +32,7 @@
     <tbody>
     <% current_user.exercise_reliability_ids(@exercise).each do |r_id| %>
       <tr class="study">
-        <td><%= r_id.study.group(r_id).name %></td>
+        <td><%= r_id.group.name %></td>
         <td class="reliability_id"><%= r_id.unique_id %></td>
         <td><%= r_id.study.study_type.name %></td>
         <td><%= r_id.study.location %></td>
