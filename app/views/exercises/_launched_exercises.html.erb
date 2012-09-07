@@ -21,8 +21,8 @@
       <td><%= link_to exercise.name, exercise %></td>
       <td><%= link_to exercise.rule.name, exercise.rule if exercise.rule %></td>
       <td><%= exercise.assessment_type %></td>
-      <td><%= exercise.description %></td>
-      <td><%= exercise.assigned_at %></td>
+      <td><%= simple_format exercise.description %></td>
+      <td><%= simple_time exercise.assigned_at %></td>
       <td><%= exercise.scorers.count %></td>
       <td class="status"><%= "#{exercise.percent_completed}%" %></td>
       <td class="completed_at"><%= simple_time(exercise.completed_at) %></td>

@@ -1,4 +1,6 @@
 class Rule < ActiveRecord::Base
+  include Extensions::IndexMethods
+
   ##
   # Associations
   has_many :exercises, :conditions => { :deleted => false }
@@ -18,6 +20,7 @@ class Rule < ActiveRecord::Base
   ##
   # Scopes
   scope :current, conditions: { deleted: false }
+  scope :search, lambda { |*args| { conditions: [ 'LOWER(title) LIKE ? or LOWER(procedure) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
 
   ##
   # Validations

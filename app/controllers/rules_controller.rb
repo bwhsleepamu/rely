@@ -6,9 +6,8 @@ class RulesController < ApplicationController
   # GET /rules.json
   def index
     rule_scope = Rule.current
-    @order = Rule.column_names.collect{|column_name| "rules.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "rules.title"
-    rule_scope = rule_scope.order(@order)
-    @rules = rule_scope.page(params[:page]).per( 20 )
+
+    @rules = rule_scope.search_by_terms(parse_search_terms(params[:search])).set_order(params[:order], "title").page(params[:page]).per( 20 )
 
     respond_to do |format|
       format.html # index.html.erb
