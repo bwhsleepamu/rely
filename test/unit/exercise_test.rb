@@ -1,6 +1,23 @@
 require 'test_helper'
 
 class ExerciseTest < ActiveSupport::TestCase
+  test "#percent_completed" do
+    exercise = create(:exercise)
+    total_result_count = exercise.all_studies.length * exercise.scorers.length
+    result_count = 0
+
+    exercise.scorers.each do |scorer|
+      scorer.reliability_ids.where(:exercise_id => exercise.id).each do |rid|
+        rid.result = create(:result, reliability_id_id: rid.id)
+        result_count += 1
+        assert_equal ((result_count.to_f / total_result_count.to_f) * 100.0), exercise.percent_completed
+      end
+    end
+
+    assert_equal 100.0, exercise.percent_completed
+
+  end
+
   test "#completed?" do
     exercise = create(:exercise)
     scorer = exercise.scorers.first
@@ -56,7 +73,7 @@ class ExerciseTest < ActiveSupport::TestCase
     assert_equal exercise.finished_scorers.length + exercise.pending_scorers.length, exercise.scorers.length
   end
 
-  test "all_studies" do
+  test "#all_studies" do
     exercise = create(:exercise)
     study_count = 0
     exercise.groups.each do |group|

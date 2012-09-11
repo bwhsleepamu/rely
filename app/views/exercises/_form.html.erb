@@ -18,7 +18,7 @@
   <div class="control-group">
     <%= f.label :rule_id, nil, class: 'control-label' %>
     <div class="controls">
-      <%= f.select :rule_id, [['---', nil]] + Rule.current.collect{|r| [r.name, r.id]} %>
+      <%= f.select :rule_id, [['---', nil]] + Rule.current.collect{|r| [r.name, r.id]}, {}, {rel: "chosen"} %>
     </div>
   </div>
 
@@ -39,21 +39,21 @@
   <div class="control-group">
     <%= f.label :assessment_type, "Assessment Type", class: 'control-label' %>
     <div class="controls">
-      <%= select_tag "exercise[assessment_type]", options_for_select(Assessment::TYPES.collect {|key, val| [val[:title], key] }, @exercise.assessment_type), :id => :exercise_assessment_type %>
+      <%= select_tag "exercise[assessment_type]", options_for_select(Assessment::TYPES.collect {|key, val| [val[:title], key] }, @exercise.assessment_type), {id: :exercise_assessment_type, rel: :chosen} %>
     </div>
   </div>
 
   <div class="control-group">
     <%= f.label :group_ids, "Groups", class: 'control-label' %><br/>
     <div class="controls">
-      <%= f.collection_select :group_ids, Group.current.order(:name), :id, :name, {}, {multiple:true} %>
+      <%= f.collection_select :group_ids, Group.current.order(:name), :id, :name, {}, {multiple:true, rel: :chosen} %>
     </div>
   </div>
 
   <div class="control-group">
     <%= f.label :scorer_ids, "Scorers", class: 'control-label' %><br/>
     <div class="controls">
-      <%= f.collection_select :scorer_ids, User.current.scorers.order(:last_name), :id, :name, {}, {multiple:true} %>
+      <%= f.collection_select :scorer_ids, User.current.scorers.order(:last_name), :id, :name, {}, {multiple:true, rel: :chosen} %>
     </div>
   </div>
 

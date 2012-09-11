@@ -46,6 +46,10 @@ class Exercise < ActiveRecord::Base
     groups.inject([]) {|all, group| all.concat(group.studies)}
   end
 
+  def all_results
+    Result.joins(:reliability_id).where(:reliability_ids => {:exercise_id => id})
+  end
+
   def count_completed_results(scorer)
     ## TODO: combine with completed?
 
@@ -120,7 +124,7 @@ class Exercise < ActiveRecord::Base
   end
 
   def percent_completed
-    ((count_completed/scorers.length) * 100.0).round(1)
+    (all_results.length.to_f / reliability_ids.length.to_f) * 100.0
   end
 
   def send_assignment_emails

@@ -46,7 +46,7 @@
   <div class="control-group">
     <%= f.label :group_ids, "Groups", class: 'control-label' %><br/>
     <div class="controls">
-      <%= f.collection_select :group_ids, Group.current.order(:name), :id, :name, {}, {multiple:true} %>
+      <%= f.collection_select :group_ids, Group.current.order(:name), :id, :name, {}, {multiple:true, rel: :chosen} %>
     </div>
   </div>
 

@@ -29,11 +29,11 @@ class Assessment < ActiveRecord::Base
           :title => "Actigraphy",
           :questions =>
             {
-                 1 => {:text => "Recording start date", :type => :date},
-                 2 => {:text => "Recording end date", :type => :date},
-                 3 => {:text => "Total number of days", :type => :integer},
-                 4 => {:text => "Number of valid days", :type => :integer},
-                 5 => {:text => "Overall quality rating", :type => :dropdown, :options => {1 => "Poor", 2 => "Fair", 3 => "Good", 4 => "Very Good", 5 => "Excellent"}}
+              1 => {:text => "Recording start date", :type => :date},
+              2 => {:text => "Recording end date", :type => :date},
+              3 => {:text => "Total number of days", :type => :integer},
+              4 => {:text => "Number of valid days", :type => :integer},
+              5 => {:text => "Overall quality rating", :type => :dropdown, :options => {1 => "Poor", 2 => "Fair", 3 => "Good", 4 => "Very Good", 5 => "Excellent"}}
             }
         }
     }

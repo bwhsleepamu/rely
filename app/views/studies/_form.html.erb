@@ -25,7 +25,7 @@
   <div class="control-group">
     <%= f.label :study_type_id, "Study Type", class: 'control-label' %>
     <div class="controls">
-      <%= f.select :study_type_id, [['---', nil]] + StudyType.current.collect{|s| [s.name, s.id]} %>
+      <%= f.select :study_type_id, [['---', nil]] + StudyType.current.collect{|s| [s.name, s.id]}, {}, {rel: :chosen} %>
     </div>
   </div>
 

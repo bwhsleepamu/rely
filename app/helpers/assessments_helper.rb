@@ -14,9 +14,9 @@ module AssessmentsHelper
       when :integer
         number_field_tag(name, answer)
       when :date
-        text_field_tag name, value, class: 'datepicker'
+        text_field_tag name, answer, class: 'datepicker'
       else
-        text_field_tag name, value
+        text_field_tag name, answer
     end
   end
 end

@@ -49,7 +49,7 @@ class SystemAdminWorkflowTest < ActionDispatch::IntegrationTest
     my_exercise.reload
 
     tr = find("tr##{my_exercise.id}")
-    assert tr.find("td.status").has_content?("#{my_exercise.percent_completed}%")
+    assert tr.find("td.status").has_content?("#{"%.1f" % my_exercise.percent_completed}%")
     assert_not_nil my_exercise.completed_at
     assert tr.find("td.completed_at").has_content?("Today at #{my_exercise.completed_at.strftime("%I:%M %p")}")
 

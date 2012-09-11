@@ -32,7 +32,7 @@
   <div class="control-group">
     <%= f.label :study_ids, "Studies", class: 'control-label' %><br/>
     <div class="controls">
-      <%= f.collection_select :study_ids, Study.current.order(:location), :id, :long_name, {}, {multiple:true} %>
+      <%= f.collection_select :study_ids, Study.current.order(:location), :id, :long_name, {}, {multiple:true, rel: :chosen} %>
     </div>
   </div>
 

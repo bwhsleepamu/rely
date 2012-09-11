@@ -1,3 +1,10 @@
+== 0.3.1
+* Bug Fix
+  * Fixed assessment questionaire for Actigraphy.
+  * Fixed assessment questionaire Chosen use.
+  * Fixed display of exercise status.
+  * Fixed SWF file path for pdf/copy/csv functionality on Exercise dashboard for System Admins.
+
 == 0.3.0
 * Upgraded Rails to 3.2.8
 * Added deleted flag functionality.
