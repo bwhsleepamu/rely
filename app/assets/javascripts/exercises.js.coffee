@@ -13,6 +13,6 @@ jQuery ->
       "sLengthMenu": "_MENU_ records per page"
     },
     "oTableTools": {
-      "sSwfPath": '../../assets/copy_csv_xls_pdf.swf'
+      "sSwfPath": '../assets/copy_csv_xls_pdf.swf'
     }
   })
