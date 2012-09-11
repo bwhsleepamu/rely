@@ -127,7 +127,7 @@ class ResultsControllerTest < ActionController::TestCase
     result = create(:result, reliability_id_id: rid.id)
 
     put :update, id: result, result: { location: result.location, result_type: result.result_type, reliability_id_id: result.reliability_id_id }
-    assert_redirected_to result_path(assigns(:result))
+    assert_redirected_to exercise_path(assigns(:result).reliability_id.exercise)
   end
 
   test "should show result by reliability_id if study assigned to current user" do

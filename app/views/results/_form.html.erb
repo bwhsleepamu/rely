@@ -57,7 +57,7 @@
   </fieldset>
 
     <div class="form-actions">
-    <%= f.submit "Add Result", class: 'btn btn-primary' %>
+    <%= f.submit "#{@result.persisted? ? "Update" : "Add"} Result", class: 'btn btn-primary' %>
     <%= cancel %>
   </div>
 <% end %>

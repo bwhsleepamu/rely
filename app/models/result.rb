@@ -32,12 +32,11 @@ class Result < ActiveRecord::Base
     "result_#{self.reliability_id.unique_id}"
   end
 
-  def assessment_answers=(value)
-    if value
-      self.assessment = Assessment.new(assessment_type: reliability_id.exercise.assessment_type)
-      value.each do |question_id, answer|
-        self.assessment.assessment_results.build(question_id: question_id, answer: answer)
-      end
+  def assessment_answers=(answer_hash)
+    build_assessment(assessment_type: reliability_id.exercise.assessment_type)
+
+    answer_hash.each do |question_id, answer|
+      assessment.assessment_results.build(question_id: question_id, answer: answer)
     end
   end
 

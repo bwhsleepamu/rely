@@ -66,7 +66,7 @@ class ResultsController < ApplicationController
   # POST /results
   # POST /results.json
   def create
-#    MY_LOG.info "Create Params: #{params}"
+    MY_LOG.info "Create Params: #{params}"
     @result = Result.new(post_params)
 #    MY_LOG.info @result.reliability_id.unique_id
     if @result.reliability_id and @result.reliability_id.user == current_user
@@ -95,8 +95,8 @@ class ResultsController < ApplicationController
     if @result.reliability_id and @result.reliability_id.user == current_user
       respond_to do |format|
         if @result.update_attributes(post_params)
-          format.html { redirect_to @result, notice: 'Result was successfully updated.' }
-          format.json { head :no_content }
+          format.html { redirect_to @result.reliability_id.exercise, notice: 'Result was successfully updated.' }
+          format.json { render json: @result, status: :created, location: @result }
         else
           format.html { render action: "edit" }
           format.json { render json: @result.errors, status: :unprocessable_entity }

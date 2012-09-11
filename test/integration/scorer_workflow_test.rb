@@ -109,7 +109,8 @@ class ScorerWorkflowTest < ActionDispatch::IntegrationTest
     fill_in "Location", :with => "/some/location/to/result/file"
     fill_in "Result type", :with => "Some Type of Result"
     fill_in "result_assessment_answers_1", :with => "233"
-    select "Some", :from => "result_assessment_answers_2"
+    select_from_chosen "Some", :from => "result_assessment_answers_2"
+    show_page
     click_on "Add Result"
 
     tr = all("tr.study").first
@@ -142,15 +143,40 @@ class ScorerWorkflowTest < ActionDispatch::IntegrationTest
   end
 
   test "Scorer can edit a result for a study in an exercise" do
-    pending "finish above first"
     exercises = setup_exercises
     exercise = exercises[:seen].first
-    study = exercise.all_studies.first
-    result = create(:result, user_id: @user.id, exercise_id: exercise.id, rule_id: exercise.rule.id, study_id: study.id )
-    assessment_
+    r_id = @user.exercise_reliability_ids(exercise).first
+    result = create(:result, reliability_id_id: r_id.id)
+
+    new_location = "new/location/after/edit"
+    new_answer_1 = "100001"
+    new_answer_2 = "A lot"
+
+    visit(edit_result_path(result))
 
 
-    visit exercise_path(exercise)
+    assert_equal result.location, page.find_field("Location").value
+    assert_equal 2, result.assessment.assessment_results.length
+
+    result.assessment.assessment_results.each_with_index do |assessment_result, i|
+      assert_equal assessment_result.answer, page.find("#result_assessment_answers_#{i+1}").value
+    end
+
+
+
+    fill_in "Location", :with => new_location
+    fill_in "result_assessment_answers_1", :with => new_answer_1
+    select_from_chosen new_answer_2, :from => "result_assessment_answers_2"
+
+
+    click_on "Update Result"
+    visit(edit_result_path(result))
+
+    show_page
+
+    assert_equal new_location, page.find_field("Location").value
+    assert_equal new_answer_1, page.find("#result_assessment_answers_1").value
+    assert_equal "3", page.find("#result_assessment_answers_2").value
 
   end
 

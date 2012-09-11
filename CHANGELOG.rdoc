@@ -4,6 +4,7 @@
   * Fixed assessment questionaire Chosen use.
   * Fixed display of exercise status.
   * Fixed SWF file path for pdf/copy/csv functionality on Exercise dashboard for System Admins.
+  * Fixed Update Result crash - update results functionality should work fully now.
 
 == 0.3.0
 * Upgraded Rails to 3.2.8
