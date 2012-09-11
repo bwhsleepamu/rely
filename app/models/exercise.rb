@@ -1,4 +1,6 @@
 class Exercise < ActiveRecord::Base
+  include Extensions::IndexMethods
+
   ##
   # Associations
   belongs_to :admin, :class_name => "User", :foreign_key => :admin_id
@@ -25,6 +27,7 @@ class Exercise < ActiveRecord::Base
   ##
   # Scopes
   scope :current, conditions: { deleted: false }
+  scope :search, lambda { |*args| { conditions: [ 'LOWER(name) LIKE ? or LOWER(description) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
 
   ##
   # Validations
@@ -33,6 +36,7 @@ class Exercise < ActiveRecord::Base
 
   ##
   # Class Methods
+
 
   ##
   # Instance Methods

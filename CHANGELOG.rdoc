@@ -1,13 +1,17 @@
 == 0.3.0
 * Upgraded Rails to 3.2.8
-* Added deleted flag functionality
+* Added deleted flag functionality.
+* Created exercise dashboard that admins can use to track progress for launched exercises.
 
 * Refactoring
   * Updated schema to remove redundancies between study, reliability id, and result models.
 
 * Bug Fix
-  * Fixed missing "delete" image for chosen multi-select fields
+  * Fixed missing "delete" image for chosen multi-select fields.
   * Fixed assessment type select box in exercise form to show current value.
+  * Fixed search functionality for Rules and Exercises.
+  * Fixed  some GUI problems for dates and times.
+  * Got rid of links and buttons which should not be accessable.
 
 == 0.2.0
 * Added creator ids to models that had no user assignments.

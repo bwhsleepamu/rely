@@ -12,8 +12,8 @@
   <dt>Description</dt>
   <dd><%= simple_format @exercise.description %></dd>
 
-  <dt>Assigned At</dt>
-  <dd><%= @exercise.assigned_at %></dd>
+  <dt>Assigned</dt>
+  <dd><%= simple_time @exercise.assigned_at %></dd>
 </dl>
 
 <div id="assigned_studies">

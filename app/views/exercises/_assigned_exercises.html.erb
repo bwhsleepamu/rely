@@ -6,7 +6,7 @@
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.name', 'Name', 'exercises_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.rule.title', 'Rule', 'exercises_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.description', 'Description', 'exercises_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.assigned_at', 'Assigned At', 'exercises_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.assigned_at', 'Assigned', 'exercises_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.completed', 'Completed?', 'exercises_search') %></th>
     </tr>
   </thead>
@@ -16,8 +16,8 @@
     <tr class="exercise" id="<%= exercise.id %>">
       <td><%= link_to exercise.name, exercise if exercise %></td>
       <td><%= link_to exercise.rule.name, exercise.rule if exercise.rule %></td>
-      <td><%= exercise.description %></td>
-      <td><%= exercise.assigned_at %></td>
+      <td><%= simple_format exercise.description %></td>
+      <td><%= simple_time exercise.assigned_at %></td>
       <td class="completed"><%= exercise.completed?(@user) ? "yes" : "no" %></td>
     </tr>
     <% end %>

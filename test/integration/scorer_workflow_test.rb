@@ -11,6 +11,36 @@ class ScorerWorkflowTest < ActionDispatch::IntegrationTest
     assert_equal true, page.has_content?("Exercises")
   end
 
+  test "Scorer can search on exercise name or description" do
+    exercises = setup_exercises
+    visit exercises_path
+    fill_in "search", :with => exercises[:seen].first.name
+    click_on "Search"
+
+    assert page.has_selector?("#exercise_table tbody tr", :count => 1)
+    assert page.has_content?(exercises[:seen].first.name)
+
+    e = exercises[:seen].last
+    e.description = "some description of the exercise for searching reasons"
+    e.save
+    fill_in "search", :with => "searching reasons"
+    click_on "Search"
+
+    assert page.has_selector?("#exercise_table tbody tr", :count => 1)
+    assert page.has_content? "some description of the exercise for searching reasons"
+  end
+
+  test "Scorer can search on rule title or procedure" do
+    rules = create_list(:rule, 5)
+    visit rules_path
+
+    fill_in "search", :with => rules[0].name
+    click_on "Search"
+
+    assert page.has_selector?("tbody tr", :count => 1)
+    assert page.has_content?(rules[0].name)
+  end
+
   test "Scorer sees assigned exercises on Exercise page." do
     exercises = setup_exercises
 

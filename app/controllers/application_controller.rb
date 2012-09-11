@@ -11,6 +11,10 @@ class ApplicationController < ActionController::Base
     date_string.to_s.split('/').last.size == 2 ? Date.strptime(date_string, "%m/%d/%y") : Date.strptime(date_string, "%m/%d/%Y") rescue ""
   end
 
+  def parse_search_terms(params)
+    params.to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
+  end
+
   protected
 
   def check_system_admin

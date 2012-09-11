@@ -7,9 +7,7 @@ class ExercisesController < ApplicationController
   def index
     exercise_scope = current_user.viewable_exercises
 
-    @order = Exercise.column_names.collect{|column_name| "exercises.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "exercises.name"
-    exercise_scope = exercise_scope.order(@order)
-    @exercises = exercise_scope.page(params[:page]).per( 20 )
+    @exercises = exercise_scope.search_by_terms(parse_search_terms(params[:search])).set_order(params[:order], "name").page(params[:page]).per( 20 )
     @user = current_user
 
     respond_to do |format|
