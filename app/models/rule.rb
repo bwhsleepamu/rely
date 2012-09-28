@@ -9,7 +9,7 @@ class Rule < ActiveRecord::Base
 
   ##
   # Attributes
-  attr_accessible :procedure, :title
+  attr_accessible :procedure, :title, :assessment_type
 
   ##
   # Callbacks

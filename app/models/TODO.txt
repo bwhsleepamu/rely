@@ -1,8 +1,9 @@
-1. Simplify Model:
-  - Reliability Id and Result store same info!!
-    * make result associated w/ realibility id - hides study id
-  - assessment does not need assessment type?
-    * gets a bit dicey if you hide exercise etc.
-  - simplify and condense
-
-2. assessments get orphaned - !! What does this mean?
+== 0.4.0
+  - Exercise no longer stores assessment type
+    delete field from table
+  - Rule stores assessment type
+    add field to table
+  - Study can have multiple assessment results: only one per Rule
+    add new table: StudyOriginalResults
+      store: study id, result id, rule id <-- unique combo
+  -

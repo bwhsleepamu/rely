@@ -1,7 +1,10 @@
 class Result < ActiveRecord::Base
   ##
   # Associations
-  belongs_to :reliability_id
+  has_one :reliability_id
+  has_one :study, :through => :study_original_result
+  has_one :study_original_result
+
   has_one :assessment, :conditions => { :deleted => false }
 
   ##

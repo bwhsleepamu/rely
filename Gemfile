@@ -27,6 +27,11 @@ end
 
 gem 'jquery-rails'
 
+# Diagrams
+group :development, :test do
+  gem 'railroady'
+end
+
 # Testing
 group :test do
   # Pretty printed test output

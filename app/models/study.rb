@@ -4,9 +4,17 @@ class Study < ActiveRecord::Base
   has_many :reliability_ids
   has_many :groups, :through => :group_studies, :conditions => { :deleted => false }
   has_many :group_studies
+  has_many :study_original_results
+  has_many :original_results, :class_name => "Result", :through => :study_original_results, :conditions => { :deleted => false}
+end
+
+
+
   belongs_to :study_type
 
+
   belongs_to :creator, :class_name => "User", :foreign_key => :creator_id
+
 
   ##
   # Attributes
