@@ -67,13 +67,17 @@ class ResultsController < ApplicationController
   # POST /results.json
   def create
     MY_LOG.info "Create Params: #{params}"
-    @result = Result.new(post_params)
-#    MY_LOG.info @result.reliability_id.unique_id
-    if @result.reliability_id and @result.reliability_id.user == current_user
-#      MY_LOG.info "ACCEPTED: #{@result.valid?} #{@result.errors.full_messages}"
+    r_id = ReliabilityId.find_by_id(params[:result][:reliability_id])
+    @result = r_id.build_result(post_params) if r_id
+    @result.reliability_id = r_id if @result
+
+    MY_LOG.info "#{@result} #{r_id}"
+    if @result and r_id.user == current_user
+    #  MY_LOG.info "ACCEPTED: #{@result.valid?} #{@result.errors.full_messages}"
       respond_to do |format|
         if @result.save
-#          MY_LOG.info "SAVED: #{@result.valid?} #{@result.errors.full_messages}"
+     #     MY_LOG.info "SAVED: #{@result.valid?} #{@result.errors.full_messages}"
+          @result.reliability_id.exercise.check_completion
           format.html { redirect_to @result.reliability_id.exercise, notice: 'Result was successfully created.' }
           format.json { render json: @result, status: :created, location: @result }
         else
@@ -133,7 +137,7 @@ class ResultsController < ApplicationController
     end
 
     params[:result].slice(
-      :result_type, :location, :assessment_answers, :reliability_id_id
+      :location, :assessment_answers
     )
   end
 end

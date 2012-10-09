@@ -1,19 +1,18 @@
 class Result < ActiveRecord::Base
   ##
   # Associations
-  has_one :reliability_id
-  has_one :study, :through => :study_original_result
+  has_one :reliability_id, :conditions => { :deleted => false }
   has_one :study_original_result
-
   has_one :assessment, :conditions => { :deleted => false }
 
   ##
   # Attributes
-  attr_accessible :location, :result_type, :assessment_answers, :reliability_id_id
+  attr_accessible :location, :result_type, :assessment_answers
 
   ##
   # Callbacks
-  after_save :exercise_completed?
+  #after_save :exercise_completed?
+  #before_save :set_result_type
 
   ##
   # Database Settings
@@ -24,7 +23,7 @@ class Result < ActiveRecord::Base
 
   ##
   # Validations
-  validates_presence_of :reliability_id_id, :location, :result_type
+  validates_presence_of :location
 
   ##
   # Class Methods
@@ -32,11 +31,17 @@ class Result < ActiveRecord::Base
   ##
   # Instance Methods
   def name
-    "result_#{self.reliability_id.unique_id}"
+    "result_#{self.id}"
+  end
+
+  def study
+    raise StandardError if reliability_id and study_original_result
+
+    reliability_id ? reliability_id.study : (study_original_result ? study_original_result.study : nil)
   end
 
   def assessment_answers=(answer_hash)
-    build_assessment(assessment_type: reliability_id.exercise.assessment_type)
+    build_assessment(assessment_type: answer_hash.delete(:assessment_type))
 
     answer_hash.each do |question_id, answer|
       assessment.assessment_results.build(question_id: question_id, answer: answer)
@@ -50,10 +55,13 @@ class Result < ActiveRecord::Base
   private
 
   def exercise_completed?
-    if reliability_id.exercise.all_completed?
+    if reliability_id and reliability_id.exercise.all_completed?
       reliability_id.exercise.completed_at = Time.zone.now()
       reliability_id.exercise.save
     end
+  end
+
+  def set_result_type
   end
 
 end

@@ -1,14 +1,14 @@
 class ReliabilityId < ActiveRecord::Base
   ##
   # Associations
-  belongs_to :study
-  belongs_to :user
-  belongs_to :exercise
-  has_one :result, :conditions => { :deleted => false }
+  belongs_to :study, :conditions => { :deleted => false }
+  belongs_to :user, :conditions => { :deleted => false }
+  belongs_to :exercise, :conditions => { :deleted => false }
+  belongs_to :result, :conditions => { :deleted => false }
 
   ##
   # Attributes
-  attr_accessible :study_id, :unique_id, :user_id, :exercise_id
+  attr_accessible :study_id, :unique_id, :user_id, :exercise_id, :result_id
 
   ##
   # Callbacks

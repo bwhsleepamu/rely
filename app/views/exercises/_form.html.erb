@@ -37,13 +37,6 @@
   </div>
 
   <div class="control-group">
-    <%= f.label :assessment_type, "Assessment Type", class: 'control-label' %>
-    <div class="controls">
-      <%= select_tag "exercise[assessment_type]", options_for_select(Assessment::TYPES.collect {|key, val| [val[:title], key] }, @exercise.assessment_type), {id: :exercise_assessment_type, rel: :chosen} %>
-    </div>
-  </div>
-
-  <div class="control-group">
     <%= f.label :group_ids, "Groups", class: 'control-label' %><br/>
     <div class="controls">
       <%= f.collection_select :group_ids, Group.current.order(:name), :id, :name, {}, {multiple:true, rel: :chosen} %>

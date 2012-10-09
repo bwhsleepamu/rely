@@ -2,7 +2,8 @@ require 'test_helper'
 
 class ResultsControllerTest < ActionController::TestCase
   setup do
-    @result = results(:one)
+    @result = create(:result)
+    @template = build(:result)
     @current_user = login(users(:admin))
   end
 
@@ -19,7 +20,7 @@ class ResultsControllerTest < ActionController::TestCase
 
   test "should not create result since admin is not assigned to study" do
     assert_no_difference('Result.count') do
-      post :create, result: { location: @result.location, result_type: @result.result_type, reliability_id_id: @result.reliability_id.id }
+      post :create, result: { location: @result.location, result_type: @result.result_type }
     end
 
     assert_redirected_to root_path
@@ -36,7 +37,7 @@ class ResultsControllerTest < ActionController::TestCase
   end
 
   test "should not update result since admin not assigned to study" do
-    put :update, id: @result, result: { location: @result.location, result_type: @result.result_type, reliability_id_id: @result.reliability_id.id }
+    put :update, id: @result, result: { location: @result.location, result_type: @result.result_type }
     assert_redirected_to root_path
   end
 
@@ -57,7 +58,6 @@ class ResultsControllerTest < ActionController::TestCase
 
     login(user)
 
-    MY_LOG.info reliability_id.unique_id
     get :new, reliability_id: reliability_id
     assert_not_nil assigns(:result).reliability_id
     assert_response :success
@@ -80,7 +80,7 @@ class ResultsControllerTest < ActionController::TestCase
 
     #MY_LOG.info "errors: #{exercise.errors.full_messages} \neid: #{exercise.id} #{exercise.scorers} | #{scorer} | #{exercise.scorers.include?(scorer)}"
     assert_difference('Result.count') do
-      post :create, result: { reliability_id_id: rid.id, location: "some location", result_type: "rescored", assessment_answers: {"1"=>"233", "2"=>"2"} }
+      post :create, result: { location: "some location", result_type: "rescored", assessment_answers: {"1"=>"233", "2"=>"2", :assessment_type => exercise.rule.assessment_type}, reliability_id: rid.id }
     end
 
     assert_not_nil assigns(:result).assessment
@@ -108,7 +108,9 @@ class ResultsControllerTest < ActionController::TestCase
 
     rid = exercise.reliability_ids.where(:user_id => scorer.id).first
 
-    result = create(:result, reliability_id_id: rid.id)
+    result = create(:result)
+    rid.result = result
+    rid.save
 
     get :edit, id: result
     assert_response :success
@@ -124,9 +126,11 @@ class ResultsControllerTest < ActionController::TestCase
     exercise.save
 
     rid = exercise.reliability_ids.where(:user_id => scorer.id).first
-    result = create(:result, reliability_id_id: rid.id)
+    result = create(:result)
+    rid.result = result
+    rid.save
 
-    put :update, id: result, result: { location: result.location, result_type: result.result_type, reliability_id_id: result.reliability_id_id }
+    put :update, id: result, result: { location: result.location, result_type: result.result_type }
     assert_redirected_to exercise_path(assigns(:result).reliability_id.exercise)
   end
 

@@ -2,7 +2,8 @@ require 'test_helper'
 
 class ExercisesControllerTest < ActionController::TestCase
   setup do
-    @exercise = exercises(:one)
+    @exercise = create(:exercise)
+    @template = build(:exercise)
     @current_user = login(users(:admin))
   end
 
@@ -45,12 +46,13 @@ class ExercisesControllerTest < ActionController::TestCase
   end
 
   test "should create exercise" do
-    user_ids = [users(:valid).id, users(:two).id]
-    group_ids = [groups(:one).id, groups(:two).id]
+    users = create_list :user, 2
+    groups =  create_list :group, 2
+    user_ids = users.map{|u| u.id}
+    group_ids = groups.map{|g| g.id}
 
     assert_difference('Exercise.count') do
-      post :create, exercise: { assessment_type: @exercise.assessment_type,
-                                description: @exercise.description, name: @exercise.name + "_new", rule_id: @exercise.rule_id,
+      post :create, exercise: { description: @template.description, name: @template.name, rule_id: @template.rule_id,
                                 scorer_ids: user_ids, group_ids: group_ids }
     end
 
@@ -75,12 +77,11 @@ class ExercisesControllerTest < ActionController::TestCase
   end
 
   test "should not show unassigned exercise to scorer" do
-    user = users(:two)
-    exercise = exercises(:two)
+    user = create(:user)
     login(user)
 
-    assert_equal false, user.assigned_exercises.include?(exercise)
-    get :show, id: exercise
+    assert_equal false, user.assigned_exercises.include?(@exercise)
+    get :show, id: @exercise
     assert_redirected_to exercises_path
   end
 
@@ -90,7 +91,7 @@ class ExercisesControllerTest < ActionController::TestCase
   end
 
   test "should update exercise" do
-    put :update, id: @exercise, exercise: { assessment_type: @exercise.assessment_type, description: @exercise.description, name: @exercise.name + "_update", rule_id: @exercise.rule_id }
+    put :update, id: @exercise, exercise: { description: @template.description, name: @template.name + "_update", rule_id: @template.rule_id }
     assert_redirected_to exercise_path(assigns(:exercise))
   end
 

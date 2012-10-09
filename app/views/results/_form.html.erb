@@ -33,14 +33,7 @@
   <fieldset>
     <legend>Result Information</legend>
 
-      <%= f.hidden_field :reliability_id_id, value: @result.reliability_id.id %>
-
-      <div class="control-group">
-        <%= f.label :result_type, nil, class: 'control-label' %>
-        <div class="controls">
-          <%= f.text_field :result_type %>
-        </div>
-      </div>
+      <%= f.hidden_field :reliability_id, value: @result.reliability_id.id %>
 
       <div class="control-group">
         <%= f.label :location, nil, class: 'control-label' %>
@@ -52,7 +45,7 @@
   <fieldset>
     <legend>Result Assessment Questionnaire</legend>
 
-    <%= render :partial => "assessments/questionnaire", :locals => { :assessment_type => @result.reliability_id.exercise.assessment_type, :assessment => @result.assessment } %>
+    <%= render :partial => "assessments/questionnaire", :locals => { :assessment_type => @result.reliability_id.exercise.rule.assessment_type, :assessment => @result.assessment } %>
 
   </fieldset>
 

@@ -1,16 +1,1 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
-
-one:
-  title: MyString
-  procedure: MyText
-  deleted: false
-
-two:
-  title: MyString
-  procedure: MyText
-  deleted: false
-
-deleted:
-  title: MyString
-  procedure: MyText
-  deleted: false

@@ -28,7 +28,6 @@ FactoryGirl.define do
   factory :exercise do
     admin
     rule
-    assessment_type "paradox"
     sequence(:name) {|n| "Test Exercise #{n}"}
     description "Description of test exercise."
 
@@ -69,6 +68,7 @@ FactoryGirl.define do
   factory :rule do
     sequence(:title) {|n| "Scoring Rule #{n}"}
     procedure "Procedure for this scoring rule."
+    assessment_type "paradox"
     creator
   end
 

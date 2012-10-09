@@ -31,7 +31,7 @@ class Exercise < ActiveRecord::Base
 
   ##
   # Validations
-  validates_presence_of :assigned_at, :admin_id, :assessment_type, :name, :rule_id, :groups, :scorers
+  validates_presence_of :assigned_at, :admin_id, :name, :rule_id, :groups, :scorers
   validates_uniqueness_of :name
 
   ##
@@ -145,6 +145,11 @@ class Exercise < ActiveRecord::Base
     update_column :deleted, true
   end
 
+  def check_completion
+    if all_completed?
+      update_column :completed_at, Time.zone.now()
+    end
+  end
 
   private
 

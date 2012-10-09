@@ -1,13 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  reliability_id: four
   result_type: 'rescored'
   location: MyString
   deleted: false
 
 two:
-  reliability_id: three
   result_type: 'rescored'
   location: MyString
   deleted: false

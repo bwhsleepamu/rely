@@ -20,7 +20,7 @@
     <tr class="exercise" id="<%= exercise.id %>">
       <td><%= link_to exercise.name, exercise %></td>
       <td><%= link_to exercise.rule.name, exercise.rule if exercise.rule %></td>
-      <td><%= exercise.assessment_type %></td>
+      <td><%= exercise.rule.assessment_type if exercise.rule %></td>
       <td><%= simple_format exercise.description %></td>
       <td><%= simple_time exercise.assigned_at %></td>
       <td><%= exercise.scorers.count %></td>

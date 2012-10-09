@@ -41,13 +41,15 @@ class SystemAdminWorkflowTest < ActionDispatch::IntegrationTest
     end
 
     my_exercise.reliability_ids.each do |r_id|
-      create(:result, reliability_id_id: r_id.id)
+      r_id.result = create(:result)
+      r_id.save
+      my_exercise.check_completion
     end
 
     visit exercises_path
 
     my_exercise.reload
-
+    show_page
     tr = find("tr##{my_exercise.id}")
     assert tr.find("td.status").has_content?("#{"%.1f" % my_exercise.percent_completed}%")
     assert_not_nil my_exercise.completed_at
@@ -72,7 +74,8 @@ class SystemAdminWorkflowTest < ActionDispatch::IntegrationTest
 
 
     my_exercise.reliability_ids.each do |r_id|
-      create(:result, reliability_id_id: r_id.id)
+      r_id.result = create(:result)
+      r_id.save
     end
 
     visit current_path
@@ -87,7 +90,6 @@ class SystemAdminWorkflowTest < ActionDispatch::IntegrationTest
     groups = create_list(:group_with_studies, 4)
     rule = create(:rule)
     name = "Test Exercise"
-    assessment_type = Assessment::TYPES[:paradox]
     description = "Description for a very vital exercise."
     reset_email
 
@@ -98,7 +100,6 @@ class SystemAdminWorkflowTest < ActionDispatch::IntegrationTest
 
     fill_in "Name", :with => name
     fill_in "Description", :with => description
-    select_from_chosen assessment_type[:title], :from => "Assessment Type"
     select_from_chosen rule.name, :from => "Rule"
     groups.each do |group|
       select_from_chosen group.name, :from => "Groups"
@@ -201,11 +202,13 @@ class SystemAdminWorkflowTest < ActionDispatch::IntegrationTest
   test "should be able to create rule" do
     title = "Test Rule"
     procedure = "Test rule procedure for how to score these things."
+    assessment_type = Assessment::TYPES[:paradox]
 
     visit rules_path
     click_on "Create Rule"
     fill_in "Title", :with => title
     fill_in "Procedure", :with => procedure
+    select_from_chosen assessment_type[:title], :from => "Assessment Type"
 
     click_button "Create Rule"
 
@@ -252,6 +255,8 @@ class SystemAdminWorkflowTest < ActionDispatch::IntegrationTest
     end
 
   end
+
+
 
 
   private

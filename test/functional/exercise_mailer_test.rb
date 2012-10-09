@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ExerciseMailerTest < ActionMailer::TestCase
   test "notify scorer of new exercise" do
-    exercise = exercises(:one)
+    exercise = create(:exercise)
     user = users(:valid)
 
     # Send the email, then test that it got queued

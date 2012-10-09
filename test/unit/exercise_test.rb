@@ -8,7 +8,8 @@ class ExerciseTest < ActiveSupport::TestCase
 
     exercise.scorers.each do |scorer|
       scorer.reliability_ids.where(:exercise_id => exercise.id).each do |rid|
-        rid.result = create(:result, reliability_id_id: rid.id)
+        rid.result = create(:result)
+        rid.save
         result_count += 1
         assert_equal ((result_count.to_f / total_result_count.to_f) * 100.0), exercise.percent_completed
       end
@@ -24,7 +25,8 @@ class ExerciseTest < ActiveSupport::TestCase
     assert_equal false, exercise.completed?(scorer)
 
     scorer.reliability_ids.where(:exercise_id => exercise.id).each do |rid|
-      rid.result = create(:result, reliability_id_id: rid.id)
+      rid.result = create(:result)
+      rid.save
     end
 
     assert_equal true, exercise.completed?(scorer)
@@ -36,7 +38,8 @@ class ExerciseTest < ActiveSupport::TestCase
 
     exercise.scorers.each do |scorer|
       scorer.reliability_ids.where(:exercise_id => exercise.id).each do |rid|
-        rid.result = create(:result, reliability_id_id: rid.id)
+        rid.result = create(:result)
+        rid.save
       end
     end
 
@@ -50,7 +53,8 @@ class ExerciseTest < ActiveSupport::TestCase
     exercise.scorers.each do |scorer|
       assert_difference "exercise.count_completed" do
         scorer.reliability_ids.where(:exercise_id => exercise.id).each do |rid|
-          create(:result, reliability_id_id: rid.id)
+          rid.result = create(:result)
+          rid.save
         end
       end
     end
@@ -66,7 +70,8 @@ class ExerciseTest < ActiveSupport::TestCase
     scorer = exercise.scorers.first
 
     scorer.exercise_reliability_ids(exercise).each do |r_id|
-      create(:result, reliability_id_id: r_id.id)
+      r_id.result = create(:result)
+      r_id.save
     end
 
     assert_equal [scorer], exercise.finished_scorers

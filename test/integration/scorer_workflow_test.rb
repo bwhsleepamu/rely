@@ -107,13 +107,14 @@ class ScorerWorkflowTest < ActionDispatch::IntegrationTest
     assert_equal new_result_path, current_path
 
     fill_in "Location", :with => "/some/location/to/result/file"
-    fill_in "Result type", :with => "Some Type of Result"
     fill_in "result_assessment_answers_1", :with => "233"
     select_from_chosen "Some", :from => "result_assessment_answers_2"
-    show_page
+
     click_on "Add Result"
 
-    tr = all("tr.study").first
+    show_page
+
+    tr = all("tr.study").last
 
     assert tr.has_content? "true"
     tr.click_on "Edit Result"
@@ -132,7 +133,8 @@ class ScorerWorkflowTest < ActionDispatch::IntegrationTest
 
     # Add results
     exercise.reliability_ids.where(:user_id => @user.id).each do |r_id|
-      create(:result, reliability_id_id: r_id.id)
+      r_id.result = create(:result)
+      r_id.save
     end
 
     visit(current_path)
@@ -146,7 +148,9 @@ class ScorerWorkflowTest < ActionDispatch::IntegrationTest
     exercises = setup_exercises
     exercise = exercises[:seen].first
     r_id = @user.exercise_reliability_ids(exercise).first
-    result = create(:result, reliability_id_id: r_id.id)
+    result = create(:result)
+    r_id.result = result
+    r_id.save
 
     new_location = "new/location/after/edit"
     new_answer_1 = "100001"

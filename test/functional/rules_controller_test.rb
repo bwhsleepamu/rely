@@ -2,7 +2,8 @@ require 'test_helper'
 
 class RulesControllerTest < ActionController::TestCase
   setup do
-    @rule = rules(:one)
+    @rule = create(:rule)
+    @template = build(:rule)
     @current_user = login(users(:admin))
   end
 
@@ -39,7 +40,7 @@ class RulesControllerTest < ActionController::TestCase
 
   test "should create rule" do
     assert_difference('Rule.count') do
-      post :create, rule: { procedure: @rule.procedure, title: @rule.title }
+      post :create, rule: { procedure: @template.procedure, title: @template.title, assessment_type: @template.assessment_type  }
     end
 
     assert_redirected_to rule_path(assigns(:rule))
@@ -62,7 +63,7 @@ class RulesControllerTest < ActionController::TestCase
   end
 
   test "should update rule" do
-    put :update, id: @rule, rule: { procedure: @rule.procedure, title: @rule.title }
+    put :update, id: @rule, rule: { procedure: @template.procedure, title: @template.title }
     assert_redirected_to rule_path(assigns(:rule))
   end
 

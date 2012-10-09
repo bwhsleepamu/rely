@@ -17,9 +17,6 @@
 
         <dt>Description</dt>
         <dd><%= simple_format @exercise.description %></dd>
-
-        <dt>Assessment Type</dt>
-        <dd><%= @exercise.assessment_type %></dd>
       </dl>
     </div>
 
@@ -60,11 +57,11 @@
         <th>Reliability Id</th>
         <th>Result Type</th>
         <th>Result Location</th>
-        <% Assessment::TYPES[@exercise.assessment_type.to_sym][:questions].each do |q_id, q_hash| %>
+        <% Assessment::TYPES[@exercise.rule.assessment_type.to_sym][:questions].each do |q_id, q_hash| %>
           <th>
             Answer to
             <%= link_to "Question #{q_id}", '#', :rel => "popover", :data => {
-                :title => "#{@exercise.assessment_type.titleize} Question #{q_id}",
+                :title => "#{@exercise.rule.assessment_type.titleize} Question #{q_id}",
                 :content => q_hash[:text],
                 :placement => "top"
               }
@@ -87,7 +84,7 @@
               <td><%= a_r.full_answer %></td>
             <% end %>
           <% else %>
-            <% (2 + Assessment::TYPES[@exercise.assessment_type.to_sym][:questions].length).times do %>
+            <% (2 + Assessment::TYPES[@exercise.rule.assessment_type.to_sym][:questions].length).times do %>
               <td class="no_results">No Result Yet</td>
             <% end %>
           <% end %>
