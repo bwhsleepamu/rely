@@ -32,7 +32,7 @@ class ResultsControllerTest < ActionController::TestCase
   #end
 
   test "should not get edit since admin not assigned to study" do
-    get :edit, id: @result
+    get :edit, id: @result.id
     assert_redirected_to root_path
   end
 

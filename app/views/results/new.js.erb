@@ -1,0 +1,4 @@
+alert("HI");
+//$("#original_results").append("<div class='well well-mini'>HELLOOOOO</div>");
+
+$("#original_results").append('<%= j render :partial => "results/fields", :locals => {:result => @result} %>');

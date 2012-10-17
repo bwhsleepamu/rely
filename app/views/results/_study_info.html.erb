@@ -1,0 +1,12 @@
+<div class="page-header">
+  <h1>Original Result for Study <%= result.study.original_id %></h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Study Type</dt>
+  <dd><%= link_to result.study.study_type.name, result.study.study_type if result.study.study_type %></dd>
+
+  <dt>Study Location</dt>
+  <dd><%= result.study.location %></dd>
+</dl>
+

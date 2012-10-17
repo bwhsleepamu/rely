@@ -212,9 +212,11 @@ class SystemAdminWorkflowTest < ActionDispatch::IntegrationTest
 
     click_button "Create Rule"
 
+    show_page
     assert has_content?("Rule was successfully created.")
     assert has_content?(title)
     assert has_content?(procedure)
+    assert has_content?("paradox")
   end
 
   test "should be able to create project" do
@@ -254,6 +256,54 @@ class SystemAdminWorkflowTest < ActionDispatch::IntegrationTest
       assert has_content?(group.name)
     end
 
+  end
+
+  test "should be able to add original results to study" do
+    study = create(:study)
+    rule1 = create(:rule)
+    rule2 = create(:rule)
+    result_template = build(:result)
+    location_template = "location/2/of/result/"
+
+    visit edit_study_path(study)
+
+    select_from_chosen rule1.title, :from => "Rule"
+    click_on "Add Original Result"
+
+    show_page
+
+    assert page.has_content? study.location
+    assert page.has_content?(study.study_type.name)
+
+    assert page.has_content?("Original Result for Study #{r_id.unique_id}")
+    assert_equal new_result_path, current_path
+
+    fill_in "Location", :with => result_template.location
+    fill_in "result_assessment_answers_1", :with => "233"
+    select_from_chosen "Some", :from => "result_assessment_answers_2"
+
+    click_on "Add Original Result"
+
+    assert_equal show_study_path(study), current_path
+    assert page.has_content? result_template.location
+
+    click_on "Edit Study"
+    click_on "Add Original Result"
+
+    select_from_chosen rule1.title, :from => "Rule"
+    fill_in "Location", :with => location_template
+    fill_in "result_assessment_answers_1", :with => "233"
+    select_from_chosen "Some", :from => "result_assessment_answers_2"
+
+    click_on "Add Original Result"
+
+    assert page.has_content? "already exists."
+
+    select_from_chosen rule2.title, :from => "Rule"
+
+    click_on "Add Original Result"
+
+    assert page.has_content? location_template
   end
 
 

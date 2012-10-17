@@ -24,6 +24,9 @@ Rely::Application.routes.draw do
   resources :projects
   resources :users
 
+  # Remote partials
+  match 'remote/:partial_controller/:partial_name' => 'partials#remote', :as => "remote"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

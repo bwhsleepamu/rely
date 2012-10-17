@@ -52,6 +52,12 @@ class Result < ActiveRecord::Base
     update_column :deleted, true
   end
 
+  def rule
+    raise StandardError if reliability_id and study_original_result
+
+    reliability_id ? reliability_id.exercise.rule : (study_original_result ? study_original_result.rule : nil)
+  end
+
   private
 
   def exercise_completed?

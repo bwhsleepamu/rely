@@ -1,0 +1,19 @@
+<div class="page-header">
+  <h1>Result for Study <%= @result.reliability_id.unique_id %>
+    <%= link_to "Back to Exercise", @result.reliability_id.exercise, class: 'btn btn-mini' %>
+  </h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Study Type</dt>
+  <dd><%= link_to @result.reliability_id.study.study_type.name, @result.reliability_id.study.study_type if@result.reliability_id.study.study_type %></dd>
+
+  <dt>Study Location</dt>
+  <dd><%= @result.reliability_id.study.location %></dd>
+
+  <dt>Scoring Rule</dt>
+  <dd>
+    <h5><%= @result.reliability_id.exercise.rule.title %></h5>
+    <p><%= @result.reliability_id.exercise.rule.procedure %></p>
+  </dd>
+</dl>

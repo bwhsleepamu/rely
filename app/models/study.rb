@@ -5,7 +5,7 @@ class Study < ActiveRecord::Base
   has_many :groups, :through => :group_studies, :conditions => { :deleted => false }
   has_many :group_studies
   has_many :study_original_results
-  has_many :original_results, :class_name => "Result", :through => :study_original_results, :conditions => { :deleted => false}
+  has_many :original_results, :class_name => "Result", :through => :study_original_results, :conditions => { :deleted => false}, :source => :result
 
   belongs_to :study_type
 

@@ -1,3 +1,10 @@
-<% @title = "Edit Result: #{@result.name}" %>
+<% @title = @study ? "Edit Original Result: #{@result.name}" : "Edit Result: #{@result.name}" %>
+
+<% if @study %>
+  <%= render "study_info" %>
+<% else %>
+  <%= render "reliability_id_info" %>
+<% end %>
+
 
 <%= render 'form' %>

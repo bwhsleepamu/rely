@@ -15,26 +15,49 @@
     </div>
   <% end %>
 
-  <div class="control-group">
-    <%= f.label :original_id, "Original ID", class: 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :original_id %>
+  <fieldset>
+    <legend>Study Information</legend>
+    <div class="control-group">
+      <%= f.label :original_id, "Original ID", class: 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :original_id %>
+      </div>
     </div>
-  </div>
 
-  <div class="control-group">
-    <%= f.label :study_type_id, "Study Type", class: 'control-label' %>
-    <div class="controls">
-      <%= f.select :study_type_id, [['---', nil]] + StudyType.current.collect{|s| [s.name, s.id]}, {}, {rel: :chosen} %>
+    <div class="control-group">
+      <%= f.label :study_type_id, "Study Type", class: 'control-label' %>
+      <div class="controls">
+        <%= f.select :study_type_id, [['---', nil]] + StudyType.current.collect{|s| [s.name, s.id]}, {}, {rel: :chosen} %>
+      </div>
     </div>
-  </div>
 
-  <div class="control-group">
-    <%= f.label :location, nil, class: 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :location %>
+    <div class="control-group">
+      <%= f.label :location, nil, class: 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :location %>
+      </div>
     </div>
-  </div>
+  </fieldset>
+
+  <fieldset id="original_results">
+    <legend>
+      <div class="row">
+        <div class="span8">Original Results</div>
+        <div class="span4">
+          <%= select_tag :rule_id, options_for_select([['-Select Rule-', nil]] + Rule.current.collect{|r| [r.name, r.id]}), {rel: "chosen"} %>
+          <%= link_to "Add New Original Result", new_result_path(rule_id: 2, study_id: @study.id), class: "btn btn-mini", id: "add_original_result", remote: true %>
+        </div>
+      </div>
+    </legend>
+    <% if @study.original_results.length == 0 %>
+      <div class="alert alert-info">No Original Results Yet!</div>
+    <% end %>
+    <div id="original_results">
+      <% @study.original_results.each do |result| %>
+        <div class="well well-small"><%= render :partial => "results/form", :locals => { :result => result } %></div>
+      <% end %>
+    </div>
+  </fieldset>
 
   <div class="form-actions">
     <%= f.submit nil, class: 'btn btn-primary' %>

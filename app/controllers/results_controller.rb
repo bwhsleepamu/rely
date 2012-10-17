@@ -31,13 +31,19 @@ class ResultsController < ApplicationController
   # GET /results/new
   # GET /results/new.json
   def new
-    @result = Result.new
-    @result.reliability_id = ReliabilityId.find_by_id(params[:reliability_id])
+    if current_user.system_admin? and params[:rule_id]
+      @result = Result.new
+      @result.study_original_result = StudyOriginalResult.new(study_id: params[:study_id], rule_id: params[:rule_id])
+    elsif params[:reliability_id] and ReliabilityId.find_by_id(params[:reliability_id]).user_id == current_user.id
+      @result = Result.new
+      @result.reliability_id = ReliabilityId.find_by_id(params[:reliability_id])
+    end
 
-    if @result.reliability_id and @result.reliability_id.user_id == current_user.id
+    if @result
       respond_to do |format|
         format.html # new.html.erb
         format.json { render json: @result }
+        format.js
       end
     else
       redirect_to root_path
@@ -50,10 +56,13 @@ class ResultsController < ApplicationController
     #MY_LOG.info "RESULTS: #{Result.all.map{|r| r.id}}"
 
     @result = Result.current.find(params[:id])
+    @reliability_id = @result.reliability_id
+    @study_id = @result.study_original_result.study_id if @result.study_original_result
+
     #@reliability_id = @result.study.reliability_id(current_user, @result.exercise) if @result and @result.study#ReliabilityId.find_by_unique_id(params[:reliability_id])
 
     #MY_LOG.info "rid: #{@reliability_id} uid #{@reliability_id.user_id} cuid: #{current_user.id}"
-    if @result.reliability_id and @result.reliability_id.user_id == current_user.id
+    if (@reliability_id and @result.reliability_id.user_id == current_user.id) or (@study_id and current_user.system_admin?)
       respond_to do |format|
         format.html # edit.html.erb
         format.json { render json: @result }
@@ -67,12 +76,27 @@ class ResultsController < ApplicationController
   # POST /results.json
   def create
     MY_LOG.info "Create Params: #{params}"
-    r_id = ReliabilityId.find_by_id(params[:result][:reliability_id])
-    @result = r_id.build_result(post_params) if r_id
-    @result.reliability_id = r_id if @result
+
+    if params[:result][:reliability_id]
+      r_id = ReliabilityId.find_by_id(params[:result][:reliability_id])
+      if r_id.user == current_user
+        @result = r_id.build_result(post_params)
+        @result.reliability_id = r_id
+      end
+    elsif params[:result][:study_id] and params[:result][:rule_id]
+      if current_user.system_admin?
+        study_original_result = StudyOriginalResult.new(study_id: params[:result][:study_id], rule_id: params[:result][:rule_id])
+        @result = study_original_result.build_result(post_params)
+        @result.study_original_result = study_original_result
+      end
+    else
+      @result = nil
+    end
+
+
 
     MY_LOG.info "#{@result} #{r_id}"
-    if @result and r_id.user == current_user
+    if @result
     #  MY_LOG.info "ACCEPTED: #{@result.valid?} #{@result.errors.full_messages}"
       respond_to do |format|
         if @result.save
