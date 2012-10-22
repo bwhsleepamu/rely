@@ -15,7 +15,8 @@ class Study < ActiveRecord::Base
 
   ##
   # Attributes
-  attr_accessible :location, :original_id, :study_type_id
+  attr_accessible :location, :original_id, :study_type_id, :results
+  attr_accessor :results
 
   ##
   # Callbacks
@@ -55,6 +56,40 @@ class Study < ActiveRecord::Base
 
   def destroy
     update_column :deleted, true
+  end
+
+  def results=(result_hash)
+    # rule_id MUST exist
+    # study_id exists or does not exist ==>
+      # sor_id exists or does not exist
+    result_hash.each do |params|
+      MY_LOG.info "before: #{study_original_results.length} #{study_original_results.count}"
+      result_attrs = params.slice(:location, :assessment_answers)
+
+      if params[:rule_id]
+        if params[:study_id]
+          MY_LOG.info "STUDY"
+          if params[:study_original_result_id]
+            MY_LOG.info "SOR"
+            # delete if delete flag?
+            sor = StudyOriginalResult.find(params[:study_original_result_id])
+            sor.result.update_attributes(result_attrs)
+          else
+            result = Result.new(result_attrs)
+            sor = StudyOriginalResult.new(rule_id: params[:rule_id], study_id: params[:study_id])
+            sor.result = result
+            study_original_results << sor
+          end
+        else
+          result = Result.new(params.slice(:location, :assessment_answers))
+          sor = StudyOriginalResult.new(rule_id: params[:rule_id])
+          sor.result = result
+          sor.study = self
+          study_original_results << sor
+        end
+      end
+      MY_LOG.info "after: #{study_original_results.length} #{study_original_results.count}"
+    end
   end
 
   private

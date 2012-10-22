@@ -32,7 +32,7 @@
   <div class="control-group">
     <%= f.label :assessment_type, "Assessment Type", class: 'control-label' %>
     <div class="controls">
-      <%= select_tag "rule[assessment_type]", options_for_select(Assessment::TYPES.collect {|key, val| [val[:title], key] }, @rule.assessment_type), {id: :rule_assessment_type, rel: :chosen} %>
+      <%= select_tag "rule[assessment_type]", options_for_select([['-Select Assessment-', nil]] + Assessment::TYPES.collect {|key, val| [val[:title], key] }, @rule.assessment_type), {id: :rule_assessment_type, rel: :chosen} %>
     </div>
   </div>
 

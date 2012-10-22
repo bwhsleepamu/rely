@@ -1,6 +1,6 @@
 module AssessmentsHelper
-  def questionnaire_field(assessment, question_id, question_hash)
-    name = "result[assessment_answers][#{question_id}]"
+  def questionnaire_field(assessment, question_id, question_hash, prefix="result")
+    name = "#{prefix}[assessment_answers][#{question_id}]"
 
     if assessment
       assessment_results = assessment.assessment_results.where(question_id: question_id)

@@ -31,7 +31,7 @@ class ResultsController < ApplicationController
   # GET /results/new
   # GET /results/new.json
   def new
-    if current_user.system_admin? and params[:rule_id]
+    if current_user.system_admin? and not params[:rule_id].empty?
       @result = Result.new
       @result.study_original_result = StudyOriginalResult.new(study_id: params[:study_id], rule_id: params[:rule_id])
     elsif params[:reliability_id] and ReliabilityId.find_by_id(params[:reliability_id]).user_id == current_user.id

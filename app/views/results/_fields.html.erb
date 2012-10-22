@@ -1,16 +1,20 @@
 <div class="well well-mini">
-  <h3>Original Result for Rule <%= result.rule.title %></h3>
+  <div class="well-tab">Rule: <span class="rule-title"><%= result.rule.title if result.rule %></span></div>
   <%= fields_for result do |f| %>
-    <%= f.hidden_field :reliability_id, value: result.reliability_id.id if result.reliability_id %>
-    <%= f.hidden_field :study_original_result_id, value: result.study_original_result.id if result.study_original_result %>
-    <%= f.hidden_field :study_id, value: result.study.id if result.study %>
-    <%= f.hidden_field :rule_id, value: result.rule.id if result.rule %>
-
-    <%= f.label :location, "Result Location" %>
-    <%= f.text_field :location %>
-    <h4>Questionnaire:</h4>
-    <%= render :partial => "assessments/questionnaire", :locals => { :assessment_type => result.rule.assessment_type, :assessment => result.assessment } %>
+    <%= f.hidden_field :reliability_id, value: result.reliability_id.id, name: "study[results][][reliability_id]" if result.reliability_id %>
+    <%= f.hidden_field :study_original_result_id, value: result.study_original_result.id, name: "study[results][][study_original_result_id]" if result.study_original_result.id %>
+    <%= f.hidden_field :study_id, value: result.study.id, name: "study[results][][study_id]" if result.study %>
+    <%= f.hidden_field :rule_id, value: result.rule.id, name: "study[results][][rule_id]" if result.rule %>
+    <div class="row">
+      <div class="span5">
+        <h4>Result Location</h4>
+        <%= f.text_field :location, name: "study[results][][location]" %>
+      </div>
+      <div class="span6">
+        <h4>Assessment Questionnaire</h4>
+        <%= render :partial => "assessments/original_questionnaire", :locals => { :assessment_type => (result.rule ? result.rule.assessment_type : nil), :assessment => result.assessment } %>
+      </div>
+    </div>
 
   <% end %>
-  <%= link_to "#" %>
 </div>

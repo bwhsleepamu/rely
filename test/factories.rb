@@ -61,6 +61,15 @@ FactoryGirl.define do
     study_type
     creator
 
+    factory :study_with_original_results do
+      ignore do
+        result_count 2
+      end
+
+      after(:create) do |study, evaluator|
+        create_list :study_original_result, evaluator.result_count, study_id: study.id
+      end
+    end
   end
 
   ##
@@ -96,6 +105,12 @@ FactoryGirl.define do
     location "/path/to/result/location"
     result_type "test_result_type"
     assessment
+  end
+
+  factory :study_original_result do
+    study
+    result
+    rule
   end
 
   ##

@@ -9,4 +9,7 @@ class StudyOriginalResult < ActiveRecord::Base
   # Attributes
   attr_accessible :study_id, :rule_id, :result_id
 
+  ##
+  # Validations
+  validates_uniqueness_of :rule_id, :scope => :study_id
 end

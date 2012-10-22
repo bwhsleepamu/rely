@@ -44,8 +44,8 @@
       <div class="row">
         <div class="span8">Original Results</div>
         <div class="span4">
-          <%= select_tag :rule_id, options_for_select([['-Select Rule-', nil]] + Rule.current.collect{|r| [r.name, r.id]}), {rel: "chosen"} %>
-          <%= link_to "Add New Original Result", new_result_path(rule_id: 2, study_id: @study.id), class: "btn btn-mini", id: "add_original_result", remote: true %>
+          <%= select_tag :rule_id, options_for_select([['-Select Rule-', nil]] + Rule.current.collect{|r| [r.name, r.id]}), { rel: "chosen" } %>
+          <%= link_to "Add New Original Result", new_result_path(rule_id: 2, study_id: @study.id), class: "btn btn-mini", id: "add_original_result", data: { study_id: @study.id }  %>
         </div>
       </div>
     </legend>
@@ -54,7 +54,8 @@
     <% end %>
     <div id="original_results">
       <% @study.original_results.each do |result| %>
-        <div class="well well-small"><%= render :partial => "results/form", :locals => { :result => result } %></div>
+      <% #[Result.new].each do |result| %>
+        <%= render :partial => "results/fields", :locals => { :result => result } %>
       <% end %>
     </div>
   </fieldset>

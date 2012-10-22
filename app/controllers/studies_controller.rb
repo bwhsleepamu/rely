@@ -47,6 +47,7 @@ class StudiesController < ApplicationController
   # POST /studies
   # POST /studies.json
   def create
+    MY_LOG.info "params: #{params}"
     @study = Study.new(post_params)
 
     respond_to do |format|
@@ -63,6 +64,7 @@ class StudiesController < ApplicationController
   # PUT /studies/1
   # PUT /studies/1.json
   def update
+    MY_LOG.info params.inspect
     @study = Study.current.find(params[:id])
 
     respond_to do |format|
@@ -70,6 +72,7 @@ class StudiesController < ApplicationController
         format.html { redirect_to @study, notice: 'Study was successfully updated.' }
         format.json { head :no_content }
       else
+        MY_LOG.info "FAILED!! #{@study.errors.full_messages}"
         format.html { render action: "edit" }
         format.json { render json: @study.errors, status: :unprocessable_entity }
       end
@@ -102,7 +105,7 @@ class StudiesController < ApplicationController
     end
 
     params[:study].slice(
-      :original_id, :study_type_id, :location
+      :original_id, :study_type_id, :location, :results
     )
   end
 end

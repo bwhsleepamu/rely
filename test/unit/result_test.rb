@@ -24,5 +24,21 @@ class ResultTest < ActiveSupport::TestCase
     pending
   end
 
+  test "rule" do
+    rule = create(:rule)
+    study = create(:study)
+    exercise = create(:exercise)
+    r_id = exercise.reliability_ids.first
+
+    # non-saved
+    result = Result.new
+    result.reliability_id = r_id
+    assert_equal result.rule, exercise.rule
+
+    result = Result.new
+    result.study_original_result = StudyOriginalResult.new(study_id: study.id, rule_id: rule.id)
+    assert_equal result.rule, rule
+  end
+
 
 end
