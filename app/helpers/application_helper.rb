@@ -45,4 +45,8 @@ module ApplicationHelper
     end
   end
 
+  def display_errors(object)
+    render :partial => "layouts/errors", :locals => {name: object.class.name, errors: object.errors} if object.errors.any?
+  end
+
 end

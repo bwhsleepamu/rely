@@ -59,37 +59,37 @@ class Study < ActiveRecord::Base
   end
 
   def results=(result_hash)
-    # rule_id MUST exist
-    # study_id exists or does not exist ==>
-      # sor_id exists or does not exist
     result_hash.each do |params|
-      MY_LOG.info "before: #{study_original_results.length} #{study_original_results.count}"
       result_attrs = params.slice(:location, :assessment_answers)
+      should_delete = params[:delete].to_i == 1 ? true : false
 
-      if params[:rule_id]
-        if params[:study_id]
-          MY_LOG.info "STUDY"
-          if params[:study_original_result_id]
-            MY_LOG.info "SOR"
-            # delete if delete flag?
-            sor = StudyOriginalResult.find(params[:study_original_result_id])
-            sor.result.update_attributes(result_attrs)
-          else
-            result = Result.new(result_attrs)
-            sor = StudyOriginalResult.new(rule_id: params[:rule_id], study_id: params[:study_id])
-            sor.result = result
-            study_original_results << sor
-          end
-        else
-          result = Result.new(params.slice(:location, :assessment_answers))
-          sor = StudyOriginalResult.new(rule_id: params[:rule_id])
-          sor.result = result
-          sor.study = self
-          study_original_results << sor
-        end
+      next if params[:rule_id].blank? # Rule is needed in all cases
+
+      MY_LOG.info "delete: #{should_delete} dasdf: #{result_attrs} "
+      if should_delete
+        MY_LOG.info "DELETE"
+        # Destroy Original Result
+        StudyOriginalResult.find(params[:study_original_result_id]).destroy unless params[:study_original_result_id].blank?
+      elsif params[:study_original_result_id].blank?
+        MY_LOG.info "CREATE"
+        # Create New Original Result
+        result = Result.new(result_attrs)
+        study_original_result = StudyOriginalResult.new(rule_id: params[:rule_id])
+        study_original_result.result = result
+        study_original_result.study = self
+        study_original_results << study_original_result
+      else
+        MY_LOG.info "UPDATE"
+        # Update Existing Original Result
+        study_original_result = StudyOriginalResult.find(params[:study_original_result_id])
+        study_original_result.result.update_attributes(result_attrs)
       end
-      MY_LOG.info "after: #{study_original_results.length} #{study_original_results.count}"
     end
+  end
+
+  def original_result(rule)
+    sor = StudyOriginalResult.find_by_study_id_and_rule_id(self.id, rule.id)
+    sor ? sor.result : nil
   end
 
   private

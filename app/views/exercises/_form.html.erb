@@ -3,17 +3,7 @@
 </div>
 
 <%= form_for @exercise, html: { class: 'form-horizontal' } do |f| %>
-  <% if @exercise.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@exercise.errors.count, "error") %> prohibited this exercise from being saved:</h2>
-
-      <ul>
-      <% @exercise.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= display_errors @exercise %>
 
   <div class="control-group">
     <%= f.label :rule_id, nil, class: 'control-label' %>

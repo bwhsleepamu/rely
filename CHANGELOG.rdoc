@@ -1,3 +1,11 @@
+== 0.4.0
+* Implemented original result functionality.
+* Added original results for comparison with rescored result in admin exercise result table.
+
+* Refactoring
+  * Refactored Model Structure for Original Result support.
+  * Added a global display_errors helper to start refactoring error messages in forms.
+
 == 0.3.1
 * Bug Fix
   * Fixed assessment questionaire for Actigraphy.

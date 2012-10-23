@@ -37,12 +37,11 @@
 
       <div id="pending_scorers" class="scorers">
         <h4>Pending Scorers</h4>
-          <ul>
-            <% @exercise.pending_scorers.each do |scorer| %>
-              <li class="scorer"><%= link_to "#{scorer.name}: #{@exercise.count_completed_results(scorer)}/#{@exercise.all_studies.length} results", scorer %></li>
-            <% end %>
-          </ul>
-        </div>
+        <ul>
+          <% @exercise.pending_scorers.each do |scorer| %>
+            <li class="scorer"><%= link_to "#{scorer.name}: #{@exercise.count_completed_results(scorer)}/#{@exercise.all_studies.length} results", scorer %></li>
+          <% end %>
+        </ul>
       </div>
     </div>
   </div>
@@ -54,8 +53,7 @@
         <th>Scorer</th>
         <th>Group</th>
         <th>Study</th>
-        <th>Reliability Id</th>
-        <th>Result Type</th>
+        <th>Reliability/Study Id</th>
         <th>Result Location</th>
         <% Assessment::TYPES[@exercise.rule.assessment_type.to_sym][:questions].each do |q_id, q_hash| %>
           <th>
@@ -71,6 +69,26 @@
       </tr>
       </thead>
       <tbody>
+      <% @exercise.groups.each do |group| %>
+        <% group.studies.each do |study| %>
+          <tr>
+            <td>*Original Result*</td>
+            <td><%= link_to group.name, group %></td>
+            <td><%= link_to study.name, study %></td>
+            <td><%= study.original_id %></td>
+            <% if study.original_result(@exercise.rule) %>
+              <td><%= study.original_result(@exercise.rule).location %></td>
+              <% study.original_result(@exercise.rule).assessment.assessment_results.each do |a_r| %>
+                <td><%= a_r.full_answer %></td>
+              <% end %>
+            <% else %>
+              <% (1 + Assessment::TYPES[@exercise.rule.assessment_type.to_sym][:questions].length).times do %>
+                <td class="no_results">No Result Yet</td>
+              <% end %>
+            <% end %>
+          </tr>
+        <% end %>
+      <% end %>
       <% @exercise.reliability_ids.each do |r_id| %>
         <tr>
           <td><%= link_to r_id.user.name, r_id.user %></td>
@@ -78,13 +96,12 @@
           <td><%= link_to r_id.study.name, r_id.study %></td>
           <td><%= r_id.unique_id %></td>
           <% if r_id.result %>
-            <td><%= r_id.result.result_type %></td>
             <td><%= r_id.result.location %></td>
             <% r_id.result.assessment.assessment_results.each do |a_r| %>
               <td><%= a_r.full_answer %></td>
             <% end %>
           <% else %>
-            <% (2 + Assessment::TYPES[@exercise.rule.assessment_type.to_sym][:questions].length).times do %>
+            <% (1 + Assessment::TYPES[@exercise.rule.assessment_type.to_sym][:questions].length).times do %>
               <td class="no_results">No Result Yet</td>
             <% end %>
           <% end %>

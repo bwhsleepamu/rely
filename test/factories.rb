@@ -102,7 +102,7 @@ FactoryGirl.define do
   ##
   # Results
   factory :result do
-    location "/path/to/result/location"
+    sequence(:location) {|n| "/path/to/result/location/#{n}" }
     result_type "test_result_type"
     assessment
   end

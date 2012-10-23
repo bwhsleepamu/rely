@@ -1,22 +1,30 @@
-<%= form_for result, html: { class: 'form-horizontal' } do |f| %>
+<div class="page-header">
+  <h1>Result for Study <%= @result.reliability_id.unique_id %>
+    <%= link_to "Back to Exercise", @result.reliability_id.exercise, class: 'btn btn-mini' %>
+  </h1>
+</div>
 
-  <% if result.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(result.errors.count, "error") %> prohibited this result from being saved:</h2>
-      <ul>
-        <% result.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+<dl class="dl-horizontal">
+  <dt>Study Type</dt>
+  <dd><%= link_to @result.reliability_id.study.study_type.name, @result.reliability_id.study.study_type if@result.reliability_id.study.study_type %></dd>
+
+  <dt>Study Location</dt>
+  <dd><%= @result.reliability_id.study.location %></dd>
+
+  <dt>Scoring Rule</dt>
+  <dd>
+    <h5><%= @result.reliability_id.exercise.rule.title %></h5>
+    <p><%= @result.reliability_id.exercise.rule.procedure %></p>
+  </dd>
+</dl>
+
+<%= form_for @result, html: { class: 'form-horizontal' } do |f| %>
+  <%= display_errors @result %>
 
   <fieldset>
     <legend>Result Information</legend>
-    <%= f.hidden_field :reliability_id, value: result.reliability_id.id if result.reliability_id %>
-    <%= f.hidden_field :study_original_result_id, value: result.study_original_result.id if result.study_original_result %>
-    <%= f.hidden_field :study_id, value: result.study.id if result.study %>
-    <%= f.hidden_field :rule_id, value: result.rule.id if result.rule %>
+
+    <%= f.hidden_field :reliability_id, value: @result.reliability_id.id %>
 
     <div class="control-group">
       <%= f.label :location, nil, class: 'control-label' %>
@@ -25,15 +33,15 @@
       </div>
     </div>
   </fieldset>
-
   <fieldset>
     <legend>Result Assessment Questionnaire</legend>
-    <%= render :partial => "assessments/questionnaire", :locals => { :assessment_type => result.rule.assessment_type, :assessment => result.assessment } %>
+
+    <%= render :partial => "assessments/questionnaire", :locals => { :assessment_type => @result.reliability_id.exercise.rule.assessment_type, :assessment => @result.assessment } %>
 
   </fieldset>
 
-    <div class="form-actions">
-    <%= f.submit "#{result.persisted? ? "Update" : "Add"} Result", class: 'btn btn-primary' %>
+  <div class="form-actions">
+    <%= f.submit "#{@result.persisted? ? "Update" : "Add"} Result", class: 'btn btn-primary' %>
     <%= cancel %>
   </div>
 <% end %>

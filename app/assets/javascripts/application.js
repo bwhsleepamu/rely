@@ -17,4 +17,5 @@
 //= require ZeroClipboard
 //= require data_table_bootstrap
 //= require contour
+//= require bootbox.min
 //= require_tree .

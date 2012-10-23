@@ -3,17 +3,7 @@
 </div>
 
 <%= form_for @study, html: { class: 'form-horizontal' } do |f| %>
-  <% if @study.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@study.errors.count, "error") %> prohibited this study from being saved:</h2>
-
-      <ul>
-      <% @study.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= display_errors @study %>
 
   <fieldset>
     <legend>Study Information</legend>
@@ -50,7 +40,7 @@
       </div>
     </legend>
     <% if @study.original_results.length == 0 %>
-      <div class="alert alert-info">No Original Results Yet!</div>
+      <div id="no-results" class="alert alert-info">No Original Results Yet!</div>
     <% end %>
     <div id="original_results">
       <% @study.original_results.each do |result| %>

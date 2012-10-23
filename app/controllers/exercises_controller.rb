@@ -23,6 +23,8 @@ class ExercisesController < ApplicationController
     @exercise = Exercise.current.find(params[:id])
 
     # Do not show unassigned exercises
+    #render :text => "WELL IT WORKED..."
+
     respond_to do |format|
       if current_user.system_admin? or @exercise.scorers.include?(current_user)
         format.html # show.html.erb
