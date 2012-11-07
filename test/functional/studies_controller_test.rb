@@ -5,7 +5,8 @@ class StudiesControllerTest < ActionController::TestCase
     @study = create(:study)
     @template = build(:study)
     @study_with_results = create(:study_with_original_results, result_count: 2)
-    @current_user = login(users(:admin))
+    @current_user = create(:admin)
+    login(@current_user)
   end
 
   test "should get index" do
@@ -31,6 +32,7 @@ class StudiesControllerTest < ActionController::TestCase
       post :create, study: { location: @template.location, original_id: @template.original_id, study_type_id: @study.study_type_id }
     end
 
+    assert_equal @current_user, assigns(:study).creator
     assert_redirected_to study_path(assigns(:study))
   end
 

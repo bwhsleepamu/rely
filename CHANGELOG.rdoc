@@ -1,3 +1,6 @@
+== 0.5.0
+* All models are somehow associated with a User, using creator_id if necessary.
+
 == 0.4.0
 * Implemented original result functionality.
 * Added original results for comparison with rescored result in admin exercise result table.

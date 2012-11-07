@@ -47,7 +47,7 @@ class StudyTypesController < ApplicationController
   # POST /study_types
   # POST /study_types.json
   def create
-    @study_type = StudyType.new(post_params)
+    @study_type = current_user.study_types.new(post_params)
 
     respond_to do |format|
       if @study_type.save

@@ -3,7 +3,8 @@ require 'test_helper'
 class StudyTypesControllerTest < ActionController::TestCase
   setup do
     @study_type = study_types(:one)
-    @current_user = login(users(:admin))
+    @current_user = create(:admin)
+    login(@current_user)
   end
 
   test "should get index" do
@@ -28,6 +29,7 @@ class StudyTypesControllerTest < ActionController::TestCase
       post :create, study_type: { description: @study_type.description, name: @study_type.name + "_c" }
     end
 
+    assert_equal @current_user, assigns(:study_type).creator
     assert_redirected_to study_type_path(assigns(:study_type))
   end
 

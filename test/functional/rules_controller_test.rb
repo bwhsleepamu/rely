@@ -4,7 +4,8 @@ class RulesControllerTest < ActionController::TestCase
   setup do
     @rule = create(:rule)
     @template = build(:rule)
-    @current_user = login(users(:admin))
+    @current_user = create(:admin)
+    login(@current_user)
   end
 
   test "should get index as admin" do
@@ -43,6 +44,7 @@ class RulesControllerTest < ActionController::TestCase
       post :create, rule: { procedure: @template.procedure, title: @template.title, assessment_type: @template.assessment_type  }
     end
 
+    assert_equal @current_user, assigns(:rule).creator
     assert_redirected_to rule_path(assigns(:rule))
   end
 

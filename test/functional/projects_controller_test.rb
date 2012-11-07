@@ -3,7 +3,9 @@ require 'test_helper'
 class ProjectsControllerTest < ActionController::TestCase
   setup do
     @project = projects(:one)
-    @current_user = login(users(:admin))
+    @current_user = create(:admin)
+
+    login(@current_user)
   end
 
   test "should get index" do
@@ -30,6 +32,7 @@ class ProjectsControllerTest < ActionController::TestCase
     end
 
     assert_not_nil assigns(:project)
+    assert_equal @current_user, assigns(:project).creator
     assert_equal group_ids.count, assigns(:project).groups.count
     assert_redirected_to project_path(assigns(:project))
   end

@@ -2,8 +2,9 @@ require 'test_helper'
 
 class GroupsControllerTest < ActionController::TestCase
   setup do
-    @group = groups(:one)
-    @current_user = login(users(:admin))
+    @group = create(:group)
+    @current_user = create(:admin)
+    login(@current_user)
   end
 
   test "should get index" do
@@ -28,8 +29,8 @@ class GroupsControllerTest < ActionController::TestCase
       post :create, group: { description: @group.description, name: @group.name }
     end
 
+    assert_equal @current_user, assigns(:group).creator
     assert_redirected_to group_path(assigns(:group))
-    assert_equal assigns(:group).creator.id, @current_user[1][0]
   end
 
   test "should create group with associated studies" do
