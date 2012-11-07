@@ -122,21 +122,6 @@
   rescored results, or assessments/assessment results. Assessment types will also continue to be hardcoded for now.
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 == 0.4.0
   - Exercise no longer stores assessment type
     delete field from table
