@@ -1,10 +1,12 @@
 class Project < ActiveRecord::Base
   ##
   # Associations
-  has_many :groups, :through => :project_groups, :conditions => { :deleted => false }
-  has_many :project_groups
+  has_many :managers, :class_name => "User", :through => :project_managers, :source => :user
+  has_many :project_managers
+  has_many :scorers, :class_name => "User", :through => :project_scorers, :source => :user
+  has_many :project_scorers
 
-  belongs_to :creator, :class_name => "User", :foreign_key => :creator_id
+  belongs_to :owner, :class_name => "User", :foreign_key => :owner_id
 
   ##
   # Attributes

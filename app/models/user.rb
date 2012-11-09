@@ -1,23 +1,31 @@
 class User < ActiveRecord::Base
   ##
   # Associations
+
   #User
   has_many :authentications
-  has_many :assigned_exercises, :class_name => "Exercise", :through => :exercise_users, :source => :exercise, :conditions => { :deleted => false }
-  has_many :exercise_users
-  has_many :reliability_ids, :conditions => { :deleted => false }
 
-  # Admin
-  has_many :launched_exercises, :foreign_key => :admin_id, :conditions => { :deleted => false }
+  # Owner
+  has_many :owned_exercises, :foreign_key => :owner_id, :conditions => { :deleted => false }
+  has_many :owned_projects, :foreign_key => :owner_id, :conditions => { :deleted => false }
 
   #Creator
   has_many :groups, :foreign_key => :creator_id, :conditions => { :deleted => false }
   has_many :group_studies, :foreign_key => :creator_id
   has_many :studies, :foreign_key => :creator_id, :conditions => { :deleted => false }
   has_many :study_types, :foreign_key => :creator_id, :conditions => { :deleted => false }
-  has_many :projects, :foreign_key => :creator_id, :conditions => { :deleted => false }
-  has_many :project_groups, :foreign_key => :creator_id
   has_many :rules, :foreign_key => :creator_id, :conditions => { :deleted => false }
+
+  # Manager
+  has_many :managed_projects, :class_name => "Project", :through => :project_managers, :source => :project
+  has_many :project_managers
+
+  # Scorer
+  has_many :assigned_exercises, :class_name => "Exercise", :through => :exercise_scorers, :source => :exercise, :conditions => { :deleted => false }
+  has_many :exercise_scorers
+  has_many :reliability_ids, :conditions => { :deleted => false }
+  has_many :assigned_projects, :class_name => "Project", :through => :project_managers, :source => :project, :conditions => { :deleted => false }
+  has_many :project_scorers
 
   ##
   # Attributes

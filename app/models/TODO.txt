@@ -1,7 +1,8 @@
 == 0.5.0
   - We are trying to scope everything by projects
     - project is created by a user
-    - project is administered by project manager
+    - project is administered by project managers, which include creator
+    - transfer of ownership is possible (google docs model)
     - project has scorers
 
     - exercise belongs to a project
@@ -10,18 +11,14 @@
     - exercise shows up for scorers that are part of the exercise
 
     - study is created by a project manager
-    - study is many-to-many with projects
-    - study can be added to project, or indirectly to a group in a project if the study is viewable by a project manager
+    - study belongs to a project
+
 
     - group is created by a project manager
-    - group is many-to-many with projects
-    - group can be added to a project, or indirectly to an exercise launched in the project if the group is viewable by
-      a project manager
+    - group belongs to a project
 
     - study type is created by a project manager
-    - study type is many-many with projects
-    - a study type can be added to a project, or indirectly through a study in the project if the study type is viewable
-      by a project manager.
+    - study type belongs to project
 
     - a scoring rule is created by project manager
     - a scoring rule belongs to ONLY ONE PROJECT
@@ -29,16 +26,16 @@
     - an original result is created by a project manager
     - an original result belongs to a study/scoring rule combo, and as a result also belongs to ONLY ONE PROJECT
 
-    - reliablity ids and related functionality are hopefully unaffected
-
+    - reliability ids and related functionality are hopefully unaffected
 
   The scopes for each model should be as follows:
 
   Project:
     viewable + editable by its creator, but through manager association
-      - creator automatically becomes a manager
-      - creator can be removed as manager - what happens then?
-        * creator id remains same
+      - creator automatically becomes a manager (basically, intersect creator and manager roles for viewable projects)
+      - creator cannot be removed as manager
+      - creator can be transferred (maybe lets call it owner instead of creator) (future)
+        * creator id changed to new subject
         * loses all privileges for managing the project
         * project disappears from view
 
@@ -50,35 +47,16 @@
 
         * project groups
         * project studies
-
-          now, project groups + project studies are tricky, since they are a bit redundant. Exercises have to be launched
-          using a group, so studies need to be grouped before they can be used in an exercise. However, to be grouped,
-          studies first need to be added to a project. As a result, groups have priority, but studies should also be
-          available, maybe highlighting unassigned studies.
-
-          It gets even trickier when dealing with sharing groups. What if a group is made for one project and then shared
-          with a new project that does not contain all studies? I think it might actually be simple if groups are treated
-          as sets of studies, so any sharing/movement/association is just mirrored on the individual study level.
         * project study types
-
-          Should study types be completely global? Or should they follow the same association structure as studies (and
-          groups?
-
         * project scoring rules
+        ^ All of the above are project-specific.
 
     viewable by scorers assigned to project
       - scorers see their own project dashboard where some project descriptions and assigned exercises are shown
 
   Exercise:
-    A COUPLE OPTIONS:
-    1. viewable + editable by managers of parent project
-
-    2. viewable + editable by exercise creator
-       viewable by managers of parent project
-
-    3. viewable + editable only by exercise creator
-
-    I'd go with option 1, so:
+    Chosen option:
+    1. viewable + editable by managers of parent project (which includes creator)
 
     viewable + editable by managers of parent project
       * these users would basically see the current admin dashboard for the exercise
@@ -93,34 +71,43 @@
     ** Similarly to how projects work, an exercise creator would not get any special privileges. The creator id would be
        stored, but all functionality would be defined through the project manager association
 
-  Study Type: (many-many with projects)
+  Study Type: scoped by project
     viewable and editable by any manager of a project the study type is part of
 
-    ** again, creator id stored, but maybe not needed in functionality? A creator will by default be a project manager of
-       project the study type is added under, so no scoping by creator is needed.
+    ** again, creator id stored, but maybe not needed in functionality for now.
 
-       Another option is to reserve edit right to creator, and allow other project managers to only see + assign study
-       type, but not actually edit it. This would make things a bit more complicated.
+  Study: scoped by project
 
-  Study: (many-many with projects)
     viewable and editable by any manager of a project the study is part of
 
-    Things get a bit complicated here with original results:
-      - a study can be part of a project
-      - an original result can be added to the study UNDER THE SCOPE OF A PROJECT
-      - this original result IS NOT SHARED BETWEEN PROJECTS
-      - an original result can only be added for SCORING RULES DEFINED UNDER THE GIVEN PROJECT
-      - in other words, original results are project-specific
+    this means original results are also scoped by project, and still restricted to the number of different scoring rules
+    that are defined in the given project.
 
-    This means that the only thing that is shared with studies is: location and original id.
-
-  Group: (many-many with projects)
+  Group: scoped by project
 
     viewable and editable by any manger of a project the group is part of
+
 
   ** anything associated with the exercise will work like it does not - not much needs to change with reliability_ids and
   rescored results, or assessments/assessment results. Assessment types will also continue to be hardcoded for now.
 
+  Summary of DB Changes:
+    - Projects need to have the following associations:
+      * studies (study belongs to project) --> project_id on study
+      * groups (group belongs to project) --> project_id on group
+      * study_types (study_type belongs to project) --> project_id on study_type
+      * scoring_rules (scoring rule belongs to project) --> project_id on scoring rule
+      * exercises (exercise belongs to project) --> project_id on exercise
+
+      * project has many project_managers (many-to-many relationship, simple)
+      * project has one owner (creator_id ==> owner_id)
+      * project has many scorers (many-to-many relationship, simple)
+
+      so,
+      add project_id to Study, Group, Study Type, Scoring Rule, Exercise.
+      change creator_id to owner_id in Project table
+      add ProjectScorer table
+      add ProjectManager table
 
 == 0.4.0
   - Exercise no longer stores assessment type
@@ -130,4 +117,4 @@
   - Study can have multiple assessment results: only one per Rule
     add new table: StudyOriginalResults
       store: study id, result id, rule id <-- unique combo
-  -
+
