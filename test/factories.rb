@@ -4,7 +4,7 @@ FactoryGirl.define do
   ##
   # Users
 
-  factory :user, aliases: [:creator] do
+  factory :user, aliases: [:creator, :owner] do
     first_name "John"
     sequence(:last_name) { |n| "Doe_#{n}" }
     password "secret"
@@ -14,35 +14,78 @@ FactoryGirl.define do
   end
 
   # This will use the User class (Admin would have been guessed)
-  factory :admin, class: User do
-    first_name "Admin"
-    last_name  "User"
-    password "secret"
-    sequence(:email) {|n| "admin_#{n}@example.com" }
-    system_admin true
-    status "active"
-  end
+  #factory :admin, class: User do
+  #  first_name "Admin"
+  #  last_name  "User"
+  #  password "secret"
+  #  sequence(:email) {|n| "admin_#{n}@example.com" }
+  #  system_admin true
+  #  status "active"
+  #end
 
   ##
   # Exercises
   factory :exercise do
-    admin
-    rule
+    owner
     sequence(:name) {|n| "Test Exercise #{n}"}
     description "Description of test exercise."
 
     ignore do
-      user_count 3
+      scorer_count 3
       group_count 2
+      existing_project_id nil
     end
 
     before(:create) do |exercise, evaluator|
-      scorers = create_list :user, evaluator.user_count
-      groups = create_list :group_with_studies, evaluator.group_count
+      if evaluator.existing_project_id
+        project = Project.find(evaluator.existing_project_id)
+      else
+        project = create(:project, scorer_count: evaluator.scorer_count + 1, group_count: evaluator.group_count + 1)
+      end
 
-      exercise.scorers = scorers
-      exercise.groups = groups
+      exercise.project = project
+      exercise.rule = project.rules.first
+      exercise.scorers = project.scorers[0..project.scorers.length-2]
+      exercise.groups = project.groups[0..project.groups.length-2]
     end
+  end
+
+  ##
+  # Project
+
+  factory :project do
+    owner
+    sequence(:name) {|n| "Project_#{n}"}
+    description "Some description for what this project is about."
+    start_date { Date.today() }
+    end_date { Date.today() + 1.month }
+
+    ignore do
+      rule_count 2
+      scorer_count 4
+      manager_count 2
+      study_count 5
+      group_count 3
+    end
+
+    before(:create) do |project, evaluator|
+      rules = create_list :rule, evaluator.rule_count
+      scorers = create_list :user, evaluator.scorer_count
+      managers = create_list :user, evaluator.manager_count
+
+      evaluator.group_count.times do
+        studies = create_list :study, evaluator.study_count
+        group = create(:group, study_ids: studies.map{|s| s.id})
+
+        project.groups << group
+        project.studies << studies
+      end
+
+      project.rules = rules
+      project.scorers = scorers
+      project.managers = managers
+    end
+
   end
 
   ##

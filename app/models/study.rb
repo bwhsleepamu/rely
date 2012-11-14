@@ -8,8 +8,7 @@ class Study < ActiveRecord::Base
   has_many :original_results, :class_name => "Result", :through => :study_original_results, :conditions => { :deleted => false}, :source => :result
 
   belongs_to :study_type
-
-
+  belongs_to :project
   belongs_to :creator, :class_name => "User", :foreign_key => :creator_id
 
 
@@ -27,6 +26,10 @@ class Study < ActiveRecord::Base
   ##
   # Scopes
   scope :current, conditions: { deleted: false }
+  scope :with_creator, lambda { |user| where("creator_id = ?", user.id)  }
+  scope :with_project, lambda { |project| where("project_id = ?", project.id) }
+
+  #scope :search, lambda { |*args| { conditions: [ 'LOWER(name) LIKE ? or LOWER(description) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
 
   ##
   # Validations

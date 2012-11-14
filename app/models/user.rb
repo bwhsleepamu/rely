@@ -6,8 +6,8 @@ class User < ActiveRecord::Base
   has_many :authentications
 
   # Owner
-  has_many :owned_exercises, :foreign_key => :owner_id, :conditions => { :deleted => false }
-  has_many :owned_projects, :foreign_key => :owner_id, :conditions => { :deleted => false }
+  has_many :owned_exercises, :class_name => "Exercise", :foreign_key => :owner_id, :conditions => { :deleted => false }
+  has_many :owned_projects, :class_name => "Project", :foreign_key => :owner_id, :conditions => { :deleted => false }
 
   #Creator
   has_many :groups, :foreign_key => :creator_id, :conditions => { :deleted => false }
@@ -58,9 +58,9 @@ class User < ActiveRecord::Base
   # Scopes
   scope :current, conditions: { deleted: false }
   scope :search, lambda { |*args| { conditions: [ 'LOWER(first_name) LIKE ? or LOWER(last_name) LIKE ? or LOWER(email) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
-  scope :system_admins, conditions: { system_admin: true }
   scope :status, lambda { |*args|  { conditions: ["users.status IN (?)", args.first] } }
-  scope :scorers, conditions: { system_admin: false }
+  scope :system_admins, conditions: { system_admin: true }
+  #scope :scorers, conditions: { system_admin: false }
 
 
   ##
@@ -113,6 +113,10 @@ class User < ActiveRecord::Base
 
   def exercise_reliability_ids(exercise)
     reliability_ids.where(:exercise_id => exercise.id)
+  end
+
+  def all_projects
+    Project.current.with_manager(self) + Project.current.with_owner(self)
   end
 
   private

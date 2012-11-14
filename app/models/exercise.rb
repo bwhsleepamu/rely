@@ -3,17 +3,18 @@ class Exercise < ActiveRecord::Base
 
   ##
   # Associations
-  belongs_to :admin, :class_name => "User", :foreign_key => :admin_id
-  has_many :scorers, :class_name => "User", :through => :exercise_users, :source => :user, :conditions => { :deleted => false }
-  has_many :exercise_users
+  belongs_to :owner, :class_name => "User", :foreign_key => :owner_id
+  has_many :scorers, :class_name => "User", :through => :exercise_scorers, :source => :user, :conditions => { :deleted => false }
+  has_many :exercise_scorers
   has_many :groups, :through => :exercise_groups, :conditions => { :deleted => false }
   has_many :exercise_groups
   has_many :reliability_ids, :conditions => { :deleted => false }
+  belongs_to :project
   belongs_to :rule
 
   ##
   # Attributes
-  attr_accessible :admin_id, :assigned_at, :completed_at, :description, :name, :rule_id, :scorer_ids, :group_ids
+  attr_accessible :owner_id, :assigned_at, :completed_at, :description, :name, :rule_id, :scorer_ids, :group_ids
 
   ##
   # Callbacks
@@ -27,11 +28,15 @@ class Exercise < ActiveRecord::Base
   ##
   # Scopes
   scope :current, conditions: { deleted: false }
+  scope :with_owner, lambda { |user| where("owner_id = ?", user.id)  }
+  scope :with_manager, lambda { |user| where("project_id in ( select project_id from projects p join project_managers pm on p.id = pm.project_id where pm.user_id = ?)", user.id) }
+  scope :with_scorer, lambda { |user| joins(:exercise_scorers).where("exercise_scorers.user_id = ?", user.id) }
+  scope :with_project, lambda { |project| where("project_id = ?", project.id) }
   scope :search, lambda { |*args| { conditions: [ 'LOWER(name) LIKE ? or LOWER(description) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
 
   ##
   # Validations
-  validates_presence_of :assigned_at, :admin_id, :name, :rule_id, :groups, :scorers
+  validates_presence_of :assigned_at, :owner_id, :name, :rule_id, :groups, :scorers
   validates_uniqueness_of :name
 
   ##

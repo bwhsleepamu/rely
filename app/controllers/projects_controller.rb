@@ -1,11 +1,11 @@
 class ProjectsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :check_system_admin
+  #before_filter :check_system_admin
 
   # GET /projects
   # GET /projects.json
   def index
-    project_scope = Project.current
+    project_scope = current_user.all_projects
     @order = Project.column_names.collect{|column_name| "projects.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "projects.name"
     project_scope = project_scope.order(@order)
     @projects = project_scope.page(params[:page]).per( 20 )
@@ -20,7 +20,7 @@ class ProjectsController < ApplicationController
   # GET /projects/1
   # GET /projects/1.json
   def show
-    @project = Project.current.find(params[:id])
+    @project = current_user.all_projects.find_by_id(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -31,7 +31,7 @@ class ProjectsController < ApplicationController
   # GET /projects/new
   # GET /projects/new.json
   def new
-    @project = Project.new
+    @project = current_user.owned_projects.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -41,13 +41,17 @@ class ProjectsController < ApplicationController
 
   # GET /projects/1/edit
   def edit
-    @project = Project.current.find(params[:id])
+    @project = current_user.all_projects.find(params[:id])
   end
 
   # POST /projects
   # POST /projects.json
   def create
-    @project = current_user.projects.new(post_params)
+    MY_LOG.info "IS IT WORKING??"
+    MY_LOG.info post_params
+    @project = current_user.owned_projects.new(post_params)
+
+    MY_LOG.info "valid?: #{@project.valid?} errors: #{@project.errors.full_messages}"
 
     respond_to do |format|
       if @project.save
@@ -63,7 +67,7 @@ class ProjectsController < ApplicationController
   # PUT /projects/1
   # PUT /projects/1.json
   def update
-    @project = Project.current.find(params[:id])
+    @project = current_user.all_projects.find_by_id(params[:id])
 
     respond_to do |format|
       if @project.update_attributes(post_params)
@@ -79,7 +83,7 @@ class ProjectsController < ApplicationController
   # DELETE /projects/1
   # DELETE /projects/1.json
   def destroy
-    @project = Project.current.find(params[:id])
+    @project = current_user.all_projects.find_by_id(params[:id])
     @project.destroy
 
     respond_to do |format|
@@ -98,7 +102,7 @@ class ProjectsController < ApplicationController
     end
 
     params[:project].slice(
-      :name, :description, :start_date, :end_date, :user_id, :group_ids
+      :name, :description, :start_date, :end_date, :manager_ids, :scorer_ids
     )
   end
 end

@@ -1,6 +1,45 @@
 require 'test_helper'
 
 class ExerciseTest < ActiveSupport::TestCase
+  test "scopes" do
+    # test owner, scorer, manager, project
+    project = create(:project)
+
+    create_list(:exercise, 5, existing_project_id: project.id)
+
+    e1 = create(:exercise)
+    e2 = create(:exercise)
+
+    scorer = e1.scorers.first
+    owner = e2.owner
+    manager = e2.project.managers.first
+    project = e1.project
+
+    scorer_scope = Exercise.current.with_scorer(scorer)
+    owner_scope = Exercise.current.with_owner(owner)
+    manager_scope = Exercise.current.with_manager(manager)
+    project_scope = Exercise.current.with_project(project)
+
+    l = 1
+    assert (scorer_scope.length == l and owner_scope.length == l and manager_scope.length == l and project_scope.length == l), "s: #{scorer_scope.length} o: #{owner_scope.length} m: #{manager_scope.length} p: #{project_scope.length}"
+    assert (scorer_scope.first == e1 and project_scope.first == e1)
+    assert (owner_scope.first == e2 and manager_scope.first == e2)
+
+    e3 = create(:exercise, existing_project_id: e1.project.id)
+    e3.scorers << scorer unless e3.scorers.include?(scorer)
+    e3.owner = owner
+    e3.project.managers << manager
+    e3.save
+
+    scorer_scope = Exercise.current.with_scorer(scorer)
+    owner_scope = Exercise.current.with_owner(owner)
+    manager_scope = Exercise.current.with_manager(manager)
+    project_scope = Exercise.current.with_project(project)
+
+    l = 2
+    assert (scorer_scope.length == l and owner_scope.length == l and manager_scope.length == (l+1) and project_scope.length == l), "s: #{scorer_scope.length} o: #{owner_scope.length} m: #{manager_scope.length} p: #{project_scope.length}"
+  end
+
   test "#percent_completed" do
     exercise = create(:exercise)
     total_result_count = exercise.all_studies.length * exercise.scorers.length
