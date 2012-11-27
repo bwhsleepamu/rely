@@ -26,7 +26,6 @@ FactoryGirl.define do
   ##
   # Exercises
   factory :exercise do
-    owner
     sequence(:name) {|n| "Test Exercise #{n}"}
     description "Description of test exercise."
 
@@ -44,6 +43,8 @@ FactoryGirl.define do
       end
 
       exercise.project = project
+      exercise.owner = project.managers.first
+      exercise.updater_id = project.managers.first.id
       exercise.rule = project.rules.first
       exercise.scorers = project.scorers[0..project.scorers.length-2]
       exercise.groups = project.groups[0..project.groups.length-2]
@@ -66,24 +67,25 @@ FactoryGirl.define do
       manager_count 2
       study_count 5
       group_count 3
+      study_type_count 3
     end
 
-    before(:create) do |project, evaluator|
-      rules = create_list :rule, evaluator.rule_count
+    after(:create) do |project, evaluator|
       scorers = create_list :user, evaluator.scorer_count
       managers = create_list :user, evaluator.manager_count
-
-      evaluator.group_count.times do
-        studies = create_list :study, evaluator.study_count
-        group = create(:group, study_ids: studies.map{|s| s.id})
-
-        project.groups << group
-        project.studies << studies
-      end
-
-      project.rules = rules
       project.scorers = scorers
       project.managers = managers
+      m = managers.first
+
+      study_types = create_list :study_type, evaluator.study_type_count, project: project, creator: m, updater_id: m.id
+      rules = create_list :rule, evaluator.rule_count, project: project, creator: m, updater_id: m.id
+
+      0.upto(evaluator.group_count - 1) do |i|
+        i >= study_types.length ? study_type = study_types.first : study_type = study_types[i]
+
+        studies = create_list :study, evaluator.study_count, project: project, study_type: study_type, creator: m, updater_id: m.id
+        group = create(:group, study_ids: studies.map{|s| s.id}, project: project, creator: m, updater_id: m.id)
+      end
     end
 
   end
@@ -101,16 +103,14 @@ FactoryGirl.define do
   factory :study do
     sequence(:original_id) {|n| "123JK#{n}"}
     location "/path/to/some/location/of/file.csv"
-    study_type
     creator
 
     factory :study_with_original_results do
-      ignore do
-        result_count 2
-      end
 
       after(:create) do |study, evaluator|
-        create_list :study_original_result, evaluator.result_count, study_id: study.id
+        study.project.rules.each do |rule|
+          create :study_original_result, study: study, rule: rule
+        end
       end
     end
   end
@@ -151,9 +151,7 @@ FactoryGirl.define do
   end
 
   factory :study_original_result do
-    study
     result
-    rule
   end
 
   ##

@@ -1,6 +1,4 @@
 class Exercise < ActiveRecord::Base
-  include Extensions::IndexMethods
-
   ##
   # Associations
   belongs_to :owner, :class_name => "User", :foreign_key => :owner_id
@@ -9,7 +7,6 @@ class Exercise < ActiveRecord::Base
   has_many :groups, :through => :exercise_groups, :conditions => { :deleted => false }
   has_many :exercise_groups
   has_many :reliability_ids, :conditions => { :deleted => false }
-  belongs_to :project
   belongs_to :rule
 
   ##
@@ -26,18 +23,23 @@ class Exercise < ActiveRecord::Base
   # Database Settings
 
   ##
+  # Extensions
+  include Extensions::IndexMethods
+  include Extensions::ScopedByProject
+
+  ##
   # Scopes
   scope :current, conditions: { deleted: false }
   scope :with_owner, lambda { |user| where("owner_id = ?", user.id)  }
   scope :with_manager, lambda { |user| where("project_id in ( select project_id from projects p join project_managers pm on p.id = pm.project_id where pm.user_id = ?)", user.id) }
   scope :with_scorer, lambda { |user| joins(:exercise_scorers).where("exercise_scorers.user_id = ?", user.id) }
-  scope :with_project, lambda { |project| where("project_id = ?", project.id) }
   scope :search, lambda { |*args| { conditions: [ 'LOWER(name) LIKE ? or LOWER(description) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
 
   ##
   # Validations
   validates_presence_of :assigned_at, :owner_id, :name, :rule_id, :groups, :scorers
   validates_uniqueness_of :name
+  validate :scorers_belong_to_project, :rule_belongs_to_project, :groups_belong_to_project
 
   ##
   # Class Methods
@@ -129,6 +131,7 @@ class Exercise < ActiveRecord::Base
   end
 
   def percent_completed
+
     (all_results.length.to_f / reliability_ids.length.to_f) * 100.0
   end
 
@@ -153,6 +156,31 @@ class Exercise < ActiveRecord::Base
   def check_completion
     if all_completed?
       update_column :completed_at, Time.zone.now()
+    end
+  end
+
+  # Custom Validation
+  def scorers_belong_to_project
+    scorers.each do |scorer|
+      unless project.scorers.include?(scorer)
+        errors.add(:scorers, "have to all be scorers on the same project as parent exercise.")
+        break
+      end
+    end
+  end
+
+  def rule_belongs_to_project
+    if rule.project != project
+      errors.add(:rule, "has to belong to the same project as parent exercise.")
+    end
+  end
+
+  def groups_belong_to_project
+    groups.each do |g|
+      if g.project != project
+        errors.add(:groups, "have to all belong to the same project as parent exercise.")
+        break
+      end
     end
   end
 

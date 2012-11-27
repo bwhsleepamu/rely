@@ -6,11 +6,13 @@ class UserTest < ActiveSupport::TestCase
   #fixtures :all
 
   test "should get reverse name" do
-    assert_equal 'LastName, FirstName', users(:valid).reverse_name
+    user = create(:user)
+    assert_equal "#{user.last_name}, #{user.first_name}", user.reverse_name
   end
 
   test "should apply omniauth" do
-    assert_not_nil users(:valid).apply_omniauth({ 'info' => {'email' => 'Email', 'first_name' => 'FirstName', 'last_name' => 'LastName' } })
+    user = create(:user)
+    assert_not_nil user.apply_omniauth({ 'info' => {'email' => 'Email', 'first_name' => 'FirstName', 'last_name' => 'LastName' } })
   end
 
   test "#exercise_reliability_ids should return reliability id object for given exercise" do

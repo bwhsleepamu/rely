@@ -3,8 +3,8 @@
     <div id="main_info" class="span6">
       <h3>Main Information</h3>
       <dl class="dl-horizontal">
-        <dt>Assigned By</dt>
-        <dd><%= link_to @exercise.admin.name, @exercise.admin if @exercise.admin %></dd>
+        <dt>Project</dt>
+        <dd><%= link_to @exercise.project.name, @exercise.project %></dd>
 
         <dt>Assigned</dt>
         <dd><%= simple_time @exercise.assigned_at %></dd>

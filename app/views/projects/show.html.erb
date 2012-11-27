@@ -16,10 +16,37 @@
   <dd><%= simple_format @project.description %></dd>
 
   <dt>Start Date</dt>
-  <dd><%= @project.start_date %></dd>
+  <dd><%= @project.start_date.strftime("%m/%d/%Y") if @project.start_date %></dd>
 
   <dt>End Date</dt>
-  <dd><%= @project.end_date %></dd>
+  <dd><%= @project.end_date.strftime("%m/%d/%Y") if @project.end_date %></dd>
+
+  <dt>Managers</dt>
+  <dd>
+    <ul id="managers">
+      <% @project.managers.each do |manager| %>
+        <li><%= manager.name %></li>
+      <% end %>
+    </ul>
+  </dd>
+
+  <dt>Scorers</dt>
+  <dd>
+    <ul id="scorers">
+      <% @project.scorers.each do |scorer| %>
+        <li><%= scorer.name %></li>
+      <% end %>
+    </ul>
+  </dd>
+
+  <dt>Studies</dt>
+  <dd>
+    <ul id="studies">
+      <% @project.studies.each do |study| %>
+        <li><%= study.name %></li>
+      <% end %>
+    </ul>
+  </dd>
 
   <dt>Groups</dt>
   <dd>

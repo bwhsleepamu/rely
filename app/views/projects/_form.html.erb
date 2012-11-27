@@ -44,9 +44,16 @@
   </div>
 
   <div class="control-group">
-    <%= f.label :group_ids, "Groups", class: 'control-label' %><br/>
+    <%= f.label :manager_ids, "Managers", class: 'control-label' %><br/>
     <div class="controls">
-      <%= f.collection_select :group_ids, Group.current.order(:name), :id, :name, {}, {multiple:true, rel: :chosen} %>
+      <%= f.collection_select :manager_ids, User.current.order(:last_name), :id, :name, {}, {multiple:true, rel: :chosen} %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :scorer_ids, "Scorers", class: 'control-label' %><br/>
+    <div class="controls">
+      <%= f.collection_select :scorer_ids, User.current.order(:last_name), :id, :name, {}, {multiple:true, rel: :chosen} %>
     </div>
   </div>
 

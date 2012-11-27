@@ -4,45 +4,45 @@ class AssessmentResultsController < ApplicationController
 
   # GET /assessment_results
   # GET /assessment_results.json
-  def index
-    assessment_result_scope = AssessmentResult.current
-    @order = AssessmentResult.column_names.collect{|column_name| "assessment_results.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "assessment_results.assessment_id"
-    assessment_result_scope = assessment_result_scope.order(@order)
-    @assessment_results = assessment_result_scope.page(params[:page]).per( 20 )
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.js
-      format.json { render json: @assessment_results }
-    end
-  end
+  #def index
+  #  assessment_result_scope = AssessmentResult.current
+  #  @order = AssessmentResult.column_names.collect{|column_name| "assessment_results.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "assessment_results.assessment_id"
+  #  assessment_result_scope = assessment_result_scope.order(@order)
+  #  @assessment_results = assessment_result_scope.page(params[:page]).per( 20 )
+  #
+  #  respond_to do |format|
+  #    format.html # index.html.erb
+  #    format.js
+  #    format.json { render json: @assessment_results }
+  #  end
+  #end
 
   # GET /assessment_results/1
   # GET /assessment_results/1.json
-  def show
-    @assessment_result = AssessmentResult.current.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @assessment_result }
-    end
-  end
+  #def show
+  #  @assessment_result = AssessmentResult.current.find(params[:id])
+  #
+  #  respond_to do |format|
+  #    format.html # show.html.erb
+  #    format.json { render json: @assessment_result }
+  #  end
+  #end
 
   # GET /assessment_results/new
   # GET /assessment_results/new.json
-  def new
-    @assessment_result = AssessmentResult.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @assessment_result }
-    end
-  end
+  #def new
+  #  @assessment_result = AssessmentResult.new
+  #
+  #  respond_to do |format|
+  #    format.html # new.html.erb
+  #    format.json { render json: @assessment_result }
+  #  end
+  #end
 
   # GET /assessment_results/1/edit
-  def edit
-    @assessment_result = AssessmentResult.current.find(params[:id])
-  end
+  #def edit
+  #  @assessment_result = AssessmentResult.current.find(params[:id])
+  #end
 
   # POST /assessment_results
   # POST /assessment_results.json

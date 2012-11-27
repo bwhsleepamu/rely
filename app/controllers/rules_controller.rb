@@ -1,12 +1,10 @@
 class RulesController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :check_system_admin, only: [:new, :create, :edit, :update, :destroy]
 
   # GET /rules
   # GET /rules.json
   def index
-    rule_scope = Rule.current
-
+    rule_scope = current_user.all_rules
     @rules = rule_scope.search_by_terms(parse_search_terms(params[:search])).set_order(params[:order], "title").page(params[:page]).per( 20 )
 
     respond_to do |format|
@@ -19,7 +17,7 @@ class RulesController < ApplicationController
   # GET /rules/1
   # GET /rules/1.json
   def show
-    @rule = Rule.current.find(params[:id])
+    @rule = current_user.all_rules.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -30,7 +28,7 @@ class RulesController < ApplicationController
   # GET /rules/new
   # GET /rules/new.json
   def new
-    @rule = Rule.new
+    @rule = current_user.all_rules.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -40,13 +38,13 @@ class RulesController < ApplicationController
 
   # GET /rules/1/edit
   def edit
-    @rule = Rule.current.find(params[:id])
+    @rule = current_user.all_rules.find(params[:id])
   end
 
   # POST /rules
   # POST /rules.json
   def create
-    @rule = current_user.rules.new(post_params)
+    @rule = current_user.all_rules.new(post_params)
 
     respond_to do |format|
       if @rule.save
@@ -62,7 +60,7 @@ class RulesController < ApplicationController
   # PUT /rules/1
   # PUT /rules/1.json
   def update
-    @rule = Rule.current.find(params[:id])
+    @rule = current_user.all_rules.find(params[:id])
 
     respond_to do |format|
       if @rule.update_attributes(post_params)
@@ -78,7 +76,7 @@ class RulesController < ApplicationController
   # DELETE /rules/1
   # DELETE /rules/1.json
   def destroy
-    @rule = Rule.current.find(params[:id])
+    @rule = current_user.all_rules.find(params[:id])
     @rule.destroy
 
     respond_to do |format|
@@ -101,7 +99,7 @@ class RulesController < ApplicationController
     end
 
     params[:rule].slice(
-      :title, :procedure, :assessment_type
+      :title, :procedure, :assessment_type, :project_id
     )
   end
 end

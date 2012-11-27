@@ -5,10 +5,8 @@ class StudyTypesController < ApplicationController
   # GET /study_types
   # GET /study_types.json
   def index
-    study_type_scope = StudyType.current
-    @order = StudyType.column_names.collect{|column_name| "study_types.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "study_types.name"
-    study_type_scope = study_type_scope.order(@order)
-    @study_types = study_type_scope.page(params[:page]).per( 20 )
+    study_type_scope = current_user.all_study_types
+    @study_types = study_type_scope.search_by_terms(parse_search_terms(params[:search])).set_order(params[:order], "name").page(params[:page]).per( 20 )
 
     respond_to do |format|
       format.html # index.html.erb
@@ -20,7 +18,7 @@ class StudyTypesController < ApplicationController
   # GET /study_types/1
   # GET /study_types/1.json
   def show
-    @study_type = StudyType.current.find(params[:id])
+    @study_type = current_user.all_study_types.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -31,7 +29,7 @@ class StudyTypesController < ApplicationController
   # GET /study_types/new
   # GET /study_types/new.json
   def new
-    @study_type = StudyType.new
+    @study_type = current_user.all_study_types.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -41,13 +39,13 @@ class StudyTypesController < ApplicationController
 
   # GET /study_types/1/edit
   def edit
-    @study_type = StudyType.current.find(params[:id])
+    @study_type = current_user.all_study_types.find(params[:id])
   end
 
   # POST /study_types
   # POST /study_types.json
   def create
-    @study_type = current_user.study_types.new(post_params)
+    @study_type = current_user.all_study_types.new(post_params)
 
     respond_to do |format|
       if @study_type.save
@@ -63,7 +61,7 @@ class StudyTypesController < ApplicationController
   # PUT /study_types/1
   # PUT /study_types/1.json
   def update
-    @study_type = StudyType.current.find(params[:id])
+    @study_type = current_user.all_study_types.find(params[:id])
 
     respond_to do |format|
       if @study_type.update_attributes(post_params)
@@ -79,7 +77,7 @@ class StudyTypesController < ApplicationController
   # DELETE /study_types/1
   # DELETE /study_types/1.json
   def destroy
-    @study_type = StudyType.current.find(params[:id])
+    @study_type = current_user.all_study_types.find(params[:id])
     @study_type.destroy
 
     respond_to do |format|

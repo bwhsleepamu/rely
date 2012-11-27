@@ -2,8 +2,10 @@ require 'test_helper'
 
 class GroupsControllerTest < ActionController::TestCase
   setup do
-    @group = create(:group)
-    @current_user = create(:admin)
+    @current_user = create :user
+    @project = create :project, owner: @current_user
+
+    @group = @project.groups.first
     login(@current_user)
   end
 
@@ -26,7 +28,7 @@ class GroupsControllerTest < ActionController::TestCase
 
   test "should create group and assign creator" do
     assert_difference('Group.count') do
-      post :create, group: { description: @group.description, name: @group.name }
+      post :create, group: { description: @group.description, name: @group.name, project_id: @project.id }
     end
 
     assert_equal @current_user, assigns(:group).creator

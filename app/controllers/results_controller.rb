@@ -4,41 +4,46 @@ class ResultsController < ApplicationController
 
   # GET /results
   # GET /results.json
-  def index
-    result_scope = Result.current
-    @order = Result.column_names.collect{|column_name| "results.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "results.study_id"
-    result_scope = result_scope.order(@order)
-    @results = result_scope.page(params[:page]).per( 20 )
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.js
-      format.json { render json: @results }
-    end
-  end
+  #def index
+  #  result_scope = Result.current
+  #  @order = Result.column_names.collect{|column_name| "results.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "results.study_id"
+  #  result_scope = result_scope.order(@order)
+  #  @results = result_scope.page(params[:page]).per( 20 )
+  #
+  #  respond_to do |format|
+  #    format.html # index.html.erb
+  #    format.js
+  #    format.json { render json: @results }
+  #  end
+  #end
 
   # GET /results/1
   # GET /results/1.json
-  def show
-    @result = Result.current.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @result }
-    end
-  end
+  #def show
+  #  @result = Result.current.find(params[:id])
+  #
+  #  respond_to do |format|
+  #    format.html # show.html.erb
+  #    format.json { render json: @result }
+  #  end
+  #end
 
   # GET /results/new
   # GET /results/new.json
   def new
-    if current_user.system_admin? and not params[:rule_id].blank?
-      @result = Result.new
-      @result.study_original_result = StudyOriginalResult.new(study_id: params[:study_id], rule_id: params[:rule_id])
-    elsif params[:reliability_id] and ReliabilityId.find_by_id(params[:reliability_id]).user_id == current_user.id
-      @result = Result.new
-      @result.reliability_id = ReliabilityId.find_by_id(params[:reliability_id])
-    end
 
+    # either make an original result (no reliability id, has rule_id, has study_id)
+    # or make a reliability_id result (has reliablity id)
+
+    #if current_user.system_admin? and not params[:rule_id].blank?
+    #  # Original Result - TODO: UPDATE
+    #  @result = Result.new
+    #  @result.study_original_result = StudyOriginalResult.new(study_id: params[:study_id], rule_id: params[:rule_id])
+    #elsif params[:reliability_id] and ReliabilityId.find_by_id(params[:reliability_id]).user_id == current_user.id
+    #  @result = Result.new
+    #  @result.reliability_id = ReliabilityId.find_by_id(params[:reliability_id])
+    #end
+    #
     if @result
       respond_to do |format|
         format.html # new.html.erb
@@ -52,12 +57,19 @@ class ResultsController < ApplicationController
 
   # GET /results/1/edit
   def edit
+    # Can edit when:
+    #   project manager:
+    #     original result
+    #   scorer:
+    #     through reliability id
+    #
+
     #MY_LOG.info "EDIT: #{params}"
     #MY_LOG.info "RESULTS: #{Result.all.map{|r| r.id}}"
 
-    @result = Result.current.find(params[:id])
-    @reliability_id = @result.reliability_id
-    @study_id = @result.study_original_result.study_id if @result.study_original_result
+    #@result = Result.current.find(params[:id])
+    #@reliability_id = @result.reliability_id
+    #@study_id = @result.study_original_result.study_id if @result.study_original_result
 
     #@reliability_id = @result.study.reliability_id(current_user, @result.exercise) if @result and @result.study#ReliabilityId.find_by_unique_id(params[:reliability_id])
 
@@ -77,21 +89,26 @@ class ResultsController < ApplicationController
   def create
     MY_LOG.info "Create Params: #{params}"
 
-    if params[:result][:reliability_id]
-      r_id = ReliabilityId.find_by_id(params[:result][:reliability_id])
-      if r_id.user == current_user
-        @result = r_id.build_result(post_params)
-        @result.reliability_id = r_id
-      end
-    elsif params[:result][:study_id] and params[:result][:rule_id]
-      if current_user.system_admin?
-        study_original_result = StudyOriginalResult.new(study_id: params[:result][:study_id], rule_id: params[:result][:rule_id])
-        @result = study_original_result.build_result(post_params)
-        @result.study_original_result = study_original_result
-      end
-    else
-      @result = nil
-    end
+
+    # create result for reliablity id
+      # has reliability_id, scorer is current_user
+    # create original result
+      # has study + rule combo, both managable by user
+    #if params[:result][:reliability_id]
+    #  r_id = ReliabilityId.find_by_id(params[:result][:reliability_id])
+    #  if r_id.user == current_user
+    #    @result = r_id.build_result(post_params)
+    #    @result.reliability_id = r_id
+    #  end
+    #elsif params[:result][:study_id] and params[:result][:rule_id]
+    #  if current_user.system_admin?
+    #    study_original_result = StudyOriginalResult.new(study_id: params[:result][:study_id], rule_id: params[:result][:rule_id])
+    #    @result = study_original_result.build_result(post_params)
+    #    @result.study_original_result = study_original_result
+    #  end
+    #else
+    #  @result = nil
+    #end
 
 
 
@@ -101,7 +118,7 @@ class ResultsController < ApplicationController
       respond_to do |format|
         if @result.save
      #     MY_LOG.info "SAVED: #{@result.valid?} #{@result.errors.full_messages}"
-          @result.reliability_id.exercise.check_completion
+          @result.reliability_id.exercise.check_completion # Refactor!!
           format.html { redirect_to @result.reliability_id.exercise, notice: 'Result was successfully created.' }
           format.json { render json: @result, status: :created, location: @result }
         else
@@ -118,8 +135,10 @@ class ResultsController < ApplicationController
   # PUT /results/1.json
   def update
     #MY_LOG.info "Update Params: #{params}"
-    @result = Result.current.find(params[:id])
+    #@result = Result.current.find(params[:id])
     #MY_LOG.info "uid: #{@result.user_id} eid: #{@result.exercise_id} rel_ids: #{ReliabilityId.where(user_id: @result.user_id, exercise_id: @result.exercise_id).empty?}"
+
+    # What about updating original result??
     if @result.reliability_id and @result.reliability_id.user == current_user
       respond_to do |format|
         if @result.update_attributes(post_params)

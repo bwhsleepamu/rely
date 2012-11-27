@@ -2,17 +2,23 @@ require 'test_helper'
 
 class ProjectsControllerTest < ActionController::TestCase
   setup do
-    @project = create(:project)
-    @template = build(:project)
     @current_user = create(:user)
+    @project = create(:project, owner_id: @current_user.id)
+    @template = build(:project)
 
     login(@current_user)
   end
 
-  test "should get index" do
+  test "should get index with projects user can manage" do
+    create :project
+    p = create :project
+    p.managers << @current_user
+    assert p.save
+
     get :index
     assert_response :success
     assert_not_nil assigns(:projects)
+    assert_equal 2, assigns(:projects).to_a.count
   end
 
   test "should get paginated index" do
@@ -46,22 +52,56 @@ class ProjectsControllerTest < ActionController::TestCase
   end
 
   test "should show project" do
-    get :show, id: @project
+    get :show, id: @project.id
     assert_response :success
+  end
+
+  test "should not show project not accessible by user" do
+    project = create :project
+    get :show, id: project.id
+
+    assert_redirected_to projects_path
   end
 
   test "should get edit" do
-    get :edit, id: @project
+    get :edit, id: @project.id
     assert_response :success
   end
 
+  test "should not edit project not accessible by user" do
+    project = create :project
+
+    get :edit, id: project.id
+    assert_redirected_to projects_path
+  end
+
   test "should update project" do
-    group_ids = [groups(:one).id, groups(:two).id]
-    put :update, id: @project, project: { description: @project.description, end_date: @project.end_date, name: @project.name, start_date: @project.start_date, group_ids: group_ids }
+    new_scorer = create :user
+    new_manager = create :user
+
+    scorer_ids = [@project.scorers.first.id, new_scorer.id]
+    manager_ids = [new_manager.id]
+
+    put :update, id: @project.id, project: { description: @template.description, end_date: @template.end_date, start_date: @template.start_date, scorer_ids: scorer_ids, manager_ids: manager_ids }
+
     assert_not_nil assigns(:project)
-    assert_equal group_ids.count, assigns(:project).groups.count
+    assert_equal @current_user, assigns(:project).owner
+    assert_equal @template.description, assigns(:project).description
+    assert_equal assigns(:project).scorers.map{|s| s.id}.sort, scorer_ids.sort
+    assert_equal assigns(:project).managers.map{|m| m.id}.sort, manager_ids.sort
+
     assert_redirected_to project_path(assigns(:project))
   end
+
+  test "should not update project not accessible by user" do
+    project = create :project
+
+    put :update, id: project.id, project: { name: @template.name, description: @template.description, end_date: @template.end_date, start_date: @template.start_date }
+
+    assert_not_equal @template.name, project.name
+    assert_redirected_to projects_path
+  end
+
 
   test "should destroy project" do
     assert_difference('Project.current.count', -1) do
@@ -70,4 +110,15 @@ class ProjectsControllerTest < ActionController::TestCase
 
     assert_redirected_to projects_path
   end
+
+  test "should not destroy project not accessible by user" do
+    project = create :project
+
+    assert_difference('Project.current.count', 0) do
+      delete :destroy, id: project.id
+    end
+
+    assert_redirected_to projects_path
+  end
+
 end

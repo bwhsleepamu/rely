@@ -8,7 +8,6 @@ class Group < ActiveRecord::Base
 
   belongs_to :group
   belongs_to :creator, :class_name => "User", :foreign_key => :creator_id
-  belongs_to :project
   ##
   # Attributes
   attr_accessible :description, :name, :study_ids
@@ -20,14 +19,19 @@ class Group < ActiveRecord::Base
   # Database Settings
 
   ##
+  # Extensions
+  include Extensions::IndexMethods
+  include Extensions::ScopedByProject
+
+  ##
   # Scopes
   scope :current, conditions: { deleted: false }
   scope :with_creator, lambda { |user| where("creator_id = ?", user.id)  }
-  scope :with_project, lambda { |project| where("project_id = ?", project.id) }
 
   ##
   # Validations
   validates_presence_of :name
+  validate :studies_belong_to_same_project
 
   ##
   # Class Methods
@@ -37,6 +41,16 @@ class Group < ActiveRecord::Base
 
   def destroy
     update_column :deleted, true
+  end
+
+  # Custom Validations
+  def studies_belong_to_same_project
+    studies.each do |s|
+      if s.project != project
+        errors.add(:studies, "have to all belong to the same project as parent group.")
+        break
+      end
+    end
   end
 
   private

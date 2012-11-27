@@ -15,6 +15,18 @@ class ApplicationController < ActionController::Base
     params.to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
   end
 
+  def render_if_exists(object)
+    respond_to do |format|
+      if object
+        format.html # show.html.erb
+        format.json { render json: object }
+      else
+        format.html { redirect_to root_path, error: "Sorry, the requested page could not be accessed. Please try again." }
+        format.json { head :no_content }
+      end
+    end
+  end
+
   protected
 
   def check_system_admin

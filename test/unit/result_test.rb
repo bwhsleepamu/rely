@@ -2,7 +2,8 @@ require 'test_helper'
 
 class ResultTest < ActiveSupport::TestCase
   test "set assessment results" do
-    r_id = create(:reliability_id)
+    exercise = create(:exercise)
+    r_id = exercise.reliability_ids.first
     assessment_answers_1 = {"1"=>"233", "2"=>"2", :assessment_type => r_id.exercise.rule.assessment_type}
     assessment_answers_2 = {"1"=>"100", "2"=>"1"}
 
@@ -25,9 +26,11 @@ class ResultTest < ActiveSupport::TestCase
   end
 
   test "rule" do
-    rule = create(:rule)
-    study = create(:study)
-    exercise = create(:exercise)
+    project = create(:project, rule_count: 1, study_count: 1)
+    rule = project.rules.first
+    study = project.studies.first
+    exercise = create(:exercise, existing_project_id: project.id)
+
     r_id = exercise.reliability_ids.first
 
     # non-saved

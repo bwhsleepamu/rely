@@ -1,14 +1,11 @@
 class StudiesController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :check_system_admin
 
   # GET /studies
   # GET /studies.json
   def index
-    study_scope = Study.current
-    @order = Study.column_names.collect{|column_name| "studies.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "studies.original_id"
-    study_scope = study_scope.order(@order)
-    @studies = study_scope.page(params[:page]).per( 20 )
+    study_scope = current_user.all_studies
+    @studies = study_scope.search_by_terms(parse_search_terms(params[:search])).set_order(params[:order], "original_id").page(params[:page]).per( 20 )
 
     respond_to do |format|
       format.html # index.html.erb
@@ -20,7 +17,7 @@ class StudiesController < ApplicationController
   # GET /studies/1
   # GET /studies/1.json
   def show
-    @study = Study.current.find(params[:id])
+    @study = current_user.all_studies.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -31,7 +28,7 @@ class StudiesController < ApplicationController
   # GET /studies/new
   # GET /studies/new.json
   def new
-    @study = Study.new
+    @study = current_user.all_studies.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -41,14 +38,13 @@ class StudiesController < ApplicationController
 
   # GET /studies/1/edit
   def edit
-    @study = Study.current.find(params[:id])
+    @study = current_user.all_studies.find(params[:id])
   end
 
   # POST /studies
   # POST /studies.json
   def create
-    #MY_LOG.info "params: #{params}"
-    @study = current_user.studies.new(post_params)
+    @study = current_user.all_studies.new(post_params)
 
     respond_to do |format|
       if @study.save
@@ -64,15 +60,13 @@ class StudiesController < ApplicationController
   # PUT /studies/1
   # PUT /studies/1.json
   def update
-    MY_LOG.info params.inspect
-    @study = Study.current.find(params[:id])
+    @study = current_user.all_studies.find(params[:id])
 
     respond_to do |format|
       if @study.update_attributes(post_params)
         format.html { redirect_to @study, notice: 'Study was successfully updated.' }
         format.json { head :no_content }
       else
-        MY_LOG.info "FAILED!! #{@study.errors.full_messages}"
         format.html { render action: "edit" }
         format.json { render json: @study.errors, status: :unprocessable_entity }
       end
@@ -82,7 +76,7 @@ class StudiesController < ApplicationController
   # DELETE /studies/1
   # DELETE /studies/1.json
   def destroy
-    @study = Study.current.find(params[:id])
+    @study = current_user.all_studies.find(params[:id])
     @study.destroy
 
     respond_to do |format|
@@ -105,7 +99,7 @@ class StudiesController < ApplicationController
     end
 
     params[:study].slice(
-      :original_id, :study_type_id, :location, :results
+      :original_id, :study_type_id, :location, :results, :project_id
     )
   end
 end

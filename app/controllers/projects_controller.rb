@@ -1,14 +1,11 @@
 class ProjectsController < ApplicationController
   before_filter :authenticate_user!
-  #before_filter :check_system_admin
 
   # GET /projects
   # GET /projects.json
   def index
     project_scope = current_user.all_projects
-    @order = Project.column_names.collect{|column_name| "projects.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "projects.name"
-    project_scope = project_scope.order(@order)
-    @projects = project_scope.page(params[:page]).per( 20 )
+    @projects = project_scope.search_by_terms(parse_search_terms(params[:search])).set_order(params[:order], "name").page(params[:page]).per(20)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -23,8 +20,13 @@ class ProjectsController < ApplicationController
     @project = current_user.all_projects.find_by_id(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @project }
+      if @project
+        format.html # show.html.erb
+        format.json { render json: @project }
+      else
+        format.html { redirect_to projects_path, error: "Could not access project. Make sure project is valid." }
+        format.json { head :no_content }
+      end
     end
   end
 
@@ -41,17 +43,15 @@ class ProjectsController < ApplicationController
 
   # GET /projects/1/edit
   def edit
-    @project = current_user.all_projects.find(params[:id])
+    @project = current_user.all_projects.find_by_id(params[:id])
+
+    redirect_to projects_path, error: "Could not access project. Make sure project is valid." unless @project
   end
 
   # POST /projects
   # POST /projects.json
   def create
-    MY_LOG.info "IS IT WORKING??"
-    MY_LOG.info post_params
     @project = current_user.owned_projects.new(post_params)
-
-    MY_LOG.info "valid?: #{@project.valid?} errors: #{@project.errors.full_messages}"
 
     respond_to do |format|
       if @project.save
@@ -70,12 +70,15 @@ class ProjectsController < ApplicationController
     @project = current_user.all_projects.find_by_id(params[:id])
 
     respond_to do |format|
-      if @project.update_attributes(post_params)
+      if @project and @project.update_attributes(post_params)
         format.html { redirect_to @project, notice: 'Project was successfully updated.' }
         format.json { head :no_content }
-      else
+      elsif @project
         format.html { render action: "edit" }
         format.json { render json: @project.errors, status: :unprocessable_entity }
+      else
+        format.html { redirect_to projects_path, error: "Could not access project. Make sure project is valid." }
+        format.json { head :no_content }
       end
     end
   end
@@ -84,7 +87,7 @@ class ProjectsController < ApplicationController
   # DELETE /projects/1.json
   def destroy
     @project = current_user.all_projects.find_by_id(params[:id])
-    @project.destroy
+    @project.destroy if @project
 
     respond_to do |format|
       format.html { redirect_to projects_url }

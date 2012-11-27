@@ -1,13 +1,14 @@
 class ExercisesController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :check_system_admin, only: [:new, :create, :edit, :update, :destroy]
 
   # GET /exercises
   # GET /exercises.json
   def index
-    exercise_scope = current_user.viewable_exercises
+    # both managed and assigned. For now, assigned take back seat - only add basic fn
+    exercise_scope = current_user.all_exercises
 
-    @exercises = exercise_scope.search_by_terms(parse_search_terms(params[:search])).set_order(params[:order], "name").page(params[:page]).per( 20 )
+    @managed_exercises = exercise_scope.search_by_terms(parse_search_terms(params[:search])).set_order(params[:order], "name").page(params[:page]).per( 20 )
+    @assigned_exercises = current_user.assigned_exercises
     @user = current_user
 
     respond_to do |format|
@@ -20,26 +21,24 @@ class ExercisesController < ApplicationController
   # GET /exercises/1
   # GET /exercises/1.json
   def show
-    @exercise = Exercise.current.find(params[:id])
+    @exercise = current_user.all_exercises.find_by_id(params[:id])
 
-    # Do not show unassigned exercises
-    #render :text => "WELL IT WORKED..."
+    render_if_exists(@exercise)
+  end
 
-    respond_to do |format|
-      if current_user.system_admin? or @exercise.scorers.include?(current_user)
-        format.html # show.html.erb
-        format.json { render json: @exercise }
-      else
-        format.html { redirect_to exercises_path }
-        format.json { head :no_content }
-      end
-    end
+  # GET /assigned_exercises/1
+  # GET /assigned_exercises/1.json
+  def show_assigned
+    @exercise = current_user.assigned_exercises.find_by_id(params[:id])
+
+    render_if_exists(@exercise)
   end
 
   # GET /exercises/new
   # GET /exercises/new.json
   def new
-    @exercise = Exercise.new
+    @exercise = current_user.owned_exercises.new
+    @exercise.project = Project.find_by_id(params[:project_id])
 
     respond_to do |format|
       format.html # new.html.erb
@@ -49,16 +48,18 @@ class ExercisesController < ApplicationController
 
   # GET /exercises/1/edit
   def edit
-    @exercise = Exercise.current.find(params[:id])
+    @exercise = current_user.all_exercises.find_by_id(params[:id])
+
+    render_if_exists(@exercise)
   end
 
   # POST /exercises
   # POST /exercises.json
   def create
-    @exercise = Exercise.new(post_params)
-    @exercise.admin = current_user
-    @exercise.assigned_at = DateTime.now()
+    @exercise = current_user.owned_exercises.new(post_params)
+    @exercise.assigned_at = DateTime.now() # TODO: refactor?
 
+    MY_LOG.info "#{@exercise.valid?} #{@exercise.errors.full_messages}"
     respond_to do |format|
       if @exercise.save
         @exercise.send_assignment_emails
@@ -68,14 +69,13 @@ class ExercisesController < ApplicationController
         format.html { render action: "new" }
         format.json { render json: @exercise.errors, status: :unprocessable_entity }
       end
-      MY_LOG.info "#{@exercise.errors.full_messages}"
     end
   end
 
   # PUT /exercises/1
   # PUT /exercises/1.json
   def update
-    @exercise = Exercise.current.find(params[:id])
+    @exercise = current_user.all_exercises.find(params[:id])
 
     respond_to do |format|
       if @exercise.update_attributes(post_params)
@@ -91,8 +91,8 @@ class ExercisesController < ApplicationController
   # DELETE /exercises/1
   # DELETE /exercises/1.json
   def destroy
-    @exercise = Exercise.current.find(params[:id])
-    @exercise.destroy
+    @exercise = current_user.all_exercises.find_by_id(params[:id])
+    @exercise.destroy if @exercise
 
     respond_to do |format|
       format.html { redirect_to exercises_url }
@@ -109,12 +109,17 @@ class ExercisesController < ApplicationController
   def post_params
     params[:exercise] ||= {}
 
+
     [].each do |date|
       params[:exercise][date] = parse_date(params[:exercise][date])
     end
 
+    params[:exercise][:updater_id] = "#{current_user.id}"
+
     params[:exercise].slice(
-      :rule_id, :name, :description, :assessment_type, :scorer_ids, :group_ids
+      :rule_id, :name, :description, :assessment_type, :scorer_ids, :group_ids, :updater_id, :project_id
     )
+
+
   end
 end

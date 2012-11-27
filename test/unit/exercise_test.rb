@@ -118,13 +118,15 @@ class ExerciseTest < ActiveSupport::TestCase
   end
 
   test "#all_studies" do
-    exercise = create(:exercise)
+    group_count = 2
+    exercise = create(:exercise, group_count: group_count)
     study_count = 0
     exercise.groups.each do |group|
       group.studies.each do |study|
         study_count += 1
       end
     end
+    assert study_count > 0
     assert_equal exercise.all_studies.count, study_count
   end
 

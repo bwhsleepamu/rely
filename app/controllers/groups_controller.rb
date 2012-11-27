@@ -1,14 +1,11 @@
 class GroupsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :check_system_admin
 
   # GET /groups
   # GET /groups.json
   def index
-    group_scope = Group.current
-    @order = Group.column_names.collect{|column_name| "groups.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "groups.name"
-    group_scope = group_scope.order(@order)
-    @groups = group_scope.page(params[:page]).per( 20 )
+    group_scope = current_user.all_groups
+    @groups = group_scope.search_by_terms(parse_search_terms(params[:search])).set_order(params[:order], "name").page(params[:page]).per(20)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -20,7 +17,7 @@ class GroupsController < ApplicationController
   # GET /groups/1
   # GET /groups/1.json
   def show
-    @group = Group.current.find(params[:id])
+    @group = current_user.groups.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -31,7 +28,7 @@ class GroupsController < ApplicationController
   # GET /groups/new
   # GET /groups/new.json
   def new
-    @group = Group.new
+    @group = current_user.all_groups.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -41,14 +38,13 @@ class GroupsController < ApplicationController
 
   # GET /groups/1/edit
   def edit
-    @group = Group.current.find(params[:id])
+    @group = current_user.all_groups.find(params[:id])
   end
 
   # POST /groups
   # POST /groups.json
   def create
-    @group = Group.new(post_params)
-    @group.creator = current_user
+    @group = current_user.all_groups.new(post_params)
 
     respond_to do |format|
       if @group.save
@@ -64,7 +60,7 @@ class GroupsController < ApplicationController
   # PUT /groups/1
   # PUT /groups/1.json
   def update
-    @group = Group.current.find(params[:id])
+    @group = current_user.all_groups.find(params[:id])
 
     respond_to do |format|
       if @group.update_attributes(post_params)
@@ -80,7 +76,7 @@ class GroupsController < ApplicationController
   # DELETE /groups/1
   # DELETE /groups/1.json
   def destroy
-    @group = Group.current.find(params[:id])
+    @group = current_user.all_groups.find(params[:id])
     @group.destroy
 
     respond_to do |format|

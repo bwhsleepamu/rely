@@ -4,45 +4,45 @@ class AssessmentsController < ApplicationController
 
   # GET /assessments
   # GET /assessments.json
-  def index
-    assessment_scope = Assessment.current
-    @order = Assessment.column_names.collect{|column_name| "assessments.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "assessments.result_id"
-    assessment_scope = assessment_scope.order(@order)
-    @assessments = assessment_scope.page(params[:page]).per( 20 )
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.js
-      format.json { render json: @assessments }
-    end
-  end
+  #def index
+  #  assessment_scope = Assessment.current
+  #  @order = Assessment.column_names.collect{|column_name| "assessments.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "assessments.result_id"
+  #  assessment_scope = assessment_scope.order(@order)
+  #  @assessments = assessment_scope.page(params[:page]).per( 20 )
+  #
+  #  respond_to do |format|
+  #    format.html # index.html.erb
+  #    format.js
+  #    format.json { render json: @assessments }
+  #  end
+  #end
 
   # GET /assessments/1
   # GET /assessments/1.json
-  def show
-    @assessment = Assessment.current.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @assessment }
-    end
-  end
+  #def show
+  #  @assessment = Assessment.current.find(params[:id])
+  #
+  #  respond_to do |format|
+  #    format.html # show.html.erb
+  #    format.json { render json: @assessment }
+  #  end
+  #end
 
   # GET /assessments/new
   # GET /assessments/new.json
-  def new
-    @assessment = Assessment.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @assessment }
-    end
-  end
+  #def new
+  #  @assessment = Assessment.new
+  #
+  #  respond_to do |format|
+  #    format.html # new.html.erb
+  #    format.json { render json: @assessment }
+  #  end
+  #end
 
   # GET /assessments/1/edit
-  def edit
-    @assessment = Assessment.current.find(params[:id])
-  end
+  #def edit
+  #  @assessment = Assessment.current.find(params[:id])
+  #end
 
   # POST /assessments
   # POST /assessments.json

@@ -9,7 +9,11 @@ Rely::Application.routes.draw do
 
   resources :rules
 
-  resources :exercises
+  resources :exercises do
+    member do
+      get 'show_assigned'
+    end
+  end
 
   resources :results
 

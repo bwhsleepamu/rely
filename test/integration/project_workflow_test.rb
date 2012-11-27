@@ -20,23 +20,40 @@ class ProjectWorkflowTest < ActionDispatch::IntegrationTest
 
     # name
     # description
-    # start date
-    # end date
-    # managers
-    # scorers
-
     fill_in "Name", :with => template.name
     fill_in "Description", :with => template.description
+
     # choose dates
+    fill_in "Start Date", :with => template.start_date.strftime("%m/%d/%Y")
+    fill_in "End Date", :with => template.end_date.strftime("%m/%d/%Y")
+
+    show_page
 
     managers.each do |m|
-      select_from_chosen m.full_name, :from => "Managers"
+      select_from_chosen m.name, :from => "Managers"
     end
 
     scorers.each do |s|
-      select_from_chosen s.full_name, :from => "Scorers"
+      select_from_chosen s.name, :from => "Scorers"
     end
 
-    click_on "Create Project"
+    assert_difference('Project.count') do
+      click_on "Create Project"
+    end
+
+    show_page
+
+    assert page.has_content? template.name
+    assert page.has_content? template.description
+    assert page.has_content? template.start_date.strftime("%m/%d/%Y")
+    assert page.has_content? template.end_date.strftime("%m/%d/%Y")
+
+    managers.each do |m|
+      assert page.has_content? m.name
+    end
+
+    scorers.each do |s|
+      assert page.has_content? s.name
+    end
   end
 end

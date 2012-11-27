@@ -8,7 +8,6 @@ class Study < ActiveRecord::Base
   has_many :original_results, :class_name => "Result", :through => :study_original_results, :conditions => { :deleted => false}, :source => :result
 
   belongs_to :study_type
-  belongs_to :project
   belongs_to :creator, :class_name => "User", :foreign_key => :creator_id
 
 
@@ -24,6 +23,11 @@ class Study < ActiveRecord::Base
   # Database Settings
 
   ##
+  # Extensions
+  include Extensions::IndexMethods
+  include Extensions::ScopedByProject
+
+  ##
   # Scopes
   scope :current, conditions: { deleted: false }
   scope :with_creator, lambda { |user| where("creator_id = ?", user.id)  }
@@ -35,6 +39,7 @@ class Study < ActiveRecord::Base
   # Validations
   validates_presence_of :study_type, :location, :original_id
   validates_uniqueness_of :original_id
+  validate :study_type_belongs_to_same_project
 
   ##
   # Class Methods
@@ -93,6 +98,13 @@ class Study < ActiveRecord::Base
   def original_result(rule)
     sor = StudyOriginalResult.find_by_study_id_and_rule_id(self.id, rule.id)
     sor ? sor.result : nil
+  end
+
+  # Custom Validation
+  def study_type_belongs_to_same_project
+    if study_type.project != project
+      errors.add(:study_type, "has to belong to the same project as parent study.")
+    end
   end
 
   private

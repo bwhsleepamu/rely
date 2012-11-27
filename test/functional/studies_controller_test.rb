@@ -2,10 +2,12 @@ require 'test_helper'
 
 class StudiesControllerTest < ActionController::TestCase
   setup do
-    @study = create(:study)
-    @template = build(:study)
-    @study_with_results = create(:study_with_original_results, result_count: 2)
-    @current_user = create(:admin)
+    @current_user = create :user
+    @project = create :project, owner: @current_user
+    @study = @project.studies.first
+    @template = build :study
+    @study_with_results = create :study_with_original_results, project: @project, study_type: @project.study_types.first
+
     login(@current_user)
   end
 
@@ -29,20 +31,18 @@ class StudiesControllerTest < ActionController::TestCase
 
   test "should create study" do
     assert_difference('Study.current.count') do
-      post :create, study: { location: @template.location, original_id: @template.original_id, study_type_id: @study.study_type_id }
+      post :create, study: { location: @template.location, original_id: @template.original_id, study_type_id: @project.study_types.first.id, project_id: @project.id }
     end
 
+    assert_equal @project, assigns(:study).project
     assert_equal @current_user, assigns(:study).creator
     assert_redirected_to study_path(assigns(:study))
   end
 
   test "should create study with original results" do
-    rule1 = create(:rule)
-    rule2 = create(:rule)
-
     assert_difference('Study.current.count') do
-      post :create, study: { location: @template.location, original_id: @template.original_id, study_type_id: @study.study_type_id, results:
-          [{ rule_id: rule1.id, location: "/best/place/ever/1", delete: "0",  assessment_answers: {:assessment_type => "{:value=>\"paradox\"}", "1" => "2", "2" => "11" }  }, {rule_id: rule2.id, location: "/best/place/ever/2", delete: "0", assessment_answers: {:assessment_type => "{:value=>\"paradox\"}", "1" => "1", "2" => "1" }   }]
+      post :create, study: { location: @template.location, original_id: @template.original_id, study_type_id: @project.study_types.first.id, project_id: @project.id, results:
+          [{ rule_id: @project.rules.first.id, location: "/best/place/ever/1", delete: "0",  assessment_answers: {:assessment_type => "{:value=>\"paradox\"}", "1" => "2", "2" => "11" }  }, {rule_id: @project.rules.last.id, location: "/best/place/ever/2", delete: "0", assessment_answers: {:assessment_type => "{:value=>\"paradox\"}", "1" => "1", "2" => "1" }   }]
       }
     end
 
@@ -66,7 +66,7 @@ class StudiesControllerTest < ActionController::TestCase
   end
 
   test "should update study with original results" do
-    new_rule = create(:rule)
+    new_rule = create :rule, project: @project
     new_location = "new_location/up/in/here"
     assert_equal 2, @study_with_results.study_original_results.count
 

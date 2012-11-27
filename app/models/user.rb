@@ -115,8 +115,21 @@ class User < ActiveRecord::Base
     reliability_ids.where(:exercise_id => exercise.id)
   end
 
+  # Accessible Associations
   def all_projects
-    Project.current.with_manager(self) + Project.current.with_owner(self)
+    Project.current.with_manager(self)
+  end
+
+  def all_rules
+    Rule.current.with_projects(all_projects)
+  end
+
+  def all_exercises
+    Exercise.current.with_projects(all_projects)
+  end
+
+  def all_groups
+    Group.current.with_projects(all_projects)
   end
 
   private

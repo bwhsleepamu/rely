@@ -2,8 +2,6 @@ class StudyType < ActiveRecord::Base
   ##
   # Associations
   has_many :studies, :conditions => { :deleted => false }
-
-  belongs_to :project
   belongs_to :creator, :class_name => "User", :foreign_key => :creator_id
 
 
@@ -16,6 +14,11 @@ class StudyType < ActiveRecord::Base
 
   ##
   # Database Settings
+
+  ##
+  # Extentions
+  include Extensions::IndexMethods
+  include Extensions::ScopedByProject
 
   ##
   # Scopes
