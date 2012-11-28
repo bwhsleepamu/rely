@@ -1,5 +1,6 @@
 == 0.5.0
 * All models are somehow associated with a User, using creator_id if necessary.
+* Implemented scoping by project across the entire site.
 
 == 0.4.0
 * Implemented original result functionality.

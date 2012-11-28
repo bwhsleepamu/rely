@@ -2,19 +2,23 @@ require 'test_helper'
 
 class StudiesControllerTest < ActionController::TestCase
   setup do
-    @current_user = create :user
-    @project = create :project, owner: @current_user
+
+    @project = create :project
+    @current_user = @project.managers.first
     @study = @project.studies.first
     @template = build :study
-    @study_with_results = create :study_with_original_results, project: @project, study_type: @project.study_types.first
-
+    @study_with_results = create :study_with_original_results, project: @project, study_type: @project.study_types.first, creator: @current_user, updater_id: @current_user.id
     login(@current_user)
   end
 
   test "should get index" do
+    create :project
     get :index
-    assert_response :success
+
     assert_not_nil assigns(:studies)
+    assert_equal assigns(:studies).count, @current_user.all_studies.count
+    assert assigns(:studies).count < Study.current.count
+    assert_response :success
   end
 
   test "should get paginated index" do
@@ -66,7 +70,7 @@ class StudiesControllerTest < ActionController::TestCase
   end
 
   test "should update study with original results" do
-    new_rule = create :rule, project: @project
+    new_rule = create :rule, project: @project, updater_id: @current_user.id, creator: @current_user
     new_location = "new_location/up/in/here"
     assert_equal 2, @study_with_results.study_original_results.count
 

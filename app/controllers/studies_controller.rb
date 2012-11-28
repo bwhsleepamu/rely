@@ -17,18 +17,15 @@ class StudiesController < ApplicationController
   # GET /studies/1
   # GET /studies/1.json
   def show
-    @study = current_user.all_studies.find(params[:id])
+    @study = current_user.all_studies.find_by_id(params[:id])
 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @study }
-    end
+    render_if_exists @study
   end
 
   # GET /studies/new
   # GET /studies/new.json
   def new
-    @study = current_user.all_studies.new
+    @study = current_user.studies.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -38,13 +35,15 @@ class StudiesController < ApplicationController
 
   # GET /studies/1/edit
   def edit
-    @study = current_user.all_studies.find(params[:id])
+    @study = current_user.all_studies.find_by_id(params[:id])
+
+    render_if_exists @study
   end
 
   # POST /studies
   # POST /studies.json
   def create
-    @study = current_user.all_studies.new(post_params)
+    @study = current_user.studies.new(post_params)
 
     respond_to do |format|
       if @study.save
@@ -76,8 +75,8 @@ class StudiesController < ApplicationController
   # DELETE /studies/1
   # DELETE /studies/1.json
   def destroy
-    @study = current_user.all_studies.find(params[:id])
-    @study.destroy
+    @study = current_user.all_studies.find_by_id(params[:id])
+    @study.destroy if @study
 
     respond_to do |format|
       format.html { redirect_to studies_url }
@@ -98,8 +97,10 @@ class StudiesController < ApplicationController
       params[:study][date] = parse_date(params[:study][date])
     end
 
+    params[:study][:updater_id] = current_user.id
+
     params[:study].slice(
-      :original_id, :study_type_id, :location, :results, :project_id
+      :original_id, :study_type_id, :location, :results, :project_id, :updater_id
     )
   end
 end

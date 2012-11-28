@@ -2,17 +2,19 @@ require 'test_helper'
 
 class GroupsControllerTest < ActionController::TestCase
   setup do
-    @current_user = create :user
-    @project = create :project, owner: @current_user
-
+    @project = create :project
+    @current_user = @project.managers.first
     @group = @project.groups.first
     login(@current_user)
   end
 
-  test "should get index" do
+  test "should get index with viewable groups" do
+    create :project
     get :index
-    assert_response :success
     assert_not_nil assigns(:groups)
+    assert_equal assigns(:groups).count, @current_user.all_groups.count
+    assert assigns(:groups).count < Group.current.count
+    assert_response :success
   end
 
   test "should get paginated index" do
@@ -26,7 +28,7 @@ class GroupsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should create group and assign creator" do
+  test "should create group" do
     assert_difference('Group.count') do
       post :create, group: { description: @group.description, name: @group.name, project_id: @project.id }
     end
@@ -36,13 +38,13 @@ class GroupsControllerTest < ActionController::TestCase
   end
 
   test "should create group with associated studies" do
+    study_ids = @project.studies.map {|s| s.id}
 
     assert_difference('Group.count') do
-      post :create, group: { description: @group.description, name: @group.name,
-                             study_ids: [studies(:one).id, studies(:three).id, studies(:five).id] }
+      post :create, group: { description: @group.description, name: @group.name, project_id: @project.id, study_ids: study_ids }
     end
 
-    assert_equal assigns(:group).studies.count, 3
+    assert_equal assigns(:group).studies.count, @project.studies.count
     assert_redirected_to group_path(assigns(:group))
   end
 

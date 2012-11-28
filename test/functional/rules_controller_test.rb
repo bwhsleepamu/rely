@@ -2,8 +2,8 @@ require 'test_helper'
 
 class RulesControllerTest < ActionController::TestCase
   setup do
-    @current_user = create :user
-    @project = create :project, owner: @current_user
+    @project = create :project
+    @current_user = @project.managers.first
     @rule = @project.rules.first
     @template = build(:rule)
 
@@ -14,10 +14,10 @@ class RulesControllerTest < ActionController::TestCase
 
   test "should get index" do
     get :index
-    assert_response :success
-
     assert_not_nil assigns(:rules)
-    assert_equal @project.rules.length, assigns(:rules).to_a.length
+    assert_equal assigns(:rules).count, @current_user.all_rules.count
+    assert assigns(:rules).count < Rule.current.count
+    assert_response :success
   end
 
   test "should get paginated index" do
@@ -45,16 +45,11 @@ class RulesControllerTest < ActionController::TestCase
       post :create, rule: { procedure: @template.procedure, title: @template.title, assessment_type: @template.assessment_type, project_id: @not_managed_project.id  }
     end
 
-    assert_redirected_to rules_path
-  end
-
-  test "should show rule as admin" do
-    get :show, id: @rule
+    assert_template :new
     assert_response :success
   end
 
-  test "should show rule as scorer" do
-    login(users(:valid))
+  test "should show rule" do
     get :show, id: @rule
     assert_response :success
   end

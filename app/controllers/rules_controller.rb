@@ -17,18 +17,15 @@ class RulesController < ApplicationController
   # GET /rules/1
   # GET /rules/1.json
   def show
-    @rule = current_user.all_rules.find(params[:id])
+    @rule = current_user.all_rules.find_by_id(params[:id])
 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @rule }
-    end
+    render_if_exists @rule
   end
 
   # GET /rules/new
   # GET /rules/new.json
   def new
-    @rule = current_user.all_rules.new
+    @rule = current_user.rules.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -38,13 +35,15 @@ class RulesController < ApplicationController
 
   # GET /rules/1/edit
   def edit
-    @rule = current_user.all_rules.find(params[:id])
+    @rule = current_user.all_rules.find_by_id(params[:id])
+
+    render_if_exists @rule
   end
 
   # POST /rules
   # POST /rules.json
   def create
-    @rule = current_user.all_rules.new(post_params)
+    @rule = current_user.rules.new(post_params)
 
     respond_to do |format|
       if @rule.save
@@ -77,7 +76,7 @@ class RulesController < ApplicationController
   # DELETE /rules/1.json
   def destroy
     @rule = current_user.all_rules.find(params[:id])
-    @rule.destroy
+    @rule.destroy if @rule
 
     respond_to do |format|
       format.html { redirect_to rules_url }
@@ -98,8 +97,10 @@ class RulesController < ApplicationController
       params[:rule][date] = parse_date(params[:rule][date])
     end
 
+    params[:rule][:updater_id] = current_user.id
+
     params[:rule].slice(
-      :title, :procedure, :assessment_type, :project_id
+      :title, :procedure, :assessment_type, :project_id, :updater_id
     )
   end
 end

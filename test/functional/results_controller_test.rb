@@ -2,9 +2,12 @@ require 'test_helper'
 
 class ResultsControllerTest < ActionController::TestCase
   setup do
+    @project = create :project
+    @current_user = @project.managers.first
     @result = create(:result)
     @template = build(:result)
-    @current_user = login(users(:admin))
+
+    login(@current_user)
   end
 
   test "should get index" do

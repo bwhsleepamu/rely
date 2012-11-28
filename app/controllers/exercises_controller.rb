@@ -59,7 +59,6 @@ class ExercisesController < ApplicationController
     @exercise = current_user.owned_exercises.new(post_params)
     @exercise.assigned_at = DateTime.now() # TODO: refactor?
 
-    MY_LOG.info "#{@exercise.valid?} #{@exercise.errors.full_messages}"
     respond_to do |format|
       if @exercise.save
         @exercise.send_assignment_emails

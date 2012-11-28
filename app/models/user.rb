@@ -132,6 +132,14 @@ class User < ActiveRecord::Base
     Group.current.with_projects(all_projects)
   end
 
+  def all_studies
+    Study.current.with_projects(all_projects)
+  end
+
+  def all_study_types
+    StudyType.current.with_projects(all_projects)
+  end
+
   private
 
   def notify_system_admins

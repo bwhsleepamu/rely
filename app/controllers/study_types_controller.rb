@@ -1,6 +1,5 @@
 class StudyTypesController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :check_system_admin, only: [:new, :edit, :create, :update, :destroy]
 
   # GET /study_types
   # GET /study_types.json
@@ -18,18 +17,15 @@ class StudyTypesController < ApplicationController
   # GET /study_types/1
   # GET /study_types/1.json
   def show
-    @study_type = current_user.all_study_types.find(params[:id])
+    @study_type = current_user.all_study_types.find_by_id(params[:id])
 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @study_type }
-    end
+    render_if_exists @study_type
   end
 
   # GET /study_types/new
   # GET /study_types/new.json
   def new
-    @study_type = current_user.all_study_types.new
+    @study_type = current_user.study_types.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -39,13 +35,15 @@ class StudyTypesController < ApplicationController
 
   # GET /study_types/1/edit
   def edit
-    @study_type = current_user.all_study_types.find(params[:id])
+    @study_type = current_user.all_study_types.find_by_id(params[:id])
+
+    render_if_exists @study_type
   end
 
   # POST /study_types
   # POST /study_types.json
   def create
-    @study_type = current_user.all_study_types.new(post_params)
+    @study_type = current_user.study_types.new(post_params)
 
     respond_to do |format|
       if @study_type.save
@@ -77,8 +75,8 @@ class StudyTypesController < ApplicationController
   # DELETE /study_types/1
   # DELETE /study_types/1.json
   def destroy
-    @study_type = current_user.all_study_types.find(params[:id])
-    @study_type.destroy
+    @study_type = current_user.all_study_types.find_by_id(params[:id])
+    @study_type.destroy if @study_type
 
     respond_to do |format|
       format.html { redirect_to study_types_url }
@@ -99,8 +97,10 @@ class StudyTypesController < ApplicationController
       params[:study_type][date] = parse_date(params[:study_type][date])
     end
 
+    params[:study_type][:updater_id] = current_user.id
+
     params[:study_type].slice(
-      :name, :description
+      :name, :description, :project_id, :updater_id
     )
   end
 end

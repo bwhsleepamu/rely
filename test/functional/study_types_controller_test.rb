@@ -2,15 +2,20 @@ require 'test_helper'
 
 class StudyTypesControllerTest < ActionController::TestCase
   setup do
-    @study_type = study_types(:one)
-    @current_user = create(:admin)
+    @project = create :project
+    @current_user = @project.managers.first
+    @study_type = @project.study_types.first
+    @template = build :study_type
     login(@current_user)
   end
 
   test "should get index" do
+    create :project
     get :index
-    assert_response :success
     assert_not_nil assigns(:study_types)
+    assert_equal assigns(:study_types).count, @current_user.all_study_types.count
+    assert assigns(:study_types).count < StudyType.current.count
+    assert_response :success
   end
 
   test "should get paginated index" do
@@ -26,7 +31,7 @@ class StudyTypesControllerTest < ActionController::TestCase
 
   test "should create study type" do
     assert_difference('StudyType.count') do
-      post :create, study_type: { description: @study_type.description, name: @study_type.name + "_c" }
+      post :create, study_type: { description: @template.description, name: @template.name, project_id: @project.id }
     end
 
     assert_equal @current_user, assigns(:study_type).creator
@@ -44,7 +49,7 @@ class StudyTypesControllerTest < ActionController::TestCase
   end
 
   test "should update study type" do
-    put :update, id: @study_type, study_type: { description: @study_type.description, name: @study_type.name }
+    put :update, id: @study_type, study_type: { description: @template.description, name: @template.name }
     assert_redirected_to study_type_path(assigns(:study_type))
   end
 

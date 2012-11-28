@@ -17,18 +17,15 @@ class GroupsController < ApplicationController
   # GET /groups/1
   # GET /groups/1.json
   def show
-    @group = current_user.groups.find(params[:id])
+    @group = current_user.all_groups.find_by_id(params[:id])
 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @group }
-    end
+    render_if_exists @group
   end
 
   # GET /groups/new
   # GET /groups/new.json
   def new
-    @group = current_user.all_groups.new
+    @group = current_user.groups.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -38,13 +35,15 @@ class GroupsController < ApplicationController
 
   # GET /groups/1/edit
   def edit
-    @group = current_user.all_groups.find(params[:id])
+    @group = current_user.all_groups.find_by_id(params[:id])
+
+    render_if_exists @group
   end
 
   # POST /groups
   # POST /groups.json
   def create
-    @group = current_user.all_groups.new(post_params)
+    @group = current_user.groups.new(post_params)
 
     respond_to do |format|
       if @group.save
@@ -76,8 +75,8 @@ class GroupsController < ApplicationController
   # DELETE /groups/1
   # DELETE /groups/1.json
   def destroy
-    @group = current_user.all_groups.find(params[:id])
-    @group.destroy
+    @group = current_user.all_groups.find_by_id(params[:id])
+    @group.destroy if @group
 
     respond_to do |format|
       format.html { redirect_to groups_url }
@@ -98,8 +97,11 @@ class GroupsController < ApplicationController
       params[:group][date] = parse_date(params[:group][date])
     end
 
+    params[:group][:updater_id] = "#{current_user.id}"
+
+
     params[:group].slice(
-      :name, :description, :study_ids
+      :name, :description, :study_ids, :updater_id, :project_id
     )
   end
 end
