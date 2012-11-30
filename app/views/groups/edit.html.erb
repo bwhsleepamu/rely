@@ -1,3 +1,1 @@
-<% @title = "Edit Group: #{@group.name}" %>
-
-<%= render 'form' %>
+<%= render :partial => 'form', :locals => {title: "Edit Group: #{@group.name}" } %>

@@ -6,11 +6,11 @@ class Project < ActiveRecord::Base
   has_many :managers, :class_name => "User", :through => :project_managers, :source => :user
   has_many :scorers, :class_name => "User", :through => :project_scorers, :source => :user
 
-  has_many :exercises
-  has_many :studies
-  has_many :study_types
-  has_many :groups
-  has_many :rules
+  has_many :exercises, :conditions => { :deleted => false }
+  has_many :studies, :conditions => { :deleted => false }
+  has_many :study_types, :conditions => { :deleted => false }
+  has_many :groups, :conditions => { :deleted => false }
+  has_many :rules, :conditions => { :deleted => false }
 
 
   belongs_to :owner, :class_name => "User", :foreign_key => :owner_id

@@ -1,19 +1,10 @@
 <div class="page-header">
-  <h1><%= @title %></h1>
+  <h1><%= title %></h1>
 </div>
 
 <%= form_for @study_type, html: { class: 'form-horizontal' } do |f| %>
-  <% if @study_type.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@study_type.errors.count, "error") %> prohibited this study_type from being saved:</h2>
-
-      <ul>
-      <% @study_type.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= display_errors @study_type %>
+  <%= render :partial => "partials/project_field", :locals => {f: f, editable: @study_type.new_record?, object_name: "study_type", target_path: new_study_type_path } %>
 
   <div class="control-group">
     <%= f.label :name, nil, class: 'control-label' %>

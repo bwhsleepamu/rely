@@ -25,10 +25,13 @@ class GroupsController < ApplicationController
   # GET /groups/new
   # GET /groups/new.json
   def new
-    @group = current_user.groups.new
+    MY_LOG.info params
+    @group = current_user.groups.new(post_params)
+    @group.project ||= current_user.all_projects.first
 
     respond_to do |format|
       format.html # new.html.erb
+      format.js
       format.json { render json: @group }
     end
   end

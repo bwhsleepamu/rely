@@ -1,0 +1,8 @@
+<fieldset class="project">
+  <div class="control-group">
+    <%= f.label :project_id, "Project", class: 'control-label' %>
+    <div class="controls">
+      <%= f.select :project_id, [['---', nil]] + current_user.all_projects.collect{|p| [p.name, p.id]}, {}, {rel: :chosen, class: "project_select", disabled: editable ? nil : "disabled", data: { object_name: object_name, target_path: target_path }} %>
+    </div>
+  </div>
+</fieldset>

@@ -1,19 +1,10 @@
 <div class="page-header">
-  <h1><%= @title %></h1>
+  <h1><%= title %></h1>
 </div>
 
 <%= form_for @group, html: { class: 'form-horizontal' } do |f| %>
-  <% if @group.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@group.errors.count, "error") %> prohibited this group from being saved:</h2>
-
-      <ul>
-      <% @group.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= display_errors @group %>
+  <%= render :partial => "partials/project_field", :locals => {f: f, editable: @group.new_record?, object_name: "group", target_path: new_group_path } %>
 
   <div class="control-group">
     <%= f.label :name, nil, class: 'control-label' %>
@@ -32,7 +23,7 @@
   <div class="control-group">
     <%= f.label :study_ids, "Studies", class: 'control-label' %><br/>
     <div class="controls">
-      <%= f.collection_select :study_ids, Study.current.order(:location), :id, :long_name, {}, {multiple:true, rel: :chosen} %>
+      <%= f.collection_select :study_ids, @group.project.studies.order(:location), :id, :long_name, {}, {multiple:true, rel: :chosen} %>
     </div>
   </div>
 

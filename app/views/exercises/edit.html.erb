@@ -1,3 +1,2 @@
-<% @title = "Edit Exercise: #{@exercise.name}" %>
+<%= render :partial => 'form', :locals => {title: "Edit Exercise: #{@exercise.name}" } %>
 
-<%= render 'form' %>

@@ -20,6 +20,7 @@ class ReliabilityId < ActiveRecord::Base
   ##
   # Scopes
   scope :current, conditions: { deleted: false }
+  scope :with_user, lambda { |user| where("user_id = ?", user.id)  }
 
   ##
   # Validations

@@ -10,48 +10,6 @@ class ResultsControllerTest < ActionController::TestCase
     login(@current_user)
   end
 
-  test "should get index" do
-    get :index
-    assert_response :success
-    assert_not_nil assigns(:results)
-  end
-
-  test "should not get new since no associated study" do
-    get :new
-    assert_redirected_to root_path
-  end
-
-  test "should not create result since admin is not assigned to study" do
-    assert_no_difference('Result.count') do
-      post :create, result: { location: @result.location, result_type: @result.result_type }
-    end
-
-    assert_redirected_to root_path
-  end
-
-  #test "should show result" do
-  #  get :show, id: @result
-  #  assert_response :success
-  #end
-
-  test "should not get edit since admin not assigned to study" do
-    get :edit, id: @result.id
-    assert_redirected_to root_path
-  end
-
-  test "should not update result since admin not assigned to study" do
-    put :update, id: @result, result: { location: @result.location, result_type: @result.result_type }
-    assert_redirected_to root_path
-  end
-
-  test "should destroy result" do
-    assert_difference('Result.current.count', -1) do
-      delete :destroy, id: @result
-    end
-
-    assert_redirected_to results_path
-  end
-
   # Scorer Access
 
   test "should get new with reliability_id if study assigned to current user" do
@@ -59,7 +17,7 @@ class ResultsControllerTest < ActionController::TestCase
     user = exercise.scorers.first
     reliability_id = user.reliability_ids.where(:exercise_id => exercise.id).first
 
-    login(user)
+    login user
 
     get :new, reliability_id: reliability_id
     assert_not_nil assigns(:result).reliability_id
@@ -67,21 +25,23 @@ class ResultsControllerTest < ActionController::TestCase
   end
 
   test "should not get new with reliability_id if study not assigned to current user" do
-    login(users(:valid))
+    exercise = create :exercise
+    get :new, reliability_id: exercise.reliability_ids.first
 
-    get :new, reliability_id: reliability_ids(:three)
     assert_redirected_to root_path
   end
 
   test "should create result for study assigned to current user" do
-    scorer = users(:valid)
-    login(scorer)
-    exercise = create(:exercise)
-    exercise.scorers << scorer
-    exercise.save
+    scorer = @project.scorers.first
+    exercise = create :exercise, existing_project_id: @project.id
+    assert exercise.scorers.include?(scorer)
+    login scorer
+
     rid = exercise.reliability_ids.where(user_id: scorer.id).first
+    assert scorer.all_reliability_ids.find_by_id(rid)
 
     #MY_LOG.info "errors: #{exercise.errors.full_messages} \neid: #{exercise.id} #{exercise.scorers} | #{scorer} | #{exercise.scorers.include?(scorer)}"
+
     assert_difference('Result.count') do
       post :create, result: { location: "some location", result_type: "rescored", assessment_answers: {"1"=>"233", "2"=>"2", :assessment_type => exercise.rule.assessment_type}, reliability_id: rid.id }
     end
@@ -93,9 +53,7 @@ class ResultsControllerTest < ActionController::TestCase
   end
 
   test "should not create result for study not assigned to current user" do
-    scorer = users(:valid)
-    login(scorer)
-    create(:exercise)
+   create :exercise
 
     assert_no_difference('Result.count') do
       post :create, result: { location: "some location", result_type: "rescored" }
@@ -103,11 +61,10 @@ class ResultsControllerTest < ActionController::TestCase
   end
 
   test "should get edit since user assigned to study" do
-    scorer = users(:valid)
-    login(scorer)
-    exercise = create(:exercise)
-    exercise.scorers << scorer
-    exercise.save
+    exercise = create(:exercise, existing_project_id: @project.id)
+    scorer = exercise.scorers.first
+
+    login scorer
 
     rid = exercise.reliability_ids.where(:user_id => scorer.id).first
 
@@ -122,32 +79,18 @@ class ResultsControllerTest < ActionController::TestCase
 
 
   test "should update result for study assigned to current user" do
-    scorer = users(:valid)
-    login(scorer)
-    exercise = create(:exercise)
-    exercise.scorers << scorer
-    exercise.save
+    exercise = create(:exercise, existing_project_id: @project.id)
+    scorer = exercise.scorers.first
+
+    login scorer
 
     rid = exercise.reliability_ids.where(:user_id => scorer.id).first
     result = create(:result)
     rid.result = result
     rid.save
 
-    put :update, id: result, result: { location: result.location, result_type: result.result_type }
+    put :update, id: result, result: { location: @template.location, result_type: @template.result_type }
     assert_redirected_to exercise_path(assigns(:result).reliability_id.exercise)
-  end
-
-  test "should show result by reliability_id if study assigned to current user" do
-    pending "Not needed yet."
-    login(users(:valid))
-
-
-  end
-
-  test "should not show result if study not assigned to current user" do
-    pending "Not needed yet."
-    login(users(:valid))
-
   end
 
 end

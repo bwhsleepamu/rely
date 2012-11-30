@@ -25,10 +25,14 @@ class StudyTypesController < ApplicationController
   # GET /study_types/new
   # GET /study_types/new.json
   def new
-    @study_type = current_user.study_types.new
+    MY_LOG.info params
+
+    @study_type = current_user.study_types.new(post_params)
+    @study_type.project ||= current_user.all_projects.first # unless @study_type.project
 
     respond_to do |format|
       format.html # new.html.erb
+      format.js
       format.json { render json: @study_type }
     end
   end

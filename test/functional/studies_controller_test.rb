@@ -29,6 +29,7 @@ class StudiesControllerTest < ActionController::TestCase
 
 
   test "should get new" do
+    assert_not_nil @study.project
     get :new
     assert_response :success
   end

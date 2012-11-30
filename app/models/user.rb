@@ -140,6 +140,14 @@ class User < ActiveRecord::Base
     StudyType.current.with_projects(all_projects)
   end
 
+  def all_reliability_ids
+    ReliabilityId.current.with_user(self)
+  end
+
+  def all_results
+    Result.current.with_scorer(self)
+  end
+
   private
 
   def notify_system_admins

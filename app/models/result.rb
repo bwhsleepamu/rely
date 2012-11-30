@@ -20,6 +20,7 @@ class Result < ActiveRecord::Base
   ##
   # Scopes
   scope :current, conditions: { deleted: false }
+  scope :with_scorer, lambda { |user| joins(:reliability_id).readonly(false).where("reliability_ids.user_id = ?", user.id).uniq }
 
   ##
   # Validations

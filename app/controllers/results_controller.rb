@@ -44,6 +44,13 @@ class ResultsController < ApplicationController
     #  @result.reliability_id = ReliabilityId.find_by_id(params[:reliability_id])
     #end
     #
+
+    reliability_id = current_user.all_reliability_ids.find_by_id(params[:reliability_id])
+    if reliability_id
+      @result = Result.new
+      @result.reliability_id = reliability_id
+    end
+
     if @result
       respond_to do |format|
         format.html # new.html.erb
@@ -74,7 +81,10 @@ class ResultsController < ApplicationController
     #@reliability_id = @result.study.reliability_id(current_user, @result.exercise) if @result and @result.study#ReliabilityId.find_by_unique_id(params[:reliability_id])
 
     #MY_LOG.info "rid: #{@reliability_id} uid #{@reliability_id.user_id} cuid: #{current_user.id}"
-    if (@reliability_id and @result.reliability_id.user_id == current_user.id) or (@study_id and current_user.system_admin?)
+
+    @result = current_user.all_results.find_by_id(params[:id])
+
+    if @result
       respond_to do |format|
         format.html # edit.html.erb
         format.json { render json: @result }
@@ -111,10 +121,15 @@ class ResultsController < ApplicationController
     #end
 
 
+    reliability_id = current_user.all_reliability_ids.find_by_id(params[:result][:reliability_id])
+    if reliability_id
+      @result = reliability_id.build_result(post_params)
+      @result.reliability_id = reliability_id
+    end
+    #MY_LOG.info "#{@result.valid?} #{@result.errors.full_messages}"
 
-    MY_LOG.info "#{@result} #{r_id}"
+#    MY_LOG.info "#{@result} #{r_id}"
     if @result
-    #  MY_LOG.info "ACCEPTED: #{@result.valid?} #{@result.errors.full_messages}"
       respond_to do |format|
         if @result.save
      #     MY_LOG.info "SAVED: #{@result.valid?} #{@result.errors.full_messages}"
@@ -135,11 +150,11 @@ class ResultsController < ApplicationController
   # PUT /results/1.json
   def update
     #MY_LOG.info "Update Params: #{params}"
-    #@result = Result.current.find(params[:id])
+    @result = current_user.all_results.find_by_id(params[:id])
     #MY_LOG.info "uid: #{@result.user_id} eid: #{@result.exercise_id} rel_ids: #{ReliabilityId.where(user_id: @result.user_id, exercise_id: @result.exercise_id).empty?}"
 
     # What about updating original result??
-    if @result.reliability_id and @result.reliability_id.user == current_user
+    if @result
       respond_to do |format|
         if @result.update_attributes(post_params)
           format.html { redirect_to @result.reliability_id.exercise, notice: 'Result was successfully updated.' }

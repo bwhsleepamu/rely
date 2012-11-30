@@ -37,11 +37,12 @@ class ExercisesController < ApplicationController
   # GET /exercises/new
   # GET /exercises/new.json
   def new
-    @exercise = current_user.owned_exercises.new
-    @exercise.project = Project.find_by_id(params[:project_id])
+    @exercise = current_user.owned_exercises.new(post_params)
+    @exercise.project ||= current_user.all_projects.first
 
     respond_to do |format|
       format.html # new.html.erb
+      format.js
       format.json { render json: @exercise }
     end
   end

@@ -1,3 +1,1 @@
-<% @title = "Edit Study: #{@study.name}" %>
-
-<%= render 'form' %>
+<%= render :partial => 'form', :locals => {title: "Edit Study: #{@study.name}" } %>

@@ -25,10 +25,12 @@ class RulesController < ApplicationController
   # GET /rules/new
   # GET /rules/new.json
   def new
-    @rule = current_user.rules.new
+    @rule = current_user.rules.new(post_params)
+    @rule.project ||= current_user.all_projects.first
 
     respond_to do |format|
       format.html # new.html.erb
+      format.js
       format.json { render json: @rule }
     end
   end

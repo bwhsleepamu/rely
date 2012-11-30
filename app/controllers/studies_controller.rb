@@ -25,10 +25,12 @@ class StudiesController < ApplicationController
   # GET /studies/new
   # GET /studies/new.json
   def new
-    @study = current_user.studies.new
+    @study = current_user.studies.new(post_params)
+    @study.project ||= current_user.all_projects.first# unless @study.project
 
     respond_to do |format|
       format.html # new.html.erb
+      format.js
       format.json { render json: @study }
     end
   end
