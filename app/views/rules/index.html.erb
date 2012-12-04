@@ -2,7 +2,7 @@
 <div class="page-header">
   <h1>
     <%= @title %>
-    <%= link_to "Create Rule", new_rule_path, class: 'btn btn-mini btn-primary' if current_user.system_admin? %>
+    <%= link_to "Create Rule", new_rule_path, class: 'btn btn-mini btn-primary' %>
   </h1>
 </div>
 
@@ -13,9 +13,3 @@
 <% end %>
 
 <div id="rules"><center><%= image_tag "contour/ajax-loader.gif" %></center></div>
-
-<%= javascript_tag do %>
-  $(function(){
-    $.get($("#rules_search").attr("action"), $("#rules_search").serialize(), null, "script");
-  });
-<% end %>

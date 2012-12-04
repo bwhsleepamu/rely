@@ -6,11 +6,12 @@ jQuery.fn.get_value = () ->
 
 jQuery ->
   # Add functionality
-  $("#add_original_result").click () ->
+  $("#add_original_result").live "click", () ->
     # Check to make sure Rule selected and Original Result form for this rule does not exist already.
     selected_rule_id = parseInt $("#rule_id").val()
     active_rule_ids = $("#original_results .well:visible .original_results_rule_id").map(jQuery.fn.get_value)
     hidden_rule_ids = $("#original_results .well:hidden .original_results_rule_id").map(jQuery.fn.get_value)
+
 
     if $("#rule_id").val() == ""
       bootbox.alert "Please select Rule for the new Original Result!"

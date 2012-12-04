@@ -28,6 +28,23 @@ class ResultsController < ApplicationController
   #  end
   #end
 
+  def new_original
+    # rule + study
+    if params[:study_id] and params[:rule_id]
+      @result = Result.new
+      @result.study_original_result = StudyOriginalResult.new(study_id: params[:study_id], rule_id: params[:rule_id])
+    end
+
+    if @result
+      respond_to do |format|
+        format.json { render json: @result }
+        format.js
+      end
+    else
+      redirect_to root_path
+    end
+  end
+
   # GET /results/new
   # GET /results/new.json
   def new
@@ -94,6 +111,10 @@ class ResultsController < ApplicationController
     end
   end
 
+  def edit_original
+
+  end
+
   # POST /results
   # POST /results.json
   def create
@@ -132,9 +153,9 @@ class ResultsController < ApplicationController
     if @result
       respond_to do |format|
         if @result.save
-     #     MY_LOG.info "SAVED: #{@result.valid?} #{@result.errors.full_messages}"
+          MY_LOG.info "SAVED: #{@result.reliability_id.exercise}"
           @result.reliability_id.exercise.check_completion # Refactor!!
-          format.html { redirect_to @result.reliability_id.exercise, notice: 'Result was successfully created.' }
+          format.html { redirect_to show_assigned_exercise_path(@result.reliability_id.exercise), notice: 'Result was successfully created.' }
           format.json { render json: @result, status: :created, location: @result }
         else
           format.html { render action: "new" }
@@ -157,7 +178,7 @@ class ResultsController < ApplicationController
     if @result
       respond_to do |format|
         if @result.update_attributes(post_params)
-          format.html { redirect_to @result.reliability_id.exercise, notice: 'Result was successfully updated.' }
+          format.html { redirect_to show_assigned_exercise_path(@result.reliability_id.exercise), notice: 'Result was successfully updated.' }
           format.json { render json: @result, status: :created, location: @result }
         else
           format.html { render action: "edit" }

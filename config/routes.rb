@@ -15,7 +15,11 @@ Rely::Application.routes.draw do
     end
   end
 
-  resources :results
+  resources :results do
+    new do
+      get 'new_original'
+    end
+  end
 
   resources :studies
 

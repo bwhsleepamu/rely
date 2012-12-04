@@ -36,7 +36,7 @@
         <div class="span8">Original Results</div>
         <div class="span4">
           <%= select_tag :rule_id, options_for_select([['-Select Rule-', nil]] + @study.project.rules.collect{|r| [r.name, r.id]}), { rel: "chosen" } %>
-          <%= link_to "Add New Original Result", new_result_path(rule_id: (@study.project.rules.empty? ? nil : @study.project.rules.first.id), study_id: @study.id), class: "btn btn-mini", id: "add_original_result", data: { study_id: @study.id }  %>
+          <%= link_to "Add New Original Result", new_original_new_result_path(rule_id: (@study.project.rules.empty? ? nil : @study.project.rules.first.id), study_id: @study.id), class: "btn btn-mini", id: "add_original_result", data: { study_id: @study.id }  %>
         </div>
       </div>
     </legend>

@@ -76,9 +76,12 @@ class ActionController::IntegrationTest
     page.driver.render('/home/pwm4/Documents/page.png', :full => true)
   end
 
-  def login_user
+  def login_user(user = nil)
     password = "secret"
-    user = create(:user, password: password)
+    user ||= create(:user, password: password)
+    user.password = password
+    user.save
+
     visit new_user_session_path
     fill_in('Email', :with => user.email)
     fill_in('Password', :with => password)
@@ -87,16 +90,16 @@ class ActionController::IntegrationTest
     user
   end
 
-  def login_admin
-    password = "secret"
-    user = create(:admin, password: password)
-    visit new_user_session_path
-    fill_in('Email', :with => user.email)
-    fill_in('Password', :with => password)
-    click_button("Sign in")
-
-    user
-  end
+  #def login_admin
+  #  password = "secret"
+  #  user = create(:admin, password: password)
+  #  visit new_user_session_path
+  #  fill_in('Email', :with => user.email)
+  #  fill_in('Password', :with => password)
+  #  click_button("Sign in")
+  #
+  #  user
+  #end
 
   def select_from_chosen(item_text, options)
     field = find_field(options[:from])

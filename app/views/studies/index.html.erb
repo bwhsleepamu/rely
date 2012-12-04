@@ -14,8 +14,3 @@
 
 <div id="studies"><center><%= image_tag "contour/ajax-loader.gif" %></center></div>
 
-<%= javascript_tag do %>
-  $(function(){
-    $.get($("#studies_search").attr("action"), $("#studies_search").serialize(), null, "script");
-  });
-<% end %>

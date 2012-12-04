@@ -85,13 +85,10 @@ class User < ActiveRecord::Base
     (authentications.empty? || !password.blank?) && super
   end
 
-  def viewable_exercises
-    if system_admin?
-      Exercise.current
-    else
-      assigned_exercises.scoped.current
-    end
-  end
+  #def viewable_exercises
+  #    assigned_exercises.scoped.current
+  #  end
+  #end
 
   # Overriding Devise built-in active_for_authentication? method
   def active_for_authentication?

@@ -1,9 +1,3 @@
 <% @title = @study ? "New Original Result" : "New Result" %>
 
-<% if @study %>
-  <%= render "study_info" %>
-<% else %>
-  <%= render "reliability_id_info" %>
-<% end %>
-
 <%= render 'form' %>

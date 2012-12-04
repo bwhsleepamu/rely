@@ -13,9 +13,3 @@
 <% end %>
 
 <div id="study_types"><center><%= image_tag "contour/ajax-loader.gif" %></center></div>
-
-<%= javascript_tag do %>
-  $(function(){
-    $.get($("#study_types_search").attr("action"), $("#study_types_search").serialize(), null, "script");
-  });
-<% end %>

@@ -49,7 +49,7 @@ class ResultsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:result).assessment
     assert_equal false, assigns(:result).assessment.assessment_results.empty?
 
-    assert_redirected_to exercise_path(assigns(:result).reliability_id.exercise)
+    assert_redirected_to show_assigned_exercise_path(assigns(:result).reliability_id.exercise)
   end
 
   test "should not create result for study not assigned to current user" do
@@ -90,7 +90,7 @@ class ResultsControllerTest < ActionController::TestCase
     rid.save
 
     put :update, id: result, result: { location: @template.location, result_type: @template.result_type }
-    assert_redirected_to exercise_path(assigns(:result).reliability_id.exercise)
+    assert_redirected_to show_assigned_exercise_path(assigns(:result).reliability_id.exercise)
   end
 
 end
