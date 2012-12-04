@@ -136,7 +136,7 @@ class ExerciseWorkflowTest < ActionDispatch::IntegrationTest
     click_button "Launch Exercise"
 
 
-    select('All', :from => 'DataTables_Table_0_length')
+    #select('All', :from => 'DataTables_Table_0_length')
 
 
     # Show Page
