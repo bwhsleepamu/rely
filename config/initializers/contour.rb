@@ -26,8 +26,9 @@ Contour.setup do |config|
                { authentications: true }]
      },
      {
-         name: 'current_user.email', eval: true, display: 'signed_in', position: 'right', condition: 'true',
-         links: [{ name: 'Authentications', path: 'authentications_path', condition: 'not PROVIDERS.blank?' },
+         name: 'image_tag(current_user.avatar_url(18, "blank"))+" "+current_user.name', eval: true, display: 'signed_in', path: 'settings_path', position: 'right',
+         links: [{ html: '"<div class=\"small\" style=\"color:#bbb\">"+current_user.email+"</div>"', eval: true, path: 'settings_path' },
+                 { name: 'Authentications', path: 'authentications_path', condition: 'not PROVIDERS.blank?' },
                  { divider: true },
                  { name: 'Logout', path: 'destroy_user_session_path' }]
      },

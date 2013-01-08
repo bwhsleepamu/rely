@@ -32,6 +32,8 @@ Rely::Application.routes.draw do
   resources :projects
   resources :users
 
+  match "/settings" => "users#settings", as: :settings
+
   # Remote partials
   match 'remote/:partial_controller/:partial_name' => 'partials#remote', :as => "remote"
 
