@@ -6,6 +6,7 @@
 * Enhancements
   * Updated to Contour 1.1.2 and use Contour pagination theme
   * User settings page added for information about changing Gravatar
+  * Added About page to provide a little more information about Rely
 
 * Refactoring
   * Replaced deprecated <center> tag with CSS center class

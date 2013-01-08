@@ -1,0 +1,63 @@
+<% @title = "About #{DEFAULT_APP_NAME}" %>
+
+<div class="row" style="margin-top:54px">
+  <div class="span12">
+    <h1 class="about-title"><%= @title %></h1>
+    <p class="about-signup"><%= link_to 'Sign Me Up', new_user_registration_path, class: "btn btn-primary btn-large" %></p>
+  </div>
+</div>
+
+<hr class="soften">
+
+<p class="about-description"><%= DEFAULT_APP_NAME %> is a <%= link_to 'free to use*', 'https://github.com/pmanko/rely/blob/master/LICENSE', rel: 'tooltip', data: { title: 'Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License' } %> and <%= link_to 'open source', 'https://github.com/pmanko/rely', rel: 'tooltip', data: { title: 'Source code freely available on GitHub' } %> tool for reliability testing.</p>
+
+<div class="row">
+  <div class="span4">
+    <h2 class="about-title">Create Exercises</h2>
+    <% if false %>
+      <p>View tasks for multiple projects.</p>
+      <p>
+      <ul>
+        <li>Directly add new <b>Tasks</b> and instantly create groups of tasks from project-specific <b>Templates</b>.</li>
+        <li>Filter tasks by project, completion status, and tasks assigned to you.</li>
+        <li>Tasks are grouped by <span class="label label-info">Tags</span>.</li>
+      </ul>
+      </p>
+    <% end %>
+  </div>
+
+  <div class="span4">
+    <h2 class="about-title">Add Scorers</h2>
+    <% if false %>
+      <p>Keep track of what you need to accomplish.</p>
+      <p>
+        <ul>
+          <li>Add <span class="label label-info">Tags</span> to tasks for easier reporting and searching.</li>
+          <li>Assign tasks to collaborators.</li>
+          <li>Post <b>Comments</b> on stickies that get emailed to collaborators.</li>
+        </ul>
+      </p>
+    <% end %>
+  </div>
+
+  <div class="span4">
+    <h2 class="about-title">Compare Results</h2>
+    <% if false %>
+    <p>Share your projects with collaborators.</p>
+    <p>
+      <ul>
+        <li>Invite <b>Editors</b> that can participate on your projects.</li>
+        <li>Invite <b>Viewers</b> that can see project updates and comment on tasks.</li>
+        <li>Create project specific <span class="label label-info">Tags</span> to easily find and get statistics on stickies.</li>
+        <li>Create <b>Templates</b> for common series of tasks and assign tasks to collaborators.</li>
+      </ul>
+    </p>
+    <% end %>
+  </div>
+</div>
+
+<hr class="soften">
+
+<footer class="footer">
+  <p class="muted about-footer">Rely Version <%= link_to Rely::VERSION::STRING, "https://github.com/pmanko/rely/tree/#{Rely::VERSION::MAJOR}.#{Rely::VERSION::MINOR}.#{Rely::VERSION::TINY}" %></p>
+</footer>
