@@ -1,4 +1,4 @@
-= Rely {<img src="https://secure.travis-ci.org/pmanko/rely.png"/>}[http://travis-ci.org/pmanko/rely]
+= Rely {<img src="https://secure.travis-ci.org/pmanko/rely.png"/>}[http://travis-ci.org/pmanko/rely] {<img src="https://gemnasium.com/pmanko/rely.png" alt="Dependency Status" />}[https://gemnasium.com/pmanko/rely] {<img src="https://codeclimate.com/badge.png" />}[https://codeclimate.com/github/pmanko/rely]
 
 Reliance testing support. Using Rails 3.2+ and Ruby 1.9.3+.
 
