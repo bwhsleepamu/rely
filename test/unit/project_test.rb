@@ -39,4 +39,11 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 4, p.scorers.length
   end
 
+  test "owner is automatically one of the managers, even if no other managers exist" do
+    p = create(:project, manager_count: 1)
+    p.managers.clear
+
+    assert p.owner.all_projects.include? p
+  end
+
 end

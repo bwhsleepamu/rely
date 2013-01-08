@@ -1,4 +1,6 @@
 == 0.5.1
+* Bug Fix
+  * Fixed projects owned by a user not showing up as managable.
 
 * Security Fix
   * Updated Rails to 3.2.11
