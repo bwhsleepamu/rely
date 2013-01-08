@@ -1,7 +1,7 @@
 == 0.5.1
 
 * Security Fix
-  * Updated Rails to 3.2.10
+  * Updated Rails to 3.2.11
 
 * Enhancements
   * Updated to Contour 1.1.2 and use Contour pagination theme
