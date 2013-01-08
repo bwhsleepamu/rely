@@ -14,7 +14,7 @@ gem 'eventmachine',         '~> 1.0.0',           :platforms => [ :mswin, :mingw
 
 
 # Contour
-gem 'contour',              '~> 1.1.1'
+gem 'contour',              '~> 1.1.2'
 gem 'kaminari',             '~> 0.14.1'
 
 # Gems used only for assets and not required
