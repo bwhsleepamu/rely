@@ -1,12 +1,12 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.10'
+gem 'rails',                '3.2.10'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'pg'
-gem "uuid", "~> 2.3.5"
+gem "uuid",                 '~> 2.3.5'
 
 # Windows
 gem 'thin',                 '~> 1.5.0',           :platforms => [ :mswin, :mingw ]
@@ -41,6 +41,6 @@ group :test do
   gem 'database_cleaner'
   gem 'capybara'
   gem 'poltergeist'
-  gem "factory_girl_rails" #, "~> 3.0"
+  gem "factory_girl_rails" #, '~> 3.0'
 end
 
