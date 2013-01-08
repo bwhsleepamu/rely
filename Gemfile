@@ -10,19 +10,19 @@ gem "uuid", "~> 2.3.5"
 
 # Windows
 gem 'thin',                 '~> 1.4.1',           :platforms => [ :mswin, :mingw ]
-gem 'eventmachine',         '~> 1.0.0',  :platforms => [ :mswin, :mingw ]
+gem 'eventmachine',         '~> 1.0.0',           :platforms => [ :mswin, :mingw ]
 
 
 # Contour
-gem 'contour', '~> 1.1.1'
-gem 'kaminari', '~> 0.14.1'
+gem 'contour',              '~> 1.1.1'
+gem 'kaminari',             '~> 0.14.1'
 
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails',   '~> 3.2.5'
-  gem 'coffee-rails', '~> 3.2.2'
-  gem 'uglifier', '>= 1.0.3'
+  gem 'sass-rails',         '~> 3.2.5'
+  gem 'coffee-rails',       '~> 3.2.2'
+  gem 'uglifier',           '>= 1.0.3'
 end
 
 gem 'jquery-rails'
