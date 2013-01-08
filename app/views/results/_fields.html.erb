@@ -18,6 +18,10 @@
         <%= render :partial => "assessments/original_questionnaire", :locals => { :assessment_type => result.rule.assessment_type, :assessment => result.assessment } %>
       </div>
     </div>
+    <p>HIIII</p>
+    <%= f.fields_for :assets do |asset_f| %>
+      <%= asset_f.file_field :asset %>
+    <%= end %>
 
   <% end %>
 </div>

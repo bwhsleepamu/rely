@@ -4,10 +4,12 @@ class Result < ActiveRecord::Base
   has_one :reliability_id, :conditions => { :deleted => false }
   has_one :study_original_result
   has_one :assessment, :conditions => { :deleted => false }
+  has_many :assets
 
   ##
   # Attributes
-  attr_accessible :location, :result_type, :assessment_answers
+  attr_accessible :location, :result_type, :assessment_answers, :assets
+  accepts_nested_attributes_for :assets, :allow_destroy => true
 
   ##
   # Callbacks

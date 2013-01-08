@@ -33,6 +33,7 @@ class ResultsController < ApplicationController
     if params[:study_id] and params[:rule_id]
       @result = Result.new
       @result.study_original_result = StudyOriginalResult.new(study_id: params[:study_id], rule_id: params[:rule_id])
+      @result.assets.build
     end
 
     if @result
@@ -66,6 +67,7 @@ class ResultsController < ApplicationController
     if reliability_id
       @result = Result.new
       @result.reliability_id = reliability_id
+      @result.assets.build
     end
 
     if @result
@@ -100,6 +102,7 @@ class ResultsController < ApplicationController
     #MY_LOG.info "rid: #{@reliability_id} uid #{@reliability_id.user_id} cuid: #{current_user.id}"
 
     @result = current_user.all_results.find_by_id(params[:id])
+    @result.assets.build
 
     if @result
       respond_to do |format|
@@ -216,7 +219,7 @@ class ResultsController < ApplicationController
     end
 
     params[:result].slice(
-      :location, :assessment_answers
+      :location, :assessment_answers, :assets
     )
   end
 end

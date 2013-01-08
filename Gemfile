@@ -17,6 +17,9 @@ gem 'eventmachine',         '~> 1.0.0',  :platforms => [ :mswin, :mingw ]
 gem 'contour', '~> 1.1.1'
 gem 'kaminari', '~> 0.14.1'
 
+# File Upload/Download
+gem "paperclip", "~> 3.1"
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

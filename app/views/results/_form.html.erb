@@ -14,6 +14,16 @@
         <%= f.text_field :location %>
       </div>
     </div>
+
+    <%= f.fields_for :assets do |asset_f| %>
+      <div class="control-group">
+        <%= asset_f.label :asset, nil, class: 'control-label' %>
+        <div class="controls">
+          <p>HIIII</p>
+          <%= asset_f.file_field :asset %>
+        </div>
+      </div>
+    <% end %>
   </fieldset>
   <fieldset>
     <legend>Result Assessment Questionnaire</legend>
