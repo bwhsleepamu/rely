@@ -9,7 +9,7 @@ gem 'pg'
 gem "uuid", "~> 2.3.5"
 
 # Windows
-gem 'thin',                 '~> 1.4.1',           :platforms => [ :mswin, :mingw ]
+gem 'thin',                 '~> 1.5.0',           :platforms => [ :mswin, :mingw ]
 gem 'eventmachine',         '~> 1.0.0',           :platforms => [ :mswin, :mingw ]
 
 
