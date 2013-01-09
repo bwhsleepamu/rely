@@ -85,6 +85,11 @@ class User < ActiveRecord::Base
     (authentications.empty? || !password.blank?) && super
   end
 
+  def avatar_url(size = 80, default = 'mm')
+    gravatar_id = Digest::MD5.hexdigest(self.email.downcase)
+    "//gravatar.com/avatar/#{gravatar_id}.png?&s=#{size}&r=pg&d=#{default}"
+  end
+
   #def viewable_exercises
   #    assigned_exercises.scoped.current
   #  end

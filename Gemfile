@@ -1,21 +1,21 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.9'
+gem 'rails',                '3.2.11'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'pg'
-gem "uuid", "~> 2.3.5"
+gem "uuid",                 '~> 2.3.5'
 
 # Windows
-gem 'thin',                 '~> 1.4.1',           :platforms => [ :mswin, :mingw ]
-gem 'eventmachine',         '~> 1.0.0',  :platforms => [ :mswin, :mingw ]
+gem 'thin',                 '~> 1.5.0',           :platforms => [ :mswin, :mingw ]
+gem 'eventmachine',         '~> 1.0.0',           :platforms => [ :mswin, :mingw ]
 
 
 # Contour
-gem 'contour', '~> 1.1.1'
-gem 'kaminari', '~> 0.14.1'
+gem 'contour',              '~> 1.1.2'
+gem 'kaminari',             '~> 0.14.1'
 
 # File Upload/Download
 gem "paperclip", "~> 3.1"
@@ -23,9 +23,9 @@ gem "paperclip", "~> 3.1"
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails',   '~> 3.2.5'
-  gem 'coffee-rails', '~> 3.2.2'
-  gem 'uglifier', '>= 1.0.3'
+  gem 'sass-rails',         '~> 3.2.5'
+  gem 'coffee-rails',       '~> 3.2.2'
+  gem 'uglifier',           '>= 1.0.3'
 end
 
 gem 'jquery-rails'
@@ -44,6 +44,6 @@ group :test do
   gem 'database_cleaner'
   gem 'capybara'
   gem 'poltergeist'
-  gem "factory_girl_rails" #, "~> 3.0"
+  gem "factory_girl_rails" #, '~> 3.0'
 end
 

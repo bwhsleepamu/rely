@@ -33,7 +33,7 @@ class Project < ActiveRecord::Base
   # Scopes
   scope :current, conditions: { deleted: false }
   scope :with_owner, lambda { |user| where("owner_id = ?", user.id)  }
-  scope :with_manager, lambda { |user| joins(:project_managers).readonly(false).where("project_managers.user_id = ? or projects.owner_id = ?", user.id, user.id).uniq }
+  scope :with_manager, lambda { |user| joins("left join project_managers on project_managers.project_id = projects.id").readonly(false).where("project_managers.user_id = ? or projects.owner_id = ?", user.id, user.id).uniq }
   scope :with_scorer, lambda { |user| joins(:project_scorers).readonly(false).where("project_scorers.user_id = ?", user.id).uniq }
   #scope :with_owner_or_manager, lambda { |user| joins(:project_managers).where("project_managers.user_id = ? or projects.owner_id = ?", user.id, user.id)}
 

@@ -6,16 +6,10 @@
   </h1>
 </div>
 
-<%= form_tag reliability_ids_path, method: :get, remote: true, id: "reliability_ids_search", class: 'form-search' do %>
+<%= form_tag reliability_ids_path, method: :get, remote: true, id: "reliability_ids_search", class: 'form-search', data: { object: 'form-load' } do %>
   <%= hidden_field_tag :order %>
   <%= text_field_tag 'search', params[:search], class: 'search-query' %>
   <%= submit_tag 'Search', class: 'btn btn-primary' %>
 <% end %>
 
-<div id="reliability_ids"><center><%= image_tag "contour/ajax-loader.gif" %></center></div>
-
-<%= javascript_tag do %>
-  $(function(){
-    $.get($("#reliability_ids_search").attr("action"), $("#reliability_ids_search").serialize(), null, "script");
-  });
-<% end %>
+<div id="reliability_ids"><div class="center"><%= image_tag "contour/ajax-loader.gif" %></div></div>

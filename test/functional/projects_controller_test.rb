@@ -51,6 +51,19 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_redirected_to project_path(assigns(:project))
   end
 
+  test "should automatically make project owner a manager, even with no other managers defined" do
+    scorers = create_list :user, 4
+
+    s_ids = scorers.map {|s| s.id}
+    m_ids = nil
+
+    assert_difference('Project.count') do
+      post :create, project: { description: @template.description, end_date: @template.end_date, name: @template.name, start_date: @template.start_date, scorer_ids: s_ids, manager_ids: m_ids }
+    end
+
+    assert @current_user.all_projects.include?(assigns(:project))
+  end
+
   test "should show project" do
     get :show, id: @project.id
     assert_response :success

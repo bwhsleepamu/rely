@@ -7,7 +7,6 @@
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'projects.description', 'Description', 'projects_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'projects.start_date', 'Start Date', 'projects_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'projects.end_date', 'End Date', 'projects_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'projects.deleted', 'Deleted', 'projects_search') %></th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -18,7 +17,6 @@
       <td><%= project.description %></td>
       <td><%= project.start_date %></td>
       <td><%= project.end_date %></td>
-      <td><%= project.deleted %></td>
       <td>
         <%= link_to 'Edit', edit_project_path(project), class: 'btn btn-mini' %>
         <%= link_to 'Delete', project,  :data => { :confirm => "Are you sure you want to delete Project #{project.name}?" }, method: :delete, class: 'btn btn-mini btn-danger' %>
@@ -27,4 +25,4 @@
   <% end %>
 </table>
 
-<center><%= paginate @projects %></center>
+<div class="center"><%= paginate @projects, theme: 'contour' %></div>

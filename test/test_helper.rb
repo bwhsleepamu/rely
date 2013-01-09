@@ -7,8 +7,8 @@ require 'capybara/rails'
 require 'capybara/poltergeist'
 require 'support/mailer_macros'
 
-Capybara.javascript_driver = :poltergeist
-Capybara.default_driver = :poltergeist
+Capybara.javascript_driver = :poltergeist # :selenium
+Capybara.default_driver = :poltergeist # :selenium
 
 # Transactional fixtures do not work with Selenium tests, because Capybara
 # uses a separate server thread, which the transactions would be hidden

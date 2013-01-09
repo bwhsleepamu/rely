@@ -19,57 +19,62 @@ Contour.setup do |config|
   # Enter the items you wish to see in the menu
   config.menu_items =
   [
-     {
-       name: 'Login', display: 'not_signed_in', path: 'new_user_session_path', position: 'right', condition: 'true',
-       links: [{ name: 'Sign Up', path: 'new_user_registration_path' },
-               { divider: true },
-               { authentications: true }]
-     },
-     {
-         name: 'current_user.email', eval: true, display: 'signed_in', position: 'right', condition: 'true',
-         links: [{ name: 'Authentications', path: 'authentications_path', condition: 'not PROVIDERS.blank?' },
-                 { divider: true },
-                 { name: 'Logout', path: 'destroy_user_session_path' }]
-     },
-     {
-       name: 'Exercises', display: 'signed_in', path: 'exercises_path', position: 'left', condition: 'true', image: '', image_options: {},
-       links: [
-           { name: 'Create', path: 'new_exercise_path', condition: 'current_user.system_admin?'}
-       ]
-     },
-     {
-         name: 'Scoring Rules', display: 'signed_in', path: 'rules_path', position: 'left', condition: 'true', image: '', image_options: {},
-         links: [
-             { name: 'Create', path: 'new_rule_path'}
-         ]
-     },
-     {
-         name: 'Projects', display: 'signed_in', path: 'projects_path', position: 'left', condition: 'true', image: '', image_options: {},
-         links: [
-             { name: 'Create', path: 'new_project_path'}
-         ]
-     },
-     {
-         name: 'Groups', display: 'signed_in', path: 'groups_path', position: 'left', condition: 'true', image: '', image_options: {},
-         links: [
-             { name: 'Create', path: 'new_group_path'}
-         ]
-     },
-     {
-         name: 'Studies', display: 'signed_in', path: 'studies_path', position: 'left', condition: 'true', image: '', image_options: {},
-         links: [
-             { name: 'Create', path: 'new_study_path'}
-         ]
-     },
-     {
-         name: 'Study Types', display: 'signed_in', path: 'study_types_path', position: 'left', condition: 'true', image: '', image_options: {},
-         links: [
-             { name: 'Create', path: 'new_study_type_path'}
-         ]
-     },
-     {
-         name: 'Users', display: 'signed_in', path: 'users_path', position: 'left', condition: 'true'
-     }
+    {
+      name: 'Login', display: 'not_signed_in', path: 'new_user_session_path', position: 'right', condition: 'true',
+      links: [{ name: 'Sign Up', path: 'new_user_registration_path' },
+              { divider: true },
+              { authentications: true }]
+    },
+    {
+      name: 'image_tag(current_user.avatar_url(18, "blank"))+" "+current_user.name', eval: true, display: 'signed_in', path: 'settings_path', position: 'right',
+      links: [{ html: '"<div class=\"small\" style=\"color:#bbb\">"+current_user.email+"</div>"', eval: true, path: 'settings_path' },
+              { name: 'Authentications', path: 'authentications_path', condition: 'not PROVIDERS.blank?' },
+              { divider: true },
+              { name: 'Logout', path: 'destroy_user_session_path' }]
+    },
+    {
+      name: 'Exercises', display: 'signed_in', path: 'exercises_path', position: 'left', condition: 'true', image: '', image_options: {},
+      links: [
+        { name: 'Create', path: 'new_exercise_path', condition: 'current_user.system_admin?'}
+      ]
+    },
+    {
+      name: 'Scoring Rules', display: 'signed_in', path: 'rules_path', position: 'left', condition: 'true', image: '', image_options: {},
+      links: [
+        { name: 'Create', path: 'new_rule_path'}
+      ]
+    },
+    {
+      name: 'Projects', display: 'signed_in', path: 'projects_path', position: 'left', condition: 'true', image: '', image_options: {},
+      links: [
+        { name: 'Create', path: 'new_project_path'}
+      ]
+    },
+    {
+      name: 'Groups', display: 'signed_in', path: 'groups_path', position: 'left', condition: 'true', image: '', image_options: {},
+      links: [
+        { name: 'Create', path: 'new_group_path'}
+      ]
+    },
+    {
+      name: 'Studies', display: 'signed_in', path: 'studies_path', position: 'left', condition: 'true', image: '', image_options: {},
+      links: [
+        { name: 'Create', path: 'new_study_path'}
+      ]
+    },
+    {
+      name: 'Study Types', display: 'signed_in', path: 'study_types_path', position: 'left', condition: 'true', image: '', image_options: {},
+      links: [
+        { name: 'Create', path: 'new_study_type_path'}
+      ]
+    },
+    {
+      name: 'Users', display: 'signed_in', path: 'users_path', position: 'left', condition: 'true'
+    },
+    {
+      name: 'About', display: 'always', path: 'about_path', position: 'left',
+      links: []
+    }
   ]
 
   # Enter an address of a valid RSS Feed if you would like to see news on the sign in page.
