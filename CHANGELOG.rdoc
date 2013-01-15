@@ -1,7 +1,7 @@
 == 0.6.0
-
 * Enhancements
   * Added release dates to Changelog.
+  *
 
 == 0.5.1 (January 8, 2013)
 

@@ -3,6 +3,8 @@ Rely::Application.routes.draw do
 
   resources :assessments
 
+  resources :assets
+
   resources :reliability_ids
 
   resources :study_types

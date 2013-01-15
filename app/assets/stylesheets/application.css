@@ -12,5 +12,6 @@
  *= require data_table_bootstrap
  *= require TableTools
  *= require contour
+ *= require jquery.fileupload-ui
  *= require_tree .
  */

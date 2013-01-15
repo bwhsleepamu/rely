@@ -8,7 +8,7 @@ class Result < ActiveRecord::Base
 
   ##
   # Attributes
-  attr_accessible :location, :result_type, :assessment_answers, :assets
+  attr_accessible :location, :result_type, :assessment_answers, :assets_attributes
   accepts_nested_attributes_for :assets, :allow_destroy => true
 
   ##

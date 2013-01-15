@@ -102,7 +102,6 @@ class ResultsController < ApplicationController
     #MY_LOG.info "rid: #{@reliability_id} uid #{@reliability_id.user_id} cuid: #{current_user.id}"
 
     @result = current_user.all_results.find_by_id(params[:id])
-    @result.assets.build
 
     if @result
       respond_to do |format|
@@ -173,7 +172,7 @@ class ResultsController < ApplicationController
   # PUT /results/1
   # PUT /results/1.json
   def update
-    #MY_LOG.info "Update Params: #{params}"
+    MY_LOG.info "Update Params: #{params}"
     @result = current_user.all_results.find_by_id(params[:id])
     #MY_LOG.info "uid: #{@result.user_id} eid: #{@result.exercise_id} rel_ids: #{ReliabilityId.where(user_id: @result.user_id, exercise_id: @result.exercise_id).empty?}"
 
@@ -219,7 +218,7 @@ class ResultsController < ApplicationController
     end
 
     params[:result].slice(
-      :location, :assessment_answers, :assets
+      :location, :assessment_answers, :assets_attributes
     )
   end
 end

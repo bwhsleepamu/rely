@@ -1,6 +1,6 @@
 <%= render :partial => "reliability_id_info" %>
 
-<%= form_for @result, html: { class: 'form-horizontal' } do |f| %>
+<%= form_for @result, html: { class: 'form-horizontal', multipart: true, id: 'result_form' } do |f| %>
   <%= display_errors @result %>
 
   <fieldset>
@@ -15,20 +15,13 @@
       </div>
     </div>
 
-    <%= f.fields_for :assets do |asset_f| %>
-      <div class="control-group">
-        <%= asset_f.label :asset, nil, class: 'control-label' %>
-        <div class="controls">
-          <p>HIIII</p>
-          <%= asset_f.file_field :asset %>
-        </div>
-      </div>
-    <% end %>
+
   </fieldset>
+
   <fieldset>
     <legend>Result Assessment Questionnaire</legend>
 
-    <%= render :partial => "assessments/questionnaire", :locals => { :assessment_type => @result.reliability_id.exercise.rule.assessment_type, :assessment => @result.assessment } %>
+    <%= render partial: "assessments/questionnaire", locals: { assessment_type: @result.reliability_id.exercise.rule.assessment_type, assessment: @result.assessment } %>
 
   </fieldset>
 
@@ -37,3 +30,5 @@
     <%= cancel %>
   </div>
 <% end %>
+
+<%= render partial: "assets/form" %>
