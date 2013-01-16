@@ -1,0 +1,17 @@
+#asset_upload {
+  table {
+    table-layout: fixed;
+
+    td {
+      overflow: hidden;
+    }
+
+    td.delete {
+      width: 105px;
+    }
+  }
+
+  .progress {
+    width: 100px;
+  }
+}

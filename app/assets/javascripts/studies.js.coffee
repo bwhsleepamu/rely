@@ -6,7 +6,7 @@ jQuery.fn.get_value = () ->
 
 jQuery ->
   # Add functionality
-  $("#add_original_result").live "click", () ->
+  $("#add_original_result").on "click", () ->
     # Check to make sure Rule selected and Original Result form for this rule does not exist already.
     selected_rule_id = parseInt $("#rule_id").val()
     active_rule_ids = $("#original_results .well:visible .original_results_rule_id").map(jQuery.fn.get_value)
@@ -32,6 +32,12 @@ jQuery ->
     return false
 
   # Delete functionality
-  $("#original_results .well .delete").live "click", () ->
+  $("#original_results .well .delete").on "click", () ->
     $(this).closest(".well").find("input.original_results_delete").val(1)
     $(this).closest(".well").hide()
+
+  # Uploader Modal Functionality
+  $("#study_form").on "click", "button.upload_files", () ->
+    $("#upload_result_id").data("resultId", $(this).data("resultId"))
+    jQuery.fn.refresh_uploader()
+    $('#uploader').modal('show')

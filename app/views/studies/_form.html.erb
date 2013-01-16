@@ -55,4 +55,16 @@
     <%= f.submit nil, class: 'btn btn-primary' %>
     <%= cancel %>
   </div>
+
 <% end %>
+
+<div id="upload_result_id" data-result-id=""></div>
+<div id="uploader" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-body">
+    <%= render partial: "assets/form" %>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button class="btn btn-primary">Finished</button>
+  </div>
+</div>

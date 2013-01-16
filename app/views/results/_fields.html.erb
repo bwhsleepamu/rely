@@ -12,6 +12,7 @@
       <div class="span5">
         <h4>Result Location</h4>
         <%= f.text_field :location, name: "study[results][][location]" %>
+        <button class="upload_files" type="button" data-result-id="<%= result.id %>" data-target="#uploader">upload files</button>
       </div>
       <div class="span6">
         <h4>Assessment Questionnaire</h4>

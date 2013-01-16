@@ -1,7 +1,7 @@
 <!-- The template to display files available for download -->
-<script id="template-download" type="text/x-tmpl">
+<script id="template-download-old" type="text/x-tmpl">
   <div class="file">
-  {% for (var i=0, file; file=o.files[i]; i++) { %}
+    {% for (var i=0, file; file=o.files[i]; i++) { %}
     {% if (file.error) { %}
     {%=file.name%}
     {%=o.formatFileSize(file.size)%}
@@ -22,6 +22,33 @@
       </button>
       <input type="checkbox" name="delete" value="1">
     </div>
-  {% } %}
+    {% } %}
   </div>
+</script>
+
+<!-- The template to display files available for download -->
+<script id="template-download" type="text/x-tmpl">
+  {% for (var i=0, file; file=o.files[i]; i++) { %}
+  <tr class="template-download fade">
+    {% if (file.error) { %}
+    <td></td>
+    <td class="name" colspan="2"><span>{%=file.name%}</span></td>
+    <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+    <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
+    {% } else { %}
+    <td class="name" colspan="2">
+      <a href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
+    </td>
+    <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+    <td colspan="2"></td>
+    {% } %}
+    <td class="delete">
+      <button class="btn btn-danger" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
+        <i class="icon-trash icon-white"></i>
+        <span>{%=locale.fileupload.destroy%}</span>
+      </button>
+      <input type="checkbox" name="delete" value="1">
+    </td>
+  </tr>
+  {% } %}
 </script>

@@ -2,13 +2,17 @@ class AssetsController < ApplicationController
   # GET /assets
   # GET /assets.json
   def index
-    MY_LOG.info "INDEX"
+    MY_LOG.info "INDEX: #{params}"
 
-    @assets = Asset.all
+    @assets = Asset.where(result_id: params[:result_id])
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @assets.map{|asset| asset.to_jq_upload } }
+    if params[:result_id].present? and Result.find_by_id(params[:result_id])
+      respond_to do |format|
+        format.html { redirect_to root_path }
+        format.json { render json: @assets.map{|asset| asset.to_jq_upload } }
+      end
+    else
+      redirect_to root_path
     end
   end
 
@@ -48,9 +52,10 @@ class AssetsController < ApplicationController
   # POST /assets
   # POST /assets.json
   def create
-    MY_LOG.info "params: #{params}"
+    MY_LOG.info "CREATE params: #{params}"
 
     @asset = Asset.new(params[:asset])
+    @asset.result_id = params[:result_id]
 
     respond_to do |format|
       if @asset.save
@@ -71,6 +76,7 @@ class AssetsController < ApplicationController
   # PUT /assets/1.json
   def update
     @asset = Asset.find(params[:id])
+    @asset.result_id = params[:result_id]
 
     respond_to do |format|
       if @asset.update_attributes(params[:asset])

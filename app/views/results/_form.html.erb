@@ -1,8 +1,9 @@
 <%= render :partial => "reliability_id_info" %>
 
 
-<div class="row">
-  <%= form_for @result, html: { class: 'form-horizontal, span4', multipart: true, id: 'result_form' } do |f| %>
+<div class="row" id="result_row">
+  <div id="upload_result_id" data-result-id="<%= @result.id %>"></div>
+  <%= form_for @result, html: { class: 'form-horizontal, span5', multipart: true, id: 'result_form' } do |f| %>
     <%= display_errors @result %>
 
     <fieldset>
@@ -27,12 +28,10 @@
 
     </fieldset>
 
-    <div class="form-actions">
+    <div class="form-actions span12">
       <%= f.submit "#{@result.persisted? ? "Update" : "Add"} Result", class: 'btn btn-primary' %>
       <%= cancel %>
     </div>
   <% end %>
-  <div class="span5">
-    <%= render partial: "assets/form" %>
-  </div>
+  <%= render partial: "assets/form" %>
 </div>

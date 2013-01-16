@@ -8,8 +8,8 @@ class Result < ActiveRecord::Base
 
   ##
   # Attributes
-  attr_accessible :location, :result_type, :assessment_answers, :assets_attributes
-  accepts_nested_attributes_for :assets, :allow_destroy => true
+  attr_accessible :location, :result_type, :assessment_answers #, :assets_attributes
+  #accepts_nested_attributes_for :assets, :allow_destroy => true
 
   ##
   # Callbacks
@@ -41,6 +41,10 @@ class Result < ActiveRecord::Base
     raise StandardError if reliability_id and study_original_result
 
     reliability_id ? reliability_id.study : (study_original_result ? study_original_result.study : nil)
+  end
+
+  def viewable(user)
+    # to be made
   end
 
   def assessment_answers=(answer_hash)
