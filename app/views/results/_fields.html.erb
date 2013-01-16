@@ -18,19 +18,6 @@
         <%= render :partial => "assessments/original_questionnaire", :locals => { :assessment_type => result.rule.assessment_type, :assessment => result.assessment } %>
       </div>
     </div>
-    <%= f.fields_for :assets do |asset_f| %>
-      <% if asset_f.object.new_record? %>
-        <div class="control-group">
-          <%= asset_f.label :asset, nil, class: 'control-label' %>
-          <div class="controls">
-            <%= asset_f.file_field :asset %>
-          </div>
-        </div>
-      <% else %>
-        <%= link_to asset_f.object.asset.url, asset_fields.object.asset.url(:original) %>
-        <%= asset_f.check_box :destroy  %>
-      <% end %>
-    <% end %>
 
   <% end %>
 </div>

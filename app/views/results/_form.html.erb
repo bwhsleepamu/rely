@@ -1,34 +1,38 @@
 <%= render :partial => "reliability_id_info" %>
 
-<%= form_for @result, html: { class: 'form-horizontal', multipart: true, id: 'result_form' } do |f| %>
-  <%= display_errors @result %>
 
-  <fieldset>
-    <legend>Result Information</legend>
+<div class="row">
+  <%= form_for @result, html: { class: 'form-horizontal, span4', multipart: true, id: 'result_form' } do |f| %>
+    <%= display_errors @result %>
 
-    <%= f.hidden_field :reliability_id, value: @result.reliability_id.id %>
+    <fieldset>
+      <legend>Result Information</legend>
 
-    <div class="control-group">
-      <%= f.label :location, nil, class: 'control-label' %>
-      <div class="controls">
-        <%= f.text_field :location %>
+      <%= f.hidden_field :reliability_id, value: @result.reliability_id.id %>
+
+      <div class="control-group">
+        <%= f.label :location, nil, class: 'control-label' %>
+        <div class="controls">
+          <%= f.text_field :location %>
+        </div>
       </div>
+
+
+    </fieldset>
+
+    <fieldset>
+      <legend>Result Assessment Questionnaire</legend>
+
+      <%= render partial: "assessments/questionnaire", locals: { assessment_type: @result.reliability_id.exercise.rule.assessment_type, assessment: @result.assessment } %>
+
+    </fieldset>
+
+    <div class="form-actions">
+      <%= f.submit "#{@result.persisted? ? "Update" : "Add"} Result", class: 'btn btn-primary' %>
+      <%= cancel %>
     </div>
-
-
-  </fieldset>
-
-  <fieldset>
-    <legend>Result Assessment Questionnaire</legend>
-
-    <%= render partial: "assessments/questionnaire", locals: { assessment_type: @result.reliability_id.exercise.rule.assessment_type, assessment: @result.assessment } %>
-
-  </fieldset>
-
-  <div class="form-actions">
-    <%= f.submit "#{@result.persisted? ? "Update" : "Add"} Result", class: 'btn btn-primary' %>
-    <%= cancel %>
+  <% end %>
+  <div class="span5">
+    <%= render partial: "assets/form" %>
   </div>
-<% end %>
-
-<%= render partial: "assets/form" %>
+</div>
