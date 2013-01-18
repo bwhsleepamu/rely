@@ -33,7 +33,6 @@ class ResultsController < ApplicationController
     if params[:study_id] and params[:rule_id]
       @result = Result.new
       @result.study_original_result = StudyOriginalResult.new(study_id: params[:study_id], rule_id: params[:rule_id])
-      @result.assets.build
     end
 
     if @result
@@ -67,7 +66,6 @@ class ResultsController < ApplicationController
     if reliability_id
       @result = Result.new
       @result.reliability_id = reliability_id
-      @result.assets.build
     end
 
     if @result
@@ -218,7 +216,7 @@ class ResultsController < ApplicationController
     end
 
     params[:result].slice(
-      :location, :assessment_answers, :assets_attributes
+      :location, :assessment_answers, :asset_ids
     )
   end
 end

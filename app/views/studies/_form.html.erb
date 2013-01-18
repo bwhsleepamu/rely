@@ -58,10 +58,9 @@
 
 <% end %>
 
-<div id="upload_result_id" data-result-id=""></div>
 <div id="uploader" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-body">
-    <%= render partial: "assets/form" %>
+    <%= render partial: "assets/form", locals: {result: nil} %>
   </div>
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>

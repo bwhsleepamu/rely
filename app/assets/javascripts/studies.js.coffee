@@ -39,5 +39,9 @@ jQuery ->
   # Uploader Modal Functionality
   $("#study_form").on "click", "button.upload_files", () ->
     $("#upload_result_id").data("resultId", $(this).data("resultId"))
+    $(".field-space")
+      .attr("data-current-upload", "false")
+    $(this).closest(".field-space")
+      .attr("data-current-upload", "true")
     jQuery.fn.refresh_uploader()
     $('#uploader').modal('show')

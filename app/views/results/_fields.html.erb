@@ -4,21 +4,23 @@
     <button class="btn btn-mini btn-danger delete" type="button">delete</button>
   </div>
   <%= fields_for result do |f| %>
-    <%= f.hidden_field :study_original_result_id, value: result.study_original_result.id, name: "study[results][][study_original_result_id]" if result.study_original_result.id %>
-    <%= f.hidden_field :rule_id, value: result.rule.id, name: "study[results][][rule_id]", class: "original_results_rule_id" %>
-    <%= f.hidden_field :delete, value: 0, name: "study[results][][delete]", class: "original_results_delete" %>
+    <div class="field-space" data-current-upload="false">
+      <span id="asset_id_template"><%= hidden_field_tag "study[results][][asset_ids][]", "", class: "asset_ids" %></span>
+      <%= f.hidden_field :study_original_result_id, value: result.study_original_result.id, name: "study[results][][study_original_result_id]" if result.study_original_result.id %>
+      <%= f.hidden_field :rule_id, value: result.rule.id, name: "study[results][][rule_id]", class: "original_results_rule_id" %>
+      <%= f.hidden_field :delete, value: 0, name: "study[results][][delete]", class: "original_results_delete" %>
 
-    <div class="row">
-      <div class="span5">
-        <h4>Result Location</h4>
-        <%= f.text_field :location, name: "study[results][][location]" %>
-        <button class="upload_files" type="button" data-result-id="<%= result.id %>" data-target="#uploader">upload files</button>
-      </div>
-      <div class="span6">
-        <h4>Assessment Questionnaire</h4>
-        <%= render :partial => "assessments/original_questionnaire", :locals => { :assessment_type => result.rule.assessment_type, :assessment => result.assessment } %>
+      <div class="row">
+        <div class="span5">
+          <h4>Result Location</h4>
+          <%= f.text_field :location, name: "study[results][][location]" %>
+          <button class="upload_files" type="button" data-result-id="<%= result.id %>" data-target="#uploader">upload files</button>
+        </div>
+        <div class="span6">
+          <h4>Assessment Questionnaire</h4>
+          io<%= render :partial => "assessments/original_questionnaire", :locals => { :assessment_type => result.rule.assessment_type, :assessment => result.assessment } %>
+        </div>
       </div>
     </div>
-
   <% end %>
 </div>
