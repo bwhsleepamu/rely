@@ -1,9 +1,12 @@
 jQuery.fn.refresh_uploader = () ->
   $.getJSON $("#asset_upload").prop("action"),
-    result_id: $("#upload_result_id").data("resultId")
+    result_id: $("#upload_result_id").data("resultId"),
+    asset_ids: $("#upload_result_id").data("assetIds")
   , (files) ->
     fu = $("#asset_upload").data("fileupload")
-    if fu and files
+    if fu
+      if !files
+        files = []
       template = undefined
       fu._adjustMaxNumberOfFiles(-files.length)
       console.log files
@@ -37,6 +40,4 @@ jQuery ->
   jQuery.fn.refresh_uploader()
 
   $('#asset_upload').bind 'fileuploaddone', (e, data) ->
-    console.log data
-
     $('[data-current-upload="true"]').append($("#asset_id_template").html().replace('value=""', 'value="' + data.result[0]["asset_id"] + '"'))

@@ -39,6 +39,13 @@ jQuery ->
   # Uploader Modal Functionality
   $("#study_form").on "click", "button.upload_files", () ->
     $("#upload_result_id").data("resultId", $(this).data("resultId"))
+
+    asset_ids = $.map $(this).closest(".well").find(".asset_ids"), (val,i) ->
+      v = $(val).val()
+      if v
+        return $(val).val()
+
+    $("#upload_result_id").data("assetIds", asset_ids)
     $(".field-space")
       .attr("data-current-upload", "false")
     $(this).closest(".field-space")

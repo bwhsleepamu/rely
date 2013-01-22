@@ -46,6 +46,7 @@ module ApplicationHelper
   end
 
   def display_errors(object)
+    #MY_LOG.info "ERRORS: #{object.errors.to_yaml} #{object.study_original_results.map{|x| x.errors}.to_yaml}"
     render :partial => "layouts/errors", :locals => {name: object.class.name, errors: object.errors} if object.errors.any?
   end
 

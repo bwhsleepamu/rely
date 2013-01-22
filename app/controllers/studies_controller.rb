@@ -45,6 +45,8 @@ class StudiesController < ApplicationController
   # POST /studies
   # POST /studies.json
   def create
+    MY_LOG.info "study create: #{params[:study]}"
+
     @study = current_user.studies.new(post_params)
 
     respond_to do |format|
@@ -61,6 +63,8 @@ class StudiesController < ApplicationController
   # PUT /studies/1
   # PUT /studies/1.json
   def update
+    MY_LOG.info "study update: #{params[:study]}"
+
     @study = current_user.all_studies.find(params[:id])
 
     respond_to do |format|

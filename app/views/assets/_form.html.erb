@@ -1,3 +1,5 @@
+<%= render partial: "assets/available_files"  %>
+<%= render partial: "assets/attached_files"  %>
 <div id="upload_result_id" data-result-id="<%= result.id if result %>"></div>
 <%= form_for Asset.new, :html => { :multipart => true, :id => "asset_upload", :class => "span7" } do |f| %>
   <fieldset>
@@ -39,5 +41,3 @@
   </fieldset>
 <% end %>
 
-<%= render partial: "assets/available_files"  %>
-<%= render partial: "assets/attached_files"  %>

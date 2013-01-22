@@ -11,7 +11,10 @@ class StudyOriginalResult < ActiveRecord::Base
 
   ##
   # Validations
-  validates_uniqueness_of :rule_id, :scope => :study_id
+  validates_presence_of :study_id, :unless => Proc.new { |a| a.study }
+  validates_presence_of :rule_id, :unless => Proc.new { |a| a.rule }
+  validates_presence_of :result_id, :unless => Proc.new { |a| a.result }
+  validates_uniqueness_of :rule_id, :scope => :study_id, :unless => Proc.new {|a| a.study_id.blank? }
 
   #def destroy
   #  update_column :deleted, true

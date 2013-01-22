@@ -3,16 +3,24 @@ class AssetsController < ApplicationController
   # GET /assets.json
   def index
     MY_LOG.info "INDEX: #{params}"
+    if params[:result_id].present?
+      @assets = Asset.where(result_id: params[:result_id])
+    elsif params[:asset_ids].present?
+      @assets = Asset.where(id: params[:asset_ids].map{|id| id.to_i})
+    end
 
-    @assets = Asset.where(result_id: params[:result_id])
-
-    if params[:result_id].present? and Result.find_by_id(params[:result_id])
+    if (params[:result_id].present? and Result.find_by_id(params[:result_id])) or params[:asset_ids].present?
+      MY_LOG.info "YES: #{@assets}"
       respond_to do |format|
         format.html { redirect_to root_path }
         format.json { render json: @assets.map{|asset| asset.to_jq_upload } }
       end
     else
-      redirect_to root_path
+      MY_LOG.info "NO: #{@assets}"
+      respond_to do |format|
+        format.html { redirect_to root_path }
+        format.json { render json: nil }
+      end
     end
   end
 
@@ -98,6 +106,20 @@ class AssetsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to assets_url }
       format.json { head :no_content }
+    end
+  end
+
+  def download
+    # download single file (direct link)
+    # download all files for given result (zip folder)
+    # download all files for given exercise (zip folder with subfolders by some predefined file structure)
+    @foo = Foo.find(params[:id])
+
+    unless @foo.uploads.empty?
+      send_file Upload.zip(@foo),
+                :type => 'application/zip',
+                :disposition => 'attachment',
+                :filename => "Foo-#{@foo.id}.zip"
     end
   end
 end

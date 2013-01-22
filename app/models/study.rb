@@ -68,10 +68,12 @@ class Study < ActiveRecord::Base
 
   def results=(result_hash)
     result_hash.each do |params|
-      result_attrs = params.slice(:location, :assessment_answers)
+      result_attrs = params.slice(*(Result.accessible_attributes.map{|x| x.to_s}.reject{|x| x.empty?}))
       should_delete = params[:delete].to_i == 1 ? true : false
 
       next if params[:rule_id].blank? # Rule is needed in all cases
+
+
 
       MY_LOG.info "delete: #{should_delete} dasdf: #{result_attrs} "
       if should_delete

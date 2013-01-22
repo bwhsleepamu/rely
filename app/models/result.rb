@@ -33,6 +33,15 @@ class Result < ActiveRecord::Base
 
   ##
   # Instance Methods
+  def assign_attributes(*attrs)
+    # Clean out asset ids that don't exist anymore (delete functionality fix)
+    if attrs[0][:asset_ids]
+      attrs[0][:asset_ids] = attrs[0][:asset_ids] & Asset.all.map{|asset| asset.id.to_s}
+    end
+
+    super(*attrs)
+  end
+
   def name
     "result_#{self.id}"
   end

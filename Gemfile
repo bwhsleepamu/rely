@@ -19,6 +19,7 @@ gem 'kaminari',             '~> 0.14.1'
 
 # File Upload/Download
 gem "paperclip", "~> 3.1"
+gem 'rubyzip'
 
 # Gems used only for assets and not required
 # in production environments by default.

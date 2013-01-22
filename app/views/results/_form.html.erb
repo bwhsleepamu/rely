@@ -5,10 +5,6 @@
     <div class="field-space" data-current-upload="true">
       <span id="asset_id_template"><%= hidden_field_tag "result[asset_ids][]", "", class: "asset_ids" %></span>
       <% @result.assets.each do |asset| %>
-        <p><%= asset.id %></p>
-        <p>here: <%= @result.id %></p>
-        <p>there: <%= @result.asset_ids %></p>
-
         <%= hidden_field_tag "result[asset_ids][]", asset.id, class: "asset_ids" %>
       <% end %>
 
@@ -37,11 +33,10 @@
 
       </fieldset>
     </div>
-
-    <div class="form-actions span12">
-      <%= f.submit "#{@result.persisted? ? "Update" : "Add"} Result", class: 'btn btn-primary' %>
-      <%= cancel %>
-    </div>
   <% end %>
   <%= render partial: "assets/form", locals: {result: @result} %>
+  <div class='form_buttons'>
+    <button class="btn btn-primary" id="submit"><%= "#{@result.persisted? ? "Update" : "Add"} Result" %></button>
+    <%= cancel %>
+  </div>
 </div>

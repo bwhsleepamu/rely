@@ -1,9 +1,14 @@
 
 
-#result_form {
-  .form-actions {
-    margin-left: -30px;
-  }
+.form_buttons {
+  padding: 19px 20px 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: #f5f5f5;
+  border-top: 1px solid #e5e5e5;
+  float: left;
+  clear: both;
+  width: 100%
 }
 
 #result_row {
