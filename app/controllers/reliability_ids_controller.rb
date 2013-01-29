@@ -1,6 +1,5 @@
 class ReliabilityIdsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :check_system_admin
 
   # GET /reliability_ids
   # GET /reliability_ids.json

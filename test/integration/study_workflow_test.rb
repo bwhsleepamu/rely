@@ -57,8 +57,12 @@ class StudyWorkflowTest < ActionDispatch::IntegrationTest
     select_from_chosen "Some", :from => "study_results__assessment_answers_2"
 
     click_on "Update Study"
+    show_page
 
     visit edit_study_path(study)
+
+
+
 
     assert page.has_selector?("#original_results .well", :count => 1)
     assert page.has_content? rule1.title

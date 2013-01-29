@@ -1,6 +1,5 @@
 class AssessmentResultsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :check_system_admin
 
   # GET /assessment_results
   # GET /assessment_results.json

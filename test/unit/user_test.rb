@@ -42,4 +42,69 @@ class UserTest < ActiveSupport::TestCase
       p.save
     end
   end
+
+  test "#all_exercises" do
+    r = setup_result_tests
+    assert r[:manager].all_exercises.length == 1
+
+  end
+
+  test "#all_results" do
+    r = setup_result_tests
+    assert_equal 0, r[:manager].all_results.length
+    assert r[:scorer].all_results.present?
+    assert_equal r[:count][:exercise], r[:scorer].all_results.length
+  end
+
+  test "#all_exercise_results" do
+    r = setup_result_tests
+    assert_equal 0, r[:scorer].all_exercise_results.length
+    assert_equal r[:count][:rid], r[:manager].all_exercise_results.length
+  end
+
+  test "#all_original_results" do
+    r = setup_result_tests
+    assert_equal 0, r[:scorer].all_original_results.length
+    assert r[:manager].all_original_results.length.present?
+    assert_equal r[:count][:original], r[:manager].all_original_results.length
+  end
+
+  test "#all_viewable_results" do
+    r = setup_result_tests
+    assert_equal r[:count][:exercise], r[:scorer].all_viewable_results.length
+    assert_equal r[:count][:total], r[:manager].all_viewable_results.length
+
+  end
+
+  def setup_result_tests
+    p = create(:project)
+    e = create(:exercise, existing_project_id: p.id)
+    result_count = {total: 0, exercise: 0, rid: 0, original: 0}
+
+    scorer = e.scorers.first
+
+    e.reliability_ids.each do |rid|
+      rid.result = build(:result)
+      rid.save
+      result_count[:total] += 1
+      result_count[:rid] += 1
+      result_count[:exercise] += 1 if rid.user == scorer
+    end
+
+    p.studies.each do |s|
+      p.rules.each do |r|
+        sor = StudyOriginalResult.new
+        sor.rule = r
+        sor.result = build(:result)
+        result_count[:total] += 1
+        result_count[:original] += 1
+        s.study_original_results << sor
+        s.save
+      end
+    end
+
+    assert e.project == p
+
+    {manager: p.managers.first, scorer: scorer, count: result_count}
+  end
 end

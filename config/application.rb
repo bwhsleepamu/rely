@@ -58,5 +58,8 @@ module Rely
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    # Paperclip Options
+    config.paperclip_defaults = { :url=>"/:class/:id_partition/:style/:filename", :path=>":rails_root/uploads:url" }
   end
 end

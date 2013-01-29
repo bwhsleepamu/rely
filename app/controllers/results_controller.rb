@@ -1,6 +1,5 @@
 class ResultsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :check_system_admin, only: [:index, :destroy]
 
   # GET /results
   # GET /results.json

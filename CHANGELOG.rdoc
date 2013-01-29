@@ -1,7 +1,13 @@
 == 0.6.0
+* Bug Fix
+  * Removed "Deleted" column from all index displays
+  * Fixed runaway precision on exercise show page.
+  * Removed link from pending scorers list
+
 * Enhancements
   * Added release dates to Changelog.
-  *
+  * Added bulk upload functionality to results and original results using jQuery Uploader plugin.
+  * Added asset download and bulk (zipped file) asset download functionality for exercises, results, and studies.
 
 == 0.5.1 (January 8, 2013)
 

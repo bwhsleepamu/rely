@@ -150,6 +150,26 @@ class User < ActiveRecord::Base
     Result.current.with_scorer(self)
   end
 
+  def all_original_results
+    Result.current.with_studies(all_studies)
+  end
+
+  def all_exercise_results
+    Result.current.with_exercises(all_exercises)
+  end
+
+  def all_viewable_results
+    ids = [all_results, all_original_results, all_exercise_results].map do |rel|
+      rel.pluck("results.id")
+    end.flatten
+
+    Result.current.where("id in (?)", ids)
+  end
+
+  def all_assets
+    Asset.current.with_results(all_viewable_results)
+  end
+
   private
 
   def notify_system_admins

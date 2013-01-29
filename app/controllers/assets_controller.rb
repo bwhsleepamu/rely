@@ -1,4 +1,6 @@
 class AssetsController < ApplicationController
+  before_filter :authenticate_user!
+
   # GET /assets
   # GET /assets.json
   def index
@@ -109,17 +111,37 @@ class AssetsController < ApplicationController
     end
   end
 
-  def download
-    # download single file (direct link)
-    # download all files for given result (zip folder)
-    # download all files for given exercise (zip folder with subfolders by some predefined file structure)
-    @foo = Foo.find(params[:id])
 
-    unless @foo.uploads.empty?
-      send_file Upload.zip(@foo),
-                :type => 'application/zip',
-                :disposition => 'attachment',
-                :filename => "Foo-#{@foo.id}.zip"
+  def download_zip
+    temp = Tempfile.new("zip-file-#{Time.now}")
+    if params[:exercise_id].present?
+      zipfile_name = Asset.download_exercise(params[:exercise_id], current_user, temp)
+    elsif params[:study_id].present?
+      zipfile_name = Asset.download_study(params[:study_id], current_user, temp)
+    elsif params[:reliability_id].present?
+      zipfile_name = Asset.download_reliability_id(params[:reliability_id], current_user, temp)
+    elsif params[:result_id].present?
+      zipfile_name = Asset.download_result(params[:result_id], current_user, temp)
+    else
+      zipfile_name = nil
+    end
+
+    if zipfile_name.present?
+      send_file temp.path, :type => 'application/zip', :disposition => 'attachment', :filename => "#{zipfile_name}.zip"
+    else
+      render :nothing => true
+    end
+
+    temp.delete() #To remove the tempfile
+  end
+
+  def download
+    @asset = current_user.all_assets.find_by_id(params[:id])
+
+    if @asset
+      send_file @asset.asset.path, :type => @asset.asset.content_type, :disposition => 'attachment', :filename => @asset.asset_file_name if @asset
+    else
+      render :nothing => true
     end
   end
 end

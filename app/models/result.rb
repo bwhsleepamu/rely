@@ -23,6 +23,8 @@ class Result < ActiveRecord::Base
   # Scopes
   scope :current, conditions: { deleted: false }
   scope :with_scorer, lambda { |user| joins(:reliability_id).readonly(false).where("reliability_ids.user_id = ?", user.id).uniq }
+  scope :with_studies, lambda { |studies| joins(:study_original_result).readonly(false).where("study_original_results.study_id in (?)", studies.pluck("studies.id")).uniq }
+  scope :with_exercises, lambda { |exercises| joins(:reliability_id).readonly(false).where("reliability_ids.exercise_id in (?)", exercises.pluck("exercises.id")).uniq }
 
   ##
   # Validations

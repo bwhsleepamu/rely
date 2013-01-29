@@ -180,4 +180,10 @@ FactoryGirl.define do
     answer "Some answer to a question"
   end
 
+  ##
+  # Assets
+  factory :asset do
+    asset File.open("test/data/upload.txt")
+  end
+
 end

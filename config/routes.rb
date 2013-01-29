@@ -3,7 +3,14 @@ Rely::Application.routes.draw do
 
   resources :assessments
 
-  resources :assets
+  resources :result_assets, :controller => "assets" do
+    member do
+      get 'download'
+    end
+    collection do
+      get 'download_zip'
+    end
+  end
 
   resources :reliability_ids
 
