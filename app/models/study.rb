@@ -74,13 +74,13 @@ class Study < ActiveRecord::Base
 
 
 
-      MY_LOG.info "delete: #{should_delete} dasdf: #{result_attrs} "
+      #MY_LOG.info "delete: #{should_delete} dasdf: #{result_attrs} "
       if should_delete
-        MY_LOG.info "DELETE"
+        #MY_LOG.info "DELETE"
         # Destroy Original Result
         StudyOriginalResult.find(params[:study_original_result_id]).destroy unless params[:study_original_result_id].blank?
       elsif params[:study_original_result_id].blank?
-        MY_LOG.info "CREATE"
+        #MY_LOG.info "CREATE"
         # Create New Original Result
         result = Result.new(result_attrs)
         study_original_result = StudyOriginalResult.new(rule_id: params[:rule_id])
@@ -88,7 +88,7 @@ class Study < ActiveRecord::Base
         study_original_result.study = self
         study_original_results << study_original_result
       else
-        MY_LOG.info "UPDATE"
+        #MY_LOG.info "UPDATE"
         # Update Existing Original Result
         study_original_result = StudyOriginalResult.find(params[:study_original_result_id])
         study_original_result.result.update_attributes(result_attrs)

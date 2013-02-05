@@ -15,7 +15,6 @@ class RuleWorkflowTest < ActionDispatch::IntegrationTest
     assessment_type = Assessment::TYPES[:paradox]
 
     visit rules_path
-    show_page
 
     click_on "Create Rule"
 
@@ -27,7 +26,6 @@ class RuleWorkflowTest < ActionDispatch::IntegrationTest
 
     click_button "Create Rule"
 
-    show_page
     assert has_content?("Rule was successfully created.")
     assert has_content?(title)
     assert has_content?(procedure)

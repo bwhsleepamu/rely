@@ -42,7 +42,7 @@ class AssessmentResult < ActiveRecord::Base
   end
 
   def question_info
-    MY_LOG.info "HEHRHEHEH: #{assessment.assessment_type.to_sym}"
+    #MY_LOG.info "HEHRHEHEH: #{assessment.assessment_type.to_sym}"
     Assessment::TYPES[assessment.assessment_type.to_sym][:questions][question_id]
   end
 

@@ -117,7 +117,7 @@ class ResultsController < ApplicationController
   # POST /results
   # POST /results.json
   def create
-    MY_LOG.info "Create Params: #{params}"
+    #MY_LOG.info "Create Params: #{params}"
 
 
     # create result for reliablity id
@@ -152,7 +152,7 @@ class ResultsController < ApplicationController
     if @result
       respond_to do |format|
         if @result.save
-          MY_LOG.info "SAVED: #{@result.reliability_id.exercise}"
+          #MY_LOG.info "SAVED: #{@result.reliability_id.exercise}"
           @result.reliability_id.exercise.check_completion # Refactor!!
           format.html { redirect_to show_assigned_exercise_path(@result.reliability_id.exercise), notice: 'Result was successfully created.' }
           format.json { render json: @result, status: :created, location: @result }
@@ -169,7 +169,7 @@ class ResultsController < ApplicationController
   # PUT /results/1
   # PUT /results/1.json
   def update
-    MY_LOG.info "Update Params: #{params}"
+    #MY_LOG.info "Update Params: #{params}"
     @result = current_user.all_results.find_by_id(params[:id])
     #MY_LOG.info "uid: #{@result.user_id} eid: #{@result.exercise_id} rel_ids: #{ReliabilityId.where(user_id: @result.user_id, exercise_id: @result.exercise_id).empty?}"
 

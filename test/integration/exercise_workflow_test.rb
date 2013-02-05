@@ -266,7 +266,6 @@ class ExerciseWorkflowTest < ActionDispatch::IntegrationTest
 
     tr = find("##{exercise.id}")
     assert tr.find("td.completed").has_content?("yes")
-    show_page
   end
 
   test "Scorer can edit a result for a study in an exercise" do
@@ -300,8 +299,6 @@ class ExerciseWorkflowTest < ActionDispatch::IntegrationTest
 
     click_on "Update Result"
     visit(edit_result_path(result))
-
-    show_page
 
     assert_equal new_location, page.find_field("Location").value
     assert_equal new_answer_1, page.find("#result_assessment_answers_1").value

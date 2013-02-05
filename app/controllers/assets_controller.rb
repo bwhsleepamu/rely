@@ -4,7 +4,6 @@ class AssetsController < ApplicationController
   # GET /assets
   # GET /assets.json
   def index
-    MY_LOG.info "INDEX: #{params}"
     if params[:result_id].present?
       @assets = Asset.where(result_id: params[:result_id])
     elsif params[:asset_ids].present?
@@ -12,13 +11,11 @@ class AssetsController < ApplicationController
     end
 
     if (params[:result_id].present? and Result.find_by_id(params[:result_id])) or params[:asset_ids].present?
-      MY_LOG.info "YES: #{@assets}"
       respond_to do |format|
         format.html { redirect_to root_path }
         format.json { render json: @assets.map{|asset| asset.to_jq_upload } }
       end
     else
-      MY_LOG.info "NO: #{@assets}"
       respond_to do |format|
         format.html { redirect_to root_path }
         format.json { render json: nil }
@@ -29,8 +26,6 @@ class AssetsController < ApplicationController
   # GET /assets/1
   # GET /assets/1.json
   def show
-    MY_LOG.info "SHOW"
-
     @asset = Asset.find(params[:id])
 
     respond_to do |format|
@@ -42,8 +37,6 @@ class AssetsController < ApplicationController
   # GET /assets/new
   # GET /assets/new.json
   def new
-    MY_LOG.info "NEW"
-
     @asset = Asset.new
 
     respond_to do |format|
@@ -54,22 +47,17 @@ class AssetsController < ApplicationController
 
   # GET /assets/1/edit
   def edit
-    MY_LOG.info "EDIT"
-
     @asset = Asset.find(params[:id])
   end
 
   # POST /assets
   # POST /assets.json
   def create
-    MY_LOG.info "CREATE params: #{params}"
-
     @asset = Asset.new(params[:asset])
     @asset.result_id = params[:result_id]
 
     respond_to do |format|
       if @asset.save
-        MY_LOG.info "SAVED"
         format.html {
           render :json => [@asset.to_jq_upload].to_json,
                  :content_type => 'text/html',
@@ -77,7 +65,6 @@ class AssetsController < ApplicationController
         }
         format.json { render json: [@asset.to_jq_upload].to_json, status: :created, location: result_asset_path(@asset) }
       else
-        MY_LOG.info "NOT SAVED"
         format.html { render action: "new" }
         format.json { render json: @asset.errors, status: :unprocessable_entity }
       end
