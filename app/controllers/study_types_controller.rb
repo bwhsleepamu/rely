@@ -1,11 +1,12 @@
 class StudyTypesController < ApplicationController
   before_filter :authenticate_user!
+  before_filter :verify_project_exists, :only => [:new, :create, :edit, :update]
 
   # GET /study_types
   # GET /study_types.json
   def index
     study_type_scope = current_user.all_study_types
-    @study_types = study_type_scope.search_by_terms(parse_search_terms(params[:search])).set_order(params[:order], "name").page(params[:page]).per( 20 )
+    @study_types = study_type_scope.search_by_terms(parse_search_terms(params[:search])).set_order(params[:order], "name").page(params[:page]).per(params[:per_page])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -25,10 +26,7 @@ class StudyTypesController < ApplicationController
   # GET /study_types/new
   # GET /study_types/new.json
   def new
-    MY_LOG.info params
-
     @study_type = current_user.study_types.new(post_params)
-    @study_type.project ||= current_user.all_projects.first # unless @study_type.project
 
     respond_to do |format|
       format.html # new.html.erb
@@ -51,7 +49,7 @@ class StudyTypesController < ApplicationController
 
     respond_to do |format|
       if @study_type.save
-        format.html { redirect_to @study_type, notice: 'Study type was successfully created.' }
+        format.html { redirect_to study_types_path, notice: 'Study type was successfully created.' }
         format.json { render json: @study_type, status: :created, location: @study_type }
       else
         format.html { render action: "new" }
@@ -67,7 +65,7 @@ class StudyTypesController < ApplicationController
 
     respond_to do |format|
       if @study_type.update_attributes(post_params)
-        format.html { redirect_to @study_type, notice: 'StudyType was successfully updated.' }
+        format.html { redirect_to study_types_path, notice: 'StudyType was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

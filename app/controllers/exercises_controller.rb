@@ -1,5 +1,7 @@
 class ExercisesController < ApplicationController
   before_filter :authenticate_user!
+  before_filter :verify_project_exists, :only => [:new, :create, :edit, :update]
+
 
   # GET /exercises
   # GET /exercises.json
@@ -9,7 +11,7 @@ class ExercisesController < ApplicationController
 
     @managed_exercises = exercise_scope.search_by_terms(parse_search_terms(params[:search])).set_order(params[:order], "name").page(params[:page]).per( 20 )
     @assigned_exercises = current_user.assigned_exercises
-    @user = current_user
+    #@user = current_user
 
     respond_to do |format|
       format.html # index.html.erb
@@ -38,7 +40,6 @@ class ExercisesController < ApplicationController
   # GET /exercises/new.json
   def new
     @exercise = current_user.owned_exercises.new(post_params)
-    @exercise.project ||= current_user.all_projects.first
 
     respond_to do |format|
       format.html # new.html.erb

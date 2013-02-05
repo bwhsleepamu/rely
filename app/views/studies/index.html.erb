@@ -6,11 +6,8 @@
   </h1>
 </div>
 
-<%= form_tag studies_path, method: :get, remote: true, id: "studies_search", class: 'form-search', data: { object: 'form-load' } do %>
-  <%= hidden_field_tag :order %>
-  <%= text_field_tag 'search', params[:search], class: 'search-query' %>
-  <%= submit_tag 'Search', class: 'btn btn-primary' %>
-<% end %>
+<%= render :partial => "layouts/search", locals: { object: :studies, path: studies_path } %>
 
-<div id="studies"><div class="center"><%= image_tag "contour/ajax-loader.gif" %></div></div>
+<div class="center" id="ajax_loader"><%= image_tag "contour/ajax-loader.gif" %></div>
+<div id="studies" class="index-content"></div>
 

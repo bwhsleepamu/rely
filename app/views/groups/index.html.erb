@@ -6,10 +6,7 @@
   </h1>
 </div>
 
-<%= form_tag groups_path, method: :get, remote: true, id: "groups_search", class: 'form-search', data: { object: 'form-load' } do %>
-  <%= hidden_field_tag :order %>
-  <%= text_field_tag 'search', params[:search], class: 'search-query' %>
-  <%= submit_tag 'Search', class: 'btn btn-primary' %>
-<% end %>
+<%= render :partial => "layouts/search", locals: { object: :groups, path: groups_path } %>
 
-<div id="groups"><div class="center"><%= image_tag "contour/ajax-loader.gif" %></div></div>
+<div class="center" id="ajax_loader"><%= image_tag "contour/ajax-loader.gif" %></div>
+<div id="groups" class="index-content"></div>

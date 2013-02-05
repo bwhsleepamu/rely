@@ -1,11 +1,12 @@
 class RulesController < ApplicationController
   before_filter :authenticate_user!
+  before_filter :verify_project_exists, :only => [:new, :create, :edit, :update]
 
   # GET /rules
   # GET /rules.json
   def index
     rule_scope = current_user.all_rules
-    @rules = rule_scope.search_by_terms(parse_search_terms(params[:search])).set_order(params[:order], "title").page(params[:page]).per( 20 )
+    @rules = rule_scope.search_by_terms(parse_search_terms(params[:search])).set_order(params[:order], "title").page(params[:page]).per(params[:per_page])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -17,7 +18,7 @@ class RulesController < ApplicationController
   # GET /rules/1
   # GET /rules/1.json
   def show
-    @rule = current_user.all_rules.find_by_id(params[:id])
+    @rule = current_user.all_viewable_rules.find_by_id(params[:id])
 
     render_if_exists @rule
   end
@@ -26,7 +27,6 @@ class RulesController < ApplicationController
   # GET /rules/new.json
   def new
     @rule = current_user.rules.new(post_params)
-    @rule.project ||= current_user.all_projects.first
 
     respond_to do |format|
       format.html # new.html.erb
@@ -49,7 +49,7 @@ class RulesController < ApplicationController
 
     respond_to do |format|
       if @rule.save
-        format.html { redirect_to @rule, notice: 'Rule was successfully created.' }
+        format.html { redirect_to rules_path, notice: 'Rule was successfully created.' }
         format.json { render json: @rule, status: :created, location: @rule }
       else
         format.html { render action: "new" }
@@ -65,7 +65,7 @@ class RulesController < ApplicationController
 
     respond_to do |format|
       if @rule.update_attributes(post_params)
-        format.html { redirect_to @rule, notice: 'Rule was successfully updated.' }
+        format.html { redirect_to rules_path, notice: 'Rule was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -87,10 +87,6 @@ class RulesController < ApplicationController
   end
 
   private
-
-  def parse_date(date_string)
-    date_string.to_s.split('/').last.size == 2 ? Date.strptime(date_string, "%m/%d/%y") : Date.strptime(date_string, "%m/%d/%Y") rescue ""
-  end
 
   def post_params
     params[:rule] ||= {}

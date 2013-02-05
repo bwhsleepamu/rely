@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   end
 
   def parse_search_terms(params)
-    params.to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
+    params.to_s.gsub(/[^0-9a-zA-Z]/, ' ') #.split(' ')
   end
 
   def render_if_exists(object)
@@ -31,6 +31,10 @@ class ApplicationController < ActionController::Base
 
   def check_system_admin
     redirect_to root_path, alert: "You do not have sufficient privileges to access that page." unless current_user.system_admin?
+  end
+
+  def verify_project_exists
+    redirect_to new_project_path, alert: "You must have at least one existing project to access that page." unless current_user.all_projects.present?
   end
 
 end

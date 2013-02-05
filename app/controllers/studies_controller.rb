@@ -1,11 +1,12 @@
 class StudiesController < ApplicationController
   before_filter :authenticate_user!
+  before_filter :verify_project_exists, :only => [:new, :create, :edit, :update]
 
   # GET /studies
   # GET /studies.json
   def index
     study_scope = current_user.all_studies
-    @studies = study_scope.search_by_terms(parse_search_terms(params[:search])).set_order(params[:order], "original_id").page(params[:page]).per( 20 )
+    @studies = study_scope.search_by_terms(parse_search_terms(params[:search])).set_order(params[:order], "original_id").page(params[:page]).per(params[:per_page])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -26,7 +27,6 @@ class StudiesController < ApplicationController
   # GET /studies/new.json
   def new
     @study = current_user.studies.new(post_params)
-    @study.project ||= current_user.all_projects.first# unless @study.project
 
     respond_to do |format|
       format.html # new.html.erb
@@ -51,7 +51,7 @@ class StudiesController < ApplicationController
 
     respond_to do |format|
       if @study.save
-        format.html { redirect_to @study, notice: 'Study was successfully created.' }
+        format.html { redirect_to studies_path, notice: 'Study was successfully created.' }
         format.json { render json: @study, status: :created, location: @study }
       else
         format.html { render action: "new" }
@@ -69,7 +69,7 @@ class StudiesController < ApplicationController
 
     respond_to do |format|
       if @study.update_attributes(post_params)
-        format.html { redirect_to @study, notice: 'Study was successfully updated.' }
+        format.html { redirect_to studies_path, notice: 'Study was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

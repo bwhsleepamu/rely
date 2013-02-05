@@ -37,6 +37,12 @@ group :development, :test do
   gem 'railroady'
 end
 
+group :development do
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'meta_request'
+end
+
 # Testing
 group :test do
   # Pretty printed test output

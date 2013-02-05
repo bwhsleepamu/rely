@@ -69,14 +69,26 @@ class Exercise < ActiveRecord::Base
     count
   end
 
+  def completion_status(scorer)
+    all_rids = reliability_ids.where(:user_id => scorer.id)
+    completed_rids = all_rids.select { |rid| rid.result.present? }
+
+
+    (completed_rids.length.to_f / all_rids.length.to_f).round(4)
+  end
+
+  def completion_status_percent(scorer)
+    completion_status(scorer) * 100.0
+  end
+
   def completed?(scorer)
-    completed = true
-
-
-    ## TODO: Might be faster to use a well-made select instead of a loop
-    reliability_ids.where(:user_id => scorer.id).each do |rid|
-      completed = false if rid.result.nil?
-    end
+    #completed = true
+    #
+    #
+    ### TODO: Might be faster to use a well-made select instead of a loop
+    #reliability_ids.where(:user_id => scorer.id).each do |rid|
+    #  completed = false if rid.result.nil?
+    #end
 
     #all_studies.each do |study|
     #  rid = study.reliability_id(scorer, self)
@@ -106,7 +118,9 @@ class Exercise < ActiveRecord::Base
     #  previous_group_status and group.studies.inject(true) {|previous_study_status, study| previous_study_status and (study.results.where({:user_id => user.id, :study_id => study.id}).count > 0)}
     #end
 
-    completed
+    #completed
+
+    completion_status(scorer) == 1.0
   end
 
   def count_completed

@@ -1,13 +1,14 @@
-<%= render partial: 'contour/layouts/per_page', locals: { type: 'rules', per_page: 20 } %>
+<%= render partial: 'layouts/per_page', locals: { object: 'rules', per_page: 20 } %>
 
-<table class="table table-striped table-bordered" style="width:100%">
+<table class="table table-striped table-bordered">
   <thead>
     <tr>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'rules.title', 'Title', 'rules_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'rules.procedure', 'Procedure', 'rules_search') %></th>
-      <% if current_user.system_admin? %>
-        <th>Actions</th>
-      <% end %>
+      <th><%== sort_field_helper(params[:order], 'title', 'Title', 'rules_search') %></th>
+      <th><%== sort_field_helper(params[:order], 'procedure', 'Procedure', 'rules_search') %></th>
+      <th><%== sort_field_helper(params[:order], 'assessment_type', 'Assessment Type', 'rules_search') %></th>
+
+      <th>Actions</th>
+
     </tr>
   </thead>
 
@@ -15,14 +16,16 @@
     <tr>
       <td><%= rule.title %></td>
       <td><%= rule.procedure %></td>
-      <% if current_user.system_admin? %>
-        <td>
-          <%= link_to 'Edit', edit_rule_path(rule), class: 'btn btn-mini' %>
-          <%= link_to 'Delete', rule, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Rule #{rule.name}?" } %>
-        </td>
-      <% end %>
+      <td><%= rule.assessment_type %></td>
+      <td>
+        <%= link_to 'Edit', edit_rule_path(rule), class: 'btn btn-mini' %>
+        <%= link_to 'Delete', rule, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Rule #{rule.name}?" } %>
+      </td>
     </tr>
   <% end %>
 </table>
 
 <div class="center"><%= paginate @rules, theme: 'contour' %></div>
+
+
+

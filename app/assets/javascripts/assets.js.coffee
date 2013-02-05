@@ -9,7 +9,7 @@ jQuery.fn.refresh_uploader = () ->
         files = []
       template = undefined
       fu._adjustMaxNumberOfFiles(-files.length)
-      console.log files
+      #console.log files
       $("#asset_upload .files").html("")
       template = fu._renderDownload(files).appendTo($("#asset_upload .files"))
 
@@ -37,7 +37,7 @@ jQuery ->
     uploadedBytes: 'Uploaded bytes exceed file size'
     emptyResult: 'Empty file upload result'
 
-  jQuery.fn.refresh_uploader()
+  jQuery.fn.refresh_uploader() if $("#asset_upload").length > 0
 
   $('#asset_upload').bind 'fileuploaddone', (e, data) ->
     $('[data-current-upload="true"]').append($("#asset_id_template").html().replace('value=""', 'value="' + data.result[0]["asset_id"] + '"'))

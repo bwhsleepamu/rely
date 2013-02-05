@@ -35,7 +35,7 @@ class StudyTypesControllerTest < ActionController::TestCase
     end
 
     assert_equal @current_user, assigns(:study_type).creator
-    assert_redirected_to study_type_path(assigns(:study_type))
+    assert_redirected_to study_types_path
   end
 
   test "should show study type" do
@@ -50,7 +50,7 @@ class StudyTypesControllerTest < ActionController::TestCase
 
   test "should update study type" do
     put :update, id: @study_type, study_type: { description: @template.description, name: @template.name }
-    assert_redirected_to study_type_path(assigns(:study_type))
+    assert_redirected_to study_types_path
   end
 
   test "should destroy study study type" do

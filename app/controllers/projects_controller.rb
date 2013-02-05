@@ -5,7 +5,7 @@ class ProjectsController < ApplicationController
   # GET /projects.json
   def index
     project_scope = current_user.all_projects
-    @projects = project_scope.search_by_terms(parse_search_terms(params[:search])).set_order(params[:order], "name").page(params[:page]).per(20)
+    @projects = project_scope.search_by_terms(parse_search_terms(params[:search])).set_order(params[:order], "name").page(params[:page]).per(params[:per_page])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -55,7 +55,7 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       if @project.save
-        format.html { redirect_to @project, notice: 'Project was successfully created.' }
+        format.html { redirect_to projects_path, notice: 'Project was successfully created.' }
         format.json { render json: @project, status: :created, location: @project }
       else
         format.html { render action: "new" }
@@ -71,7 +71,7 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       if @project and @project.update_attributes(post_params)
-        format.html { redirect_to @project, notice: 'Project was successfully updated.' }
+        format.html { redirect_to projects_path, notice: 'Project was successfully updated.' }
         format.json { head :no_content }
       elsif @project
         format.html { render action: "edit" }

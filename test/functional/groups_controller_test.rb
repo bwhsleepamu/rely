@@ -34,7 +34,7 @@ class GroupsControllerTest < ActionController::TestCase
     end
 
     assert_equal @current_user, assigns(:group).creator
-    assert_redirected_to group_path(assigns(:group))
+    assert_redirected_to groups_path
   end
 
   test "should create group with associated studies" do
@@ -45,7 +45,7 @@ class GroupsControllerTest < ActionController::TestCase
     end
 
     assert_equal assigns(:group).studies.count, @project.studies.count
-    assert_redirected_to group_path(assigns(:group))
+    assert_redirected_to groups_path
   end
 
   test "should show group" do
@@ -60,7 +60,7 @@ class GroupsControllerTest < ActionController::TestCase
 
   test "should update group" do
     put :update, id: @group, group: { description: @group.description, name: @group.name }
-    assert_redirected_to group_path(assigns(:group))
+    assert_redirected_to groups_path
   end
 
   test "should destroy group" do

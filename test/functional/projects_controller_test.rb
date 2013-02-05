@@ -48,7 +48,7 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_equal assigns(:project).scorers.map{|s| s.id}.sort, s_ids.sort
     assert_equal assigns(:project).managers.map{|m| m.id}.sort, m_ids.sort
 
-    assert_redirected_to project_path(assigns(:project))
+    assert_redirected_to projects_path
   end
 
   test "should automatically make project owner a manager, even with no other managers defined" do
@@ -103,7 +103,7 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_equal assigns(:project).scorers.map{|s| s.id}.sort, scorer_ids.sort
     assert_equal assigns(:project).managers.map{|m| m.id}.sort, manager_ids.sort
 
-    assert_redirected_to project_path(assigns(:project))
+    assert_redirected_to projects_path
   end
 
   test "should not update project not accessible by user" do

@@ -41,7 +41,7 @@ class StudiesControllerTest < ActionController::TestCase
 
     assert_equal @project, assigns(:study).project
     assert_equal @current_user, assigns(:study).creator
-    assert_redirected_to study_path(assigns(:study))
+    assert_redirected_to studies_path
   end
 
   test "should create study with original results" do
@@ -52,7 +52,7 @@ class StudiesControllerTest < ActionController::TestCase
     end
 
     assert_equal 2, assigns(:study).original_results.count
-    assert_redirected_to study_path(assigns(:study))
+    assert_redirected_to studies_path
   end
 
   test "should show study" do
@@ -67,7 +67,7 @@ class StudiesControllerTest < ActionController::TestCase
 
   test "should update study" do
     put :update, id: @study, study: { location: @study.location, original_id: @study.original_id, study_type_id: @study.study_type_id }
-    assert_redirected_to study_path(assigns(:study))
+    assert_redirected_to studies_path
   end
 
   test "should update study with original results" do
@@ -91,7 +91,7 @@ class StudiesControllerTest < ActionController::TestCase
     s.study_original_results.each do |sor|
       assert_equal new_location, sor.result.location
     end
-    assert_redirected_to study_path(assigns(:study))
+    assert_redirected_to studies_path
   end
 
   test "should delete original result from study" do

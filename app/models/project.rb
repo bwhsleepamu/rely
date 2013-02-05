@@ -36,6 +36,8 @@ class Project < ActiveRecord::Base
   scope :with_manager, lambda { |user| joins("left join project_managers on project_managers.project_id = projects.id").readonly(false).where("project_managers.user_id = ? or projects.owner_id = ?", user.id, user.id).uniq }
   scope :with_scorer, lambda { |user| joins(:project_scorers).readonly(false).where("project_scorers.user_id = ?", user.id).uniq }
   #scope :with_owner_or_manager, lambda { |user| joins(:project_managers).where("project_managers.user_id = ? or projects.owner_id = ?", user.id, user.id)}
+  #scope :search, lambda { |*args| { conditions: [ 'LOWER(name) LIKE ? or LOWER(description) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
+  scope :search, lambda { |term| search_scope([:name, :description], term) }
 
   ##
   # Validations

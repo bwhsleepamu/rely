@@ -37,7 +37,7 @@ class RulesControllerTest < ActionController::TestCase
     end
 
     assert_equal @current_user, assigns(:rule).creator
-    assert_redirected_to rule_path(assigns(:rule))
+    assert_redirected_to rules_path
   end
 
   test "should not create rule if project not managable by user" do
@@ -61,7 +61,7 @@ class RulesControllerTest < ActionController::TestCase
 
   test "should update rule" do
     put :update, id: @rule, rule: { procedure: @template.procedure, title: @template.title }
-    assert_redirected_to rule_path(assigns(:rule))
+    assert_redirected_to rules_path
   end
 
   test "should destroy rule" do

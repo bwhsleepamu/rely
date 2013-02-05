@@ -6,56 +6,58 @@
   <%= display_errors @study %>
   <%= render :partial => "partials/project_field", :locals => {f: f, editable: @study.new_record?, object_name: "study", target_path: new_study_path } %>
 
-  <fieldset>
-    <legend>Study Information</legend>
-    <div class="control-group">
-      <%= f.label :original_id, "Original ID", class: 'control-label' %>
-      <div class="controls">
-        <%= f.text_field :original_id %>
-      </div>
-    </div>
+  <% if @study.project.present? %>
 
-    <div class="control-group">
-      <%= f.label :study_type_id, "Study Type", class: 'control-label' %>
-      <div class="controls">
-        <%= f.select :study_type_id, [['---', nil]] + @study.project.study_types.collect{|s| [s.name, s.id]}, {}, {rel: :chosen} %>
-      </div>
-    </div>
-
-    <div class="control-group">
-      <%= f.label :location, nil, class: 'control-label' %>
-      <div class="controls">
-        <%= f.text_field :location %>
-      </div>
-    </div>
-  </fieldset>
-
-  <fieldset class="original_results">
-    <legend>
-      <div class="row">
-        <div class="span8">Original Results</div>
-        <div class="span4">
-          <%= select_tag :rule_id, options_for_select([['-Select Rule-', nil]] + @study.project.rules.collect{|r| [r.name, r.id]}), { rel: "chosen" } %>
-          <%= link_to "Add New Original Result", new_original_new_result_path(rule_id: (@study.project.rules.empty? ? nil : @study.project.rules.first.id), study_id: @study.id), class: "btn btn-mini", id: "add_original_result", data: { study_id: @study.id }  %>
+    <fieldset>
+      <legend>Study Information</legend>
+      <div class="control-group">
+        <%= f.label :original_id, "Original ID", class: 'control-label' %>
+        <div class="controls">
+          <%= f.text_field :original_id %>
         </div>
       </div>
-    </legend>
-    <% if @study.original_results.length == 0 %>
-      <div id="no-results" class="alert alert-info">No Original Results Yet!</div>
-    <% end %>
-    <div id="original_results">
-      <% @study.original_results.each do |result| %>
-        <% #[Result.new].each do |result| %>
-        <%= render :partial => "results/fields", :locals => { :result => result } %>
+
+      <div class="control-group">
+        <%= f.label :study_type_id, "Study Type", class: 'control-label' %>
+        <div class="controls">
+          <%= f.select :study_type_id, [['---', nil]] + @study.project.study_types.collect{|s| [s.name, s.id]}, {}, {rel: :chosen} %>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <%= f.label :location, nil, class: 'control-label' %>
+        <div class="controls">
+          <%= f.text_field :location %>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="original_results">
+      <legend>
+        <div class="row">
+          <div class="span8">Original Results</div>
+          <div class="span4">
+            <%= select_tag :rule_id, options_for_select([['-Select Rule-', nil]] + @study.project.rules.collect{|r| [r.name, r.id]}), { rel: "chosen" } %>
+            <%= link_to "Add New Original Result", new_original_new_result_path(rule_id: (@study.project.rules.empty? ? nil : @study.project.rules.first.id), study_id: @study.id), class: "btn btn-mini", id: "add_original_result", data: { study_id: @study.id }  %>
+          </div>
+        </div>
+      </legend>
+      <% if @study.original_results.length == 0 %>
+        <div id="no-results" class="alert alert-info">No Original Results Yet!</div>
       <% end %>
+      <div id="original_results">
+        <% @study.original_results.each do |result| %>
+          <% #[Result.new].each do |result| %>
+          <%= render :partial => "results/fields", :locals => { :result => result } %>
+        <% end %>
+      </div>
+    </fieldset>
+
+    <div class="form-actions">
+      <%= f.submit nil, class: 'btn btn-primary' %>
+      <%= cancel %>
     </div>
-  </fieldset>
-
-  <div class="form-actions">
-    <%= f.submit nil, class: 'btn btn-primary' %>
-    <%= cancel %>
-  </div>
-
+  <% end %>
 <% end %>
 
 <div id="uploader" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

@@ -1,4 +1,6 @@
 Rely::Application.routes.draw do
+  ActionDispatch::Routing::Mapper::Resources
+
   resources :assessment_results
 
   resources :assessments

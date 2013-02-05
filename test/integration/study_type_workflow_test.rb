@@ -16,7 +16,9 @@ class StudyTypeWorkflowTest < ActionDispatch::IntegrationTest
     visit study_types_path
     click_on "Create Study Type"
 
-    f = find("form")
+    select_from_chosen @project.name, :from => "Project"
+
+    f = page.find("form")
     f.fill_in "Name", :with => study_type_name
     f.fill_in "Description", :with => description
     assert has_no_content?('Deleted'), 'Deleted flag should not show up'

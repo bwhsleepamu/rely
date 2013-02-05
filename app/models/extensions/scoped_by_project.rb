@@ -22,5 +22,6 @@ module Extensions
         errors.add(:project_id, "is from an invalid project")
       end
     end
+
   end
 end

@@ -1,11 +1,11 @@
-<%= render partial: 'contour/layouts/per_page', locals: { type: 'studies', per_page: 20 } %>
+<%= render partial: 'layouts/per_page', locals: { object: 'studies', per_page: 20 } %>
 
-<table class="table table-striped table-bordered" style="width:100%">
+<table class="table table-striped table-bordered">
   <thead>
     <tr>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'studies.original_id', 'Original', 'studies_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'studies.study_type_id', 'Study Type', 'studies_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'studies.location', 'Location', 'studies_search') %></th>
+      <th><%== sort_field_helper(params[:order], 'original_id', 'Original', 'studies_search') %></th>
+      <th><%== sort_field_helper(params[:order], 'study_type_id', 'Study Type', 'studies_search') %></th>
+      <th><%== sort_field_helper(params[:order], 'location', 'Location', 'studies_search') %></th>
       <th>Actions</th>
     </tr>
   </thead>

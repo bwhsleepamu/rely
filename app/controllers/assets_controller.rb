@@ -69,13 +69,15 @@ class AssetsController < ApplicationController
 
     respond_to do |format|
       if @asset.save
+        MY_LOG.info "SAVED"
         format.html {
           render :json => [@asset.to_jq_upload].to_json,
                  :content_type => 'text/html',
                  :layout => false
         }
-        format.json { render json: [@asset.to_jq_upload].to_json, status: :created, location: @asset }
+        format.json { render json: [@asset.to_jq_upload].to_json, status: :created, location: result_asset_path(@asset) }
       else
+        MY_LOG.info "NOT SAVED"
         format.html { render action: "new" }
         format.json { render json: @asset.errors, status: :unprocessable_entity }
       end
@@ -90,7 +92,7 @@ class AssetsController < ApplicationController
 
     respond_to do |format|
       if @asset.update_attributes(params[:asset])
-        format.html { redirect_to @asset, notice: 'Asset was successfully updated.' }
+        format.html { redirect_to result_asset_path(@asset), notice: 'Asset was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -106,7 +108,7 @@ class AssetsController < ApplicationController
     @asset.destroy
 
     respond_to do |format|
-      format.html { redirect_to assets_url }
+      format.html { redirect_to result_assets_url }
       format.json { head :no_content }
     end
   end
@@ -132,7 +134,7 @@ class AssetsController < ApplicationController
       render :nothing => true
     end
 
-    temp.delete() #To remove the tempfile
+    #temp.delete() #To remove the tempfile
   end
 
   def download

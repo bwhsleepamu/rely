@@ -71,6 +71,30 @@ class ExerciseTest < ActiveSupport::TestCase
     assert_equal true, exercise.completed?(scorer)
   end
 
+  test "#completion_status" do
+    exercise = create(:exercise)
+    scorer = exercise.scorers.first
+    assert_equal 0, exercise.completion_status(scorer)
+
+    rids = scorer.reliability_ids.where(:exercise_id => exercise.id)
+    expected_change = (1/rids.length.to_f).round(2)
+    count = 0
+
+    rids.each do |rid|
+#      assert_difference('exercise.completion_status(scorer)', expected_change) do
+      rid.result = create(:result)
+      rid.save
+#     end
+
+      count += 1
+      #MY_LOG.info "#{count} #{expected_change} #{count/expected_change}"
+      assert_equal (count.to_f * expected_change.to_f).round(4), exercise.completion_status(scorer)
+    end
+
+    assert_equal 1, exercise.completion_status(scorer)
+
+  end
+
   test "#all_completed?" do
     exercise = create(:exercise)
     assert_equal false, exercise.all_completed?

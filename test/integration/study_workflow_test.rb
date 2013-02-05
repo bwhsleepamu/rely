@@ -17,6 +17,9 @@ class StudyWorkflowTest < ActionDispatch::IntegrationTest
     visit studies_path
 
     click_on "Create Study"
+
+    select_from_chosen @project.name, :from => "Project"
+
     fill_in "Original ID", :with => study_id
     fill_in "Location", :with => study_location
     select_from_chosen study_type.name, :from => "Study Type"

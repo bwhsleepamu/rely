@@ -18,6 +18,9 @@ class RuleWorkflowTest < ActionDispatch::IntegrationTest
     show_page
 
     click_on "Create Rule"
+
+    select_from_chosen @project.name, :from => "Project"
+
     fill_in "Title", :with => title
     fill_in "Procedure", :with => procedure
     select_from_chosen assessment_type[:title], :from => "Assessment Type"

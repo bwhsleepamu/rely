@@ -2,12 +2,19 @@
 * Bug Fix
   * Removed "Deleted" column from all index displays
   * Fixed runaway precision on exercise show page.
-  * Removed link from pending scorers list
+  * Removed link from pending scorers list.
+  * Fixed Chosen styling.
+  * Fixed create/update submit button wording inconsistencies.
+  * Fixed default project bug and implemented handling of the creation of project-dependent objects when no project is yet
+    selected
 
 * Enhancements
   * Added release dates to Changelog.
   * Added bulk upload functionality to results and original results using jQuery Uploader plugin.
   * Added asset download and bulk (zipped file) asset download functionality for exercises, results, and studies.
+  * Added search, pagination, and order capabilities to index page of Study Types, Studies, Groups, Rules, and Projects.
+  * Ensured ajax loader gif plays while index list is getting updated with search, pagination, or order.
+  * Added completion status to scorer pages.
 
 == 0.5.1 (January 8, 2013)
 

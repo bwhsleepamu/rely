@@ -2,14 +2,14 @@
   <caption>Managed Exercises</caption>
   <thead>
     <tr>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.name', 'Name', 'exercises_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.rule_id', 'Rule', 'exercises_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.assessment_type', 'Assessment Type', 'exercises_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.description', 'Description', 'exercises_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.assigned_at', 'Assigned', 'exercises_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.users.count', 'Assigned Scorers', 'exercises_search') %></th>
-      <th style="white-space:nowrap">Completion Status</th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'exercises.completed_at', 'Completed', 'exercises_search') %></th>
+      <th><%= sort_field_helper(params[:order], 'name', 'Name', 'exercises_search') %></th>
+      <th><%= sort_field_helper(params[:order], 'rule_id', 'Rule', 'exercises_search') %></th>
+      <th><%= sort_field_helper(params[:order], 'assessment_type', 'Assessment Type', 'exercises_search') %></th>
+      <th><%= sort_field_helper(params[:order], 'description', 'Description', 'exercises_search') %></th>
+      <th><%= sort_field_helper(params[:order], 'assigned_at', 'Assigned', 'exercises_search') %></th>
+      <th><%= sort_field_helper(params[:order], 'users.count', 'Assigned Scorers', 'exercises_search') %></th>
+      <th>Completion Status</th>
+      <th><%= sort_field_helper(params[:order], 'completed_at', 'Completed', 'exercises_search') %></th>
       <th>Actions</th>
     </tr>
   </thead>

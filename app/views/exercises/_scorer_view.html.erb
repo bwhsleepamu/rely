@@ -1,4 +1,9 @@
-<h3>Dashboard for Exercise <%= @exercise.name %></h3>
+<div class="row">
+  <h3 class="span8">Dashboard for Exercise <%= @exercise.name %></h3>
+  <h3 class="span3">Completion Status</h3>
+  <h3 class="span1" id="completion_percent"><%= @exercise.percent_completed %>%</h3>
+</div>
+
 <dl class="dl-horizontal">
   <dt>Project</dt>
   <dd><%= @exercise.project.name %></dd>

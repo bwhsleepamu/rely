@@ -126,6 +126,18 @@ class User < ActiveRecord::Base
     Rule.current.with_projects(all_projects)
   end
 
+  def all_exercise_rules
+    Rule.current.with_exercises(assigned_exercises.scoped)
+  end
+
+  def all_viewable_rules
+    ids = [all_rules, all_exercise_rules].map do |rel|
+      rel.pluck("rules.id")
+    end.flatten
+
+    Rule.current.where("id in (?)", ids)
+  end
+
   def all_exercises
     Exercise.current.with_projects(all_projects)
   end

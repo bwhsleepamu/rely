@@ -16,7 +16,7 @@ class Asset < ActiveRecord::Base
         "size" => read_attribute(:asset_file_size),
         "asset_id" => read_attribute(:id),
         "url" => download_result_asset_path(self),
-        "delete_url" => asset_path(self),
+        "delete_url" => result_asset_path(self),
         "delete_type" => "DELETE"
     }
   end

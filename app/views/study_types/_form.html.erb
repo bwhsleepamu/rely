@@ -6,22 +6,24 @@
   <%= display_errors @study_type %>
   <%= render :partial => "partials/project_field", :locals => {f: f, editable: @study_type.new_record?, object_name: "study_type", target_path: new_study_type_path } %>
 
-  <div class="control-group">
-    <%= f.label :name, nil, class: 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :name %>
+  <% if @study_type.project.present? %>
+    <div class="control-group">
+      <%= f.label :name, nil, class: 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :name %>
+      </div>
     </div>
-  </div>
 
-  <div class="control-group">
-    <%= f.label :description, nil, class: 'control-label' %>
-    <div class="controls">
-      <%= f.text_area :description, rows: 7, style: 'width:95%' %>
+    <div class="control-group">
+      <%= f.label :description, nil, class: 'control-label' %>
+      <div class="controls">
+        <%= f.text_area :description, rows: 7, style: 'width:95%' %>
+      </div>
     </div>
-  </div>
 
-  <div class="form-actions">
-    <%= f.submit "Create Study Type", class: 'btn btn-primary' %>
-    <%= cancel %>
-  </div>
+    <div class="form-actions">
+      <%= f.submit (@study_type.new_record? ? "Create Study Type" : "Update Study Type"), class: 'btn btn-primary' %>
+      <%= cancel %>
+    </div>
+  <% end %>
 <% end %>
