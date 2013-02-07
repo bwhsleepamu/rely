@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+  source 'https://rubygems.org'
 
 gem 'rails',                '3.2.11'
 
@@ -27,10 +27,10 @@ group :assets do
   gem 'sass-rails',         '~> 3.2.5'
   gem 'coffee-rails',       '~> 3.2.2'
   gem 'uglifier',           '>= 1.0.3'
-  gem 'jquery-fileupload-rails'
 end
 
 gem 'jquery-rails'
+gem 'jquery-fileupload-rails'
 
 # Diagrams
 group :development, :test do
