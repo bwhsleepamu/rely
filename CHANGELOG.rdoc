@@ -1,3 +1,7 @@
+== 0.6.1
+* Bug Fix
+  * Moved 'jquery-fileupload-rails' gem outside of assets group in Gemfile
+
 == 0.6.0
 * Bug Fix
   * Removed "Deleted" column from all index displays
