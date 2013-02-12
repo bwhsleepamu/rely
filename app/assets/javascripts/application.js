@@ -17,4 +17,5 @@
 //= require data_table_bootstrap
 //= require bootbox.min
 //= require jquery-fileupload
+//= require chosen.jquery
 //= require_tree .

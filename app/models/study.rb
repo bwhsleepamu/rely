@@ -37,7 +37,7 @@ class Study < ActiveRecord::Base
   ##
   # Validations
   validates_presence_of :study_type, :location, :original_id
-  validates_uniqueness_of :original_id
+  validates_uniqueness_of :original_id, :scope => :project_id
   validate :study_type_belongs_to_same_project
 
   ##

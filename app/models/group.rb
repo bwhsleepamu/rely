@@ -32,6 +32,7 @@ class Group < ActiveRecord::Base
   ##
   # Validations
   validates_presence_of :name
+  validates_uniqueness_of :name, :scope => :project_id
   validate :studies_belong_to_same_project
 
   ##

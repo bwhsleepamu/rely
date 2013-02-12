@@ -1,6 +1,6 @@
 jQuery ->
   # Add functionality
-  $(".project_select").live "change", () ->
+  $(document).on "change", ".project_select", () ->
     data_hash = {}
     $("#form").html("")
     data_hash[$(this).data("object-name")] = {project_id: $(this).val()}

@@ -38,7 +38,8 @@ class Exercise < ActiveRecord::Base
   ##
   # Validations
   validates_presence_of :assigned_at, :owner_id, :name, :rule_id, :groups, :scorers
-  validates_uniqueness_of :name
+  validates_uniqueness_of :name, :scope => :project_id
+
   validate :scorers_belong_to_project, :rule_belongs_to_project, :groups_belong_to_project
 
   ##

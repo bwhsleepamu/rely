@@ -29,7 +29,7 @@ class Rule < ActiveRecord::Base
   ##
   # Validations
   validates_presence_of :project_id, :title, :procedure
-
+  validates_uniqueness_of :title, :scope => :project_id
   ##
   # Class Methods
 

@@ -1,6 +1,6 @@
   source 'https://rubygems.org'
 
-gem 'rails',                '3.2.11'
+gem 'rails',                '3.2.12'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -14,7 +14,7 @@ gem 'eventmachine',         '~> 1.0.0',           :platforms => [ :mswin, :mingw
 
 
 # Contour
-gem 'contour',              '~> 1.1.2'
+gem 'contour',              '~> 1.2.0.pre7'
 gem 'kaminari',             '~> 0.14.1'
 
 # File Upload/Download

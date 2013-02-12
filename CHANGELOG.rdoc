@@ -1,6 +1,13 @@
 == 0.6.1
 * Bug Fix
-  * Moved 'jquery-fileupload-rails' gem outside of assets group in Gemfile
+  * Moved 'jquery-fileupload-rails' gem outside of assets group in Gemfile.
+  * Scoped uniqueness validation by project for models that are scoped by project.
+  * Fixed "Add New Original Result" button functionality for new studies.
+  * Removed extra text in assessment questionaire.
+  * Fixed Original Results file uploader modal buttons.
+
+* Enhancements
+  * Original Results file list
 
 == 0.6.0
 * Bug Fix

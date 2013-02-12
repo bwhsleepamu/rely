@@ -13,5 +13,6 @@
  *= require TableTools
  *= require contour
  *= require jquery.fileupload-ui
+ *= require chosen
  *= require_tree .
  */

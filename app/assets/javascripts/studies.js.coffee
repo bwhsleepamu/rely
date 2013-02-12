@@ -6,7 +6,9 @@ jQuery.fn.get_value = () ->
 
 jQuery ->
   # Add functionality
-  $("#add_original_result").on "click", () ->
+  $(document).on "click", "#study_form #testing", () ->
+    alert("HI THERE SIR!")
+  $(document).on "click", "#study_form #add_original_result", () ->
     # Check to make sure Rule selected and Original Result form for this rule does not exist already.
     selected_rule_id = parseInt $("#rule_id").val()
     active_rule_ids = $("#original_results .well:visible .original_results_rule_id").map(jQuery.fn.get_value)
@@ -29,15 +31,15 @@ jQuery ->
         success: () -> $("#no-results").remove()
       )
 
-    return false
+    false
 
   # Delete functionality
-  $("#original_results .well .delete").on "click", () ->
+  $(document).on "click", "#study_form #original_results .well .delete", () ->
     $(this).closest(".well").find("input.original_results_delete").val(1)
     $(this).closest(".well").hide()
 
   # Uploader Modal Functionality
-  $("#study_form").on "click", "button.upload_files", () ->
+  $(document).on "click", "#study_form button.upload_files", () ->
     $("#upload_result_id").data("resultId", $(this).data("resultId"))
 
     asset_ids = $.map $(this).closest(".well").find(".asset_ids"), (val,i) ->
