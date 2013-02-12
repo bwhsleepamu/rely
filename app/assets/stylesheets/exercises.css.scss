@@ -16,6 +16,19 @@ div#admin_view {
       margin-bottom: 10px;
     }
 
+    #download_all {
+      position: relative;
+      height: 40px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+
+      .btn {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+      }
+    }
+
     table {
 
       td.no_results {

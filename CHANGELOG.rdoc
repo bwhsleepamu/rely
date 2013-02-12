@@ -6,6 +6,7 @@
   * Removed extra text in assessment questionaire.
   * Fixed Original Results file uploader modal buttons.
   * Fixed original result file upload for new studies.
+  * Added missing attachment download links in exercise management.
 
 * Enhancements
   * Original Results file list

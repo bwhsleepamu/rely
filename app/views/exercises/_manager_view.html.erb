@@ -39,14 +39,19 @@
         <h4>Pending Scorers</h4>
         <ul>
           <% @exercise.pending_scorers.each do |scorer| %>
-            <li class="scorer"><%= link_to "#{scorer.name}: #{@exercise.count_completed_results(scorer)}/#{@exercise.all_studies.length} results", scorer %></li>
+            <li class="scorer"><%= "#{scorer.name}: #{@exercise.count_completed_results(scorer)}/#{@exercise.all_studies.length} results" %></li>
           <% end %>
         </ul>
       </div>
     </div>
   </div>
   <div id="results">
-    <h3>Results</h3>
+    <div class="row">
+      <h3 class="span10">Results</h3>
+      <div class="span2" id="download_all"><%= link_to 'Download All Attachments', download_zip_result_assets_path(exercise_id: @exercise.id), class: 'btn btn-mini' %></div>
+
+    </div>
+
     <table class="table table-striped table-bordered dataTable">
       <thead>
       <tr>
@@ -66,6 +71,7 @@
             %>
           </th>
         <% end %>
+        <th>Attachments</th>
       </tr>
       </thead>
       <tbody>
@@ -81,8 +87,9 @@
               <% study.original_result(@exercise.rule).assessment.assessment_results.each do |a_r| %>
                 <td><%= a_r.full_answer %></td>
               <% end %>
+              <td><%= study.original_result(@exercise.rule).assets.length %> Attachments<%= link_to 'download', download_zip_result_assets_path(result_id: study.original_result(@exercise.rule).id), class: 'btn btn-mini' %></td>
             <% else %>
-              <% (1 + Assessment::TYPES[@exercise.rule.assessment_type.to_sym][:questions].length).times do %>
+              <% (2 + Assessment::TYPES[@exercise.rule.assessment_type.to_sym][:questions].length).times do %>
                 <td class="no_results">No Result Yet</td>
               <% end %>
             <% end %>
@@ -100,8 +107,10 @@
             <% r_id.result.assessment.assessment_results.each do |a_r| %>
               <td><%= a_r.full_answer %></td>
             <% end %>
-          <% else %>
-            <% (1 + Assessment::TYPES[@exercise.rule.assessment_type.to_sym][:questions].length).times do %>
+            <td><%= r_id.result.assets.length %> Attachments<%= link_to 'download', download_zip_result_assets_path(result_id: r_id.result.id), class: 'btn btn-mini' %></td>
+
+        <% else %>
+            <% (2 + Assessment::TYPES[@exercise.rule.assessment_type.to_sym][:questions].length).times do %>
               <td class="no_results">No Result Yet</td>
             <% end %>
           <% end %>
