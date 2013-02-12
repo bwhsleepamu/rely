@@ -5,6 +5,7 @@
   * Fixed "Add New Original Result" button functionality for new studies.
   * Removed extra text in assessment questionaire.
   * Fixed Original Results file uploader modal buttons.
+  * Fixed original result file upload for new studies.
 
 * Enhancements
   * Original Results file list

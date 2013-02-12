@@ -21,13 +21,15 @@ jQuery.fn.refresh_uploader = () ->
 jQuery ->
   #$("#upload_result_id").data("resultId", 123)
   #alert $("#upload_result_id").data("resultId")
+
+  # Initialize file upload
   $('#asset_upload').fileupload()
 
-  $("#asset_upload").bind "fileuploadsubmit", (e, data) ->
+  jQuery.fn.refresh_uploader() if $("#asset_upload").length > 0
+
+  $(document).on 'fileuploadsubmit', "#asset_upload", (e, data) ->
     # The example input, doesn't have to be part of the upload form:
     data.formData = result_id: $("#upload_result_id").data("resultId")
-#    unless data.formData.result_id
-#      false
 
   fileUploadErrors =
     maxFileSize: 'File is too big'
@@ -37,7 +39,6 @@ jQuery ->
     uploadedBytes: 'Uploaded bytes exceed file size'
     emptyResult: 'Empty file upload result'
 
-  jQuery.fn.refresh_uploader() if $("#asset_upload").length > 0
 
-  $('#asset_upload').bind 'fileuploaddone', (e, data) ->
+  $(document).on 'fileuploaddone', "#asset_upload", (e, data) ->
     $('[data-current-upload="true"]').append($("#asset_id_template").html().replace('value=""', 'value="' + data.result[0]["asset_id"] + '"'))

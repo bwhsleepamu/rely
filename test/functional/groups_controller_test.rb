@@ -5,6 +5,7 @@ class GroupsControllerTest < ActionController::TestCase
     @project = create :project
     @current_user = @project.managers.first
     @group = @project.groups.first
+    @template = build :group
     login(@current_user)
   end
 
@@ -30,7 +31,7 @@ class GroupsControllerTest < ActionController::TestCase
 
   test "should create group" do
     assert_difference('Group.count') do
-      post :create, group: { description: @group.description, name: @group.name, project_id: @project.id }
+      post :create, group: { description: @template.description, name: @template.name, project_id: @project.id }
     end
 
     assert_equal @current_user, assigns(:group).creator
@@ -41,7 +42,7 @@ class GroupsControllerTest < ActionController::TestCase
     study_ids = @project.studies.map {|s| s.id}
 
     assert_difference('Group.count') do
-      post :create, group: { description: @group.description, name: @group.name, project_id: @project.id, study_ids: study_ids }
+      post :create, group: { description: @template.description, name: @template.name, project_id: @project.id, study_ids: study_ids }
     end
 
     assert_equal assigns(:group).studies.count, @project.studies.count

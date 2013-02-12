@@ -5,9 +5,12 @@ jQuery.fn.get_value = () ->
   return parseInt $(this).val()
 
 jQuery ->
+  $(document).on "refresh", "#form", () ->
+    $("select[rel=chosen]").chosen();
+    $('#asset_upload').fileupload()
+    jQuery.fn.refresh_uploader() if $("#asset_upload").length > 0
+
   # Add functionality
-  $(document).on "click", "#study_form #testing", () ->
-    alert("HI THERE SIR!")
   $(document).on "click", "#study_form #add_original_result", () ->
     # Check to make sure Rule selected and Original Result form for this rule does not exist already.
     selected_rule_id = parseInt $("#rule_id").val()
