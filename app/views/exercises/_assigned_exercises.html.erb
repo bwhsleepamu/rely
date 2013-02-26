@@ -8,6 +8,7 @@
       <th><%= sort_field_helper(params[:order], 'assigned_at', 'Assigned', 'exercises_search') %></th>
       <th><%= sort_field_helper(params[:order], 'completion_status', 'Completion Status', 'exercises_search') %></th>
       <th><%= sort_field_helper(params[:order], 'completed', 'Completed?', 'exercises_search') %></th>
+      <th></th>
     </tr>
   </thead>
 
@@ -20,6 +21,7 @@
       <td><%= simple_time exercise.assigned_at %></td>
       <td class="status"><%= "#{"%.1f" % exercise.completion_status_percent(current_user)}%" %></td>
       <td class="completed"><%= exercise.completed?(current_user) ? "yes" : "no" %></td>
+      <td><%= link_to 'Score', show_assigned_exercise_path(exercise), class: 'btn btn-mini btn-primary' if exercise%></td>
     </tr>
     <% end %>
   </tbody>

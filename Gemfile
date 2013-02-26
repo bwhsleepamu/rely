@@ -1,4 +1,4 @@
-  source 'https://rubygems.org'
+source 'https://rubygems.org'
 
 gem 'rails',                '3.2.12'
 
@@ -12,10 +12,10 @@ gem "uuid",                 '~> 2.3.5'
 gem 'thin',                 '~> 1.5.0',           :platforms => [ :mswin, :mingw ]
 gem 'eventmachine',         '~> 1.0.0',           :platforms => [ :mswin, :mingw ]
 
-
 # Contour
-gem 'contour',              '~> 1.2.0.pre7'
+gem 'contour',              '~> 1.2.0'
 gem 'kaminari',             '~> 0.14.1'
+gem 'ruby-ntlm-namespace', '~> 0.0.1'
 
 # File Upload/Download
 gem "paperclip", "~> 3.1"

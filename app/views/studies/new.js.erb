@@ -1,2 +1,2 @@
 $("#form").html("<%= escape_javascript(render :partial => "form", :locals => {title: "New Study"}) %>");
-$("#form").trigger("refresh");
+jQuery.fn.refresh_subject_page();

@@ -44,9 +44,9 @@
         <td><%= r_id.has_result? %></td>
         <td>
           <% if r_id.has_result? %>
-            <%= link_to("Edit Result", edit_result_path(id: r_id.result.id)) %>
+            <%= link_to("Edit Result", edit_result_path(id: r_id.result.id), class: 'btn btn-mini btn-warning') %>
           <% else %>
-            <%= link_to("Add Result", new_result_path(reliability_id: r_id.id)) %>
+            <%= link_to("Add Result", new_result_path(reliability_id: r_id.id), class: 'btn btn-mini btn-primary') %>
           <% end %>
         </td>
       </tr>

@@ -41,4 +41,25 @@ class IndexWorkflowTest < ActionDispatch::IntegrationTest
 
   end
 
+  test "should show project column search on associated project name." do
+    [
+        [:groups, @user.all_groups, groups_path, @user.all_groups.last.project.name],
+        [:studies, @user.all_studies, studies_path, @user.all_studies.last.project.name],
+        [:rules, @user.all_rules, rules_path, @user.all_rules.last.project.name],
+        [:study_types, @user.all_study_types, study_types_path, @user.all_study_types.last.project.name]
+    ].each do |model|
+      visit model[2]
+
+      assert page.find("thead").has_content?("Project")
+
+      fill_in "search", :with => model[3]
+      click_on "Search"
+
+      assert page.find("tbody").has_selector?("tr")
+      show_page
+
+    end
+
+  end
+
 end

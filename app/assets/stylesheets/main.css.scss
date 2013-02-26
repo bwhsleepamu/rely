@@ -24,3 +24,15 @@
 .center {
   text-align: center;
 }
+
+
+
+.flash-block {
+  width: inherit;
+  text-align: center;
+
+  .navbar-alert {
+    display: inline-block;
+    margin: 0 auto;
+  }
+}

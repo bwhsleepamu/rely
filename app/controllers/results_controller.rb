@@ -169,7 +169,7 @@ class ResultsController < ApplicationController
   # PUT /results/1
   # PUT /results/1.json
   def update
-    #MY_LOG.info "Update Params: #{params}"
+    MY_LOG.info "Update Params: #{params}"
     @result = current_user.all_results.find_by_id(params[:id])
     #MY_LOG.info "uid: #{@result.user_id} eid: #{@result.exercise_id} rel_ids: #{ReliabilityId.where(user_id: @result.user_id, exercise_id: @result.exercise_id).empty?}"
 

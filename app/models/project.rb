@@ -53,6 +53,10 @@ class Project < ActiveRecord::Base
     update_column :deleted, true
   end
 
+  def to_s
+    name
+  end
+
   private
 
 end

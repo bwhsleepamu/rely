@@ -58,11 +58,12 @@ class Result < ActiveRecord::Base
     # to be made
   end
 
+  # TODO: THIS NEEDS FIXING FOR VALIDATION REASONS!
   def assessment_answers=(answer_hash)
-    build_assessment(assessment_type: answer_hash.delete(:assessment_type))
+    create_assessment(assessment_type: answer_hash.delete(:assessment_type))
 
     answer_hash.each do |question_id, answer|
-      assessment.assessment_results.build(question_id: question_id, answer: answer)
+      assessment.assessment_results.create(question_id: question_id, answer: answer)
     end
   end
 

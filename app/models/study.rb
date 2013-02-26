@@ -32,7 +32,7 @@ class Study < ActiveRecord::Base
   scope :current, conditions: { deleted: false }
   scope :with_creator, lambda { |user| where("creator_id = ?", user.id)  }
   scope :with_project, lambda { |project| where("project_id = ?", project.id) }
-  scope :search, lambda { |term| search_scope([:original_id, :location], term) }
+  scope :search, lambda { |term| search_scope([:original_id, :location, {join: :project, column: :name}], term) }
 
   ##
   # Validations

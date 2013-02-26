@@ -35,17 +35,27 @@ module Extensions
 
         args = []
         query = " "
+        join_list = []
 
         fields.each do |field|
+          if field.is_a?(Hash)
+            join_list << field[:join] unless join_list.include? field[:join]
+            table_name = field[:join].to_s.pluralize
+            column = field[:column]
+          else
+            table_name = self.table_name
+            column = field
+          end
+
           if query.present?
             query += " or "
           end
 
-          query += "lower(#{field}) like ?"
+          query += "lower(#{table_name}.#{column}) like ?"
           args += [term]
         end
 
-        where(query, *args)
+        joins(join_list).where(query, *args)
       end
     end
   end

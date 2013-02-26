@@ -22,8 +22,7 @@ class Rule < ActiveRecord::Base
   ##
   # Scopes
   scope :current, conditions: { deleted: false }
-  #scope :search, lambda { |*args| { conditions: [ 'LOWER(title) LIKE ? or LOWER(procedure) LIKE ? or LOWER(assessment_type) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
-  scope :search, lambda { |term| search_scope([:title, :procedure, :assessment_type], term) }
+  scope :search, lambda { |term| search_scope([:title, :procedure, :assessment_type, {join: :project, column: :name}], term) }
   scope :with_exercises, lambda {|exercises| joins(:exercises).readonly(false).where("exercises.id in (?)", exercises.pluck("exercises.id")).uniq}
 
   ##
@@ -37,6 +36,10 @@ class Rule < ActiveRecord::Base
   # Instance Methods
   def name
     self.title
+  end
+
+  def to_s
+    name
   end
 
   def destroy

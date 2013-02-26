@@ -14,4 +14,9 @@
   .progress {
     width: 100px;
   }
+
+  #ajax_loader {
+    display: none;
+    position: absolute;
+  }
 }

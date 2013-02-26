@@ -1,5 +1,5 @@
 class ExerciseMailer < ActionMailer::Base
-  default from: ActionMailer::Base.smtp_settings[:user_name]
+  default from: "#{DEFAULT_APP_NAME} <#{ActionMailer::Base.smtp_settings[:email]}>"
   add_template_helper(ApplicationHelper)
 
   def notify_scorer(user, exercise)

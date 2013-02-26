@@ -1,9 +1,13 @@
 language: ruby
 rvm:
   - 1.9.3
+  - 2.0.0
 before_script:
   - "ruby lib/initial_setup.rb ../.travis_setup"
   - psql -c 'create database rely_test;' -U postgres
   - "bundle exec rake db:migrate"
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
+matrix:
+  allow_failures:
+    - rvm: 2.0.0

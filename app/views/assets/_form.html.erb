@@ -36,7 +36,8 @@
     <div class="fileupload-loading"></div>
     <br>
     <!-- The table listing the files available for upload/download -->
-    <table class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody>
+    <table class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"><div class="center" id="ajax_loader"><%= image_tag "contour/ajax-loader.gif" %></div>
+    </tbody>
     </table>
   </fieldset>
 <% end %>

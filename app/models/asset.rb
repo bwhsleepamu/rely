@@ -23,6 +23,7 @@ class Asset < ActiveRecord::Base
 
   scope :current
   scope :with_results, lambda {|results| where("result_id in (?)", results.pluck("results.id"))}
+  scope :unattached, where(result_id: nil)
 
   def self.download_exercise(exercise_id, current_user, temp_path)
     exercise = current_user.all_exercises.find_by_id(exercise_id)

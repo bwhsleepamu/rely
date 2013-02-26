@@ -4,18 +4,29 @@ class AssetsController < ApplicationController
   # GET /assets
   # GET /assets.json
   def index
-    if params[:result_id].present?
-      @assets = Asset.where(result_id: params[:result_id])
-    elsif params[:asset_ids].present?
-      @assets = Asset.where(id: params[:asset_ids].map{|id| id.to_i})
+    MY_LOG.info "ASSET INDEX: #{ params }"
+
+
+    ## TODO: TO GODDAMN COMPLICATED - SIMPLIFY
+    @assets = []
+    @assets += current_user.all_assets.where(result_id: params[:result_id]) if params[:result_id].present?
+    if params[:asset_ids].present?
+      unselected_ids = params[:asset_ids].map{|id| id.to_i unless @assets.map {|asset| asset.id}.include? id.to_i }
+      @assets += current_user.all_assets.where(id: unselected_ids)
+      @assets += Asset.unattached.where(id: unselected_ids)
     end
 
-    if (params[:result_id].present? and Result.find_by_id(params[:result_id])) or params[:asset_ids].present?
+    MY_LOG.info "@assets: #{@assets}"
+
+    if @assets.present?
+      MY_LOG.info "Can send result #{@assets.map{|asset| asset.to_jq_upload }}"
+
       respond_to do |format|
         format.html { redirect_to root_path }
         format.json { render json: @assets.map{|asset| asset.to_jq_upload } }
       end
     else
+      MY_LOG.info "Sending Nil"
       respond_to do |format|
         format.html { redirect_to root_path }
         format.json { render json: nil }
@@ -58,13 +69,22 @@ class AssetsController < ApplicationController
 
     respond_to do |format|
       if @asset.save
-        format.html {
-          render :json => [@asset.to_jq_upload].to_json,
+        return_json = {files: [@asset.to_jq_upload]}.to_json
+        MY_LOG.info "ASSET SAVED!"
+        format.html do
+          MY_LOG.info "Rendering HTML: #{return_json}"
+          render :json => return_json,
                  :content_type => 'text/html',
                  :layout => false
-        }
-        format.json { render json: [@asset.to_jq_upload].to_json, status: :created, location: result_asset_path(@asset) }
+        end
+
+        format.json do
+          MY_LOG.info "Rendering JSON: #{return_json}"
+          render json: return_json, status: :created, location: result_asset_path(@asset)
+        end
       else
+        MY_LOG.info "ASSET DID NOT SAVE!"
+
         format.html { render action: "new" }
         format.json { render json: @asset.errors, status: :unprocessable_entity }
       end
@@ -96,7 +116,7 @@ class AssetsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to result_assets_url }
-      format.json { head :no_content }
+      format.json { render json: params[:id] }
     end
   end
 

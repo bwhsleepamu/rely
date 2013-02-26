@@ -3,6 +3,7 @@
 <table class="table table-striped table-bordered">
   <thead>
     <tr>
+      <th><%== sort_field_helper(params[:order], 'project', 'Project', 'rules_search') %></th>
       <th><%== sort_field_helper(params[:order], 'title', 'Title', 'rules_search') %></th>
       <th><%== sort_field_helper(params[:order], 'procedure', 'Procedure', 'rules_search') %></th>
       <th><%== sort_field_helper(params[:order], 'assessment_type', 'Assessment Type', 'rules_search') %></th>
@@ -12,17 +13,20 @@
     </tr>
   </thead>
 
-  <% @rules.each do |rule| %>
-    <tr>
-      <td><%= rule.title %></td>
-      <td><%= rule.procedure %></td>
-      <td><%= rule.assessment_type %></td>
-      <td>
-        <%= link_to 'Edit', edit_rule_path(rule), class: 'btn btn-mini' %>
-        <%= link_to 'Delete', rule, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Rule #{rule.name}?" } %>
-      </td>
-    </tr>
-  <% end %>
+  <tbody>
+    <% @rules.each do |rule| %>
+      <tr>
+        <td><%= link_to rule.project, rule.project %></td>
+        <td><%= link_to rule, rule %></td>
+        <td><%= rule.procedure %></td>
+        <td><%= rule.assessment_type %></td>
+        <td>
+          <%= link_to 'Edit', edit_rule_path(rule), class: 'btn btn-mini' %>
+          <%= link_to 'Delete', rule, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Rule #{rule.name}?" } %>
+        </td>
+      </tr>
+    <% end %>
+   </tbody>
 </table>
 
 <div class="center"><%= paginate @rules, theme: 'contour' %></div>

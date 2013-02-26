@@ -11,18 +11,20 @@
     </tr>
   </thead>
 
-  <% @projects.each do |project| %>
-    <tr>
-      <td><%= project.name %></td>
-      <td><%= project.description %></td>
-      <td><%= project.start_date %></td>
-      <td><%= project.end_date %></td>
-      <td>
-        <%= link_to 'Edit', edit_project_path(project), class: 'btn btn-mini' %>
-        <%= link_to 'Delete', project,  :data => { :confirm => "Are you sure you want to delete Project #{project.name}?" }, method: :delete, class: 'btn btn-mini btn-danger' %>
-      </td>
-    </tr>
-  <% end %>
+  <tbody>
+    <% @projects.each do |project| %>
+      <tr>
+        <td><%= project.name %></td>
+        <td><%= project.description %></td>
+        <td><%= project.start_date %></td>
+        <td><%= project.end_date %></td>
+        <td>
+          <%= link_to 'Edit', edit_project_path(project), class: 'btn btn-mini' %>
+          <%= link_to 'Delete', project,  :data => { :confirm => "Are you sure you want to delete Project #{project.name}?" }, method: :delete, class: 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+   </tbody>
 </table>
 
 <div class="center"><%= paginate @projects, theme: 'contour' %></div>
