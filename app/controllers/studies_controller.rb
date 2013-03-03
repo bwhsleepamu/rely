@@ -45,7 +45,7 @@ class StudiesController < ApplicationController
   # POST /studies
   # POST /studies.json
   def create
-    MY_LOG.info "study create: #{params[:study]}"
+    #MY_LOG.info "study create: #{params[:study]}"
 
     @study = current_user.studies.new(post_params)
 
@@ -63,15 +63,18 @@ class StudiesController < ApplicationController
   # PUT /studies/1
   # PUT /studies/1.json
   def update
-    MY_LOG.info "study update: #{params[:study]}"
+    #MY_LOG.info "study update: #{params[:study]}"
 
     @study = current_user.all_studies.find(params[:id])
 
     respond_to do |format|
       if @study.update_attributes(post_params)
+        #raise StandardError
         format.html { redirect_to studies_path, notice: 'Study was successfully updated.' }
         format.json { head :no_content }
       else
+        #raise StandardError
+
         format.html { render action: "edit" }
         format.json { render json: @study.errors, status: :unprocessable_entity }
       end

@@ -15,6 +15,7 @@ class StudyOriginalResult < ActiveRecord::Base
   validates_presence_of :rule_id, :unless => Proc.new { |a| a.rule }
   validates_presence_of :result_id, :unless => Proc.new { |a| a.result }
   validates_uniqueness_of :rule_id, :scope => :study_id, :unless => Proc.new {|a| a.study_id.blank? }
+  validates_associated :result
 
   #def destroy
   #  update_column :deleted, true

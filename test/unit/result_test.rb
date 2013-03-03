@@ -4,11 +4,10 @@ class ResultTest < ActiveSupport::TestCase
   test "set assessment results" do
     exercise = create(:exercise)
     r_id = exercise.reliability_ids.first
-    assessment_answers_1 = {"1"=>"233", "2"=>"2", :assessment_type => r_id.exercise.rule.assessment_type}
+    assessment_answers_1 = {"1"=>"233", "2"=>"2"}
     assessment_answers_2 = {"1"=>"100", "2"=>"1"}
 
-    result = build(:result, assessment_answers: assessment_answers_1)
-    result.save
+    result = Result.create(location: "some_location", reliability_id: r_id.id, assessment_answers: assessment_answers_1)
 
     assert_equal 2, result.assessment.assessment_results.length
     assert_equal assessment_answers_1["1"], result.assessment.assessment_results[0].answer
@@ -18,6 +17,19 @@ class ResultTest < ActiveSupport::TestCase
     result.save
 
     assert_equal 2, result.assessment.assessment_results.length
+    assert_equal assessment_answers_2["1"], result.assessment.assessment_results[0].answer
+  end
+
+  test "assessment results persisted when validation fails" do
+    exercise = create(:exercise)
+    r_id = exercise.reliability_ids.first
+    assessment_answers_1 = {"1"=>"233", "2"=>"2"}
+    assessment_answers_2 = {"1"=>"100", "2"=>"1"}
+
+    result = r_id.create_result(location: "some_location", reliability_id: r_id.id, assessment_answers: assessment_answers_1)
+
+    result.update_attributes({location: "", assessment_answers: assessment_answers_2})
+    assert !result.valid?
     assert_equal assessment_answers_2["1"], result.assessment.assessment_results[0].answer
   end
 

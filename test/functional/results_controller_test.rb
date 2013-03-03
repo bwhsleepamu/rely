@@ -43,7 +43,7 @@ class ResultsControllerTest < ActionController::TestCase
     #MY_LOG.info "errors: #{exercise.errors.full_messages} \neid: #{exercise.id} #{exercise.scorers} | #{scorer} | #{exercise.scorers.include?(scorer)}"
 
     assert_difference('Result.count') do
-      post :create, result: { location: "some location", result_type: "rescored", assessment_answers: {"1"=>"233", "2"=>"2", :assessment_type => exercise.rule.assessment_type}, reliability_id: rid.id }
+      post :create, result: { location: "some location", result_type: "rescored", assessment_answers: {"1"=>"233", "2"=>"2"}, reliability_id: rid.id }
     end
 
     assert_not_nil assigns(:result).assessment

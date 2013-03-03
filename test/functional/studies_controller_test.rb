@@ -8,6 +8,14 @@ class StudiesControllerTest < ActionController::TestCase
     @study = @project.studies.first
     @template = build :study
     @study_with_results = create :study_with_original_results, project: @project, study_type: @project.study_types.first, creator: @current_user, updater_id: @current_user.id
+
+    #MY_LOG.info @study_with_results.valid?
+    #MY_LOG.info @study_with_results.original_results.length
+
+    #MY_LOG.info @study_with_results.study_original_results.length
+
+    #MY_LOG.info @study_with_results.study_original_results.map {|sor| sor.valid?}
+
     login(@current_user)
   end
 
@@ -47,7 +55,7 @@ class StudiesControllerTest < ActionController::TestCase
   test "should create study with original results" do
     assert_difference('Study.current.count') do
       post :create, study: { location: @template.location, original_id: @template.original_id, study_type_id: @project.study_types.first.id, project_id: @project.id, results:
-          [{ rule_id: @project.rules.first.id, location: "/best/place/ever/1", delete: "0",  assessment_answers: {:assessment_type => "{:value=>\"paradox\"}", "1" => "2", "2" => "11" }  }, {rule_id: @project.rules.last.id, location: "/best/place/ever/2", delete: "0", assessment_answers: {:assessment_type => "{:value=>\"paradox\"}", "1" => "1", "2" => "1" }   }]
+          [{ rule_id: @project.rules.first.id, location: "/best/place/ever/1", delete: "0",  assessment_answers: {"1" => "2", "2" => "11" }  }, {rule_id: @project.rules.last.id, location: "/best/place/ever/2", delete: "0", assessment_answers: {:assessment_type => "{:value=>\"paradox\"}", "1" => "1", "2" => "1" }   }]
       }
     end
 
@@ -73,15 +81,17 @@ class StudiesControllerTest < ActionController::TestCase
   test "should update study with original results" do
     new_rule = create :rule, project: @project, updater_id: @current_user.id, creator: @current_user
     new_location = "new_location/up/in/here"
+    @study_with_results.reload
+
     assert_equal 2, @study_with_results.study_original_results.count
 
     sor1 = @study_with_results.study_original_results.first
     sor2 = @study_with_results.study_original_results.last
 
     put :update, id: @study_with_results, study: { location: @study_with_results.location, original_id: @study_with_results.original_id, study_type_id: @study_with_results.study_type_id, results:
-        [{ "rule_id"=>new_rule.id, "location"=>new_location, "assessment_answers"=>{"assessment_type"=>"{:value=>\"paradox\"}", "1"=>"22", "2"=>"2"}},
-         {"study_original_result_id"=>sor1.id, "delete"=>"0", "rule_id"=>sor1.rule.id, "location"=>new_location, "assessment_answers"=>{"assessment_type"=>"{:value=>\"paradox\"}", "1"=>"2", "2"=>"2"}},
-         {"study_original_result_id"=>sor2.id, "delete"=>"0","rule_id"=>sor2.rule.id, "location"=>new_location, "assessment_answers"=>{"assessment_type"=>"{:value=>\"paradox\"}", "1"=>"2", "2"=>"2"}}
+        [{ "rule_id"=>new_rule.id, "location"=>new_location, "assessment_answers"=>{"1"=>"22", "2"=>"2"}},
+         {"study_original_result_id"=>sor1.id, "delete"=>"0", "rule_id"=>sor1.rule.id, "location"=>new_location, "assessment_answers"=>{"1"=>"2", "2"=>"2"}},
+         {"study_original_result_id"=>sor2.id, "delete"=>"0","rule_id"=>sor2.rule.id, "location"=>new_location, "assessment_answers"=>{"1"=>"2", "2"=>"2"}}
         ]
     }
 
@@ -95,15 +105,18 @@ class StudiesControllerTest < ActionController::TestCase
   end
 
   test "should delete original result from study" do
+    @study_with_results.reload
+    @study_with_results = Study.find(@study_with_results.id)
     sor1 = @study_with_results.study_original_results.first
     sor2 = @study_with_results.study_original_results.last
 
     assert_difference "@study_with_results.study_original_results.count", -1 do
+
       put :update, id: @study_with_results, study: {
           location: @study_with_results.location, original_id: @study_with_results.original_id, study_type_id: @study_with_results.study_type_id,
           results:  [
-                      {"study_original_result_id"=>sor1.id, "rule_id"=>sor1.rule.id, "location"=>sor1.result.location, "delete"=>"1", "assessment_answers"=>{"assessment_type"=>"{:value=>\"paradox\"}", "1"=>"2", "2"=>"2"}},
-                      {"study_original_result_id"=>sor2.id, "rule_id"=>sor2.rule.id, "location"=>sor2.result.location, "delete"=>"0", "assessment_answers"=>{"assessment_type"=>"{:value=>\"paradox\"}", "1"=>"2", "2"=>"2"}}
+                      {"study_original_result_id"=>sor1.id, "rule_id"=>sor1.rule.id, "location"=>sor1.result.location, "delete"=>"1", "assessment_answers"=>{"1"=>"2", "2"=>"2"}},
+                      {"study_original_result_id"=>sor2.id, "rule_id"=>sor2.rule.id, "location"=>sor2.result.location, "delete"=>"0", "assessment_answers"=>{"1"=>"2", "2"=>"2"}}
                     ]
       }
     end

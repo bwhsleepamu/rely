@@ -1,7 +1,17 @@
 ## 0.7.0
 
 ### Enhancements
-- Converted changelog to Markdown.
+- Converted Changelog and Readme to Markdown.
+- Shows `ajax loader` when files are being added to upload queue.
+- Study, Group, Study Type, and Rule pages are searchable and sortable by Project.
+- Email switched to NTLM.
+- Notification popup moved to center of screen.
+- Folder structure for bulk exercise downloads updated.
+
+
+### Bug Fix
+- Scorer Results page validation fail does not clear uploaded files or assessment questionaire form.
+- Uploader functionality for Scorer Result updated with many fixes.
 
 ## 0.6.1 (February 12, 2013)
 

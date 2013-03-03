@@ -3,7 +3,7 @@ class Result < ActiveRecord::Base
   # Associations
   has_one :reliability_id, :conditions => { :deleted => false }
   has_one :study_original_result
-  has_one :assessment, :conditions => { :deleted => false }
+  has_one :assessment, :conditions => { :deleted => false }, :autosave => true
   has_many :assets
 
   ##
@@ -36,10 +36,17 @@ class Result < ActiveRecord::Base
   ##
   # Instance Methods
   def assign_attributes(*attrs)
+    #raise StandardError
     # Clean out asset ids that don't exist anymore (delete functionality fix)
     if attrs[0][:asset_ids]
       attrs[0][:asset_ids] = attrs[0][:asset_ids] & Asset.all.map{|asset| asset.id.to_s}
     end
+
+    # Set Associations - they will be needed in assigning attributes
+    r_id = attrs[0].delete(:reliability_id)
+    sor_id = attrs[0].delete(:study_original_result_id)
+    self.reliability_id = ReliabilityId.find_by_id(r_id) unless self.reliability_id
+    self.study_original_result = StudyOriginalResult.find_by_id(sor_id) unless self.study_original_result
 
     super(*attrs)
   end
@@ -60,11 +67,19 @@ class Result < ActiveRecord::Base
 
   # TODO: THIS NEEDS FIXING FOR VALIDATION REASONS!
   def assessment_answers=(answer_hash)
-    create_assessment(assessment_type: answer_hash.delete(:assessment_type))
+    build_assessment(assessment_type: rule.assessment_type) unless assessment.present?
 
     answer_hash.each do |question_id, answer|
-      assessment.assessment_results.create(question_id: question_id, answer: answer)
+      if assessment.new_record?
+        assessment.assessment_results.build(question_id: question_id, answer: answer)
+      else
+        #MY_LOG.error assessment.assessment_results
+        #MY_LOG.error question_id
+
+        assessment.assessment_results.select{|ar| ar.question_id.to_i == question_id.to_i}.first.answer = answer
+      end
     end
+
   end
 
   def destroy
@@ -73,6 +88,7 @@ class Result < ActiveRecord::Base
 
   def rule
     raise StandardError if reliability_id and study_original_result
+    raise StandardError unless reliability_id or study_original_result
 
     reliability_id ? reliability_id.exercise.rule : (study_original_result ? study_original_result.rule : nil)
   end

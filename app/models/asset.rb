@@ -36,14 +36,14 @@ class Asset < ActiveRecord::Base
             if original_result and original_result.result
               # Original Result
               original_result.result.assets.each do |asset|
-                zipfile.put_next_entry(File.join(group.name, study.original_id, "original_result", asset.asset_file_name), asset.asset.path)
+                zipfile.put_next_entry(File.join("original_results", study.original_id, asset.asset_file_name), asset.asset.path)
               end
             end
 
             exercise.reliability_ids.where(study_id: study.id).each do |rid|
               if rid.result
                 rid.result.assets.each do |asset|
-                  zipfile.put_next_entry(File.join(group.name, study.original_id, rid.unique_id, asset.asset_file_name), asset.asset.path)
+                  zipfile.put_next_entry(File.join(rid.user.name, study.original_id, asset.asset_file_name), asset.asset.path)
                 end
               end
             end

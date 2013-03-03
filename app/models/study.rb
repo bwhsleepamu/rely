@@ -39,6 +39,7 @@ class Study < ActiveRecord::Base
   validates_presence_of :study_type, :location, :original_id
   validates_uniqueness_of :original_id, :scope => :project_id
   validate :study_type_belongs_to_same_project
+  validates_associated :study_original_results
 
   ##
   # Class Methods
@@ -66,13 +67,12 @@ class Study < ActiveRecord::Base
   end
 
   def results=(result_hash)
+    #raise StandardError
     result_hash.each do |params|
       result_attrs = params.slice(*(Result.accessible_attributes.map{|x| x.to_s}.reject{|x| x.empty?}))
       should_delete = params[:delete].to_i == 1 ? true : false
 
       next if params[:rule_id].blank? # Rule is needed in all cases
-
-
 
       #MY_LOG.info "delete: #{should_delete} dasdf: #{result_attrs} "
       if should_delete
@@ -80,19 +80,26 @@ class Study < ActiveRecord::Base
         # Destroy Original Result
         StudyOriginalResult.find(params[:study_original_result_id]).destroy unless params[:study_original_result_id].blank?
       elsif params[:study_original_result_id].blank?
+
         #MY_LOG.info "CREATE"
         # Create New Original Result
-        result = Result.new(result_attrs)
         study_original_result = StudyOriginalResult.new(rule_id: params[:rule_id])
+        result = Result.new
+        result.study_original_result = study_original_result
+        result.update_attributes(result_attrs)
         study_original_result.result = result
         study_original_result.study = self
+
         study_original_results << study_original_result
+
       else
         #MY_LOG.info "UPDATE"
         # Update Existing Original Result
         study_original_result = StudyOriginalResult.find(params[:study_original_result_id])
         study_original_result.result.update_attributes(result_attrs)
       end
+
+
     end
   end
 
@@ -103,7 +110,7 @@ class Study < ActiveRecord::Base
 
   # Custom Validation
   def study_type_belongs_to_same_project
-    if study_type.project != project
+    if !study_type or study_type.project != project
       errors.add(:study_type, "has to belong to the same project as parent study.")
     end
   end

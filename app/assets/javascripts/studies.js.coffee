@@ -6,10 +6,15 @@
 jQuery.fn.get_value = () ->
   return parseInt $(this).val()
 
-jQuery.fn.refresh_subject_page = () ->
-  $("select[rel=chosen]").chosen();
+jQuery.fn.refresh_study_page = () ->
   $('#asset_upload').fileupload()
   jQuery.fn.refresh_uploader() if $("#asset_upload").length > 0
+  $(".timepicker").timepicker
+    showMeridian: false
+    showSeconds: true
+    defaultTime: false
+  $(".datepicker").datepicker('remove')
+  $(".datepicker").datepicker( autoclose: true )
 
 jQuery ->
   # I'm not sure what the refresh event listener is - why not just call it in the function? moved to new.js.erb
@@ -40,7 +45,9 @@ jQuery ->
         url: $(this).attr("href"),
         data: { study_id: $(this).data("study-id"), rule_id: $("#rule_id").val() }
         dataType: "script"
-        success: () -> $("#no-results").remove()
+        success: () ->
+          $("#no-results").remove()
+          $.fn.refresh_study_page()
       )
 
     false

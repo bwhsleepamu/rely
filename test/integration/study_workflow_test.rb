@@ -71,9 +71,13 @@ class StudyWorkflowTest < ActionDispatch::IntegrationTest
 
     assert page.has_selector?(".well", :count => 2)
 
-    page.find(".well").click_on("delete")
 
-    result_form = page.find(".well")
+
+    page.first(:css, ".well").click_on("delete")
+
+    show_page
+
+    result_form = page.find(".well", :visible => true)
     result_form.fill_in "result_location", :with => location
     result_form.fill_in "study_results__assessment_answers_1", :with => "2333"
 

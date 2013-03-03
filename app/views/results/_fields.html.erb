@@ -6,9 +6,6 @@
   <%= fields_for result do |f| %>
     <div class="field-space" data-current-upload="false">
       <span id="asset_id_template"><%= hidden_field_tag "study[results][][asset_ids][]", "", class: "asset_ids" %></span>
-      <% result.assets.each do |asset| %>
-        <%= hidden_field_tag "study[results][][asset_ids][]", asset.id, class: "asset_ids" %>
-      <% end %>
       <%= f.hidden_field :study_original_result_id, value: result.study_original_result.id, name: "study[results][][study_original_result_id]" if result.study_original_result.id %>
       <%= f.hidden_field :rule_id, value: result.rule.id, name: "study[results][][rule_id]", class: "original_results_rule_id" %>
       <%= f.hidden_field :delete, value: 0, name: "study[results][][delete]", class: "original_results_delete" %>
@@ -34,6 +31,10 @@
           <%= render :partial => "assessments/original_questionnaire", :locals => { :assessment_type => result.rule.assessment_type, :assessment => result.assessment } %>
         </div>
       </div>
+      <% result.assets.each do |asset| %>
+        <%= hidden_field_tag "study[results][][asset_ids][]", asset.id, class: "asset_ids" %>
+      <% end %>
+
     </div>
   <% end %>
 </div>

@@ -62,10 +62,12 @@ class ResultsController < ApplicationController
     #
 
     reliability_id = current_user.all_reliability_ids.find_by_id(params[:reliability_id])
-    if reliability_id
-      @result = Result.new
-      @result.reliability_id = reliability_id
-    end
+    @result = Result.new(reliability_id: reliability_id.id) if reliability_id
+
+    #if reliability_id
+    #  @result = Result.new
+    #  @result.reliability_id = reliability_id
+    #end
 
     if @result
       respond_to do |format|
@@ -142,10 +144,9 @@ class ResultsController < ApplicationController
 
 
     reliability_id = current_user.all_reliability_ids.find_by_id(params[:result][:reliability_id])
-    if reliability_id
-      @result = reliability_id.build_result(post_params)
-      @result.reliability_id = reliability_id
-    end
+
+    @result = reliability_id.build_result(post_params) if reliability_id
+      #@result.reliability_id = reliability_id
     #MY_LOG.info "#{@result.valid?} #{@result.errors.full_messages}"
 
 #    MY_LOG.info "#{@result} #{r_id}"
@@ -169,7 +170,7 @@ class ResultsController < ApplicationController
   # PUT /results/1
   # PUT /results/1.json
   def update
-    MY_LOG.info "Update Params: #{params}"
+    #MY_LOG.info "Update Params: #{params}"
     @result = current_user.all_results.find_by_id(params[:id])
     #MY_LOG.info "uid: #{@result.user_id} eid: #{@result.exercise_id} rel_ids: #{ReliabilityId.where(user_id: @result.user_id, exercise_id: @result.exercise_id).empty?}"
 
@@ -215,7 +216,7 @@ class ResultsController < ApplicationController
     end
 
     params[:result].slice(
-      :location, :assessment_answers, :asset_ids
+      :location, :assessment_answers, :asset_ids, :reliability_id, :study_original_result_id
     )
   end
 end

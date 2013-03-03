@@ -3,14 +3,13 @@ module AssessmentsHelper
     name = "#{prefix}[assessment_answers][#{question_id}]"
 
     if assessment
-      assessment_results = assessment.assessment_results.where(question_id: question_id)
+      assessment_results =  assessment.assessment_results.select{|ar| ar.question_id.to_i == question_id.to_i}
       answer = assessment_results.empty? ? nil : assessment_results.first.answer
     end
 
-
     case question_hash[:type]
       when :dropdown
-        select_tag(name, options_for_select([['---', nil]] + question_hash[:options].invert.to_a, answer), class: "chosen")
+        select_tag(name, options_for_select([['---', nil]] + question_hash[:options].invert.to_a, answer), rel: "chosen")
       when :integer
         number_field_tag(name, answer)
       when :date

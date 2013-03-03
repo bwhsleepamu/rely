@@ -2,7 +2,7 @@ class Assessment < ActiveRecord::Base
   ##
   # Associations
   belongs_to :result
-  has_many :assessment_results, :conditions => { :deleted => false }
+  has_many :assessment_results, :conditions => { :deleted => false }, :autosave => true
 
   ##
   # Attributes
@@ -47,6 +47,7 @@ class Assessment < ActiveRecord::Base
 
   ##
   # Validations
+  validates_presence_of :assessment_type
 
   ##
   # Class Methods

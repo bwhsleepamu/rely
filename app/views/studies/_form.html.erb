@@ -5,7 +5,6 @@
 <%= form_for @study, html: { class: 'form-horizontal', multipart: true, id: 'study_form' } do |f| %>
   <%= display_errors @study %>
   <%= render :partial => "partials/project_field", :locals => {f: f, editable: @study.new_record?, object_name: "study", target_path: new_study_path } %>
-
   <% if @study.project.present? %>
 
     <fieldset>
@@ -42,13 +41,13 @@
           </div>
         </div>
       </legend>
-      <% if @study.original_results.length == 0 %>
+      <% if @study.study_original_results.length == 0 %>
         <div id="no-results" class="alert alert-info">No Original Results Yet!</div>
       <% end %>
       <div id="original_results">
-        <% @study.original_results.each do |result| %>
+        <% @study.study_original_results.each do |study_original_result| %>
           <% #[Result.new].each do |result| %>
-          <%= render :partial => "results/fields", :locals => { :result => result } %>
+          <%= render :partial => "results/fields", :locals => { :result => study_original_result.result } %>
         <% end %>
       </div>
     </fieldset>

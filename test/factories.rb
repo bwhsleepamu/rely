@@ -109,7 +109,10 @@ FactoryGirl.define do
 
       after(:create) do |study, evaluator|
         study.project.rules.each do |rule|
-          create :study_original_result, study: study, rule: rule
+          sor = create :study_original_result, study_id: study.id, rule_id: rule.id
+          #MY_LOG.info "GRRR: #{study.study_original_results} #{study.original_results} #{sor.study.id}"
+
+          #MY_LOG.info "#{sor} #{sor.valid?} #{sor.errors.full_messages} #{sor.study} #{sor.rule} #{sor.rule.valid?}"
         end
       end
     end
