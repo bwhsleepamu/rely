@@ -34,7 +34,7 @@ class AssessmentResult < ActiveRecord::Base
   end
 
   def full_answer
-    if question_info.has_key?(:options)
+    if question_info.present? and question_info.has_key?(:options)
       question_info[:options][answer.to_i]
     else
       answer
