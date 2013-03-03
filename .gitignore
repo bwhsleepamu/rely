@@ -21,6 +21,8 @@
 .sass-cache
 *.rbc
 /public/cache/*
+/public/assets/*
+/public/assets
 # Other Files
 *.sassc
 /log/
