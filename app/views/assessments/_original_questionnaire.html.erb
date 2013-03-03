@@ -1,6 +1,5 @@
 <% if assessment_type and Assessment::TYPES[assessment_type.to_sym]  %>
   <% Assessment::TYPES[assessment_type.to_sym][:questions].each do |question_id, question_hash|  %>
-    <%= hidden_field_tag "study[results][][assessment_answers][assessment_type]", assessment_type %>
     <%= label_tag "study[results][][assessment_answers][#{question_id}]", question_hash[:text] %>
     <%= questionnaire_field(assessment, question_id, question_hash, "study[results][]") %>
   <% end %>
