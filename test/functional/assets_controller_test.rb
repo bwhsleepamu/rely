@@ -37,6 +37,8 @@ class AssetsControllerTest < ActionController::TestCase
   end
 
   test "should bulk-download reliability id" do
+    pending "Not needed at this moment"
+
     r = setup_asset_tests
     u = r[:scorer]
 
@@ -48,6 +50,7 @@ class AssetsControllerTest < ActionController::TestCase
   end
 
   test "should bulk-download study" do
+    pending "Not needed at this moment"
     r = setup_asset_tests
     u = r[:manager]
 

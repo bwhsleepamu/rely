@@ -1,5 +1,3 @@
-
-
 SimpleCov.command_name "test:integration"
 
 class StudyWorkflowTest < ActionDispatch::IntegrationTest
@@ -56,7 +54,7 @@ class StudyWorkflowTest < ActionDispatch::IntegrationTest
 
     result_form.fill_in "result_location", :with => location
     result_form.fill_in "study_results__assessment_answers_1", :with => "233"
-    select_from_chosen "Some", :from => "study_results__assessment_answers_2"
+    select_from_chosen "Some", :from => "study[results][][assessment_answers][2]"
 
     click_on "Update Study"
 

@@ -50,3 +50,5 @@ capybara-*.html
 # Ignore all logfiles and tempfiles.
 /config/initializers/secret_token.rb
 /lib/tasks/*
+# Sublime
+*.sublime-workspace

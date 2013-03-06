@@ -8,34 +8,50 @@
 	"buffers":
 	[
 		{
-			"file": "app/assets/javascripts/studies.js.coffee",
+			"file": "app/models/asset.rb",
 			"settings":
 			{
-				"buffer_size": 3248,
+				"buffer_size": 4387,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "db/seeds.rb",
+			"file": "test/functional/assets_controller_test.rb",
 			"settings":
 			{
-				"buffer_size": 345,
+				"buffer_size": 3625,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "config/initializers/devise.rb",
+			"file": "test/integration/exercise_workflow_test.rb",
 			"settings":
 			{
-				"buffer_size": 10497,
+				"buffer_size": 9921,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "config/initializers/omniauth.rb",
+			"file": "test/test_helper.rb",
 			"settings":
 			{
-				"buffer_size": 2095,
+				"buffer_size": 3771,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/views/results/_fields.html.erb",
+			"settings":
+			{
+				"buffer_size": 1577,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/helpers/assessments_helper.rb",
+			"settings":
+			{
+				"buffer_size": 802,
 				"line_ending": "Unix"
 			}
 		},
@@ -43,7 +59,7 @@
 			"file": "test/integration/study_workflow_test.rb",
 			"settings":
 			{
-				"buffer_size": 2411,
+				"buffer_size": 2413,
 				"line_ending": "Unix"
 			}
 		}
@@ -51,19 +67,23 @@
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 392.0,
+		"height": 222.0,
 		"selected_items":
 		[
-			[
-				"inst",
-				"Package Control: Install Package"
-			],
 			[
 				"insta",
 				"Package Control: Install Package"
 			],
 			[
 				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"inst",
 				"Package Control: Install Package"
 			],
 			[
@@ -77,13 +97,9 @@
 			[
 				"install	",
 				"Package Control: Install Package"
-			],
-			[
-				"install",
-				"Package Control: Install Package"
 			]
 		],
-		"width": 472.0
+		"width": 530.0
 	},
 	"console":
 	{
@@ -100,6 +116,17 @@
 	},
 	"file_history":
 	[
+		"/home/pwm4/.config/sublime-text-2/Packages/User/RubyTest.sublime-settings",
+		"/usr/local/htdocs/rely/test/integration/study_workflow_test.rb",
+		"/home/pwm4/.config/sublime-text-2/Packages/RubyTest/RubyTest.sublime-settings",
+		"/usr/local/htdocs/rely/app/assets/stylesheets/result.css.scss",
+		"/home/pwm4/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings",
+		"/usr/local/htdocs/rely/.gitignore",
+		"/usr/local/htdocs/rely/config/initializers/omniauth.rb",
+		"/usr/local/htdocs/rely/config/initializers/devise.rb",
+		"/usr/local/htdocs/rely/db/seeds.rb",
+		"/usr/local/htdocs/rely/app/assets/javascripts/studies.js.coffee",
+		"/usr/local/htdocs/rely/rely.sublime-project",
 		"/C/htdocs/rely/app/assets/javascripts/studies.js.coffee",
 		"/C/htdocs/rely/app/models/user.rb",
 		"/C/htdocs/rely/config/database.yml",
@@ -114,7 +141,7 @@
 	],
 	"find":
 	{
-		"height": 0.0
+		"height": 35.0
 	},
 	"find_in_files":
 	{
@@ -145,69 +172,15 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "app/assets/javascripts/studies.js.coffee",
+					"file": "app/models/asset.rb",
 					"settings":
 					{
-						"buffer_size": 3248,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								301,
-								301
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "db/seeds.rb",
-					"settings":
-					{
-						"buffer_size": 345,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								344,
-								344
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Ruby/Ruby.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "config/initializers/devise.rb",
-					"settings":
-					{
-						"buffer_size": 10497,
+						"buffer_size": 4387,
 						"regions":
 						{
 						},
@@ -225,35 +198,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2367.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "config/initializers/omniauth.rb",
-					"settings":
-					{
-						"buffer_size": 2095,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								490,
-								490
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Ruby/Ruby.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1275.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -261,15 +206,71 @@
 			]
 		},
 		{
-			"selected": 0,
+			"selected": 5,
 			"sheets":
 			[
 				{
-					"buffer": 4,
-					"file": "test/integration/study_workflow_test.rb",
+					"buffer": 1,
+					"file": "test/functional/assets_controller_test.rb",
 					"settings":
 					{
-						"buffer_size": 2411,
+						"buffer_size": 3625,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1102,
+								1102
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1193.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "test/integration/exercise_workflow_test.rb",
+					"settings":
+					{
+						"buffer_size": 9921,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5172,
+								5172
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2424.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "test/test_helper.rb",
+					"settings":
+					{
+						"buffer_size": 3771,
 						"regions":
 						{
 						},
@@ -278,6 +279,94 @@
 							[
 								0,
 								0
+							],
+							[
+								3184,
+								3184
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1275.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "app/views/results/_fields.html.erb",
+					"settings":
+					{
+						"buffer_size": 1577,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Rails/HTML (Rails).tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "app/helpers/assessments_helper.rb",
+					"settings":
+					{
+						"buffer_size": 802,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								438,
+								438
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "test/integration/study_workflow_test.rb",
+					"settings":
+					{
+						"buffer_size": 2413,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1012,
+								1012
 							]
 						],
 						"settings":
@@ -348,6 +437,50 @@
 		"selected_items":
 		[
 			[
+				"study_wro",
+				"test/integration/study_workflow_test.rb"
+			],
+			[
+				"assessmenthel",
+				"app/helpers/assessments_helper.rb"
+			],
+			[
+				"_fields",
+				"app/views/results/_fields.html.erb"
+			],
+			[
+				"test_hel",
+				"test/test_helper.rb"
+			],
+			[
+				"study_wor",
+				"test/integration/study_workflow_test.rb"
+			],
+			[
+				"exerwor",
+				"test/integration/exercise_workflow_test.rb"
+			],
+			[
+				"asset_contte",
+				"test/functional/assets_controller_test.rb"
+			],
+			[
+				"asset.rb",
+				"app/models/asset.rb"
+			],
+			[
+				"results.css",
+				"app/assets/stylesheets/result.css.scss"
+			],
+			[
+				"result.s",
+				"app/assets/stylesheets/result.css.scss"
+			],
+			[
+				".git",
+				".gitignore"
+			],
+			[
 				"omni",
 				"config/initializers/omniauth.rb"
 			],
@@ -384,16 +517,16 @@
 	},
 	"select_project":
 	{
-		"height": 0.0,
+		"height": 500.0,
 		"selected_items":
 		[
 		],
-		"width": 0.0
+		"width": 380.0
 	},
 	"show_minimap": false,
 	"show_open_files": true,
 	"show_tabs": true,
-	"side_bar_visible": true,
+	"side_bar_visible": false,
 	"side_bar_width": 150.0,
 	"status_bar_visible": true
 }
