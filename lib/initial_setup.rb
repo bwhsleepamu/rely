@@ -41,3 +41,4 @@ files.each do |folder_name, file_name|
     puts "Error: Make sure you are running this ruby command from the rails root directory!"
   end
 end
+
