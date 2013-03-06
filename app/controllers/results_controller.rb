@@ -26,7 +26,6 @@ class ResultsController < ApplicationController
   #    format.json { render json: @result }
   #  end
   #end
-
   def new_original
     # rule + study
     if params[:study_id] and params[:rule_id]

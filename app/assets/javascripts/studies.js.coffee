@@ -15,6 +15,8 @@ jQuery.fn.refresh_study_page = () ->
     defaultTime: false
   $(".datepicker").datepicker('remove')
   $(".datepicker").datepicker( autoclose: true )
+  $("select[rel=chosen]").chosen();
+  $(".chosen").chosen();
 
 jQuery ->
   # I'm not sure what the refresh event listener is - why not just call it in the function? moved to new.js.erb

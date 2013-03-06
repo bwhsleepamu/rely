@@ -122,21 +122,23 @@ class AssetsController < ApplicationController
 
 
   def download_zip
-    temp = Tempfile.new("zip-file-#{Time.now}")
+    time = Time.now
+    temp_path = Rails.root.join("tmp", "zip-file-#{time.to_i}-#{time.usec}.zip")
+
     if params[:exercise_id].present?
-      zipfile_name = Asset.download_exercise(params[:exercise_id], current_user, temp)
+      zipfile_name = Asset.download_exercise(params[:exercise_id], current_user, temp_path)
     elsif params[:study_id].present?
-      zipfile_name = Asset.download_study(params[:study_id], current_user, temp)
+      zipfile_name = Asset.download_study(params[:study_id], current_user, temp_path)
     elsif params[:reliability_id].present?
-      zipfile_name = Asset.download_reliability_id(params[:reliability_id], current_user, temp)
-    elsif params[:result_id].present?
-      zipfile_name = Asset.download_result(params[:result_id], current_user, temp)
+      zipfile_name = Asset.download_reliability_id(params[:reliability_id], current_user, temp_path)
+    elsif params[:result_id].present? 
+      zipfile_name = Asset.download_result(params[:result_id], current_user, temp_path)
     else
       zipfile_name = nil
     end
 
     if zipfile_name.present?
-      send_file temp.path, :type => 'application/zip', :disposition => 'attachment', :filename => "#{zipfile_name}.zip"
+      send_file temp_path, :type => 'application/zip', :disposition => 'attachment', :filename => "#{zipfile_name}.zip"
     else
       render :nothing => true
     end

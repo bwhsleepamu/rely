@@ -56,6 +56,10 @@ class ExerciseWorkflowTest < ActionDispatch::IntegrationTest
       my_exercise.check_completion
     end
 
+    visit exercise_path(my_exercise)
+
+    page.find("#completion_percent").has_content?(("#{"%.1f" % my_exercise.percent_completed}%"))
+
     visit exercises_path
 
     my_exercise.reload
@@ -240,6 +244,8 @@ class ExerciseWorkflowTest < ActionDispatch::IntegrationTest
 
     assert tr.has_content? "true"
     tr.click_on "Edit Result"
+
+    page.find(  )
 
     assert_equal 233.to_s, find_field("result_assessment_answers_1").value
   end

@@ -4,7 +4,7 @@ SimpleCov.command_name "test:units"
 
 class UserTest < ActiveSupport::TestCase
   #fixtures :all
-
+  
   test "should get reverse name" do
     user = create(:user)
     assert_equal "#{user.last_name}, #{user.first_name}", user.reverse_name

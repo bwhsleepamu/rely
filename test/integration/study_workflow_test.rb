@@ -1,4 +1,4 @@
-require 'test_helper'
+
 
 SimpleCov.command_name "test:integration"
 

@@ -20,6 +20,7 @@ gem 'ruby-ntlm-namespace', '~> 0.0.1'
 # File Upload/Download
 gem "paperclip", "~> 3.1"
 gem 'rubyzip'
+gem 'zippy'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -34,7 +35,7 @@ gem 'jquery-fileupload-rails'
 
 # Diagrams
 group :development, :test do
-  gem 'railroady'
+  gem 'railroady', :platforms => :ruby
 end
 
 group :development do

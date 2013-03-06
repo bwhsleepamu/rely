@@ -1,0 +1,11 @@
+{
+	"folders":
+	[
+		{
+			"path": "/C/htdocs/rely",
+			"folder_exclude_patterns": [".idea", "tmp"],
+			"file_exclude_patterns": [".gitkeep", "rely.sublime-project", "rely.sublime-workspace", "~*"]
+
+		}
+	]
+}

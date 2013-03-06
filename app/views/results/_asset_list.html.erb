@@ -1,0 +1,10 @@
+<div class="attached-files">
+  <a data-toggle="collapse" data-target="#<%= "file_list_#{result.id}" %>"><%= result.assets.length %></a> files currently attached.
+  <ul class="collapse" id="<%= "file_list_#{result.id}" %>">
+    <% result.assets.each do |a| %>
+      <li><%= link_to a.asset_file_name, download_result_asset_path(a) %></li>
+    <% end %>
+  </ul>
+  
+  <button class="upload_files btn btn-mini btn-primary" type="button" data-result-id="<%= result.id %>" data-target="#uploader">upload files</button>
+</div>      

@@ -23,7 +23,7 @@
       <td><%= simple_format exercise.description %></td>
       <td><%= simple_time exercise.assigned_at %></td>
       <td><%= exercise.scorers.count %></td>
-      <td class="status"><%= "#{"%.1f" % exercise.percent_completed}%" %></td>
+      <td class="status"><%= completed_percent(exercise) %></td>
       <td class="completed_at"><%= simple_time(exercise.completed_at) %></td>
       <td>
         <%= link_to 'Edit', edit_exercise_path(exercise), class: 'btn btn-mini' %>

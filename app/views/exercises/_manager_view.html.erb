@@ -23,7 +23,7 @@
     <div id="status" class="span6">
       <div class="row">
         <h3 class="span5">Completion Status</h3>
-        <h3 class="span1" id="completion_percent"><%= @exercise.percent_completed %>%</h3>
+        <h3 class="span1" id="completion_percent"><%= completed_percent(@exercise) %></h3>
       </div>
 
       <div id="finished_scorers" class="scorers">

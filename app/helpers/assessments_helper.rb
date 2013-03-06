@@ -9,7 +9,7 @@ module AssessmentsHelper
 
     case question_hash[:type]
       when :dropdown
-        select_tag(name, options_for_select([['---', nil]] + question_hash[:options].invert.to_a, answer), rel: "chosen")
+        select_tag(name, options_for_select([['---', nil]] + question_hash[:options].invert.to_a, answer), {rel: "chosen", id: "#{Time.now.to_i}#{Time.now.usec}"})
       when :integer
         number_field_tag(name, answer)
       when :date
