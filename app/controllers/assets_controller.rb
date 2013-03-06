@@ -23,7 +23,7 @@ class AssetsController < ApplicationController
 
       respond_to do |format|
         format.html { redirect_to root_path }
-        format.json { render json: @assets.map{|asset| asset.to_jq_upload } }
+        format.json 
       end
     else
       #MY_LOG.info "Sending Nil"
