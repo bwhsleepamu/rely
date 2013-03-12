@@ -7,6 +7,9 @@ root_folder = FileUtils.pwd
 FileUtils.cd('lib/templates')
 template_folder = FileUtils.pwd
 
+# Zip File Folder
+FileUtils.mkdir 'tmp_zipfiles', :mode => 0777
+
 puts template_folder
 puts root_folder
 
