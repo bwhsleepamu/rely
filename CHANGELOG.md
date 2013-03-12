@@ -1,3 +1,15 @@
+## 0.7.1
+
+### Bug Fix
+- Fixed Chosen select field bug on original results page.
+- Fixed bug that prevented original results from showing up in zipped download of exercise.
+- Permanently fixed handing of asset urls with sub-uris, using jbuilder.
+- Fixed travis-ci errors.
+- Fixed errors in showing completion percentage to scorers.
+- Fixed significant digit problem for completion percentages.
+- Ensured zipped file downloads actually include the files, not just the file names.
+- Fixed chosen dropdown cutoff problem. 
+
 ## 0.7.0
 
 ### Enhancements
