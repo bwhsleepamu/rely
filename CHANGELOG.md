@@ -1,3 +1,9 @@
+## 0.7.2
+
+### Bug Fix
+- Fixed asset download problems related to the location of the temporary zipfile directory.
+
+
 ## 0.7.1
 
 ### Bug Fix

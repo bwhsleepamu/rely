@@ -52,4 +52,6 @@ capybara-*.html
 /lib/tasks/*
 # Sublime
 *.sublime-workspace
+*.sublime-project
 /tmp_zipfiles
+/update_rely
