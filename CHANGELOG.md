@@ -2,7 +2,7 @@
 
 ### Bug Fix
 - Fixed asset download problems related to the location of the temporary zipfile directory.
-
+- Fixed timezone bug. Default time zone set to Eastern Time, and time display now includes the timezone.
 
 ## 0.7.1
 

@@ -3,10 +3,11 @@
 <table class="table table-striped table-bordered">
   <thead>
   <tr>
-    <th><%== sort_field_helper(params[:order], 'project', 'Project', 'studies_search') %></th>
-    <th><%== sort_field_helper(params[:order], 'original_id', 'Original ID', 'studies_search') %></th>
-    <th><%== sort_field_helper(params[:order], 'study_type_id', 'Study Type', 'studies_search') %></th>
-    <th><%== sort_field_helper(params[:order], 'location', 'Location', 'studies_search') %></th>
+    <th><%= sort_field_helper(params[:order], 'original_id', 'Original ID', 'studies_search') %></th>
+    <th><%= sort_field_helper(params[:order], 'project', 'Project', 'studies_search') %></th>
+    <th><%= sort_field_helper(params[:order], 'study_type_id', 'Study Type', 'studies_search') %></th>
+    <th><%= sort_field_helper(params[:order], 'location', 'Location', 'studies_search') %></th>
+    <th><%= sort_field_helper(params[:order], 'created_at', 'Created', 'studies_search') %></th>
     <th>Actions</th>
   </tr>
   </thead>
@@ -14,9 +15,10 @@
   <tbody>
     <% @studies.each do |study| %>
       <tr>
-        <td><%= link_to study.project, study.project %></td>
         <td><%= link_to study.original_id, study %></td>
+        <td><%= link_to study.project, study.project %></td>
         <td><%= link_to study.study_type.name, study.study_type if study.study_type %></td>
+        <td><%= simple_time study.created_at %>        
         <td><%= study.location %></td>
         <td>
           <%= link_to 'Edit', edit_study_path(study), class: 'btn btn-mini' %>

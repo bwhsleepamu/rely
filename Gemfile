@@ -13,7 +13,7 @@ gem 'thin',                 '~> 1.5.0',           :platforms => [ :mswin, :mingw
 gem 'eventmachine',         '~> 1.0.0',           :platforms => [ :mswin, :mingw ]
 
 # Contour
-gem 'contour',              '~> 1.2.0'
+gem 'contour',              '~> 1.3.0'
 gem 'kaminari',             '~> 0.14.1'
 gem 'ruby-ntlm-namespace', '~> 0.0.1'
 

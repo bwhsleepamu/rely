@@ -3,7 +3,7 @@ module ApplicationHelper
   def recent_activity(past_time)
     return '' unless past_time.kind_of?(Time)
     time_ago_in_words(past_time)
-    seconds_ago = (Time.now - past_time)
+    seconds_ago = (Time.zone.now - past_time)
     color = if seconds_ago < 60.minute then "#6DD1EC"
             elsif seconds_ago < 1.day then "#ADDD1E"
             elsif seconds_ago < 2.day then "#CEDC34"
@@ -37,11 +37,11 @@ module ApplicationHelper
   def simple_time(past_time)
     return '' if past_time.blank?
     if past_time.to_date == Date.today
-      past_time.strftime("<b>Today</b> at %I:%M %p").html_safe
+      past_time.strftime("<b>Today</b> at %I:%M %p %Z").html_safe
     elsif past_time.year == Date.today.year
-      past_time.strftime("on %b %d at %I:%M %p")
+      past_time.strftime("on %b %d at %I:%M %p %Z")
     else
-      past_time.strftime("on %b %d, %Y at %I:%M %p")
+      past_time.strftime("on %b %d, %Y at %I:%M %p %Z")
     end
   end
 

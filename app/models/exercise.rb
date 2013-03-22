@@ -51,7 +51,7 @@ class Exercise < ActiveRecord::Base
   # TODO: Refactor method names to maintain consistency
 
   def all_studies
-    groups.inject([]) {|all, group| all.concat(group.studies)}
+    groups.inject([]) {|all, group| all | group.studies }
   end
 
   def all_results

@@ -35,7 +35,7 @@
       </tr>
     </thead>
     <tbody>
-    <% current_user.exercise_reliability_ids(@exercise).each do |r_id| %>
+    <% current_user.exercise_reliability_ids(@exercise).order(:study_id).each do |r_id| %>
       <tr class="study">
         <td><%= r_id.group.name %></td>
         <td class="reliability_id"><%= r_id.unique_id %></td>

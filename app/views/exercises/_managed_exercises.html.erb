@@ -3,6 +3,7 @@
   <thead>
     <tr>
       <th><%= sort_field_helper(params[:order], 'name', 'Name', 'exercises_search') %></th>
+      <th><%= sort_field_helper(params[:order], 'project', 'Project', 'studies_search') %></th>
       <th><%= sort_field_helper(params[:order], 'rule_id', 'Rule', 'exercises_search') %></th>
       <th><%= sort_field_helper(params[:order], 'assessment_type', 'Assessment Type', 'exercises_search') %></th>
       <th><%= sort_field_helper(params[:order], 'description', 'Description', 'exercises_search') %></th>
@@ -18,6 +19,7 @@
     <% @managed_exercises.each do |exercise| %>
     <tr class="exercise" id="<%= exercise.id %>">
       <td><%= link_to exercise.name, exercise %></td>
+      <td><%= link_to exercise.project.name, exercise.project if exercise.project %></td>
       <td><%= link_to exercise.rule.name, exercise.rule if exercise.rule %></td>
       <td><%= exercise.rule.assessment_type if exercise.rule %></td>
       <td><%= simple_format exercise.description %></td>

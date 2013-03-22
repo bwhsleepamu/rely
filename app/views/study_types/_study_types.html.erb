@@ -3,9 +3,10 @@
 <table class="table table-striped table-bordered" style="width:100%">
   <thead>
     <tr>
-      <th><%== sort_field_helper(params[:order], 'project', 'Project', 'study_types_search') %></th>
-      <th><%== sort_field_helper(params[:order], 'name', 'Name', 'study_types_search') %></th>
-      <th><%== sort_field_helper(params[:order], 'description', 'Description', 'study_types_search') %></th>
+      <th><%= sort_field_helper(params[:order], 'name', 'Name', 'study_types_search') %></th>
+      <th><%= sort_field_helper(params[:order], 'project', 'Project', 'study_types_search') %></th>
+      <th><%= sort_field_helper(params[:order], 'description', 'Description', 'study_types_search') %></th>
+      <th><%= sort_field_helper(params[:order], 'created_at', 'Created', 'study_types_search') %></th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -13,9 +14,10 @@
   <tbody>
     <% @study_types.each do |study_type| %>
       <tr>
-        <td><%= link_to study_type.project, study_type.project %></td>
         <td><%= link_to study_type, study_type %></td>
+        <td><%= link_to study_type.project, study_type.project %></td>
         <td><%= study_type.description %></td>
+        <td><%= simple_time study_type.created_at %>        
         <td>
           <%= link_to 'Edit', edit_study_type_path(study_type), class: 'btn btn-mini' %>
           <%= link_to 'Delete', study_type, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Study Type #{study_type.name}?" } %>

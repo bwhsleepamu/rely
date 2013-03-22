@@ -35,14 +35,17 @@ FactoryGirl.define do
       existing_project_id nil
     end
 
-    before(:create) do |exercise, evaluator|
-      if evaluator.existing_project_id
-        project = Project.find(evaluator.existing_project_id)
+    after(:build) do |exercise, evaluator|
+      if exercise.project_id.present? or evaluator.existing_project_id.present?        
+        pid = exercise.project_id || evaluator.existing_project_id
+        MY_LOG.info "PID: #{pid}"
+        project = Project.find(pid)
+        exercise.project_id = pid
       else
         project = create(:project, scorer_count: evaluator.scorer_count + 1, group_count: evaluator.group_count + 1)
+        exercise.project = project
       end
 
-      exercise.project = project
       exercise.owner = project.managers.first
       exercise.updater_id = project.managers.first.id
       exercise.rule = project.rules.first
@@ -103,7 +106,23 @@ FactoryGirl.define do
   factory :study do
     sequence(:original_id) {|n| "123JK#{n}"}
     location "/path/to/some/location/of/file.csv"
-    creator
+
+    before(:create) do |study, evaluator|
+
+
+      if study.project_id.present?
+        project = Project.find(study.project_id)
+      else
+        project = create(:project)
+        study.project_id = project.id
+      end
+      study.creator_id = project.managers.first.id if study.creator_id.blank?
+      study.updater_id = project.managers.first.id if study.updater_id.blank?
+
+      if study.study_type_id.blank?
+        study.study_type = project.study_types.first
+      end
+    end
 
     factory :study_with_original_results do
 
@@ -132,6 +151,18 @@ FactoryGirl.define do
   factory :group do
     sequence(:name) {|n| "Group #{n}"}
     description "Describes this amazing group of awesomeness"
+
+    before(:create) do |group, evaluator|
+      if group.project_id.present?
+        project = Project.find(group.project_id)
+      else
+        project = create(:project)
+        group.project_id = project.id
+      end
+      
+      group.creator_id = project.managers.first if group.creator_id.blank?
+      group.updater_id = project.managers.first if group.updater_id.blank?
+    end
 
     factory :group_with_studies do
 

@@ -154,6 +154,25 @@ class ExerciseTest < ActiveSupport::TestCase
     assert_equal exercise.all_studies.count, study_count
   end
 
+  test "should take union of studies in the assigned groups, and assign not assign reliablity ids multiple times. " do
+    project = create(:project)
+    studies = create_list(:study, 3, project_id: project.id)
+    group1 = Group.new(name: "group1", project_id: project.id, updater_id: project.managers.first.id)
+    group2 = Group.new(name: "group2", project_id: project.id, updater_id: project.managers.first.id)
+    group1.studies = studies
+    group2.studies = studies
+    group1.save
+    group2.save
+
+    exercise = build(:exercise, project_id: project.id, group_count: 0)
+    exercise.groups = [group1, group2]
+
+    exercise.save
+
+    assert_equal studies.length, exercise.all_studies.length
+  end
+
+
   test "should assign unique reliability ids to each study/scorer combo when exercise is launched" do
     exercise = create(:exercise)
     ids = []

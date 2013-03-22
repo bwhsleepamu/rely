@@ -3,10 +3,11 @@
 <table class="table table-striped table-bordered">
   <thead>
     <tr>
-      <th><%== sort_field_helper(params[:order], 'name', 'Name', 'projects_search') %></th>
-      <th><%== sort_field_helper(params[:order], 'description', 'Description', 'projects_search') %></th>
-      <th><%== sort_field_helper(params[:order], 'start_date', 'Start Date', 'projects_search') %></th>
-      <th><%== sort_field_helper(params[:order], 'end_date', 'End Date', 'projects_search') %></th>
+      <th><%= sort_field_helper(params[:order], 'name', 'Name', 'projects_search') %></th>
+      <th><%= sort_field_helper(params[:order], 'description', 'Description', 'projects_search') %></th>
+      <th><%= sort_field_helper(params[:order], 'start_date', 'Start Date', 'projects_search') %></th>
+      <th><%= sort_field_helper(params[:order], 'end_date', 'End Date', 'projects_search') %></th>
+      <th><%= sort_field_helper(params[:order], 'created_at', 'Created', 'projects_search') %></th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -14,10 +15,11 @@
   <tbody>
     <% @projects.each do |project| %>
       <tr>
-        <td><%= project.name %></td>
+        <td><%= link_to project.name, project %></td>
         <td><%= project.description %></td>
-        <td><%= project.start_date %></td>
-        <td><%= project.end_date %></td>
+        <td><%= simple_date project.start_date %></td>
+        <td><%= simple_date project.end_date %></td>
+        <td><%= simple_time project.created_at %>
         <td>
           <%= link_to 'Edit', edit_project_path(project), class: 'btn btn-mini' %>
           <%= link_to 'Delete', project,  :data => { :confirm => "Are you sure you want to delete Project #{project.name}?" }, method: :delete, class: 'btn btn-mini btn-danger' %>

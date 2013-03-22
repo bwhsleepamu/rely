@@ -3,12 +3,13 @@
   <thead>
     <tr>
       <th><%= sort_field_helper(params[:order], 'name', 'Name', 'exercises_search') %></th>
+      <th><%= sort_field_helper(params[:order], 'project', 'Project', 'studies_search') %></th>
       <th><%= sort_field_helper(params[:order], 'rule.title', 'Rule', 'exercises_search') %></th>
       <th><%= sort_field_helper(params[:order], 'description', 'Description', 'exercises_search') %></th>
       <th><%= sort_field_helper(params[:order], 'assigned_at', 'Assigned', 'exercises_search') %></th>
       <th><%= sort_field_helper(params[:order], 'completion_status', 'Completion Status', 'exercises_search') %></th>
       <th><%= sort_field_helper(params[:order], 'completed', 'Completed?', 'exercises_search') %></th>
-      <th></th>
+      <th>Actions</th>
     </tr>
   </thead>
 
@@ -16,6 +17,7 @@
     <% @assigned_exercises.each do |exercise| %>
     <tr class="exercise" id="<%= exercise.id %>">
       <td><%= link_to exercise.name, show_assigned_exercise_path(exercise) if exercise %></td>
+      <td><%= link_to exercise.project.name, exercise.project if exercise.project %></td>
       <td><%= link_to exercise.rule.name, exercise.rule if exercise.rule %></td>
       <td><%= simple_format exercise.description %></td>
       <td><%= simple_time exercise.assigned_at %></td>

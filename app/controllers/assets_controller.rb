@@ -122,7 +122,7 @@ class AssetsController < ApplicationController
 
 
   def download_zip
-    time = Time.now
+    time = Time.zone.now
     temp_path = Rails.root.join("tmp", "zipfiles" "zip-file-#{time.to_i}-#{time.usec}.zip")
 
     if params[:exercise_id].present?

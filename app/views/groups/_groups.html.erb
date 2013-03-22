@@ -3,9 +3,10 @@
 <table class="table table-striped table-bordered">
   <thead>
     <tr>
-      <th><%= sort_field_helper(params[:order], 'project', 'Project', 'groups_search') %></th>
       <th><%= sort_field_helper(params[:order], 'name', 'Name', 'groups_search') %></th>
+      <th><%= sort_field_helper(params[:order], 'project', 'Project', 'groups_search') %></th>
       <th><%= sort_field_helper(params[:order], 'description', 'Description', 'groups_search') %></th>
+      <th><%= sort_field_helper(params[:order], 'created_at', 'Created', 'groups_search') %></th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -13,9 +14,10 @@
   <tbody>
     <% @groups.each do |group| %>
       <tr>
-        <td><%= link_to group.project, group.project %></td>
         <td><%= link_to group, group %></td>
+        <td><%= link_to group.project, group.project %></td>
         <td><%= group.description %></td>
+        <td><%= simple_time group.created_at %>
         <td>
           <%= link_to 'Edit', edit_group_path(group), class: 'btn btn-mini' %>
           <%= link_to 'Delete', group, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Group #{group.name}?" } %>

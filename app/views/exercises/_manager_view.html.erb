@@ -56,7 +56,6 @@
       <thead>
       <tr>
         <th>Scorer</th>
-        <th>Group</th>
         <th>Study</th>
         <th>Reliability/Study Id</th>
         <th>Result Location</th>
@@ -75,31 +74,27 @@
       </tr>
       </thead>
       <tbody>
-      <% @exercise.groups.each do |group| %>
-        <% group.studies.each do |study| %>
-          <tr>
-            <td>*Original Result*</td>
-            <td><%= link_to group.name, group %></td>
-            <td><%= link_to study.name, study %></td>
-            <td><%= study.original_id %></td>
-            <% if study.original_result(@exercise.rule) %>
-              <td><%= study.original_result(@exercise.rule).location %></td>
-              <% study.original_result(@exercise.rule).assessment.assessment_results.each do |a_r| %>
-                <td><%= a_r.full_answer %></td>
-              <% end %>
-              <td><%= study.original_result(@exercise.rule).assets.length %> Attachments<%= link_to 'download', download_zip_result_assets_path(result_id: study.original_result(@exercise.rule).id), class: 'btn btn-mini' %></td>
-            <% else %>
-              <% (2 + Assessment::TYPES[@exercise.rule.assessment_type.to_sym][:questions].length).times do %>
-                <td class="no_results">No Result Yet</td>
-              <% end %>
+      <% @exercise.all_studies.each do |study| %>
+        <tr>
+          <td>*Original Result*</td>
+          <td><%= link_to study.name, study %></td>
+          <td><%= study.original_id %></td>
+          <% if study.original_result(@exercise.rule) %>
+            <td><%= study.original_result(@exercise.rule).location %></td>
+            <% study.original_result(@exercise.rule).assessment.assessment_results.each do |a_r| %>
+              <td><%= a_r.full_answer %></td>
             <% end %>
-          </tr>
-        <% end %>
+            <td><%= study.original_result(@exercise.rule).assets.length %> Attachments<%= link_to 'download', download_zip_result_assets_path(result_id: study.original_result(@exercise.rule).id), class: 'btn btn-mini' %></td>
+          <% else %>
+            <% (2 + Assessment::TYPES[@exercise.rule.assessment_type.to_sym][:questions].length).times do %>
+              <td class="no_results">No Result Yet</td>
+            <% end %>
+          <% end %>
+        </tr>
       <% end %>
       <% @exercise.reliability_ids.each do |r_id| %>
         <tr>
           <td><%= link_to r_id.user.name, r_id.user %></td>
-          <td><%= link_to r_id.group.name, r_id.group %></td>
           <td><%= link_to r_id.study.name, r_id.study %></td>
           <td><%= r_id.unique_id %></td>
           <% if r_id.result %>

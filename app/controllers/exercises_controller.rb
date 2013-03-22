@@ -59,7 +59,7 @@ class ExercisesController < ApplicationController
   # POST /exercises.json
   def create
     @exercise = current_user.owned_exercises.new(post_params)
-    @exercise.assigned_at = DateTime.now() # TODO: refactor?
+    @exercise.assigned_at = Time.zone.now # TODO: refactor?
 
     respond_to do |format|
       if @exercise.save
@@ -102,10 +102,6 @@ class ExercisesController < ApplicationController
   end
 
   private
-
-  def parse_date(date_string)
-    date_string.to_s.split('/').last.size == 2 ? Date.strptime(date_string, "%m/%d/%y") : Date.strptime(date_string, "%m/%d/%Y") rescue ""
-  end
 
   def post_params
     params[:exercise] ||= {}
