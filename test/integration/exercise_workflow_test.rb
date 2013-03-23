@@ -82,7 +82,7 @@ class ExerciseWorkflowTest < ActionDispatch::IntegrationTest
   end
 
   test "should be able to get rescored results and original results for managed exercises" do
-    exercises = create_list(:exercise, 3, existing_project_id: @managed_project)
+    exercises = create_list(:exercise, 3, existing_project_id: @managed_project.id)
     my_exercise = exercises.first
     orig_results = []
     visit exercise_path(my_exercise)
@@ -240,9 +240,10 @@ class ExerciseWorkflowTest < ActionDispatch::IntegrationTest
 
     click_on "Add Result"
 
-    tr = all("tr.study").last
+    tr = all("tr.study").first
 
     assert tr.has_content? "true"
+
     tr.click_on "Edit Result"
 
     #page.find

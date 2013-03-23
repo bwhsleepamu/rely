@@ -30,6 +30,7 @@ class ResultsController < ApplicationController
     # rule + study
     if params[:study_id] and params[:rule_id]
       @result = Result.new
+      #@rule = Rule.find_by_id(params[:rule_id])
       @result.study_original_result = StudyOriginalResult.new(study_id: params[:study_id], rule_id: params[:rule_id])
     end
 
@@ -200,6 +201,26 @@ class ResultsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def asset_list
+    MY_LOG.info "Paramsadaasdf: #{params}"    
+
+
+    @result = current_user.all_original_results.find_by_id(params[:result_id])
+    
+    params[:asset_ids] ||= []
+    assets = @result.present? ? @result.assets : []
+    
+    @assets = params[:asset_ids].map {|a_id| Asset.find_by_id(a_id.to_i)} | assets
+    @rule = current_user.all_rules.find_by_id(params[:rule_id])
+
+    MY_LOG.info "RES: #{@result} ASS: #{@assets} RUL: #{@rule}"
+    respond_to do |format|
+      format.js 
+    end
+    
+  end
+
 
   private
 

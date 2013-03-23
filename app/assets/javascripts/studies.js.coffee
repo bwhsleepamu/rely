@@ -6,6 +6,20 @@
 jQuery.fn.get_value = () ->
   return parseInt $(this).val()
 
+jQuery.fn.update_file_lists = () ->
+  $(".attached-files").each () ->
+    parent_field = $(this).closest(".field-space")
+    parent_list = $(this).closest(".asset_list")
+    asset_ids = $.fn.get_asset_ids(parent_field)
+    path = $(this).data("update-asset-list")
+
+    $.ajax(
+      url: path,
+      data: {asset_ids: asset_ids, rule_id: $(this).closest(".asset_list").data("rule-id"), result_id: $(this).data("result-id")},
+      dataType: "script"
+    )
+  
+
 jQuery.fn.refresh_study_page = () ->
   $('#asset_upload').fileupload()
   jQuery.fn.refresh_uploader() if $("#asset_upload").length > 0
@@ -16,12 +30,20 @@ jQuery.fn.refresh_study_page = () ->
   $(".datepicker").datepicker('remove')
   $(".datepicker").datepicker( autoclose: true )
   $("select[rel=chosen]").chosen();
-  $(".chosen").chosen();
+  $(".chosen").chosen();  
+  $("#uploader").off "hide"
+  $("#uploader").on "hide", jQuery.fn.update_file_lists
+  $("#uploader .modal-footer").off "click", ".btn"
+  $("#uploader .modal-footer").on "click", ".btn", () ->
+    $("#uploader").modal("hide")
 
 jQuery ->
   # I'm not sure what the refresh event listener is - why not just call it in the function? moved to new.js.erb
   #  $(document).on "refresh", "#form", () ->
   #  alert("when??")
+ 
+  jQuery.fn.refresh_study_page()
+
 
   ##
   # Original Results

@@ -14,7 +14,7 @@
         <div class="span5">
           <h4>Result Location</h4>
           <%= f.text_field :location, name: "study[results][][location]" %>
-          <%= render partial: "results/asset_list", locals: {result: result} %>
+          <div class="asset_list" data-rule-id="<%= result.rule.id %>"><%= render partial: "results/asset_list", locals: {assets: result.assets, result: result, rule: result.rule} %></div>
         </div>
         <div class="span6">
           <h4>Assessment Questionnaire</h4>

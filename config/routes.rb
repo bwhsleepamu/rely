@@ -27,9 +27,14 @@ Rely::Application.routes.draw do
   end
 
   resources :results do
+    collection do
+      get "asset_list"
+    end
+    
     new do
       get 'new_original'
     end
+
   end
 
   resources :studies

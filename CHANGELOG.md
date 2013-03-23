@@ -3,6 +3,8 @@
 ### Bug Fix
 - Fixed asset download problems related to the location of the temporary zipfile directory.
 - Fixed timezone bug. Default time zone set to Eastern Time, and time display now includes the timezone.
+- Fixed problem with overlapping studies in groups assigned to an exercise. An exercise's studies are now determined by the union of the studies in the assigned groups.
+- Fixed synchronization problem asset list had in displaying the correct number of assets for original results when assets were added or removed using uploader modal.
 
 ## 0.7.1
 

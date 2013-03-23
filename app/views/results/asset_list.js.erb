@@ -1,0 +1,1 @@
+$("<%= ".asset_list[data-rule-id=#{@rule.id}"%>]").html('<%= j render :partial => "results/asset_list", locals: {result: @result, assets: @assets, rule: @rule} %>')

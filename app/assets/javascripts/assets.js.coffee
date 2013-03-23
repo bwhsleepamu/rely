@@ -11,7 +11,7 @@ jQuery.fn.refresh_uploader = () ->
     asset_ids =  $.fn.get_asset_ids($("body"))
   else
     asset_ids = $("#upload_result_id").data("assetIds")
-
+  
   params =
     result_id: $("#upload_result_id").data("resultId"),
     asset_ids: asset_ids
@@ -26,7 +26,7 @@ jQuery.fn.refresh_uploader = () ->
         files = []
       template = undefined
       fu._adjustMaxNumberOfFiles(-files.length)
-      console.log files
+      #console.log files
       $("#asset_upload .files").html("")
       template = fu._renderDownload(files).appendTo($("#asset_upload .files"))
 
@@ -38,8 +38,9 @@ jQuery.fn.refresh_uploader = () ->
   # Sends JSON request to asset index, with result_id and asset_id as data, and refresh function for uploaded file list
   $.getJSON request_path, params, on_success
 
+
 jQuery.fn.get_asset_ids = (parent) ->
-  console.log parent
+  #console.log parent
   $.map $(parent).find(".asset_ids"), (val,i) ->
     v = $(val).val()
     return v if v
@@ -52,6 +53,9 @@ jQuery ->
   jQuery.fn.refresh_uploader() if $("#asset_upload").length > 0
 
   ## File Uploader Callbacks
+  # $("#uploader").off "hide"
+  #$("#uploader").on "hide", jQuery.fn.update_file_lists
+  
 
   # Submit for upload
   $(document).on 'fileuploadsubmit', "#asset_upload", (e, data) ->
@@ -76,6 +80,7 @@ jQuery ->
   $(document).on 'fileuploadadd', "#asset_upload", (e, data) ->
     $("#asset_upload #ajax_loader").hide()
 
+    
   # Error listings
   fileUploadErrors =
     maxFileSize: 'File is too big'

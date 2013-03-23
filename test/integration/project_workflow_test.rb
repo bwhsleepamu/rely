@@ -43,8 +43,9 @@ class ProjectWorkflowTest < ActionDispatch::IntegrationTest
 
     assert page.has_content? template.name
     assert page.has_content? template.description
-    assert page.has_content? template.start_date.strftime("%Y-%m-%d")
-    assert page.has_content? template.end_date.strftime("%Y-%m-%d")
+    show_page
+    assert page.has_content? "Today"
+    #assert page.has_content? ApplicationHelper.simple_date template.end_date.strftime("%Y-%m-%d")
 
     #managers.each do |m|
     #  assert page.has_content? m.name
