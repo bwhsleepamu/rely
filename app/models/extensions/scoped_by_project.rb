@@ -3,7 +3,7 @@ module Extensions
     extend ActiveSupport::Concern
 
     included do
-      attr_accessible :updater_id, :project_id
+      # attr_accessible :updater_id, :project_id
 
       belongs_to :project
 

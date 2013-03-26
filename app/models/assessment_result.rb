@@ -5,7 +5,7 @@ class AssessmentResult < ActiveRecord::Base
 
   ##
   # Attributes
-  attr_accessible :answer, :assessment_id, :question_id
+  # attr_accessible :answer, :assessment_id, :question_id
 
   ##
   # Callbacks
@@ -15,7 +15,7 @@ class AssessmentResult < ActiveRecord::Base
 
   ##
   # Scopes
-  scope :current, conditions: { deleted: false }
+  scope :current, -> { where deleted: false }
 
   ##
   # Validations

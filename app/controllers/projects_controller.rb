@@ -51,7 +51,7 @@ class ProjectsController < ApplicationController
   # POST /projects
   # POST /projects.json
   def create
-    @project = current_user.owned_projects.new(post_params)
+    @project = current_user.owned_projects.new(project_params)
 
     respond_to do |format|
       if @project.save
@@ -70,7 +70,7 @@ class ProjectsController < ApplicationController
     @project = current_user.all_projects.find_by_id(params[:id])
 
     respond_to do |format|
-      if @project and @project.update_attributes(post_params)
+      if @project and @project.update_attributes(project_params)
         format.html { redirect_to projects_path, notice: 'Project was successfully updated.' }
         format.json { head :no_content }
       elsif @project
@@ -97,15 +97,14 @@ class ProjectsController < ApplicationController
 
   private
 
-  def post_params
+  def project_params
     params[:project] ||= {}
 
     [:start_date, :end_date].each do |date|
       params[:project][date] = parse_date(params[:project][date])
     end
 
-    params[:project].slice(
-      :name, :description, :start_date, :end_date, :manager_ids, :scorer_ids
-    )
+    # Array: manager ids, scorer ids
+    params.require(:project).permit(:name, :description, :start_date, :end_date, :manager_ids, :scorer_ids)
   end
 end

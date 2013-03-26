@@ -4,12 +4,7 @@ module Extensions
 
     module ClassMethods
       def search_by_terms(search_terms)
-        #search_scope = scoped
-        #search_terms.each{|search_term| search_scope = search_scope.search(search_term) }
-        #
-        #search_scope
-
-        scoped.search(search_terms)
+        all.search(search_terms)
       end
 
       def set_order(params, default_column)

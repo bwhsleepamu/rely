@@ -55,8 +55,9 @@ class UsersController < ApplicationController
     @user = User.current.find_by_id(params[:id])
     system_admin = params[:user][:system_admin]
     status = params[:user][:status]
-    params[:user].except!(:system_admin, :status)
-    if @user and @user.update_attributes(params[:user])
+    
+    #params[:user].except!(:system_admin, :status)
+    if @user and @user.update_attributes(user_params)
       @user.update_attribute :system_admin, system_admin unless system_admin.blank?
       @user.update_attribute :status, status unless status.blank?
       redirect_to @user, notice: 'User was successfully updated.'
@@ -76,16 +77,14 @@ class UsersController < ApplicationController
   private
 
 
-  def post_params
+  def user_params
     params[:user] ||= {}
 
     [:start_date, :end_date].each do |date|
       params[:project][date] = parse_date(params[:project][date])
     end
 
-    params[:project].slice(
-        :first_name, :last_name, :email, :remember_me, :description, :start_date, :end_date, :user_id
-    )
+    params.require(:project).permit(:first_name, :last_name, :email, :remember_me, :description, :start_date, :end_date, :user_id)
   end
 
 end

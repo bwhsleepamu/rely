@@ -2,16 +2,16 @@ class Exercise < ActiveRecord::Base
   ##
   # Associations
   belongs_to :owner, :class_name => "User", :foreign_key => :owner_id
-  has_many :scorers, :class_name => "User", :through => :exercise_scorers, :source => :user, :conditions => { :deleted => false }
+  has_many :scorers, -> { where deleted: false }, :class_name => "User", :through => :exercise_scorers, :source => :user
   has_many :exercise_scorers
-  has_many :groups, :through => :exercise_groups, :conditions => { :deleted => false }
+  has_many :groups, -> { where deleted: false }, :through => :exercise_groups
   has_many :exercise_groups
-  has_many :reliability_ids, :conditions => { :deleted => false }
+  has_many :reliability_ids, -> { where deleted: false }
   belongs_to :rule
 
   ##
   # Attributes
-  attr_accessible :owner_id, :assigned_at, :completed_at, :description, :name, :rule_id, :scorer_ids, :group_ids
+  # attr_accessible :owner_id, :assigned_at, :completed_at, :description, :name, :rule_id, :scorer_ids, :group_ids
 
   ##
   # Callbacks
@@ -29,11 +29,11 @@ class Exercise < ActiveRecord::Base
 
   ##
   # Scopes
-  scope :current, conditions: { deleted: false }
+  scope :current, -> { where deleted: false }
   scope :with_owner, lambda { |user| where("owner_id = ?", user.id)  }
   scope :with_manager, lambda { |user| where("project_id in ( select project_id from projects p join project_managers pm on p.id = pm.project_id where pm.user_id = ?)", user.id) }
   scope :with_scorer, lambda { |user| joins(:exercise_scorers).where("exercise_scorers.user_id = ?", user.id) }
-  scope :search, lambda { |*args| { conditions: [ 'LOWER(name) LIKE ? or LOWER(description) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
+  scope :search, lambda { |*args| where('LOWER(name) LIKE ? or LOWER(description) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%') }
 
   ##
   # Validations
@@ -83,44 +83,6 @@ class Exercise < ActiveRecord::Base
   end
 
   def completed?(scorer)
-    #completed = true
-    #
-    #
-    ### TODO: Might be faster to use a well-made select instead of a loop
-    #reliability_ids.where(:user_id => scorer.id).each do |rid|
-    #  completed = false if rid.result.nil?
-    #end
-
-    #all_studies.each do |study|
-    #  rid = study.reliability_id(scorer, self)
-    #  completed = false if rid.result.nil?
-    #end
-
-    ## TODO: finalize select attempts
-    #result = ActiveRecord::Base.connection.select_all("
-    #  select count(*) from reliability_ids rids
-    #  join results r on r.reliability_id_id = rids.id
-    #  where user_id = #{scorer.id}
-    #  and exercise_id = #{id}
-    #  and
-    #")
-    #
-    #result = ActiveRecord::Base.connection.select_all("
-    #  select count(*) from results r
-    #  join reliability_ids rids on rids.id = r.reliability_id_id
-    #  join exercises e on e.id = rids.exercise_id
-    #  where rids.user_id = #{user.id}
-    #  and e.id = #{self.id}
-    #")
-
-    #
-    # completed if result exists for user/exercise/study combo.
-    #groups.inject(true) do |previous_group_status, group|
-    #  previous_group_status and group.studies.inject(true) {|previous_study_status, study| previous_study_status and (study.results.where({:user_id => user.id, :study_id => study.id}).count > 0)}
-    #end
-
-    #completed
-
     completion_status(scorer) == 1.0
   end
 

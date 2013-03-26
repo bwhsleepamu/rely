@@ -43,7 +43,7 @@ class ActionController::TestCase
   end
 end
 
-class ActionController::IntegrationTest
+class ActionDispatch::IntegrationTest
   # Make the Capybara DSL available in all integration tests
   include Capybara::DSL
   include FactoryGirl::Syntax::Methods

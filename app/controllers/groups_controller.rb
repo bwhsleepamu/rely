@@ -26,7 +26,7 @@ class GroupsController < ApplicationController
   # GET /groups/new
   # GET /groups/new.json
   def new
-    @group = current_user.groups.new(post_params)
+    @group = current_user.groups.new(group_params)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -45,7 +45,7 @@ class GroupsController < ApplicationController
   # POST /groups
   # POST /groups.json
   def create
-    @group = current_user.groups.new(post_params)
+    @group = current_user.groups.new(group_params)
 
     respond_to do |format|
       if @group.save
@@ -64,7 +64,7 @@ class GroupsController < ApplicationController
     @group = current_user.all_groups.find(params[:id])
 
     respond_to do |format|
-      if @group.update_attributes(post_params)
+      if @group.update_attributes(group_params)
         format.html { redirect_to groups_path, notice: 'Group was successfully updated.' }
         format.json { head :no_content }
       else
@@ -88,7 +88,7 @@ class GroupsController < ApplicationController
 
   private
   
-  def post_params
+  def group_params
     params[:group] ||= {}
 
     [].each do |date|
@@ -97,9 +97,8 @@ class GroupsController < ApplicationController
 
     params[:group][:updater_id] = "#{current_user.id}"
 
-
-    params[:group].slice(
-      :name, :description, :study_ids, :updater_id, :project_id
+    # Array: study_ids
+    params.require(:group).permit(:name, :description, :study_ids, :updater_id, :project_id
     )
   end
 end

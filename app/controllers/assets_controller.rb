@@ -64,7 +64,7 @@ class AssetsController < ApplicationController
   # POST /assets
   # POST /assets.json
   def create
-    @asset = Asset.new(params[:asset])
+    @asset = Asset.new(asset_params)
     @asset.result_id = params[:result_id]
 
     respond_to do |format|
@@ -98,7 +98,7 @@ class AssetsController < ApplicationController
     @asset.result_id = params[:result_id]
 
     respond_to do |format|
-      if @asset.update_attributes(params[:asset])
+      if @asset.update_attributes(asset_params)
         format.html { redirect_to result_asset_path(@asset), notice: 'Asset was successfully updated.' }
         format.json { head :no_content }
       else
@@ -155,4 +155,11 @@ class AssetsController < ApplicationController
       render :nothing => true
     end
   end
+
+  private
+
+  def asset_params
+    params.require(:asset).permit(:result_id, :asset)
+  end
+
 end

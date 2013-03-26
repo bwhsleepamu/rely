@@ -26,7 +26,7 @@ class StudiesController < ApplicationController
   # GET /studies/new
   # GET /studies/new.json
   def new
-    @study = current_user.studies.new(post_params)
+    @study = current_user.studies.new(study_params)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -47,7 +47,7 @@ class StudiesController < ApplicationController
   def create
     #MY_LOG.info "study create: #{params[:study]}"
 
-    @study = current_user.studies.new(post_params)
+    @study = current_user.studies.new(study_params)
 
     respond_to do |format|
       if @study.save
@@ -68,7 +68,7 @@ class StudiesController < ApplicationController
     @study = current_user.all_studies.find(params[:id])
 
     respond_to do |format|
-      if @study.update_attributes(post_params)
+      if @study.update_attributes(study_params)
         #raise StandardError
         format.html { redirect_to studies_path, notice: 'Study was successfully updated.' }
         format.json { head :no_content }
@@ -95,7 +95,7 @@ class StudiesController < ApplicationController
 
   private
 
-  def post_params
+  def study_params
     params[:study] ||= {}
 
     [].each do |date|
@@ -104,8 +104,7 @@ class StudiesController < ApplicationController
 
     params[:study][:updater_id] = current_user.id
 
-    params[:study].slice(
-      :original_id, :study_type_id, :location, :results, :project_id, :updater_id
-    )
+    # Arrays: results
+    params.require(:study).permit(:original_id, :study_type_id, :location, :results, :project_id, :updater_id)
   end
 end

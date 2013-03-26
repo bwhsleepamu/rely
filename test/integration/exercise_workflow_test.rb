@@ -168,7 +168,7 @@ class ExerciseWorkflowTest < ActionDispatch::IntegrationTest
   end
 
   test "should be able to search on exercise name or description" do
-    pending
+    skip 
     #exercises = setup_exercises
     #visit exercises_path
     #fill_in "search", :with => exercises[:seen].first.name

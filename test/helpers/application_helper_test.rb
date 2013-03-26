@@ -28,21 +28,21 @@ class ApplicationHelperTest < ActionView::TestCase
 
   test "should show time" do
     time = Time.now
-    assert_equal time.strftime("<b>Today</b> at %I:%M %p"), simple_time(time)
+    assert_equal time.strftime("<b>Today</b> at %I:%M %p %Z"), simple_time(time)
   end
 
   test "should show full time from yesterday" do
     time = Time.now - 1.day
     time += 2.days if time.year != Time.now.year # Test would fail if run on Jan 1st otherwise
-    assert_equal time.strftime("on %b %d at %I:%M %p"), simple_time(time)
+    assert_equal time.strftime("on %b %d at %I:%M %p %Z"), simple_time(time)
   end
 
   test "should show full time from last year" do
     time = Time.now - 1.year
-    assert_equal time.strftime("on %b %d, %Y at %I:%M %p"), simple_time(time)
+    assert_equal time.strftime("on %b %d, %Y at %I:%M %p %Z"), simple_time(time)
   end
 
-  test "should show recent activity" do
+  test "should show recent activity in the right format" do
     assert recent_activity(nil).kind_of?(String)
     assert recent_activity('').kind_of?(String)
     assert recent_activity(Time.now).kind_of?(String)

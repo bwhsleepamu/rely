@@ -26,7 +26,7 @@ class StudyTypesController < ApplicationController
   # GET /study_types/new
   # GET /study_types/new.json
   def new
-    @study_type = current_user.study_types.new(post_params)
+    @study_type = current_user.study_types.new(study_type_params)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -45,7 +45,7 @@ class StudyTypesController < ApplicationController
   # POST /study_types
   # POST /study_types.json
   def create
-    @study_type = current_user.study_types.new(post_params)
+    @study_type = current_user.study_types.new(study_type_params)
 
     respond_to do |format|
       if @study_type.save
@@ -64,7 +64,7 @@ class StudyTypesController < ApplicationController
     @study_type = current_user.all_study_types.find(params[:id])
 
     respond_to do |format|
-      if @study_type.update_attributes(post_params)
+      if @study_type.update_attributes(study_type_params)
         format.html { redirect_to study_types_path, notice: 'StudyType was successfully updated.' }
         format.json { head :no_content }
       else
@@ -88,7 +88,7 @@ class StudyTypesController < ApplicationController
 
   private
 
-  def post_params
+  def study_type_params
     params[:study_type] ||= {}
 
     [].each do |date|
@@ -97,8 +97,6 @@ class StudyTypesController < ApplicationController
 
     params[:study_type][:updater_id] = current_user.id
 
-    params[:study_type].slice(
-      :name, :description, :project_id, :updater_id
-    )
+    params.require(:study_type).permit(:name, :description, :project_id, :updater_id)
   end
 end

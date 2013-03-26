@@ -6,33 +6,33 @@ class User < ActiveRecord::Base
   has_many :authentications
 
   # Owner
-  has_many :owned_exercises, :class_name => "Exercise", :foreign_key => :owner_id, :conditions => { :deleted => false }
-  has_many :owned_projects, :class_name => "Project", :foreign_key => :owner_id, :conditions => { :deleted => false }
+  has_many :owned_exercises, -> { where deleted: false }, :class_name => "Exercise", :foreign_key => :owner_id
+  has_many :owned_projects, -> { where deleted: false }, :class_name => "Project", :foreign_key => :owner_id
 
   #Creator
-  has_many :groups, :foreign_key => :creator_id, :conditions => { :deleted => false }
+  has_many :groups, -> { where deleted: false }, :foreign_key => :creator_id
   has_many :group_studies, :foreign_key => :creator_id
-  has_many :studies, :foreign_key => :creator_id, :conditions => { :deleted => false }
-  has_many :study_types, :foreign_key => :creator_id, :conditions => { :deleted => false }
-  has_many :rules, :foreign_key => :creator_id, :conditions => { :deleted => false }
+  has_many :studies, -> { where deleted: false }, :foreign_key => :creator_id
+  has_many :study_types, -> { where deleted: false }, :foreign_key => :creator_id
+  has_many :rules, -> { where deleted: false }, :foreign_key => :creator_id
 
   # Manager
   has_many :managed_projects, :class_name => "Project", :through => :project_managers, :source => :project
   has_many :project_managers
 
   # Scorer
-  has_many :assigned_exercises, :class_name => "Exercise", :through => :exercise_scorers, :source => :exercise, :conditions => { :deleted => false }
+  has_many :assigned_exercises, -> { where deleted: false }, :class_name => "Exercise", :through => :exercise_scorers, :source => :exercise
   has_many :exercise_scorers
-  has_many :reliability_ids, :conditions => { :deleted => false }
-  has_many :assigned_projects, :class_name => "Project", :through => :project_managers, :source => :project, :conditions => { :deleted => false }
+  has_many :reliability_ids, -> { where deleted: false }
+  has_many :assigned_projects, -> { where deleted: false }, :class_name => "Project", :through => :project_managers, :source => :project
   has_many :project_scorers
 
   ##
   # Attributes
-
+  
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me
-  attr_accessible :first_name, :last_name
+  # attr_accessible :email, :password, :password_confirmation, :remember_me
+  # attr_accessible :first_name, :last_name
 
 
   ##
@@ -56,12 +56,10 @@ class User < ActiveRecord::Base
 
   ##
   # Scopes
-  scope :current, conditions: { deleted: false }
+  scope :current, -> { where deleted: false }
   scope :search, lambda { |*args| { conditions: [ 'LOWER(first_name) LIKE ? or LOWER(last_name) LIKE ? or LOWER(email) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
   scope :status, lambda { |*args|  { conditions: ["users.status IN (?)", args.first] } }
-  scope :system_admins, conditions: { system_admin: true }
-  #scope :scorers, conditions: { system_admin: false }
-
+  scope :system_admins, -> { where system_admin: true }
 
   ##
   # Validations

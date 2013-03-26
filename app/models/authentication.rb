@@ -5,7 +5,7 @@ class Authentication < ActiveRecord::Base
 
   ##
   # Attributes
-  attr_accessible :provider, :uid, :user_id
+  # attr_accessible :provider, :uid, :user_id
 
   ##
   # Callbacks

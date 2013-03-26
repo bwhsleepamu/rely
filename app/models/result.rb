@@ -1,14 +1,14 @@
 class Result < ActiveRecord::Base
   ##
   # Associations
-  has_one :reliability_id, :conditions => { :deleted => false }
+  has_one :reliability_id, -> { where deleted: false }
   has_one :study_original_result
-  has_one :assessment, :conditions => { :deleted => false }, :autosave => true
+  has_one :assessment, -> { where deleted: false }, :autosave => true
   has_many :assets
 
   ##
   # Attributes
-  attr_accessible :location, :result_type, :assessment_answers, :asset_ids
+  # attr_accessible :location, :result_type, :assessment_answers, :asset_ids
   #accepts_nested_attributes_for :assets, :allow_destroy => true
 
   ##
@@ -21,7 +21,7 @@ class Result < ActiveRecord::Base
 
   ##
   # Scopes
-  scope :current, conditions: { deleted: false }
+  scope :current, -> { where deleted: false }
   scope :with_scorer, lambda { |user| joins(:reliability_id).readonly(false).where("reliability_ids.user_id = ?", user.id).uniq }
   scope :with_studies, lambda { |studies| joins(:study_original_result).readonly(false).where("study_original_results.study_id in (?)", studies.pluck("studies.id")).uniq }
   scope :with_exercises, lambda { |exercises| joins(:reliability_id).readonly(false).where("reliability_ids.exercise_id in (?)", exercises.pluck("exercises.id")).uniq }

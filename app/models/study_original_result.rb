@@ -7,7 +7,7 @@ class StudyOriginalResult < ActiveRecord::Base
 
   ##
   # Attributes
-  attr_accessible :study_id, :rule_id, :result_id
+  # attr_accessible :study_id, :rule_id, :result_id
 
   ##
   # Validations

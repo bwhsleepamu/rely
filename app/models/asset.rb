@@ -1,7 +1,7 @@
 require 'zip/zip'
 
 class Asset < ActiveRecord::Base
-  attr_accessible :result_id, :asset
+  # attr_accessible :result_id, :asset
 
   include Rails.application.routes.url_helpers
 
@@ -21,9 +21,9 @@ class Asset < ActiveRecord::Base
     }
   end
 
-  scope :current
+  scope :current, -> {}
   scope :with_results, lambda {|results| where("result_id in (?)", results.pluck("results.id"))}
-  scope :unattached, where(result_id: nil)
+  scope :unattached, -> { where result_id: nil }
 
   def self.download_exercise(exercise_id, current_user, temp_path)
     exercise = current_user.all_exercises.find_by_id(exercise_id)

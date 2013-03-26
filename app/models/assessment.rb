@@ -2,11 +2,11 @@ class Assessment < ActiveRecord::Base
   ##
   # Associations
   belongs_to :result
-  has_many :assessment_results, :conditions => { :deleted => false }, :autosave => true
+  has_many :assessment_results, -> { where deleted: false }, :autosave => true
 
   ##
   # Attributes
-  attr_accessible :assessment_type, :result_id
+  # # attr_accessible :assessment_type, :result_id
 
   ##
   # Callbacks
@@ -43,7 +43,7 @@ class Assessment < ActiveRecord::Base
 
   ##
   # Scopes
-  scope :current, conditions: { deleted: false }
+  scope :current, -> { where deleted: false }
 
   ##
   # Validations

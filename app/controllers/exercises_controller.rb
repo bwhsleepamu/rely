@@ -39,7 +39,7 @@ class ExercisesController < ApplicationController
   # GET /exercises/new
   # GET /exercises/new.json
   def new
-    @exercise = current_user.owned_exercises.new(post_params)
+    @exercise = current_user.owned_exercises.new(exercise_params)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -58,7 +58,7 @@ class ExercisesController < ApplicationController
   # POST /exercises
   # POST /exercises.json
   def create
-    @exercise = current_user.owned_exercises.new(post_params)
+    @exercise = current_user.owned_exercises.new(exercise_params)
     @exercise.assigned_at = Time.zone.now # TODO: refactor?
 
     respond_to do |format|
@@ -79,7 +79,7 @@ class ExercisesController < ApplicationController
     @exercise = current_user.all_exercises.find(params[:id])
 
     respond_to do |format|
-      if @exercise.update_attributes(post_params)
+      if @exercise.update_attributes(exercise_params)
         format.html { redirect_to @exercise, notice: 'Exercise was successfully updated.' }
         format.json { head :no_content }
       else
@@ -103,9 +103,8 @@ class ExercisesController < ApplicationController
 
   private
 
-  def post_params
+  def exercise_params
     params[:exercise] ||= {}
-
 
     [].each do |date|
       params[:exercise][date] = parse_date(params[:exercise][date])
@@ -113,10 +112,7 @@ class ExercisesController < ApplicationController
 
     params[:exercise][:updater_id] = "#{current_user.id}"
 
-    params[:exercise].slice(
-      :rule_id, :name, :description, :assessment_type, :scorer_ids, :group_ids, :updater_id, :project_id
-    )
-
-
+    # Array: scorer ids, group ids
+    params.require(:exercise).permit(:rule_id, :name, :description, :assessment_type, :scorer_ids, :group_ids, :updater_id, :project_id)
   end
 end

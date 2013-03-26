@@ -1,14 +1,14 @@
 class ReliabilityId < ActiveRecord::Base
   ##
   # Associations
-  belongs_to :study, :conditions => { :deleted => false }
-  belongs_to :user, :conditions => { :deleted => false }
-  belongs_to :exercise, :conditions => { :deleted => false }
-  belongs_to :result, :conditions => { :deleted => false }
+  belongs_to :study, -> { where deleted: false }
+  belongs_to :user, -> { where deleted: false }
+  belongs_to :exercise, -> { where deleted: false }
+  belongs_to :result, -> { where deleted: false }
 
   ##
   # Attributes
-  attr_accessible :study_id, :unique_id, :user_id, :exercise_id, :result_id
+  # attr_accessible :study_id, :unique_id, :user_id, :exercise_id, :result_id
 
   ##
   # Callbacks
@@ -19,7 +19,7 @@ class ReliabilityId < ActiveRecord::Base
 
   ##
   # Scopes
-  scope :current, conditions: { deleted: false }
+  scope :current, -> { where deleted: false }
   scope :with_user, lambda { |user| where("user_id = ?", user.id)  }
 
   ##

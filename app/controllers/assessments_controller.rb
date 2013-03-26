@@ -1,52 +1,10 @@
 class AssessmentsController < ApplicationController
   before_filter :authenticate_user!
 
-  # GET /assessments
-  # GET /assessments.json
-  #def index
-  #  assessment_scope = Assessment.current
-  #  @order = Assessment.column_names.collect{|column_name| "assessments.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "assessments.result_id"
-  #  assessment_scope = assessment_scope.order(@order)
-  #  @assessments = assessment_scope.page(params[:page]).per( 20 )
-  #
-  #  respond_to do |format|
-  #    format.html # index.html.erb
-  #    format.js
-  #    format.json { render json: @assessments }
-  #  end
-  #end
-
-  # GET /assessments/1
-  # GET /assessments/1.json
-  #def show
-  #  @assessment = Assessment.current.find(params[:id])
-  #
-  #  respond_to do |format|
-  #    format.html # show.html.erb
-  #    format.json { render json: @assessment }
-  #  end
-  #end
-
-  # GET /assessments/new
-  # GET /assessments/new.json
-  #def new
-  #  @assessment = Assessment.new
-  #
-  #  respond_to do |format|
-  #    format.html # new.html.erb
-  #    format.json { render json: @assessment }
-  #  end
-  #end
-
-  # GET /assessments/1/edit
-  #def edit
-  #  @assessment = Assessment.current.find(params[:id])
-  #end
-
   # POST /assessments
   # POST /assessments.json
   def create
-    @assessment = Assessment.new(post_params)
+    @assessment = Assessment.new(assessment_params)
 
     respond_to do |format|
       if @assessment.save
@@ -65,7 +23,7 @@ class AssessmentsController < ApplicationController
     @assessment = Assessment.current.find(params[:id])
 
     respond_to do |format|
-      if @assessment.update_attributes(post_params)
+      if @assessment.update_attributes(assessment_params)
         format.html { redirect_to @assessment, notice: 'Assessment was successfully updated.' }
         format.json { head :no_content }
       else
@@ -89,15 +47,14 @@ class AssessmentsController < ApplicationController
 
   private
 
-  def post_params
+  def assessment_params
     params[:assessment] ||= {}
 
     [].each do |date|
       params[:assessment][date] = parse_date(params[:assessment][date])
     end
 
-    params[:assessment].slice(
-      :result_id, :assessment_type
-    )
+    params.require(:assessment).permit(:result_id, :assessment_type)
+
   end
 end

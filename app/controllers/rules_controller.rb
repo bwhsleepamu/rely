@@ -26,7 +26,7 @@ class RulesController < ApplicationController
   # GET /rules/new
   # GET /rules/new.json
   def new
-    @rule = current_user.rules.new(post_params)
+    @rule = current_user.rules.new(rule_params)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -45,7 +45,7 @@ class RulesController < ApplicationController
   # POST /rules
   # POST /rules.json
   def create
-    @rule = current_user.rules.new(post_params)
+    @rule = current_user.rules.new(rule_params)
 
     respond_to do |format|
       if @rule.save
@@ -64,7 +64,7 @@ class RulesController < ApplicationController
     @rule = current_user.all_rules.find(params[:id])
 
     respond_to do |format|
-      if @rule.update_attributes(post_params)
+      if @rule.update_attributes(rule_params)
         format.html { redirect_to rules_path, notice: 'Rule was successfully updated.' }
         format.json { head :no_content }
       else
@@ -88,7 +88,7 @@ class RulesController < ApplicationController
 
   private
 
-  def post_params
+  def rule_params
     params[:rule] ||= {}
 
     [].each do |date|
@@ -97,8 +97,6 @@ class RulesController < ApplicationController
 
     params[:rule][:updater_id] = current_user.id
 
-    params[:rule].slice(
-      :title, :procedure, :assessment_type, :project_id, :updater_id
-    )
+    params[:rule].slice(:title, :procedure, :assessment_type, :project_id, :updater_id)
   end
 end

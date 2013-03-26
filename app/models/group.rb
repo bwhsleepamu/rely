@@ -1,16 +1,16 @@
 class Group < ActiveRecord::Base
   ##
   # Associations
-  has_many :studies, :through => :group_studies, :conditions => { :deleted => false }
+  has_many :studies, -> { where deleted: false }, :through => :group_studies
   has_many :group_studies
-  has_many :exercises, :through => :exercise_groups, :conditions => { :deleted => false }
+  has_many :exercises, -> { where deleted: false }, :through => :exercise_groups
   has_many :exercise_groups
 
   belongs_to :group
   belongs_to :creator, :class_name => "User", :foreign_key => :creator_id
   ##
   # Attributes
-  attr_accessible :description, :name, :study_ids
+  # attr_accessible :description, :name, :study_ids
 
   ##
   # Callbacks
@@ -25,7 +25,7 @@ class Group < ActiveRecord::Base
 
   ##
   # Scopes
-  scope :current, conditions: { deleted: false }
+  scope :current, -> { where deleted: false }
   scope :with_creator, lambda { |user| where("creator_id = ?", user.id)  }
   scope :search, lambda { |term| search_scope([:name, :description, {join: :project, column: :name}], term) }
 

@@ -34,7 +34,7 @@ class ResultTest < ActiveSupport::TestCase
   end
 
   test "study" do
-    pending
+    skip
   end
 
   test "rule" do

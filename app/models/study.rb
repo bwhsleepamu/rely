@@ -2,10 +2,10 @@ class Study < ActiveRecord::Base
   ##
   # Associations
   has_many :reliability_ids
-  has_many :groups, :through => :group_studies, :conditions => { :deleted => false }
+  has_many :groups, -> { where deleted: false }, :through => :group_studies
   has_many :group_studies
   has_many :study_original_results
-  has_many :original_results, :class_name => "Result", :through => :study_original_results, :conditions => { :deleted => false}, :source => :result
+  has_many :original_results, -> { where deleted: false }, :class_name => "Result", :through => :study_original_results, :source => :result
 
   belongs_to :study_type
   belongs_to :creator, :class_name => "User", :foreign_key => :creator_id
@@ -13,7 +13,7 @@ class Study < ActiveRecord::Base
 
   ##
   # Attributes
-  attr_accessible :location, :original_id, :study_type_id, :results
+  # attr_accessible :location, :original_id, :study_type_id, :results
   attr_accessor :results
 
   ##
@@ -29,7 +29,7 @@ class Study < ActiveRecord::Base
 
   ##
   # Scopes
-  scope :current, conditions: { deleted: false }
+  scope :current, -> { where deleted: false }
   scope :with_creator, lambda { |user| where("creator_id = ?", user.id)  }
   scope :with_project, lambda { |project| where("project_id = ?", project.id) }
   scope :search, lambda { |term| search_scope([:original_id, :location, {join: :project, column: :name}], term) }
