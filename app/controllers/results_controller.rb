@@ -67,7 +67,7 @@ class ResultsController < ApplicationController
   # POST /results
   # POST /results.json
   def create
-
+    MY_LOG.info "params: #{params}"
 
     reliability_id = current_user.all_reliability_ids.find_by_id(params[:result][:reliability_id])
 

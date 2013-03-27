@@ -81,7 +81,8 @@ class ExercisesControllerTest < ActionController::TestCase
   test "should not show unassigned exercise to scorer" do
     user = create(:user)
     login(user)
-
+    e = Exercise.first
+    MY_LOG.info "#{user} #{user.assigned_exercises} #{@exercise} #{@exercise.valid?} #{user.assigned_exercises.to_a.include?(e)} "
     assert_equal false, user.assigned_exercises.include?(@exercise)
     get :show_assigned, id: @exercise
     assert_redirected_to root_path

@@ -45,7 +45,7 @@ class StudiesController < ApplicationController
   # POST /studies
   # POST /studies.json
   def create
-    #MY_LOG.info "study create: #{params[:study]}"
+    MY_LOG.info "study create: #{params}"
 
     @study = current_user.studies.new(study_params)
 

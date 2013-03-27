@@ -105,6 +105,6 @@ class ProjectsController < ApplicationController
     end
 
     # Array: manager ids, scorer ids
-    params.require(:project).permit(:name, :description, :start_date, :end_date, :manager_ids, :scorer_ids)
+    params.require(:project).permit(:name, :description, :start_date, :end_date, { :manager_ids => [] }, { :scorer_ids => [] })
   end
 end

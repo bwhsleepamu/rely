@@ -58,8 +58,11 @@ class ExercisesController < ApplicationController
   # POST /exercises
   # POST /exercises.json
   def create
+    MY_LOG.info "params: #{params}"
     @exercise = current_user.owned_exercises.new(exercise_params)
     @exercise.assigned_at = Time.zone.now # TODO: refactor?
+
+    MY_LOG.info "v: #{@exercise.valid?} e: #{@exercise.errors.full_messages}"
 
     respond_to do |format|
       if @exercise.save
@@ -113,6 +116,6 @@ class ExercisesController < ApplicationController
     params[:exercise][:updater_id] = "#{current_user.id}"
 
     # Array: scorer ids, group ids
-    params.require(:exercise).permit(:rule_id, :name, :description, :assessment_type, :scorer_ids, :group_ids, :updater_id, :project_id)
+    params.require(:exercise).permit(:rule_id, :name, :description, :assessment_type, { :scorer_ids => [] }, { :group_ids => [] }, :updater_id, :project_id)
   end
 end

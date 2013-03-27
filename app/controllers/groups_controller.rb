@@ -98,7 +98,6 @@ class GroupsController < ApplicationController
     params[:group][:updater_id] = "#{current_user.id}"
 
     # Array: study_ids
-    params.require(:group).permit(:name, :description, :study_ids, :updater_id, :project_id
-    )
+    params.require(:group).permit(:name, :description, { :study_ids => [] }, :updater_id, :project_id)
   end
 end
