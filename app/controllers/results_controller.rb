@@ -67,8 +67,6 @@ class ResultsController < ApplicationController
   # POST /results
   # POST /results.json
   def create
-    MY_LOG.info "params: #{params}"
-
     reliability_id = current_user.all_reliability_ids.find_by_id(params[:result][:reliability_id])
 
     @result = reliability_id.build_result(result_params) if reliability_id
@@ -131,7 +129,6 @@ class ResultsController < ApplicationController
     @assets = params[:asset_ids].map {|a_id| Asset.find_by_id(a_id.to_i)} | assets
     @rule = current_user.all_rules.find_by_id(params[:rule_id])
 
-    MY_LOG.info "RES: #{@result} ASS: #{@assets} RUL: #{@rule}"
     respond_to do |format|
       format.js 
     end
@@ -149,6 +146,6 @@ class ResultsController < ApplicationController
     end
 
     # Arrays and/or hashes? assessment_answers, asset ids, 
-    params.require(:result).permit(:location, :assessment_answers, :asset_ids, :reliability_id, :study_original_result_id)
+    params.require(:result).permit(:location, { assessment_answers: [:question_id, :answer] }, :asset_ids, :reliability_id, :study_original_result_id)
   end
 end

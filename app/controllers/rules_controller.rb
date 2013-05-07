@@ -97,6 +97,6 @@ class RulesController < ApplicationController
 
     params[:rule][:updater_id] = current_user.id
 
-    params[:rule].slice(:title, :procedure, :assessment_type, :project_id, :updater_id)
+    params.require(:rule).permit(:title, :procedure, :assessment_type, :project_id, :updater_id)
   end
 end

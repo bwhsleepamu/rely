@@ -55,7 +55,7 @@ class StudiesControllerTest < ActionController::TestCase
   test "should create study with original results" do
     assert_difference('Study.current.count') do
       post :create, study: { location: @template.location, original_id: @template.original_id, study_type_id: @project.study_types.first.id, project_id: @project.id, results:
-          [{ rule_id: @project.rules.first.id, location: "/best/place/ever/1", delete: "0",  assessment_answers: {"1" => "2", "2" => "11" }  }, {rule_id: @project.rules.last.id, location: "/best/place/ever/2", delete: "0", assessment_answers: {:assessment_type => "{:value=>\"paradox\"}", "1" => "1", "2" => "1" }   }]
+          [{ rule_id: @project.rules.first.id, location: "/best/place/ever/1", delete: "0",  assessment_answers: [{question_id: "1", answer: "2"}, {question_id: "2", answer: "11"}]  }, {rule_id: @project.rules.last.id, location: "/best/place/ever/2", delete: "0", assessment_answers: {:assessment_type => "{:value=>\"paradox\"}", "1" => "1", "2" => "1" }   }]
       }
     end
 
@@ -89,9 +89,9 @@ class StudiesControllerTest < ActionController::TestCase
     sor2 = @study_with_results.study_original_results.last
 
     put :update, id: @study_with_results, study: { location: @study_with_results.location, original_id: @study_with_results.original_id, study_type_id: @study_with_results.study_type_id, results:
-        [{ "rule_id"=>new_rule.id, "location"=>new_location, "assessment_answers"=>{"1"=>"22", "2"=>"2"}},
-         {"study_original_result_id"=>sor1.id, "delete"=>"0", "rule_id"=>sor1.rule.id, "location"=>new_location, "assessment_answers"=>{"1"=>"2", "2"=>"2"}},
-         {"study_original_result_id"=>sor2.id, "delete"=>"0","rule_id"=>sor2.rule.id, "location"=>new_location, "assessment_answers"=>{"1"=>"2", "2"=>"2"}}
+        [{ "rule_id"=>new_rule.id, "location"=>new_location, assessment_answers: [{question_id: 1, answer: 22}, {question_id: 2, answer: 2}]},
+         {"study_original_result_id"=>sor1.id, "delete"=>"0", "rule_id"=>sor1.rule.id, "location"=>new_location, assessment_answers: [{question_id: "1", answer: "2"}, {question_id: "2", answer: "11"}]},
+         {"study_original_result_id"=>sor2.id, "delete"=>"0","rule_id"=>sor2.rule.id, "location"=>new_location, assessment_answers: [{question_id: "1", answer: "2"}, {question_id: "2", answer: "2"}]}
         ]
     }
 
@@ -115,8 +115,8 @@ class StudiesControllerTest < ActionController::TestCase
       put :update, id: @study_with_results, study: {
           location: @study_with_results.location, original_id: @study_with_results.original_id, study_type_id: @study_with_results.study_type_id,
           results:  [
-                      {"study_original_result_id"=>sor1.id, "rule_id"=>sor1.rule.id, "location"=>sor1.result.location, "delete"=>"1", "assessment_answers"=>{"1"=>"2", "2"=>"2"}},
-                      {"study_original_result_id"=>sor2.id, "rule_id"=>sor2.rule.id, "location"=>sor2.result.location, "delete"=>"0", "assessment_answers"=>{"1"=>"2", "2"=>"2"}}
+                      {"study_original_result_id"=>sor1.id, "rule_id"=>sor1.rule.id, "location"=>sor1.result.location, "delete"=>"1", assessment_answers: [{question_id: "1", answer: "2"}, {question_id: "2", answer: "11"}]},
+                      {"study_original_result_id"=>sor2.id, "rule_id"=>sor2.rule.id, "location"=>sor2.result.location, "delete"=>"0", assessment_answers: [{question_id: "1", answer: "2"}, {question_id: "2", answer: "11"}]}
                     ]
       }
     end

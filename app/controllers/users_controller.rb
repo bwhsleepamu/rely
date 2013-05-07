@@ -80,11 +80,7 @@ class UsersController < ApplicationController
   def user_params
     params[:user] ||= {}
 
-    [:start_date, :end_date].each do |date|
-      params[:project][date] = parse_date(params[:project][date])
-    end
-
-    params.require(:project).permit(:first_name, :last_name, :email, :remember_me, :description, :start_date, :end_date, :user_id)
+    params.require(:user).permit(:first_name, :last_name, :email)
   end
 
 end

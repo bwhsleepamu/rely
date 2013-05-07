@@ -41,6 +41,10 @@ class User < ActiveRecord::Base
   before_update :status_activated
 
   ##
+  # Concerns
+  include Contourable
+
+  ##
   # Constants
   STATUS = ["active", "denied", "inactive", "pending"].collect{|i| [i,i]}
 
@@ -72,15 +76,10 @@ class User < ActiveRecord::Base
   # Instance Methods
   def apply_omniauth(omniauth)
     unless omniauth['info'].blank?
-      self.email = omniauth['info']['email'] if email.blank?
       self.first_name = omniauth['info']['first_name'] if first_name.blank?
       self.last_name = omniauth['info']['last_name'] if last_name.blank?
     end
-    authentications.build( provider: omniauth['provider'], uid: omniauth['uid'] )
-  end
-
-  def password_required?
-    (authentications.empty? || !password.blank?) && super
+    super
   end
 
   def avatar_url(size = 80, default = 'mm')
@@ -125,7 +124,7 @@ class User < ActiveRecord::Base
   end
 
   def all_exercise_rules
-    Rule.current.with_exercises(assigned_exercises.scoped)
+    Rule.current.with_exercises(assigned_exercises)
   end
 
   def all_viewable_rules
@@ -195,6 +194,4 @@ class User < ActiveRecord::Base
       end
     end
   end
-
-
 end

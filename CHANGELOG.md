@@ -1,3 +1,9 @@
+## 0.8.0
+
+### Enhancements
+- **Gem Changes**
+  - Updated to contour 2.0.0.beta.6
+
 ## 0.7.2
 
 ### Bug Fix

@@ -17,6 +17,9 @@ Rely::Application.configure do
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
 
+  # Raise an error on page load if there are pending migrations
+  config.active_record.migration_error = :page_load
+
   # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
 
@@ -24,8 +27,10 @@ Rely::Application.configure do
   config.assets.compress = false
 
   # Expands the lines which load the assets
+  # This option may cause significant delays in view rendering with a large
+  # number of complex assets.
   config.assets.debug = true
 
-  # Rails 4 Upgrade
+  # Do not eager load code on boot.
   config.eager_load = false
 end

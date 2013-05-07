@@ -46,7 +46,7 @@ class ReliabilityIdsController < ApplicationController
   # POST /reliability_ids
   # POST /reliability_ids.json
   def create
-    @reliability_id = ReliabilityId.new(reliablity_id_params)
+    @reliability_id = ReliabilityId.new(reliability_id_params)
 
     respond_to do |format|
       if @reliability_id.save
@@ -65,7 +65,7 @@ class ReliabilityIdsController < ApplicationController
     @reliability_id = ReliabilityId.current.find(params[:id])
 
     respond_to do |format|
-      if @reliability_id.update_attributes(reliablity_id_params)
+      if @reliability_id.update_attributes(reliability_id_params)
         format.html { redirect_to @reliability_id, notice: 'ReliabilityId was successfully updated.' }
         format.json { head :no_content }
       else
@@ -96,6 +96,6 @@ class ReliabilityIdsController < ApplicationController
       params[:reliability_id][date] = parse_date(params[:reliability_id][date])
     end
 
-    params.require(:reliability_id).slice(:unique_id, :study_id, :user_id, :exercise_id, :result_id)
+    params.require(:reliability_id).permit(:unique_id, :study_id, :user_id, :exercise_id, :result_id)
   end
 end

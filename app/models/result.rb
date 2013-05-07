@@ -66,10 +66,12 @@ class Result < ActiveRecord::Base
   end
 
   # TODO: THIS NEEDS FIXING FOR VALIDATION REASONS!
-  def assessment_answers=(answer_hash)
+  def assessment_answers=(answers)
     build_assessment(assessment_type: rule.assessment_type) unless assessment.present?
 
-    answer_hash.each do |question_id, answer|
+    answers.each do |answer_hash|
+      question_id = answer_hash[:question_id]
+      answer = answer_hash[:answer]
       if assessment.new_record?
         assessment.assessment_results.build(question_id: question_id, answer: answer)
       else

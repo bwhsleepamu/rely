@@ -40,13 +40,12 @@ class ResultsControllerTest < ActionController::TestCase
     rid = exercise.reliability_ids.where(user_id: scorer.id).first
     assert scorer.all_reliability_ids.find_by_id(rid)
 
-    #MY_LOG.info "errors: #{exercise.errors.full_messages} \neid: #{exercise.id} #{exercise.scorers} | #{scorer} | #{exercise.scorers.include?(scorer)}"
-
     assert_difference('Result.count') do
-      post :create, result: { location: "some location", result_type: "rescored", assessment_answers: {"1"=>"233", "2"=>"2"}, reliability_id: rid.id }
+      post :create, result: { location: "some location", assessment_answers: [{question_id: "1", answer: "233"}, {question_id: "2", answer: "2"}], reliability_id: rid.id }
     end
 
     assert_not_nil assigns(:result).assessment
+    assert_equal "233", assigns(:result).assessment.assessment_results[0].answer
     assert_equal false, assigns(:result).assessment.assessment_results.empty?
 
     assert_redirected_to show_assigned_exercise_path(assigns(:result).reliability_id.exercise)

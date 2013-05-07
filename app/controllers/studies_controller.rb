@@ -45,8 +45,6 @@ class StudiesController < ApplicationController
   # POST /studies
   # POST /studies.json
   def create
-    MY_LOG.info "study create: #{params}"
-
     @study = current_user.studies.new(study_params)
 
     respond_to do |format|
@@ -97,7 +95,6 @@ class StudiesController < ApplicationController
 
   def study_params
     params[:study] ||= {}
-
     [].each do |date|
       params[:study][date] = parse_date(params[:study][date])
     end
@@ -105,6 +102,7 @@ class StudiesController < ApplicationController
     params[:study][:updater_id] = current_user.id
 
     # Arrays: results
-    params.require(:study).permit(:original_id, :study_type_id, :location, :results, :project_id, :updater_id)
+    params.require(:study).permit(:original_id, :study_type_id, :location, {results: [ :rule_id, :location, :delete, :study_original_result_id, {assessment_answers: [:question_id, :answer]}]}, :project_id, :updater_id)
+
   end
 end

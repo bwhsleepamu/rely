@@ -4,33 +4,33 @@ class ResultTest < ActiveSupport::TestCase
   test "set assessment results" do
     exercise = create(:exercise)
     r_id = exercise.reliability_ids.first
-    assessment_answers_1 = {"1"=>"233", "2"=>"2"}
-    assessment_answers_2 = {"1"=>"100", "2"=>"1"}
+    assessment_answers_1 = [{question_id: "1", answer: "233"}, {question_id: "2", answer: "2"}]
+    assessment_answers_2 = [{question_id: "1", answer: "100"}, {question_id: "2", answer: "1"}]
 
     result = Result.create(location: "some_location", reliability_id: r_id.id, assessment_answers: assessment_answers_1)
 
     assert_equal 2, result.assessment.assessment_results.length
-    assert_equal assessment_answers_1["1"], result.assessment.assessment_results[0].answer
+    assert_equal assessment_answers_1[0][:answer], result.assessment.assessment_results[0].answer
 
     result = Result.find(result.id)
     result.assessment_answers = assessment_answers_2
     result.save
 
     assert_equal 2, result.assessment.assessment_results.length
-    assert_equal assessment_answers_2["1"], result.assessment.assessment_results[0].answer
+    assert_equal assessment_answers_2[0][:answer], result.assessment.assessment_results[0].answer
   end
 
   test "assessment results persisted when validation fails" do
     exercise = create(:exercise)
     r_id = exercise.reliability_ids.first
-    assessment_answers_1 = {"1"=>"233", "2"=>"2"}
-    assessment_answers_2 = {"1"=>"100", "2"=>"1"}
+    assessment_answers_1 = [{question_id: "1", answer: "233"}, {question_id: "2", answer: "2"}]
+    assessment_answers_2 = [{question_id: "1", answer: "100"}, {question_id: "2", answer: "1"}]
 
     result = r_id.create_result(location: "some_location", reliability_id: r_id.id, assessment_answers: assessment_answers_1)
 
     result.update_attributes({location: "", assessment_answers: assessment_answers_2})
     assert !result.valid?
-    assert_equal assessment_answers_2["1"], result.assessment.assessment_results[0].answer
+    assert_equal assessment_answers_2[0][:answer], result.assessment.assessment_results[0].answer
   end
 
   test "study" do
