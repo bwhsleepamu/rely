@@ -18,7 +18,8 @@ class GroupWorkflowTest < ActionDispatch::IntegrationTest
     select_from_chosen @project.name, :from => "Project"
     fill_in 'Name', :with => group_name
     fill_in 'Description', :with => description
-    assert find("#group_study_ids").has_selector?("option", :count => @project.studies.count), "Available studies are not all shown in select."
+
+    assert find_by_id("group_study_ids", visible: false).has_selector?("option", { count: @project.studies.count, visible: false }), "Available studies are not all shown in select."
 
     0.upto(@project.studies.count - 2) do |i|
       select_from_chosen @project.studies[i].long_name, :from => "Studies"

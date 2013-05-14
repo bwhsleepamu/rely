@@ -18,7 +18,7 @@
         </div>
         <div class="span6">
           <h4>Assessment Questionnaire</h4>
-          <%= render :partial => "assessments/original_questionnaire", :locals => { :assessment_type => result.rule.assessment_type, :assessment => result.assessment } %>
+          <%= render :partial => "assessments/questionnaire", locals: { assessment_type: result.rule.assessment_type, assessment: result.assessment, name_prefix: "study[results][]" } %>
         </div>
       </div>
       <% result.assets.each do |asset| %>

@@ -28,8 +28,7 @@
 
       <fieldset>
         <legend>Result Assessment Questionnaire</legend>
-        <%= render partial: "assessments/questionnaire", locals: { assessment_type: @result.reliability_id.exercise.rule.assessment_type, assessment: @result.assessment } %>
-
+        <%= render partial: "assessments/questionnaire", locals: { assessment_type: @result.reliability_id.exercise.rule.assessment_type, assessment: @result.assessment, name_prefix: "result" } %>
       </fieldset>
     </div>
   <% end %>

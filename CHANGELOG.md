@@ -1,8 +1,11 @@
 ## 0.8.0
 
 ### Enhancements
+- Upgraded to Rails 4.0.0.rc1
+- Upgraded to Ruby 2.0
+
 - **Gem Changes**
-  - Updated to contour 2.0.0.beta.6
+  - Updated to contour 2.0.0.beta.8
 
 ## 0.7.2
 

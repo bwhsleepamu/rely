@@ -54,8 +54,8 @@ class StudyWorkflowTest < ActionDispatch::IntegrationTest
     assert result_form.has_content? rule1.title
 
     result_form.fill_in "result_location", :with => location
-    result_form.fill_in "study_results__assessment_answers_1", :with => "233"
-    select_from_chosen "Some", :from => "study[results][][assessment_answers][2]"
+    result_form.fill_in Assessment::TYPES[:paradox][:questions][1][:text], :with => "233"
+    select_from_chosen "Some", :from => Assessment::TYPES[:paradox][:questions][2][:text]
 
     click_on "Update Study"
 
@@ -78,7 +78,7 @@ class StudyWorkflowTest < ActionDispatch::IntegrationTest
 
     result_form = page.find(".well", :visible => true)
     result_form.fill_in "result_location", :with => location
-    result_form.fill_in "study_results__assessment_answers_1", :with => "2333"
+    result_form.fill_in Assessment::TYPES[:paradox][:questions][1][:text], :with => "2333"
 
 
     click_on "Update Study"

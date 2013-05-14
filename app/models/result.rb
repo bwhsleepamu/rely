@@ -67,6 +67,8 @@ class Result < ActiveRecord::Base
 
   # TODO: THIS NEEDS FIXING FOR VALIDATION REASONS!
   def assessment_answers=(answers)
+
+    MY_LOG.info "answers: #{answers}"
     build_assessment(assessment_type: rule.assessment_type) unless assessment.present?
 
     answers.each do |answer_hash|

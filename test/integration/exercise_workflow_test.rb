@@ -35,7 +35,7 @@ class ExerciseWorkflowTest < ActionDispatch::IntegrationTest
     visit exercises_path
 
     exercises.each do |exercise|
-      tr = find("tr##{exercise.id}")
+      tr = find_by_id("#{exercise.id}")
       assert tr.find("td.status").has_content?("0%")
     end
 
@@ -64,7 +64,7 @@ class ExerciseWorkflowTest < ActionDispatch::IntegrationTest
 
     my_exercise.reload
 
-    tr = find("tr##{my_exercise.id}")
+    tr = find_by_id("#{my_exercise.id}")
     assert tr.find("td.status").has_content?("#{"%.1f" % my_exercise.percent_completed}%")
     assert_not_nil my_exercise.completed_at
 
@@ -236,7 +236,7 @@ class ExerciseWorkflowTest < ActionDispatch::IntegrationTest
 
     fill_in "Location", :with => "/some/location/to/result/file"
     fill_in "result_assessment_answers_1", :with => "233"
-    select_from_chosen "Some", :from => "result[assessment_answers][2]"
+    select_from_chosen "Some", :from => "How much did this paradox hurt your brain?"
 
     click_on "Add Result"
 
@@ -245,8 +245,6 @@ class ExerciseWorkflowTest < ActionDispatch::IntegrationTest
     assert tr.has_content? "true"
 
     tr.click_on "Edit Result"
-
-    #page.find
 
     assert_equal 233.to_s, find_field("result_assessment_answers_1").value
   end
@@ -261,7 +259,7 @@ class ExerciseWorkflowTest < ActionDispatch::IntegrationTest
 
     visit exercises_path
 
-    tr = find("tr##{exercise.id}")
+    tr = find_by_id("#{exercise.id}")
     assert tr.find("td.completed").has_content?("no")
 
     # Add results
@@ -272,7 +270,7 @@ class ExerciseWorkflowTest < ActionDispatch::IntegrationTest
 
     visit(current_path)
 
-    tr = find("##{exercise.id}")
+    tr = find_by_id("#{exercise.id}")
     assert tr.find("td.completed").has_content?("yes")
   end
 
@@ -298,19 +296,19 @@ class ExerciseWorkflowTest < ActionDispatch::IntegrationTest
     assert_equal 2, result.assessment.assessment_results.length
 
     result.assessment.assessment_results.each_with_index do |assessment_result, i|
-      assert_equal assessment_result.answer, page.find_field("result[assessment_answers][#{i+1}]").value
+      assert_equal assessment_result.answer, page.find_field(Assessment::TYPES[:paradox][:questions][i+1][:text], visible: false).value
     end
 
     fill_in "Location", :with => new_location
     fill_in "result_assessment_answers_1", :with => new_answer_1
-    select_from_chosen new_answer_2, :from => "result[assessment_answers][2]"
+    select_from_chosen new_answer_2, :from => "How much did this paradox hurt your brain?"
 
     click_on "Update Result"
     visit(edit_result_path(result))
 
     assert_equal new_location, page.find_field("Location").value
-    assert_equal new_answer_1, page.find("#result_assessment_answers_1").value
-    assert_equal "3", page.find_field("result[assessment_answers][2]").value
+    assert_equal new_answer_1, page.find_field(Assessment::TYPES[:paradox][:questions][1][:text]).value
+    assert_equal "3", page.find_field(Assessment::TYPES[:paradox][:questions][2][:text], visible: false).value
   end
 
 
