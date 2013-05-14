@@ -16,8 +16,7 @@ class Rule < ActiveRecord::Base
 
   ##
   # Extentions
-  include Extensions::IndexMethods
-  include Extensions::ScopedByProject
+  include IndexMethods, ScopedByProject
 
   ##
   # Scopes

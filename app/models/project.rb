@@ -26,7 +26,7 @@ class Project < ActiveRecord::Base
 
   ##
   # Extensions
-  include Extensions::IndexMethods
+  include IndexMethods
 
   ##
   # Scopes

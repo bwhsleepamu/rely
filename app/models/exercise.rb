@@ -24,8 +24,7 @@ class Exercise < ActiveRecord::Base
 
   ##
   # Extensions
-  include Extensions::IndexMethods
-  include Extensions::ScopedByProject
+  include IndexMethods, ScopedByProject
 
   ##
   # Scopes

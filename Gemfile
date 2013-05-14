@@ -5,7 +5,7 @@ gem 'rails',                '4.0.0.rc1'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'pg'
+gem 'pg',                   '~> 0.15.1'
 gem "uuid",                 '~> 2.3.5'
 
 # Windows
