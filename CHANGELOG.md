@@ -1,3 +1,9 @@
+## 0.8.1
+
+### Enhancements
+- Upgraded to Rails 4.0.0.rc2
+- Upgraded to Ruby 2.0.0-p195
+
 ## 0.8.0
 
 ### Enhancements
