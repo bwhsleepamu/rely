@@ -1,3 +1,10 @@
+## 0.8.2
+
+### Enhancements
+- Use of Ruby 2.0.0-p247 is now recommended
+- **Gem Changes**
+  - Updated to rails 4.0.0
+
 ## 0.8.1
 
 ### Enhancements

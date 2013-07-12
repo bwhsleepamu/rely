@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails',                '4.0.0.rc2'
+gem 'rails',                '4.0.0'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -27,14 +27,12 @@ gem 'turbolinks'
 
 # Rails Defaults
 gem 'coffee-rails',         '~> 4.0.0'
-gem 'sass-rails',           '~> 4.0.0.rc1'
+gem 'sass-rails',           '~> 4.0.0'
 gem 'uglifier',             '>= 1.3.0'
 
-gem 'jbuilder',             '~> 1.4.0'
+gem 'jbuilder',             '~> 1.4'
 gem 'jquery-rails'
 gem 'jquery-fileupload-rails'
-
-gem 'turbolinks'
 
 # Diagrams
 group :development, :test do
