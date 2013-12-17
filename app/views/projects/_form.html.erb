@@ -2,7 +2,7 @@
   <h1><%= @title %></h1>
 </div>
 
-<%= form_for @project, html: { class: 'form-horizontal' } do |f| %>
+<%= form_for @project, html: { class: '', role: 'form'  } do |f| %>
   <% if @project.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@project.errors.count, "error") %> prohibited this project from being saved:</h2>
@@ -15,47 +15,48 @@
     </div>
   <% end %>
 
-  <div class="control-group">
-    <%= f.label :name, nil, class: 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :name %>
+  <div class="row">
+    <div class="col-md-7">
+      <fieldset class="form-horizontal">
+        <div class="form-group">
+          <%= f.label :name, nil, class: "control-label col-sm-2" %>
+          <div class="col-sm-10"><%= f.text_field :name, class: "form-control"  %></div>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :description, nil, class: 'control-label col-sm-2' %>
+          <div class="col-sm-10"><%= f.text_area :description, class: "form-control" %></div>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :start_date, "Start Date", class: 'control-label col-sm-2' %>
+          <div class="col-sm-10"><%= f.text_field :start_date, class: 'datepicker form-control', value: @project.start_date ? @project.start_date.strftime('%m/%d/%Y') : '' %></div>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :end_date, "End Date", class: 'control-label col-sm-2' %>
+          <div class="col-sm-10"><%= f.text_field :end_date, class: 'datepicker form-control', value: @project.end_date ? @project.end_date.strftime('%m/%d/%Y') : '' %></div>
+        </div>
+      </fieldset>
+    </div>
+    <div class="col-md-5">
+      <fieldset>
+        <div class="form-group">
+          <%= f.label :manager_ids, "Managers" %>
+          <%= f.collection_select :manager_ids, User.current.order(:last_name), :id, :name, {}, {multiple:true, rel: :chosen, class: "form-control" } %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :scorer_ids, "Scorers", class: 'control-label' %>
+          <%= f.collection_select :scorer_ids, User.current.order(:last_name), :id, :name, {}, {multiple:true, rel: :chosen, class: "form-control" } %>
+        </div>
+      </fieldset>
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label :description, nil, class: 'control-label' %>
-    <div class="controls">
-      <%= f.text_area :description, rows: 7, style: 'width:95%' %>
-    </div>
-  </div>
 
-  <div class="control-group">
-    <%= f.label :start_date, "Start Date", class: 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :start_date, class: 'datepicker', value: @project.start_date ? @project.start_date.strftime('%m/%d/%Y') : '' %>
-    </div>
-  </div>
 
-  <div class="control-group">
-    <%= f.label :end_date, "End Date", class: 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :end_date, class: 'datepicker', value: @project.end_date ? @project.end_date.strftime('%m/%d/%Y') : '' %>
-    </div>
-  </div>
 
-  <div class="control-group">
-    <%= f.label :manager_ids, "Managers", class: 'control-label' %>
-    <div class="controls">
-      <%= f.collection_select :manager_ids, User.current.order(:last_name), :id, :name, {}, {multiple:true, rel: :chosen} %>
-    </div>
-  </div>
-
-  <div class="control-group">
-    <%= f.label :scorer_ids, "Scorers", class: 'control-label' %>
-    <div class="controls">
-      <%= f.collection_select :scorer_ids, User.current.order(:last_name), :id, :name, {}, {multiple:true, rel: :chosen} %>
-    </div>
-  </div>
 
   <div class="form-actions">
     <%= f.submit nil, class: 'btn btn-primary' %>

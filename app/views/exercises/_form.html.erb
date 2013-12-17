@@ -2,40 +2,40 @@
   <h1><%= title %></h1>
 </div>
 
-<%= form_for @exercise, html: { class: 'form-horizontal' } do |f| %>
+<%= form_for @exercise, html: { class: 'form-horizontal', role: 'form'  } do |f| %>
   <%= display_errors @exercise %>
   <%= render :partial => "partials/project_field", :locals => {f: f, editable: @exercise.new_record?, object_name: "exercise", target_path: new_exercise_path } %>
 
   <% if @exercise.project.present? %>
-    <div class="control-group">
+    <div class="form-group">
       <%= f.label :rule_id, nil, class: 'control-label' %>
       <div class="controls">
         <%= f.select :rule_id, [['---', nil]] + @exercise.project.rules.collect{|r| [r.name, r.id]}, {}, {rel: "chosen"} %>
       </div>
     </div>
 
-    <div class="control-group">
+    <div class="form-group">
       <%= f.label :name, nil, class: 'control-label' %>
       <div class="controls">
         <%= f.text_field :name %>
       </div>
     </div>
 
-    <div class="control-group">
+    <div class="form-group">
       <%= f.label :description, nil, class: 'control-label' %>
       <div class="controls">
         <%= f.text_area :description, rows: 7, style: 'width:95%' %>
       </div>
     </div>
 
-    <div class="control-group">
+    <div class="form-group">
       <%= f.label :group_ids, "Groups", class: 'control-label' %>
       <div class="controls">
         <%= f.collection_select :group_ids, @exercise.project.groups.order(:name), :id, :name, {}, {multiple:true, rel: :chosen} %>
       </div>
     </div>
 
-    <div class="control-group">
+    <div class="form-group">
       <%= f.label :scorer_ids, "Scorers", class: 'control-label' %>
       <div class="controls">
         <%= f.collection_select :scorer_ids, @exercise.project.scorers.order(:last_name), :id, :name, {}, {multiple:true, rel: :chosen} %>

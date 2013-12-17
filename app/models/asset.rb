@@ -1,5 +1,3 @@
-require 'zip/zip'
-
 class Asset < ActiveRecord::Base
   # attr_accessible :result_id, :asset
 
@@ -29,7 +27,7 @@ class Asset < ActiveRecord::Base
     exercise = current_user.all_exercises.find_by_id(exercise_id)
     
     if exercise
-      Zip::ZipFile.open(temp_path, true) do |zipfile|
+      Zip::File.open(temp_path, true) do |zipfile|
         exercise.all_studies.each do |study|
           original_result = study.study_original_results.find_by_rule_id(exercise.rule.id)
 
@@ -58,7 +56,7 @@ class Asset < ActiveRecord::Base
   def self.download_result(result_id, current_user, temp_path)
     result = current_user.all_viewable_results.find_by_id(result_id)
     if result
-      Zip::ZipFile.open(temp_path, true) do |zipfile|
+      Zip::File.open(temp_path, true) do |zipfile|
         result.assets.each do |asset|
           zipfile.add(File.join(asset.asset_file_name), asset.asset.path)
         end

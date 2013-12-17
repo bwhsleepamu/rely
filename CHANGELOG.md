@@ -1,3 +1,14 @@
+## 0.8.3
+- Using Ruby 2.0.0-p353
+- **Gem Changes**
+  - Updated to rails 4.0.2
+  - Updated rubyzip to 1.1.0
+  - Updated Contour to 2.2.0
+### Bug Fix
+- Fixed Issue #1 - zip/zip requirement.
+- Fixed Turbolinks issues
+- Fixed bootstrap 3 issues
+
 ## 0.8.2
 
 ### Enhancements

@@ -2,7 +2,7 @@
   <h1><%= @title %></h1>
 </div>
 
-<%= form_for @assessment_result, html: { class: 'form-horizontal' } do |f| %>
+<%= form_for @assessment_result, html: { class: 'form-horizontal', role: 'form' } do |f| %>
   <% if @assessment_result.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@assessment_result.errors.count, "error") %> prohibited this assessment_result from being saved:</h2>
@@ -15,28 +15,28 @@
     </div>
   <% end %>
 
-  <div class="control-group">
+  <div class="form-group">
     <%= f.label :assessment_id, nil, class: 'control-label' %>
     <div class="controls">
       <%= f.select :assessment_id, [['---', nil]] + Assessment.current.collect{|a| [a.name, a.id]} %>
     </div>
   </div>
 
-  <div class="control-group">
+  <div class="form-group">
     <%= f.label :question_id, nil, class: 'control-label' %>
     <div class="controls">
       <%= f.text_field :question_id %>
     </div>
   </div>
 
-  <div class="control-group">
+  <div class="form-group">
     <%= f.label :answer, nil, class: 'control-label' %>
     <div class="controls">
       <%= f.text_area :answer, rows: 7, style: 'width:95%' %>
     </div>
   </div>
 
-  <div class="control-group">
+  <div class="form-group">
     <%= f.label :deleted, nil, class: 'control-label' %>
     <div class="controls">
       <%= f.check_box :deleted %>

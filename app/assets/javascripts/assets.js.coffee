@@ -45,7 +45,7 @@ jQuery.fn.get_asset_ids = (parent) ->
     v = $(val).val()
     return v if v
 
-jQuery ->
+@assets_ready =  () ->
   # Initialize file upload
   $('#asset_upload').fileupload()
 
@@ -57,37 +57,37 @@ jQuery ->
   #$("#uploader").on "hide", jQuery.fn.update_file_lists
   
 
-  # Submit for upload
-  $(document).on 'fileuploadsubmit', "#asset_upload", (e, data) ->
-    # The example input, doesn't have to be part of the upload form:
-    data.formData = result_id: $("#upload_result_id").data("resultId")
+# Submit for upload
+$(document).on 'fileuploadsubmit', "#asset_upload", (e, data) ->
+  # The example input, doesn't have to be part of the upload form:
+  data.formData = result_id: $("#upload_result_id").data("resultId")
 
-  # When upload done, appends hidden field with the id of the recently uploaded file to the corresponding result form
-  #   The #asset_id_template object used by this bit of code is found in the result _fields.html.rb and _form.html.erb partials
-  #   !!!! Unclear if this happens for both Result and Original Result - can't find [data-current-upload] tag in Result
-  $(document).on 'fileuploaddone', "#asset_upload", (e, data) ->
-    asset_id = data.result.files[0]["asset_id"]
-    $('[data-current-upload="true"]').append($("#asset_id_template").html().replace('value=""', 'value="' + asset_id + '"'))
+# When upload done, appends hidden field with the id of the recently uploaded file to the corresponding result form
+#   The #asset_id_template object used by this bit of code is found in the result _fields.html.rb and _form.html.erb partials
+#   !!!! Unclear if this happens for both Result and Original Result - can't find [data-current-upload] tag in Result
+$(document).on 'fileuploaddone', "#asset_upload", (e, data) ->
+  asset_id = data.result.files[0]["asset_id"]
+  $('[data-current-upload="true"]').append($("#asset_id_template").html().replace('value=""', 'value="' + asset_id + '"'))
 
-  # When download deleted, get rid of any hidden asset id fields
-  $(document).on 'fileuploaddestroy', "#asset_upload", (e, data, xhr) ->
-    asset_id = data.url.substring(data.url.lastIndexOf('/') + 1)
-    $(".asset_ids[value='"+ asset_id + "']").remove()
+# When download deleted, get rid of any hidden asset id fields
+$(document).on 'fileuploaddestroy', "#asset_upload", (e, data, xhr) ->
+  asset_id = data.url.substring(data.url.lastIndexOf('/') + 1)
+  $(".asset_ids[value='"+ asset_id + "']").remove()
 
-  # Ajax Loader for selecting files from system dialog (UNTESTED)
-  $("#asset_upload").on 'click', ".fileinput-button", (e, data) ->
-    $("#asset_upload #ajax_loader").show()
-  $(document).on 'fileuploadadd', "#asset_upload", (e, data) ->
-    $("#asset_upload #ajax_loader").hide()
+# Ajax Loader for selecting files from system dialog (UNTESTED)
+$(document).on 'click', "#asset_upload .fileinput-button", (e, data) ->
+  $("#asset_upload #ajax_loader").show()
+$(document).on 'fileuploadadd', "#asset_upload", (e, data) ->
+  $("#asset_upload #ajax_loader").hide()
 
     
-  # Error listings
-  fileUploadErrors =
-    maxFileSize: 'File is too big'
-    minFileSize: 'File is too small'
-    acceptFileTypes: 'Filetype not allowed'
-    maxNumberOfFiles: 'Max number of files exceeded'
-    uploadedBytes: 'Uploaded bytes exceed file size'
-    emptyResult: 'Empty file upload result'
+# Error listings
+fileUploadErrors =
+  maxFileSize: 'File is too big'
+  minFileSize: 'File is too small'
+  acceptFileTypes: 'Filetype not allowed'
+  maxNumberOfFiles: 'Max number of files exceeded'
+  uploadedBytes: 'Uploaded bytes exceed file size'
+  emptyResult: 'Empty file upload result'
 
 

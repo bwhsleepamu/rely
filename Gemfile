@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails',                '4.0.0'
+gem 'rails',                '4.0.2'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -13,13 +13,13 @@ gem 'thin',                 '~> 1.5.0',           :platforms => [ :mswin, :mingw
 gem 'eventmachine',         '~> 1.0.0',           :platforms => [ :mswin, :mingw ]
 
 # Contour
-gem 'contour',              '2.0.0.beta.8'
+gem 'contour',              '~> 2.2.0'
 gem 'kaminari',             '~> 0.14.1'
 gem 'ruby-ntlm-namespace',  '~> 0.0.1'
 
 # File Upload/Download
 gem "paperclip", "~> 3.1"
-gem 'rubyzip'
+gem 'rubyzip', ">= 1.0.0"
 
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks

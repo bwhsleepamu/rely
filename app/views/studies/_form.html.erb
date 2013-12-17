@@ -9,21 +9,21 @@
 
     <fieldset>
       <legend>Study Information</legend>
-      <div class="control-group">
+      <div class="form-group">
         <%= f.label :original_id, "Original ID", class: 'control-label' %>
         <div class="controls">
           <%= f.text_field :original_id %>
         </div>
       </div>
 
-      <div class="control-group">
+      <div class="form-group">
         <%= f.label :study_type_id, "Study Type", class: 'control-label' %>
         <div class="controls">
           <%= f.select :study_type_id, [['---', nil]] + @study.project.study_types.collect{|s| [s.name, s.id]}, {}, {rel: :chosen} %>
         </div>
       </div>
 
-      <div class="control-group">
+      <div class="form-group">
         <%= f.label :location, nil, class: 'control-label' %>
         <div class="controls">
           <%= f.text_field :location %>

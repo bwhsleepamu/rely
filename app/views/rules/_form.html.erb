@@ -2,27 +2,27 @@
   <h1><%= title %></h1>
 </div>
 
-<%= form_for @rule, html: { class: 'form-horizontal' } do |f| %>
+<%= form_for @rule, html: { class: 'form-horizontal', role: 'form'  } do |f| %>
   <%= display_errors @rule %>
   <%= render :partial => "partials/project_field", :locals => {f: f, editable: @rule.new_record?, object_name: "rule", target_path: new_rule_path } %>
 
   <% if @rule.project.present? %>
 
-    <div class="control-group">
+    <div class="form-group">
       <%= f.label :title, nil, class: 'control-label' %>
       <div class="controls">
         <%= f.text_field :title %>
       </div>
     </div>
 
-    <div class="control-group">
+    <div class="form-group">
       <%= f.label :procedure, nil, class: 'control-label' %>
       <div class="controls">
         <%= f.text_area :procedure, rows: 7, style: 'width:95%' %>
       </div>
     </div>
 
-    <div class="control-group">
+    <div class="form-group">
       <%= f.label :assessment_type, "Assessment Type", class: 'control-label' %>
       <div class="controls">
         <%= select_tag "rule[assessment_type]", options_for_select([['-Select Assessment-', nil]] + Assessment::TYPES.collect {|key, val| [val[:title], key] }, @rule.assessment_type), {id: :rule_assessment_type, rel: :chosen} %>
