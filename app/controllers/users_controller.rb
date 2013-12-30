@@ -32,14 +32,14 @@ class UsersController < ApplicationController
     redirect_to users_path unless @user
   end
 
-  #def new
-  #  @user = User.new
-  #
-  #  respond_to do |format|
-  #    format.html # new.html.erb
-  #    format.json { render json: @user }
-  #  end
-  #end
+  def new
+    @user = User.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @user }
+    end
+  end
 
   def edit
     @user = User.current.find_by_id(params[:id])

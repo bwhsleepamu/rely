@@ -1,5 +1,3 @@
-<%= render partial: 'layouts/per_page', locals: { object: 'projects', per_page: 20 } %>
-
 <table class="table table-striped table-bordered">
   <thead>
     <tr>
@@ -21,8 +19,8 @@
         <td><%= simple_date project.end_date %></td>
         <td><%= simple_time project.created_at %>
         <td>
-          <%= link_to 'Edit', edit_project_path(project), class: 'btn btn-mini' %>
-          <%= link_to 'Delete', project,  :data => { :confirm => "Are you sure you want to delete Project #{project.name}?" }, method: :delete, class: 'btn btn-mini btn-danger' %>
+          <%= link_to 'Edit', edit_project_path(project), class: 'btn btn-xs' %>
+          <%= link_to 'Delete', project,  :data => { :confirm => "Are you sure you want to delete Project #{project.name}?" }, method: :delete, class: 'btn btn-xs btn-danger' %>
         </td>
       </tr>
     <% end %>

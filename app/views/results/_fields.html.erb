@@ -1,7 +1,7 @@
 <div class="well well-mini">
   <div class="well-tab">
     Rule: <span class="rule-title"><%= result.rule.title if result.rule %></span>
-    <button class="btn btn-mini btn-danger delete" type="button">delete</button>
+    <button class="btn btn-xs btn-danger delete" type="button">delete</button>
   </div>
   <%= fields_for result do |f| %>
     <div class="field-space" data-current-upload="false">
@@ -11,12 +11,12 @@
       <%= f.hidden_field :delete, value: 0, name: "study[results][][delete]", class: "original_results_delete" %>
 
       <div class="row">
-        <div class="span5">
+        <div class="col-md-5">
           <h4>Result Location</h4>
-          <%= f.text_field :location, name: "study[results][][location]" %>
+          <%= f.text_field :location, name: "study[results][][location]", class: 'form-control' %>
           <div class="asset_list" data-rule-id="<%= result.rule.id %>"><%= render partial: "results/asset_list", locals: {assets: result.assets, result: result, rule: result.rule} %></div>
         </div>
-        <div class="span6">
+        <div class="col-md-6">
           <h4>Assessment Questionnaire</h4>
           <%= render :partial => "assessments/questionnaire", locals: { assessment_type: result.rule.assessment_type, assessment: result.assessment, name_prefix: "study[results][]" } %>
         </div>

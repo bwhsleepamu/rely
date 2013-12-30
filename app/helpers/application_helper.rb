@@ -16,7 +16,7 @@ module ApplicationHelper
   end
 
   def simple_check(checked)
-    image_tag("gentleface/16/#{checked ? 'checkbox_checked' : 'checkbox_unchecked'}.png", alt: '', style: 'vertical-align:text-bottom')
+    checked ? '<span class="glyphicon glyphicon-check"></span>'.html_safe : ''
   end
 
   def simple_date(past_date)

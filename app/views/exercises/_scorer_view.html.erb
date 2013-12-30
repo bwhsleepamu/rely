@@ -1,7 +1,7 @@
 <div class="row">
-  <h3 class="span8">Dashboard for Exercise <%= @exercise.name %></h3>
-  <h3 class="span3">Completion Status</h3>
-  <h3 class="span1" id="completion_percent"><%= completed_percent(@exercise, current_user) %></h3>
+  <h3 class="col-md-8">Dashboard for Exercise <%= @exercise.name %></h3>
+  <h3 class="col-md-3">Completion Status</h3>
+  <h3 class="col-md-1" id="completion_percent"><%= completed_percent(@exercise, current_user) %></h3>
 </div>
 
 <dl class="dl-horizontal">
@@ -42,9 +42,9 @@
         <td><%= r_id.has_result? %></td>
         <td>
           <% if r_id.has_result? %>
-            <%= link_to("Edit Result", edit_result_path(id: r_id.result.id), class: 'btn btn-mini btn-warning') %>
+            <%= link_to("Edit Result", edit_result_path(id: r_id.result.id), class: 'btn btn-xs btn-warning') %>
           <% else %>
-            <%= link_to("Add Result", new_result_path(reliability_id: r_id.id), class: 'btn btn-mini btn-primary') %>
+            <%= link_to("Add Result", new_result_path(reliability_id: r_id.id), class: 'btn btn-xs btn-primary') %>
           <% end %>
         </td>
       </tr>

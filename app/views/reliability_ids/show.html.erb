@@ -2,9 +2,9 @@
 <div class="page-header">
   <h1>
     <%= @title %>
-    <%= link_to "Edit Reliability", edit_reliability_id_path(@reliability_id), class: 'btn btn-mini' %>
-    <%= link_to "Delete Reliability", @reliability_id, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Reliability #{@reliability_id.name}?" } %>
-    <%= link_to "View Reliabilities", reliability_ids_path, class: 'btn btn-mini' %>
+    <%= link_to "Edit Reliability", edit_reliability_id_path(@reliability_id), class: 'btn btn-xs' %>
+    <%= link_to "Delete Reliability", @reliability_id, method: :delete, class: 'btn btn-xs btn-danger', data: { confirm: "Are you sure you want to delete Reliability #{@reliability_id.name}?" } %>
+    <%= link_to "View Reliabilities", reliability_ids_path, class: 'btn btn-xs' %>
   </h1>
 </div>
 

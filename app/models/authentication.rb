@@ -11,6 +11,10 @@ class Authentication < ActiveRecord::Base
   # Callbacks
 
   ##
+  # Concerns
+  include ContourAuthenticatable
+
+  ##
   # Scopes
 
   ##

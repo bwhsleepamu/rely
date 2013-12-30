@@ -2,12 +2,10 @@
 <div class="page-header">
   <h1>
     <%= @title %>
-    <%= link_to "Create Study", new_study_path, class: 'btn btn-mini btn-primary' %>
+    <%= link_to "Create Study", new_study_path, class: 'btn btn-xs btn-primary' %>
   </h1>
 </div>
 
-<%= render :partial => "layouts/search", locals: { object: :studies, path: studies_path } %>
-
-<div class="center" id="ajax_loader"><%= image_tag "contour/ajax-loader.gif" %></div>
+<%= render :partial => "layouts/index_functionality", locals: { object: :studies, per_page: params[:per_page], path: studies_path } %>
 <div id="studies" class="index-content"></div>
 

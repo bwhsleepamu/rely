@@ -1,5 +1,3 @@
-<%= render partial: 'layouts/per_page', locals: { object: 'study_types', per_page: 20 } %>
-
 <table class="table table-striped table-bordered" style="width:100%">
   <thead>
     <tr>
@@ -19,8 +17,8 @@
         <td><%= study_type.description %></td>
         <td><%= simple_time study_type.created_at %>        
         <td>
-          <%= link_to 'Edit', edit_study_type_path(study_type), class: 'btn btn-mini' %>
-          <%= link_to 'Delete', study_type, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Study Type #{study_type.name}?" } %>
+          <%= link_to 'Edit', edit_study_type_path(study_type), class: 'btn btn-xs' %>
+          <%= link_to 'Delete', study_type, method: :delete, class: 'btn btn-xs btn-danger', data: { confirm: "Are you sure you want to delete Study Type #{study_type.name}?" } %>
         </td>
       </tr>
     <% end %>

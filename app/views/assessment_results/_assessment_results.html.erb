@@ -18,8 +18,8 @@
       <td><%= assessment_result.answer %></td>
       <td><%= assessment_result.deleted %></td>
       <td>
-        <%= link_to 'Edit', edit_assessment_result_path(assessment_result), class: 'btn btn-mini' %>
-        <%= link_to 'Delete', assessment_result, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Assessment Result #{assessment_result.name}?" } %>
+        <%= link_to 'Edit', edit_assessment_result_path(assessment_result), class: 'btn btn-xs' %>
+        <%= link_to 'Delete', assessment_result, method: :delete, class: 'btn btn-xs btn-danger', data: { confirm: "Are you sure you want to delete Assessment Result #{assessment_result.name}?" } %>
       </td>
     </tr>
   <% end %>

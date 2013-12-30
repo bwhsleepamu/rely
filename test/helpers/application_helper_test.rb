@@ -3,7 +3,7 @@ require 'test_helper'
 class ApplicationHelperTest < ActionView::TestCase
   test "should show date" do
     date = Date.today + 5.days
-    assert_equal date.strftime("%b %d"), simple_date(date)
+    assert_equal date.strftime("%b %d, %Y"), simple_date(date)
   end
 
   test "should show date today" do

@@ -1,5 +1,3 @@
-<%= render partial: 'layouts/per_page', locals: { object: 'rules', per_page: 20 } %>
-
 <table class="table table-striped table-bordered">
   <thead>
     <tr>
@@ -22,8 +20,8 @@
         <td><%= rule.assessment_type %></td>
         <td><%= simple_time rule.created_at %>
         <td>
-          <%= link_to 'Edit', edit_rule_path(rule), class: 'btn btn-mini' %>
-          <%= link_to 'Delete', rule, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Rule #{rule.name}?" } %>
+          <%= link_to 'Edit', edit_rule_path(rule), class: 'btn btn-xs' %>
+          <%= link_to 'Delete', rule, method: :delete, class: 'btn btn-xs btn-danger', data: { confirm: "Are you sure you want to delete Rule #{rule.name}?" } %>
         </td>
       </tr>
     <% end %>

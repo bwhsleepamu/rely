@@ -1,8 +1,8 @@
 <fieldset class="project">
   <div class="form-group">
-    <%= f.label :project_id, "Project", class: 'control-label' %>
-    <div class="controls">
-      <%= f.select :project_id, [['---', nil]] + current_user.all_projects.collect{|p| [p.name, p.id]}, {}, {rel: :chosen, class: "project_select", disabled: editable ? nil : "disabled", data: { object_name: object_name, target_path: target_path }} %>
+    <%= f.label :project_id, "Project", class: 'control-label col-sm-2' %>
+    <div class="col-sm-3">
+      <%= f.select :project_id, [['---', nil]] + current_user.all_projects.collect{|p| [p.name, p.id]}, {}, {rel: :chosen, class: "project_select form-control", disabled: editable ? nil : "disabled", data: { object_name: object_name, target_path: target_path }} %>
     </div>
   </div>
 </fieldset>

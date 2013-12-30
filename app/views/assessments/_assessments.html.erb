@@ -1,5 +1,3 @@
-<%= render partial: 'contour/layouts/per_page', locals: { type: 'assessments', per_page: 20 } %>
-
 <table class="table table-striped table-bordered" style="width:100%">
   <thead>
     <tr>
@@ -16,8 +14,8 @@
       <td><%= assessment.assessment_type %></td>
       <td><%= assessment.deleted %></td>
       <td>
-        <%= link_to 'Edit', edit_assessment_path(assessment), class: 'btn btn-mini' %>
-        <%= link_to 'Delete', assessment, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Assessment #{assessment.name}?" } %>
+        <%= link_to 'Edit', edit_assessment_path(assessment), class: 'btn btn-xs' %>
+        <%= link_to 'Delete', assessment, method: :delete, class: 'btn btn-xs btn-danger', data: { confirm: "Are you sure you want to delete Assessment #{assessment.name}?" } %>
       </td>
     </tr>
   <% end %>

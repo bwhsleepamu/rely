@@ -2,9 +2,9 @@
 <div class="page-header">
   <h1>
     <%= @title %>
-    <%= link_to "Edit Study Type", edit_study_type_path(@study_type), class: 'btn btn-mini' %>
-    <%= link_to "Delete Study Type", @study_type, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Study Type #{@study_type.name}?" } %>
-    <%= link_to "View Study Types", study_types_path, class: 'btn btn-mini' %>
+    <%= link_to "Edit Study Type", edit_study_type_path(@study_type), class: 'btn btn-xs' %>
+    <%= link_to "Delete Study Type", @study_type, method: :delete, class: 'btn btn-xs btn-danger', data: { confirm: "Are you sure you want to delete Study Type #{@study_type.name}?" } %>
+    <%= link_to "View Study Types", study_types_path, class: 'btn btn-xs' %>
   </h1>
 </div>
 

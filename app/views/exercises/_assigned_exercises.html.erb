@@ -23,7 +23,7 @@
       <td><%= simple_time exercise.assigned_at %></td>
       <td class="status"><%= completed_percent(exercise, current_user) %></td>
       <td class="completed"><%= exercise.completed?(current_user) ? "yes" : "no" %></td>
-      <td><%= link_to 'Score', show_assigned_exercise_path(exercise), class: 'btn btn-mini btn-primary' if exercise%></td>
+      <td><%= link_to 'Score', show_assigned_exercise_path(exercise), class: 'btn btn-xs btn-primary' if exercise%></td>
     </tr>
     <% end %>
   </tbody>

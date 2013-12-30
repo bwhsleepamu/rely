@@ -4,20 +4,21 @@
 
 <%= form_for @study_type, html: { class: 'form-horizontal', role: 'form'  } do |f| %>
   <%= display_errors @study_type %>
+
   <%= render :partial => "partials/project_field", :locals => {f: f, editable: @study_type.new_record?, object_name: "study_type", target_path: new_study_type_path } %>
 
   <% if @study_type.project.present? %>
     <div class="form-group">
-      <%= f.label :name, nil, class: 'control-label' %>
-      <div class="controls">
-        <%= f.text_field :name %>
+      <%= f.label :name, nil, class: 'control-label col-sm-2' %>
+      <div class="col-sm-10">
+        <%= f.text_field :name, class: "form-control" %>
       </div>
     </div>
 
     <div class="form-group">
-      <%= f.label :description, nil, class: 'control-label' %>
-      <div class="controls">
-        <%= f.text_area :description, rows: 7, style: 'width:95%' %>
+      <%= f.label :description, nil, class: 'control-label col-sm-2' %>
+      <div class="col-sm-10">
+        <%= f.text_area :description, rows: 7, class: 'form-control' %>
       </div>
     </div>
 

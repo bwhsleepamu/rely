@@ -2,9 +2,9 @@
 <div class="page-header">
   <h1>
     <%= @title %>
-    <%= link_to "Edit Assessment Result", edit_assessment_result_path(@assessment_result), class: 'btn btn-mini' %>
-    <%= link_to "Delete Assessment Result", @assessment_result, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Assessment Result #{@assessment_result.name}?" } %>
-    <%= link_to "View Assessment Results", assessment_results_path, class: 'btn btn-mini' %>
+    <%= link_to "Edit Assessment Result", edit_assessment_result_path(@assessment_result), class: 'btn btn-xs' %>
+    <%= link_to "Delete Assessment Result", @assessment_result, method: :delete, class: 'btn btn-xs btn-danger', data: { confirm: "Are you sure you want to delete Assessment Result #{@assessment_result.name}?" } %>
+    <%= link_to "View Assessment Results", assessment_results_path, class: 'btn btn-xs' %>
   </h1>
 </div>
 

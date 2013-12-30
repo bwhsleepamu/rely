@@ -1,6 +1,6 @@
 <div id="admin_view">
   <div class="row">
-    <div id="main_info" class="span6">
+    <div id="main_info" class="col-md-6">
       <h3>Main Information</h3>
       <dl class="dl-horizontal">
         <dt>Project</dt>
@@ -20,10 +20,10 @@
       </dl>
     </div>
 
-    <div id="status" class="span6">
+    <div id="status" class="col-md-6">
       <div class="row">
-        <h3 class="span5">Completion Status</h3>
-        <h3 class="span1" id="completion_percent"><%= completed_percent(@exercise) %></h3>
+        <h3 class="col-md-5">Completion Status</h3>
+        <h3 class="col-md-1" id="completion_percent"><%= completed_percent(@exercise) %></h3>
       </div>
 
       <div id="finished_scorers" class="scorers">
@@ -47,8 +47,8 @@
   </div>
   <div id="results">
     <div class="row">
-      <h3 class="span10">Results</h3>
-      <div class="span2" id="download_all"><%= link_to 'Download All Attachments', download_zip_result_assets_path(exercise_id: @exercise.id), class: 'btn btn-mini' %></div>
+      <h3 class="col-md-10">Results</h3>
+      <div class="col-md-2" id="download_all"><%= link_to 'Download All Attachments', download_zip_result_assets_path(exercise_id: @exercise.id), class: 'btn btn-xs' %></div>
 
     </div>
 
@@ -84,7 +84,7 @@
             <% study.original_result(@exercise.rule).assessment.assessment_results.each do |a_r| %>
               <td><%= a_r.full_answer %></td>
             <% end %>
-            <td><%= study.original_result(@exercise.rule).assets.length %> Attachments<%= link_to 'download', download_zip_result_assets_path(result_id: study.original_result(@exercise.rule).id), class: 'btn btn-mini' %></td>
+            <td><%= study.original_result(@exercise.rule).assets.length %> Attachments<%= link_to 'download', download_zip_result_assets_path(result_id: study.original_result(@exercise.rule).id), class: 'btn btn-xs' %></td>
           <% else %>
             <% (2 + Assessment::TYPES[@exercise.rule.assessment_type.to_sym][:questions].length).times do %>
               <td class="no_results">No Result Yet</td>
@@ -102,7 +102,7 @@
             <% r_id.result.assessment.assessment_results.each do |a_r| %>
               <td><%= a_r.full_answer %></td>
             <% end %>
-            <td><%= r_id.result.assets.length %> Attachments<%= link_to 'download', download_zip_result_assets_path(result_id: r_id.result.id), class: 'btn btn-mini' %></td>
+            <td><%= r_id.result.assets.length %> Attachments<%= link_to 'download', download_zip_result_assets_path(result_id: r_id.result.id), class: 'btn btn-xs' %></td>
 
         <% else %>
             <% (2 + Assessment::TYPES[@exercise.rule.assessment_type.to_sym][:questions].length).times do %>

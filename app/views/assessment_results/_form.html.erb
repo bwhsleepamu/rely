@@ -3,42 +3,32 @@
 </div>
 
 <%= form_for @assessment_result, html: { class: 'form-horizontal', role: 'form' } do |f| %>
-  <% if @assessment_result.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@assessment_result.errors.count, "error") %> prohibited this assessment_result from being saved:</h2>
-
-      <ul>
-      <% @assessment_result.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= display_errors @assessment_result %>
 
   <div class="form-group">
-    <%= f.label :assessment_id, nil, class: 'control-label' %>
-    <div class="controls">
+    <%= f.label :assessment_id, nil, class: 'control-label col-sm-2' %>
+    <div class="col-sm-10">
       <%= f.select :assessment_id, [['---', nil]] + Assessment.current.collect{|a| [a.name, a.id]} %>
     </div>
   </div>
 
   <div class="form-group">
-    <%= f.label :question_id, nil, class: 'control-label' %>
-    <div class="controls">
+    <%= f.label :question_id, nil, class: 'control-label col-sm-2' %>
+    <div class="col-sm-10">
       <%= f.text_field :question_id %>
     </div>
   </div>
 
   <div class="form-group">
-    <%= f.label :answer, nil, class: 'control-label' %>
-    <div class="controls">
-      <%= f.text_area :answer, rows: 7, style: 'width:95%' %>
+    <%= f.label :answer, nil, class: 'control-label col-sm-2' %>
+    <div class="col-sm-10">
+      <%= f.text_area :answer, rows: 7 %>
     </div>
   </div>
 
   <div class="form-group">
-    <%= f.label :deleted, nil, class: 'control-label' %>
-    <div class="controls">
+    <%= f.label :deleted, nil, class: 'control-label col-sm-2' %>
+    <div class="col-sm-10">
       <%= f.check_box :deleted %>
     </div>
   </div>

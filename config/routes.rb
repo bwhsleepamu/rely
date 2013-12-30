@@ -41,12 +41,13 @@ Rely::Application.routes.draw do
 
   resources :groups
 
+  resources :users
+
   # Devise
   devise_for :users, controllers: { registrations: 'contour/registrations', sessions: 'contour/sessions', passwords: 'contour/passwords', confirmations: 'contour/confirmations', unlocks: 'contour/unlocks' }, path_names: { sign_up: 'register', sign_in: 'login' }
 
   # Resources
   resources :projects
-  resources :users
 
   get "/about" => "application#about", as: :about
   get "/settings" => "users#settings", as: :settings

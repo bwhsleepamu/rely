@@ -2,9 +2,9 @@
 <div class="page-header">
   <h1>
     <%= @title %>
-    <%= link_to "Edit Project", edit_project_path(@project), class: 'btn btn-mini' %>
-    <%= link_to "Delete Project", @project, :data => { :confirm => "Are you sure you want to delete Project #{@project.name}?" }, method: :delete, class: 'btn btn-mini btn-danger' %>
-    <%= link_to "View Projects", projects_path, class: 'btn btn-mini' %>
+    <%= link_to "Edit Project", edit_project_path(@project), class: 'btn btn-xs' %>
+    <%= link_to "Delete Project", @project, :data => { :confirm => "Are you sure you want to delete Project #{@project.name}?" }, method: :delete, class: 'btn btn-xs btn-danger' %>
+    <%= link_to "View Projects", projects_path, class: 'btn btn-xs' %>
   </h1>
 </div>
 

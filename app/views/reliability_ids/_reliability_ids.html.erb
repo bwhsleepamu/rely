@@ -16,8 +16,8 @@
       <td><%= link_to reliability_id.study.name, reliability_id.study if reliability_id.study %></td>
       <td><%= reliability_id.deleted %></td>
       <td>
-        <%= link_to 'Edit', edit_reliability_id_path(reliability_id), class: 'btn btn-mini' %>
-        <%= link_to 'Delete', reliability_id, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Reliability #{reliability_id.name}?" } %>
+        <%= link_to 'Edit', edit_reliability_id_path(reliability_id), class: 'btn btn-xs' %>
+        <%= link_to 'Delete', reliability_id, method: :delete, class: 'btn btn-xs btn-danger', data: { confirm: "Are you sure you want to delete Reliability #{reliability_id.name}?" } %>
       </td>
     </tr>
   <% end %>

@@ -50,7 +50,7 @@ group :test do
   # Pretty printed test output
   gem 'win32console',                             :platforms => [ :mswin, :mingw ]
   gem 'turn',               '~> 0.9.6'
-  gem 'simplecov',          '~> 0.7.1',           :require => false
+  gem 'simplecov', :require => false
   gem 'database_cleaner'
   gem 'capybara'
   gem 'poltergeist'

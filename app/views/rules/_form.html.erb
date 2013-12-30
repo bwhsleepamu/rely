@@ -9,22 +9,22 @@
   <% if @rule.project.present? %>
 
     <div class="form-group">
-      <%= f.label :title, nil, class: 'control-label' %>
-      <div class="controls">
-        <%= f.text_field :title %>
+      <%= f.label :title, nil, class: 'control-label col-sm-2' %>
+      <div class="col-sm-10">
+        <%= f.text_field :title, class: 'form-control' %>
       </div>
     </div>
 
     <div class="form-group">
-      <%= f.label :procedure, nil, class: 'control-label' %>
-      <div class="controls">
-        <%= f.text_area :procedure, rows: 7, style: 'width:95%' %>
+      <%= f.label :procedure, nil, class: 'control-label col-sm-2' %>
+      <div class="col-sm-10">
+        <%= f.text_area :procedure, rows: 7, class: 'form-control' %>
       </div>
     </div>
 
     <div class="form-group">
-      <%= f.label :assessment_type, "Assessment Type", class: 'control-label' %>
-      <div class="controls">
+      <%= f.label :assessment_type, "Assessment Type", class: 'control-label col-sm-2' %>
+      <div class="col-sm-10">
         <%= select_tag "rule[assessment_type]", options_for_select([['-Select Assessment-', nil]] + Assessment::TYPES.collect {|key, val| [val[:title], key] }, @rule.assessment_type), {id: :rule_assessment_type, rel: :chosen} %>
       </div>
     </div>

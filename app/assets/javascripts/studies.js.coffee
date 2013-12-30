@@ -23,10 +23,10 @@ jQuery.fn.update_file_lists = () ->
 jQuery.fn.refresh_study_page = () ->
   $('#asset_upload').fileupload()
   jQuery.fn.refresh_uploader() if $("#asset_upload").length > 0
-  $(".timepicker").timepicker
-    showMeridian: false
-    showSeconds: true
-    defaultTime: false
+#  $(".timepicker").timepicker
+#    showMeridian: false
+#    showSeconds: true
+#    defaultTime: false
   $(".datepicker").datepicker('remove')
   $(".datepicker").datepicker( autoclose: true )
   $("select[rel=chosen]").chosen();

@@ -14,13 +14,13 @@ module AssessmentsHelper
     s = hidden_field_tag question_name, question_id
     r = case question_hash[:type]
       when :dropdown
-        select_tag(answer_name, options_for_select([['---', nil]] + question_hash[:options].invert.to_a, answer), {rel: "chosen", id: answer_id  })
+        select_tag(answer_name, options_for_select([['---', nil]] + question_hash[:options].invert.to_a, answer), {rel: "chosen", id: answer_id, class: 'form-control'  })
       when :integer
-        number_field_tag(answer_name, answer, id: answer_id)
+        number_field_tag(answer_name, answer, id: answer_id, class: 'form-control')
       when :date
-        text_field_tag answer_name, answer, class: 'datepicker', id: answer_id
+        text_field_tag answer_name, answer, class: 'datepicker form-control', id: answer_id
       else
-        text_field_tag answer_name, answer, id: answer_id
+        text_field_tag answer_name, answer, id: answer_id, class: 'form-control'
     end
 
     content_tag :div do
