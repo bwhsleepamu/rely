@@ -4,10 +4,16 @@
   - Updated to rails 4.0.2
   - Updated rubyzip to 1.1.0
   - Updated Contour to 2.2.0
+  - Updated jquery-uploader-rails to custom version with Bootstrap 3 integration and Jquery Uploader update. See www.github.com/pmanko/jquery-uploader-rails
+- **Javascript Tool Changes**
+  - Updated Jquery Data Tables to 1.9.4
+  - Updated TableTools to 2.1.5
+  - Updated Chosen to 1.0.0
 ### Bug Fix
 - Fixed Issue #1 - zip/zip requirement.
 - Fixed Turbolinks issues
 - Fixed bootstrap 3 issues
+
 
 ## 0.8.2
 
