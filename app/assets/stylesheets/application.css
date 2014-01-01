@@ -14,5 +14,6 @@
  *= require contour
  *= require jquery.fileupload-ui
  *= require chosen
+ *= require chosen-bootstrap
  *= require_tree .
  */

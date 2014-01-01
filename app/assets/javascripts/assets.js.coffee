@@ -25,7 +25,7 @@ jQuery.fn.refresh_uploader = () ->
       if !files
         files = []
       template = undefined
-      fu._adjustMaxNumberOfFiles(-files.length)
+      #fu._adjustMaxNumberOfFiles(-files.length)
       #console.log files
       $("#asset_upload .files").html("")
       template = fu._renderDownload(files).appendTo($("#asset_upload .files"))
@@ -86,7 +86,7 @@ fileUploadErrors =
   maxFileSize: 'File is too big'
   minFileSize: 'File is too small'
   acceptFileTypes: 'Filetype not allowed'
-  maxNumberOfFiles: 'Max number of files exceeded'
+#  maxNumberOfFiles: 'Max number of files exceeded'
   uploadedBytes: 'Uploaded bytes exceed file size'
   emptyResult: 'Empty file upload result'
 

@@ -43,11 +43,13 @@
       <fieldset>
         <div class="form-group">
           <%= f.label :manager_ids, "Managers" %>
-          <%= f.collection_select :manager_ids, User.current.order(:last_name), :id, :name, {}, {multiple:true, rel: :chosen, class: "form-control" } %>
+          <div class="clearfix"></div>
+          <%= f.collection_select :manager_ids, User.current.order(:last_name), :id, :name, {}, {multiple:true, rel: :chosen, class: "form-control clearfix" } %>
         </div>
 
         <div class="form-group">
-          <%= f.label :scorer_ids, "Scorers", class: 'control-label' %>
+          <%= f.label :scorer_ids, "Scorers"%>
+          <div class="clearfix"></div>
           <%= f.collection_select :scorer_ids, User.current.order(:last_name), :id, :name, {}, {multiple:true, rel: :chosen, class: "form-control" } %>
         </div>
       </fieldset>

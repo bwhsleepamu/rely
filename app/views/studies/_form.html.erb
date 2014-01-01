@@ -35,12 +35,12 @@
     <fieldset class="original_results">
       <legend>
         <div class="row">
-          <div class="col-md-8">Original Results</div>
-          <div class="col-md-4">
+          <div class="col-md-7">Original Results</div>
+          <div class="col-md-5">
             <div class="form-group">
 
-              <%= select_tag :rule_id, options_for_select([['-Select Rule-', nil]] + @study.project.rules.collect{|r| [r.name, r.id]}), { rel: "chosen" } %>
-              <%= link_to "Add New Original Result", new_original_new_result_path(rule_id: (@study.project.rules.empty? ? nil : @study.project.rules.first.id), study_id: @study.id), class: "btn btn-xs btn-primary", id: "add_original_result", data: { study_id: @study.id }  %>
+              <%= select_tag :rule_id, options_for_select([['-Select Rule-', nil]] + @study.project.rules.collect{|r| [r.name, r.id]}), { rel: "chosen", class: "form-control" } %>
+              <%= link_to "Add New Original Result", new_original_new_result_path(rule_id: (@study.project.rules.empty? ? nil : @study.project.rules.first.id), study_id: @study.id), class: "btn btn-primary", id: "add_original_result", data: { study_id: @study.id }  %>
 
             </div>
           </div>
@@ -64,11 +64,15 @@
   <% end %>
 <% end %>
 
-<div id="uploader" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-body">
-    <%= render partial: "assets/form", locals: {result: nil} %>
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-primary">Finished</button>
+<div id="uploader" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="Uploader" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <%= render partial: "assets/form", locals: {result: nil} %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Finished</button>
+      </div>
+    </div>
   </div>
 </div>

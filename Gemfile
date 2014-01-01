@@ -32,7 +32,7 @@ gem 'uglifier',             '>= 1.3.0'
 
 gem 'jbuilder',             '~> 1.4'
 gem 'jquery-rails'
-gem 'jquery-fileupload-rails'
+gem 'jquery-fileupload-rails', :git => 'git://github.com/pmanko/jquery-fileupload-rails'
 
 # Diagrams
 group :development, :test do

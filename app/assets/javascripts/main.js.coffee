@@ -1,6 +1,8 @@
 @main_ready = () ->
-  bootbox.animate(false)
-  bootbox.backdrop(false)
-  $("select[rel=chosen]").chosen();
-  $(".chosen").chosen();
+  bootbox.setDefaults({
+    animate: false,
+    backdrop: false
+  })
+  $("select[rel=chosen]").chosen({width: "250px"});
+  $(".chosen").chosen({width: "250px"});
 
