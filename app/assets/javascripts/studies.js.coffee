@@ -1,11 +1,21 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
+@studies_ready = () ->
+
+
+  # Uploader Functionality
+  $("#uploader").off "hide"
+  #$("#uploader").on "hide", jQuery.fn.update_file_lists
+  $("#uploader .modal-footer").off "click", ".btn"
+  #$("#uploader .modal-footer").on "click", ".btn", () ->
+    #$("#uploader").modal("hide")
+
+##
+# Helper Functions
 
 # Returns integer version of input field's value
 jQuery.fn.get_value = () ->
   return parseInt $(this).val()
 
+# Updates uploader file list
 jQuery.fn.update_file_lists = () ->
   $(".attached-files").each () ->
     parent_field = $(this).closest(".field-space")
@@ -18,31 +28,11 @@ jQuery.fn.update_file_lists = () ->
       data: {asset_ids: asset_ids, rule_id: $(this).closest(".asset_list").data("rule-id"), result_id: $(this).data("result-id")},
       dataType: "script"
     )
-  
-
+# Re-enables functionality when original results form is loaded with ajax
 jQuery.fn.refresh_study_page = () ->
-  $('#asset_upload').fileupload()
-  jQuery.fn.refresh_uploader() if $("#asset_upload").length > 0
-#  $(".timepicker").timepicker
-#    showMeridian: false
-#    showSeconds: true
-#    defaultTime: false
-  $(".datepicker").datepicker('remove')
-  $(".datepicker").datepicker( autoclose: true )
-  $("select[rel=chosen]").chosen();
-  $(".chosen").chosen();  
-  $("#uploader").off "hide"
-  $("#uploader").on "hide", jQuery.fn.update_file_lists
-  $("#uploader .modal-footer").off "click", ".btn"
-  $("#uploader .modal-footer").on "click", ".btn", () ->
-    $("#uploader").modal("hide")
-
-@studies_ready = () ->
-  # I'm not sure what the refresh event listener is - why not just call it in the function? moved to new.js.erb
-  #  $(document).on "refresh", "#form", () ->
-  #  alert("when??")
-  jQuery.fn.refresh_study_page()
-
+  main_ready()
+  assets_ready()
+  studies_ready()
 
 ##
 # Original Results
@@ -76,6 +66,7 @@ $(document).on "click", "#study_form #add_original_result", () ->
   false
 
 ## Deleting
+
 # Sets delete hidden input value to 1 and hides the well
 $(document).on "click", "#study_form #original_results .well .delete", () ->
   $(this).closest(".well").find("input.original_results_delete").val(1)

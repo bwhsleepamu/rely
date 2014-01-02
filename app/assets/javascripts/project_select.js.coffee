@@ -1,4 +1,4 @@
-# Add functionality
+## Selecting Project
 $(document).on "change", ".project_select", () ->
   data_hash = {}
   $("#form").html("")

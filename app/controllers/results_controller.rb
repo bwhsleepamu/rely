@@ -67,7 +67,7 @@ class ResultsController < ApplicationController
   # POST /results
   # POST /results.json
   def create
-    MY_LOG.info "params: #{params}"
+    #MY_LOG.info "params: #{params}"
 
     reliability_id = current_user.all_reliability_ids.find_by_id(params[:result][:reliability_id])
 
@@ -93,7 +93,7 @@ class ResultsController < ApplicationController
   # PUT /results/1
   # PUT /results/1.json
   def update
-    MY_LOG.info "params: #{params}"
+    #MY_LOG.info "params: #{params}"
     @result = current_user.all_results.find_by_id(params[:id])
 
     if @result

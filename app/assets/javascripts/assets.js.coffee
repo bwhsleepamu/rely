@@ -1,7 +1,18 @@
-##
+@assets_ready =  () ->
+  # Initialize file upload
+  $('#asset_upload').fileupload()
+
+  # Refreshes uploader when #asset_upload is found on the page
+  if $("#asset_upload").length > 0
+    #alert("Assets: " + $("#asset_upload").length)
+    jQuery.fn.refresh_uploader()
+
+## File Uploader
+
 # Refreshes uploader by compiling a list of asset ids for a given result, and sending a json request
 # to the asset controller.
 jQuery.fn.refresh_uploader = () ->
+  # Gets path for sending uploader request
   request_path = $("#asset_upload").prop("action")
 
   # Params for json request
@@ -36,26 +47,20 @@ jQuery.fn.refresh_uploader = () ->
       $("#loading").remove()
 
   # Sends JSON request to asset index, with result_id and asset_id as data, and refresh function for uploaded file list
-  $.getJSON request_path, params, on_success
+  #$.getJSON request_path, params, on_success
 
 
+# Gets ids of assets
 jQuery.fn.get_asset_ids = (parent) ->
   #console.log parent
   $.map $(parent).find(".asset_ids"), (val,i) ->
     v = $(val).val()
     return v if v
 
-@assets_ready =  () ->
-  # Initialize file upload
-  $('#asset_upload').fileupload()
 
-  # Refreshes uploader when #asset_upload is found on the page
-  jQuery.fn.refresh_uploader() if $("#asset_upload").length > 0
 
-  ## File Uploader Callbacks
-  # $("#uploader").off "hide"
-  #$("#uploader").on "hide", jQuery.fn.update_file_lists
-  
+##
+# UPLOADER SETUP
 
 # Submit for upload
 $(document).on 'fileuploadsubmit', "#asset_upload", (e, data) ->
@@ -71,6 +76,7 @@ $(document).on 'fileuploaddone', "#asset_upload", (e, data) ->
 
 # When download deleted, get rid of any hidden asset id fields
 $(document).on 'fileuploaddestroy', "#asset_upload", (e, data, xhr) ->
+  alert("HIII")
   asset_id = data.url.substring(data.url.lastIndexOf('/') + 1)
   $(".asset_ids[value='"+ asset_id + "']").remove()
 
@@ -86,7 +92,7 @@ fileUploadErrors =
   maxFileSize: 'File is too big'
   minFileSize: 'File is too small'
   acceptFileTypes: 'Filetype not allowed'
-#  maxNumberOfFiles: 'Max number of files exceeded'
+  maxNumberOfFiles: 'Max number of files exceeded'
   uploadedBytes: 'Uploaded bytes exceed file size'
   emptyResult: 'Empty file upload result'
 

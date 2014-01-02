@@ -70,20 +70,20 @@ class AssetsController < ApplicationController
     respond_to do |format|
       if @asset.save
         return_json = {files: [@asset.to_jq_upload]}.to_json
-        #MY_LOG.info "ASSET SAVED!"
+        MY_LOG.info "ASSET SAVED!"
         format.html do
-          #MY_LOG.info "Rendering HTML: #{return_json}"
+          MY_LOG.info "Rendering HTML: #{return_json}"
           render :json => return_json,
                  :content_type => 'text/html',
                  :layout => false
         end
 
         format.json do
-          #MY_LOG.info "Rendering JSON: #{return_json}"
+          MY_LOG.info "Rendering JSON: #{return_json}"
           render json: return_json, status: :created, location: result_asset_path(@asset)
         end
       else
-        #MY_LOG.info "ASSET DID NOT SAVE!"
+        MY_LOG.info "ASSET DID NOT SAVE!"
 
         format.html { render action: "new" }
         format.json { render json: @asset.errors, status: :unprocessable_entity }

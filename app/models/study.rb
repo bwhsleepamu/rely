@@ -66,16 +66,16 @@ class Study < ActiveRecord::Base
   end
 
   def results=(result_hash)
-    MY_LOG.info result_hash
+    #MY_LOG.info result_hash
     #raise StandardError
     result_hash.each do |params|
-      MY_LOG.info "params: #{params}"
+      #MY_LOG.info "params: #{params}"
 
       should_delete = params.delete(:delete).to_i == 1 ? true : false
       rule_id = params.delete(:rule_id)
       result_attrs = params
 
-      MY_LOG.info "result_attrs: #{result_attrs}"
+      #MY_LOG.info "result_attrs: #{result_attrs}"
 
       next if rule_id.blank? # Rule is needed in all cases
 
@@ -86,7 +86,7 @@ class Study < ActiveRecord::Base
         StudyOriginalResult.find(params[:study_original_result_id]).destroy unless params[:study_original_result_id].blank?
       elsif params[:study_original_result_id].blank?
 
-        MY_LOG.info "CREATE"
+        #MY_LOG.info "CREATE"
         # Create New Original Result
         study_original_result = StudyOriginalResult.new(rule_id: rule_id)
         result = Result.new
@@ -98,7 +98,7 @@ class Study < ActiveRecord::Base
         study_original_results << study_original_result
 
       else
-        MY_LOG.info "UPDATE"
+        #MY_LOG.info "UPDATE"
         # Update Existing Original Result
         study_original_result = StudyOriginalResult.find(params[:study_original_result_id])
         study_original_result.result.update_attributes(result_attrs)

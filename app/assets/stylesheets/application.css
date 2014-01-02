@@ -9,9 +9,10 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require data_table_bootstrap
+ *= require datatables
  *= require TableTools
  *= require contour
+ *= require jquery.fileupload
  *= require jquery.fileupload-ui
  *= require chosen
  *= require chosen-bootstrap

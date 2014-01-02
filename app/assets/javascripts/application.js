@@ -12,10 +12,10 @@
 //
 //= require turbolinks
 //= require contour
-//= require jquery.dataTables.min
-//= require TableTools.min
+//= require jquery.dataTables
+//= require TableTools
 //= require ZeroClipboard
-//= require data_table_bootstrap
+//= require datatables
 //= require bootbox.min
 //= require jquery-fileupload
 //= require chosen.jquery

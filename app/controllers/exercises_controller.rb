@@ -58,11 +58,11 @@ class ExercisesController < ApplicationController
   # POST /exercises
   # POST /exercises.json
   def create
-    MY_LOG.info "params: #{params}"
+    #MY_LOG.info "params: #{params}"
     @exercise = current_user.owned_exercises.new(exercise_params)
     @exercise.assigned_at = Time.zone.now # TODO: refactor?
 
-    MY_LOG.info "v: #{@exercise.valid?} e: #{@exercise.errors.full_messages}"
+    #MY_LOG.info "v: #{@exercise.valid?} e: #{@exercise.errors.full_messages}"
 
     respond_to do |format|
       if @exercise.save
