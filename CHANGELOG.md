@@ -2,6 +2,8 @@
 - Removed support for Ruby 1.9.3
 - **Gem Changes**
   - Updated pg, kaminari, jbuilder
+### Bug Fix
+- Temporary fix for Glyphicons, should not be needed with next Contour update
 
 ## 0.8.3
 - Using Ruby 2.0.0-p353

@@ -3,7 +3,7 @@ module Rely
     MAJOR = 0
     MINOR = 8
     TINY = 4
-    BUILD = 'pre'
+    BUILD = nil
     STRING = [MAJOR, MINOR, TINY, BUILD].compact.join('.')
   end
 end
