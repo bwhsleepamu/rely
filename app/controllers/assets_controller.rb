@@ -111,6 +111,7 @@ class AssetsController < ApplicationController
   # DELETE /assets/1
   # DELETE /assets/1.json
   def destroy
+    MY_LOG.info "DESTROYING"
     @asset = Asset.find(params[:id])
     @asset.destroy
 

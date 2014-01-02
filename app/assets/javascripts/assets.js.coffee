@@ -4,10 +4,10 @@
 
   # Refreshes uploader when #asset_upload is found on the page
   if $("#asset_upload").length > 0
-    #alert("Assets: " + $("#asset_upload").length)
     jQuery.fn.refresh_uploader()
 
-## File Uploader
+##
+# File Uploader
 
 # Refreshes uploader by compiling a list of asset ids for a given result, and sending a json request
 # to the asset controller.
@@ -47,8 +47,7 @@ jQuery.fn.refresh_uploader = () ->
       $("#loading").remove()
 
   # Sends JSON request to asset index, with result_id and asset_id as data, and refresh function for uploaded file list
-  #$.getJSON request_path, params, on_success
-
+  $.getJSON request_path, params, on_success
 
 # Gets ids of assets
 jQuery.fn.get_asset_ids = (parent) ->
@@ -56,8 +55,6 @@ jQuery.fn.get_asset_ids = (parent) ->
   $.map $(parent).find(".asset_ids"), (val,i) ->
     v = $(val).val()
     return v if v
-
-
 
 ##
 # UPLOADER SETUP
@@ -76,7 +73,6 @@ $(document).on 'fileuploaddone', "#asset_upload", (e, data) ->
 
 # When download deleted, get rid of any hidden asset id fields
 $(document).on 'fileuploaddestroy', "#asset_upload", (e, data, xhr) ->
-  alert("HIII")
   asset_id = data.url.substring(data.url.lastIndexOf('/') + 1)
   $(".asset_ids[value='"+ asset_id + "']").remove()
 

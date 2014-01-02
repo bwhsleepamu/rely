@@ -358,7 +358,7 @@ if ( $.fn.DataTable.TableTools ) {
 	$.extend( true, $.fn.DataTable.TableTools.classes, {
 		"container": "DTTT btn-group",
 		"buttons": {
-			"normal": "btn",
+			"normal": "btn btn-default btn-lg",
 			"disabled": "disabled"
 		},
 		"collection": {

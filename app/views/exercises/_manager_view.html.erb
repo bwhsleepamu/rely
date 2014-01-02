@@ -47,12 +47,12 @@
   </div>
   <div id="results">
     <div class="row">
-      <h3 class="col-md-10">Results</h3>
-      <div class="col-md-2" id="download_all"><%= link_to 'Download All Attachments', download_zip_result_assets_path(exercise_id: @exercise.id), class: 'btn btn-xs' %></div>
+      <h3 class="col-md-9">Results</h3>
+      <div class="col-md-3" id="download_all"><%= link_to 'Download All Attachments', download_zip_result_assets_path(exercise_id: @exercise.id), class: 'btn btn-xs btn-primary pull-right' %></div>
 
     </div>
 
-    <table class="table table-striped table-bordered dataTable">
+    <table class="table table-striped table-bordered datatable">
       <thead>
       <tr>
         <th>Scorer</th>

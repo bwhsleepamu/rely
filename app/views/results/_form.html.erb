@@ -1,7 +1,7 @@
 <%= render :partial => "reliability_id_info" %>
 
 <div class="row" id="result_row">
-  <%= form_for @result, html: { class: 'form-horizontal, span5', multipart: true, id: 'result_form' } do |f| %>
+  <%= form_for @result, html: { class: 'form-horizontal col-md-5', multipart: true, id: 'result_form' } do |f| %>
     <div class="field-space" data-current-upload="true">
       <span id="asset_id_template"><%= hidden_field_tag "result[asset_ids][]", "", class: "asset_ids" %></span>
       <% @result.assets.each do |asset| %>
@@ -32,7 +32,7 @@
       </fieldset>
     </div>
   <% end %>
-  <%= render partial: "assets/form", locals: {result: @result} %>
+  <div class='col-md-7'><%= render partial: "assets/form", locals: {result: @result} %></div>
   <div class='form_buttons'>
     <button class="btn btn-primary" id="submit"><%= "#{@result.persisted? ? "Update" : "Add"} Result" %></button>
     <%= cancel %>
