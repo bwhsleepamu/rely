@@ -4,7 +4,7 @@
 [![Dependency Status](https://gemnasium.com/pmanko/rely.png)](https://gemnasium.com/pmanko/rely)
 [![Code Climate](https://codeclimate.com/github/pmanko/rely.png)](https://codeclimate.com/github/pmanko/rely)
 
-Reliance testing support. Using Rails 3.2+ and Ruby 1.9.3+.
+Reliance testing support. Using Rails 4+ and Ruby 2.0.0+.
 
 ## Installation
 
@@ -60,4 +60,4 @@ All done!
 
 ## Copyright [![Creative Commons 3.0](http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png)](http://creativecommons.org/licenses/by-nc-sa/3.0)
 
-Copyright (c) 2013 Piotr Mankowski. [LICENSE](https://github.com/pmanko/rely/blob/master/LICENSE) for further details.
+Copyright (c) 2014 Piotr Mankowski. [LICENSE](https://github.com/pmanko/rely/blob/master/LICENSE) for further details.

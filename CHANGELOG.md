@@ -1,3 +1,7 @@
+## 0.8.4
+- Removed support for Ruby 1.9.3
+- **Gem Changes**
+
 ## 0.8.3
 - Using Ruby 2.0.0-p353
 - **Gem Changes**
