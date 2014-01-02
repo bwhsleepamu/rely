@@ -5,7 +5,7 @@ gem 'rails',                '4.0.2'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'pg',                   '~> 0.15.1'
+gem 'pg',                   '~> 0.17.1'
 gem "uuid",                 '~> 2.3.5'
 
 # Windows
@@ -14,7 +14,7 @@ gem 'eventmachine',         '~> 1.0.0',           :platforms => [ :mswin, :mingw
 
 # Contour
 gem 'contour',              '~> 2.2.0'
-gem 'kaminari',             '~> 0.14.1'
+gem 'kaminari',             '~> 0.15.0'
 gem 'ruby-ntlm-namespace',  '~> 0.0.1'
 
 # File Upload/Download
@@ -30,7 +30,7 @@ gem 'coffee-rails',         '~> 4.0.0'
 gem 'sass-rails',           '~> 4.0.0'
 gem 'uglifier',             '>= 1.3.0'
 
-gem 'jbuilder',             '~> 1.4'
+gem 'jbuilder',             '~> 2.0'
 gem 'jquery-rails'
 gem 'jquery-fileupload-rails', :git => 'git://github.com/pmanko/jquery-fileupload-rails'
 
