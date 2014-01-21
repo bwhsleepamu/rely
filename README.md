@@ -16,8 +16,8 @@ Once you have the prerequisites in place, you can proceed to install bundler whi
 gem install bundler
 ```
 
-This readme assumes the following installation directory: /var/www/slice
 
+This readme assumes the following installation directory: /var/www/slice
 ```
 cd /var/www
 
