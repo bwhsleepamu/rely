@@ -2,6 +2,7 @@
 - Removed support for Ruby 1.9.3
 - **Gem Changes**
   - Updated pg, kaminari, jbuilder
+
 ### Bug Fix
 - Temporary fix for Glyphicons, should not be needed with next Contour update
 
@@ -16,6 +17,7 @@
   - Updated Jquery Data Tables to 1.9.4
   - Updated TableTools to 2.1.5
   - Updated Chosen to 1.0.0
+
 ### Bug Fix
 - Fixed Issue #1 - zip/zip requirement.
 - Fixed Turbolinks issues

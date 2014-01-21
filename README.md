@@ -12,13 +12,13 @@ Reliance testing support. Using Rails 4+ and Ruby 2.0.0+.
 
 Once you have the prerequisites in place, you can proceed to install bundler which will handle most of the remaining dependencies.
 
-```console
+```
 gem install bundler
 ```
 
 This readme assumes the following installation directory: /var/www/slice
 
-```console
+```
 cd /var/www
 
 git clone git://github.com/remomueller/slice.git
@@ -30,7 +30,7 @@ bundle install
 
 Install default configuration files for database connection, email server connection, server url, and application name.
 
-```console
+```
 ruby lib/initial_setup.rb
 
 bundle exec rake db:migrate RAILS_ENV=production
@@ -40,7 +40,7 @@ bundle exec rake assets:precompile
 
 Run Rails Server (or use Apache or nginx)
 
-```console
+```
 rails s -p80
 ```
 
