@@ -1,3 +1,9 @@
+## 0.8.5
+- Updated to Ruby 2.1.0
+- Readme and License updates
+- **Gem Changes**
+  - Set pg gem to 0.17.1
+
 ## 0.8.4
 - Removed support for Ruby 1.9.3
 - **Gem Changes**
