@@ -74,8 +74,6 @@ class StudyWorkflowTest < ActionDispatch::IntegrationTest
 
     page.first(:css, ".well").click_on("delete")
 
-    show_page
-
     result_form = page.find(".well", :visible => true)
     result_form.fill_in "result_location", :with => location
     result_form.fill_in Assessment::TYPES[:paradox][:questions][1][:text], :with => "2333"

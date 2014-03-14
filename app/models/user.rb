@@ -56,7 +56,7 @@ class User < ActiveRecord::Base
 
   # Include default devise modules.
   devise :database_authenticatable, :registerable, :timeoutable,
-         :recoverable, :rememberable, :trackable, :validatable, :token_authenticatable
+         :recoverable, :rememberable, :trackable, :validatable
 
   ##
   # Scopes

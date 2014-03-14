@@ -55,8 +55,6 @@ class IndexWorkflowTest < ActionDispatch::IntegrationTest
       click_on "Search"
 
       assert page.find("tbody").has_selector?("tr")
-      show_page
-
     end
 
   end

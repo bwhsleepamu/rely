@@ -3,10 +3,10 @@
 <table class="table table-striped table-bordered" style="width:100%">
   <thead>
     <tr>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'assessment_results.assessment_id', 'Assessment', 'assessment_results_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'assessment_results.question_id', 'Question', 'assessment_results_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'assessment_results.answer', 'Answer', 'assessment_results_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'assessment_results.deleted', 'Deleted', 'assessment_results_search') %></th>
+      <th><%== sort_field_helper(@order, 'assessment_results.assessment_id', 'Assessment') %></th>
+      <th><%== sort_field_helper(@order, 'assessment_results.question_id', 'Question') %></th>
+      <th><%== sort_field_helper(@order, 'assessment_results.answer', 'Answer') %></th>
+      <th><%== sort_field_helper(@order, 'assessment_results.deleted', 'Deleted') %></th>
       <th>Actions</th>
     </tr>
   </thead>

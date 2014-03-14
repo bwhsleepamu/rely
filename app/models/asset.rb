@@ -8,6 +8,8 @@ class Asset < ActiveRecord::Base
 
   validates :asset, :attachment_presence => true
 
+  do_not_validate_attachment_file_type :asset
+
   def to_jq_upload
     {
         "name" => read_attribute(:asset_file_name),
